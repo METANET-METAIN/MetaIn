@@ -16,6 +16,7 @@
     <description>metainProject</description>
     <properties>
         <java.version>11</java.version>
+        <start-class>com.metain.web</start-class>
     </properties>
     <dependencies>
         <!--<dependency>
