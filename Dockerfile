@@ -8,7 +8,7 @@ ADD target/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 
 # 컨테이너 외부에서 사용하는 포트 지정
-EXPOSE 8080
+EXPOSE 9000
 
 
 #start tomcat(Tomcat 실행 시 웹 애플리케이션을 자동으로 로드)
