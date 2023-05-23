@@ -3,6 +3,7 @@ package com.metain.web.mapper;
 import com.metain.web.domain.Vacation;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -40,15 +41,15 @@ public interface VacationMapper {
      * */
     public void cancelVacationRequest(String vacStatus);
     /**
-     * 휴가 상태변경
+     * 휴가 알림
      * */
-    public void changeVacation();
+    public void alarmVacation(String vacStatus);
     /**
      * 휴가 디테일
      * */
     public Vacation vacDetail(Long vacId);
     /**
-     * 연차별로 휴가 부여하는 기능
+     * 연차별로 휴가(1일) 부여하는 기능
      * */
-    public int vacationCount();
+    public int vacationCount(Date empFistDt);
 }
