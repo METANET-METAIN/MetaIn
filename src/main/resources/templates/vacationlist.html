@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+	<section id="wrap">
+	</section>
+		</th:block>
+
+		<div class="mobile-menu-overlay"></div>
+
+		<div class="main-container" >
+			<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+					<div class="page-header">
+						<div class="row">
+							<div class="col-md-6 col-sm-12">
+								<div class="title">
+									<h4>휴가 전체 보기</h4>
+								</div>
+								<nav aria-label="breadcrumb" role="navigation">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="index.html">휴가 관리</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">
+											전체 목록
+										</li>
+									</ol>
+								</nav>
+							</div>
+							<div class="col-md-6 col-sm-12 text-right">
+								<div class="dropdown">
+									<a
+										class="btn btn-primary "
+										href="#"
+										role="button"
+										data-toggle="dropdown"
+									>
+										신청 하기
+									</a>
+									<!--<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item active" href="introduction.html"
+											>Introduction</a
+										>
+										<a class="dropdown-item" href="getting-started.html"
+											>Getting Started</a
+										>
+										<a class="dropdown-item" href="color-settings.html"
+											>Color Settings</a
+										>
+										<a class="dropdown-item" href="third-party-plugins.html"
+											>Third Party Plugins</a
+										>
+									</div>-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pd-20 card-box mb-30" >
+						<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
+						<p>
+							<div id="grid"></div>
+						</p>
+						<p>
+							여기 필터 ,  + 검색창 + 엑셀 다운 버튼
+						</p>
+					</div>
+					<div class="pd-20 card-box mb-30">
+						<h4 class="h4 text-blue mb-10">Support</h4>
+						<p>
+							For others, you can explore the component pages in the template,
+							and you can get the code structure of the component.
+						</p>
+						<p>
+							Also, you can make component requests or new features and we will
+							consider them.
+						</p>
+						<p>
+							If you find a bug or think of something cool to make Stisa better,
+							please
+							<a
+								href="https://github.com/dropways/deskapp/issues"
+								target="_blank"
+								class="text-primary"
+								>create an issue.</a
+							>
+						</p>
+					</div>
+					<h4 class="h4 text-blue mb-10">Note</h4>
+					<div
+						class="pd-20 card-box mb-30"
+						data-bgcolor="#ff4747"
+						data-color="#fdfdfd"
+					>
+						<ul>
+							<li class="d-flex pb-20">
+								<i class="dw dw-edit-file font-20 mr-2"></i> We have used our
+								name and brand as credit in CSS / Js we have created, you need
+								to change / remove that if you want while using in your personal
+								or client projects.
+							</li>
+							<li class="d-flex pb-20">
+								<i class="dw dw-edit-file font-20 mr-2"></i> You will find name
+								and brand of each third-party tools we have used, as credit in
+								their respective css / js, you can remove or change as per your
+								need.
+							</li>
+							<li class="d-flex pb-20">
+								<i class="dw dw-edit-file font-20 mr-2"></i> We have used
+								third-party tools / plugins in our templates, you will find
+								links from left navigation (menu) as Third Party Tools and you
+								can find their documentation from their respective websites link
+								we have given.
+							</li>
+							<li class="d-flex pb-20">
+								<i class="dw dw-edit-file font-20 mr-2"></i> We do not offer
+								support on any third-party plugins / tools we have used.
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--<div class="footer-wrap pd-20 mb-20 card-box">
+					DeskApp - Bootstrap 4 Admin Template By
+					<a href="https://github.com/dropways" target="_blank"
+						>Ankit Hingarajiya</a
+					>
+				</div>-->
+			</div>
+		</div>
+		<!-- welcome modal start -->
+
+		<!-- welcome modal end -->
+		<!-- js --><!--
+		<script src="vendors/scripts/core.js"></script>
+		<script src="vendors/scripts/script.min.js"></script>
+		<script src="vendors/scripts/process.js"></script>
+		<script src="vendors/scripts/layout-settings.js"></script>-->
+
+		<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
+		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+		<script>
+			const data = [
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: 'Seoul',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: 'Seoul',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: 'Seoul',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: 'Seoul',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: 'Seoul',
+					vacRegDate: 'South Korea'
+				}
+			];
+
+			const grid = new tui.Grid({
+				el: document.getElementById('grid'),
+				data: data,
+				scrollX: false,
+				scrollY: false,
+				columns: [
+					{
+						header: '이름',
+						name: 'empName'
+					},
+					{
+						header: '부서',
+						name: 'empDept'
+					},
+					{
+						header: '직급',
+						name: 'empGrade'
+					},
+					{
+						header: '휴가 유형 (메인서브 다 보여야 하낭?)',
+						name: 'vacType'
+					},
+					{
+						header: '휴가 일자(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)',
+						name: 'vacStartDate'
+					},
+					{
+						header: '신청 일자',
+						name: 'vacRegDate'
+					}
+				]
+			});
+		</script>
+
+<!-- Google Tag Manager (noscript) -->
+
+		<noscript
+			><iframe
+				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+				height="0"
+				width="0"
+				style="display: none; visibility: hidden"
+			></iframe
+		></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+	</body>
+</html>
