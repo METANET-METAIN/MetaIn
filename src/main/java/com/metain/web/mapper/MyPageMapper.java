@@ -14,15 +14,15 @@ public interface MyPageMapper {
     public int updateMyPage(Emp emp);
 
     /**휴가 신청 현황 조회*/
-    public List<Vacation> selectVacAll();
+    public List<Vacation> selectMyVacList(Long empId);
 
 
     /**증명서 발급 내역 조회*/
     public List<Issue> selectIssueAll();
 
 
-    /**증명서 다운로드*/
-    public int certDownload(Long issueId);
+//    /**증명서 다운로드*/ 보류
+//    public int certDownload(Long issueId);
 
 
 
