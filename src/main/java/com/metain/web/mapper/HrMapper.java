@@ -31,8 +31,23 @@ public interface HrMapper {
     /**사원 전체보기*/
     public List<Emp> empSelectAll();
 
+    /**부서별 사원 조회*/
+    public List<Emp> selectListByDept(String empDept);
+
+    /**재직상태별 사원 조회*/
+    public List<Emp> selectListByStatus(String empStatus);
+
+
+    /**입사일자별 사원 조회*/
+    public List<Emp> selectListByFistDt(String empFistDt);
+
+    /**인사 정보 상세 조회*/
+    public List<Emp> selectEmpInfo(Long empId);
+
     /**인사 정보 수정(직급, 부서, 재직상태)*/
     public int updateEmp(Emp emp);
+
+
 
 
 }
