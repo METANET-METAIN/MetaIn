@@ -2,6 +2,7 @@ package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Issue;
+import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,6 +24,9 @@ public interface MyPageMapper {
 
 //    /**증명서 다운로드*/ 보류
 //    public int certDownload(Long issueId);
+
+    /**알람 리스트 확인*/
+    public List<Notification> selectListNoti(Long notiId);
 
 
 
