@@ -24,7 +24,7 @@ public interface VacationMapper {
      * */
     public List<Vacation> selectAllList();
     /**
-     * 나의 휴가 조회
+     * 나의 휴가 조회 ----->마이페이지로 가져가><
      * */
     public List<Vacation> selectMyList(Long empId);
     /**
