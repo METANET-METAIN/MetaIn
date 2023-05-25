@@ -7,7 +7,6 @@
 		</th:block>
 
 		<div class="mobile-menu-overlay"></div>
-
 		<div class="main-container" >
 			<div class="pd-ltr-20 xs-pd-20-10">
 				<div class="min-height-200px">
@@ -207,7 +206,12 @@
 					},
 					{
 						header: '휴가 일자(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)',
-						name: 'vacStartDate'
+						name: 'vacStartDate',
+						filter: {
+							type: 'date',
+							operator: 'or',
+							type: 'date'
+						}
 					},
 					{
 						header: '신청 일자',
