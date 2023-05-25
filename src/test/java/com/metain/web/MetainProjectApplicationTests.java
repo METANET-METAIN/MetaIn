@@ -1,8 +1,7 @@
 package com.metain.web;
 
-import com.metain.web.controller.EmpController;
 import com.metain.web.domain.Emp;
-import com.metain.web.service.EmpService;
+import com.metain.web.service.HrService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,7 @@ import java.util.List;
 @SpringBootTest
 class MetainProjectApplicationTests {
 @Autowired
-private EmpService empSer;
+private HrService empSer;
     @Test
     void contextLoads() {
     }

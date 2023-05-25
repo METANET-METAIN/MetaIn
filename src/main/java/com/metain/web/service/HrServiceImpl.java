@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class EmpServiceImpl implements EmpService {
+public class HrServiceImpl implements HrService {
     @Autowired
     private HrMapper hrMapper;
     @Override
