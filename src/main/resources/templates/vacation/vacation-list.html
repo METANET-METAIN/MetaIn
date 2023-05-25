@@ -6,6 +6,8 @@
 	</section>
 		</th:block>
 
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 		<div class="mobile-menu-overlay"></div>
 		<div class="main-container" >
 			<div class="pd-ltr-20 xs-pd-20-10">
@@ -57,11 +59,26 @@
 					</div>
 					<div class="pd-20 card-box mb-30" >
 						<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
+						<div class="row">
+							<div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >
+								Search:
+								<p style="margin-left: 20px"><input type="search" class="form-control form-control-sm" placeholder="Search" aria-controls="DataTables_Table_0"></p>
+								<i class="dw dw-search2 search-icon" style="margin-right: 10px;margin-left: 10px"></i>
+							</div>
+							<div class="col-sm-12 col-md-6">
+								<div id="DataTables_Table_0_filter" class="dataTables_filter">
+
+								</div>
+							</div>
+
+
+						</div>
+
 						<p>
 							<div id="grid"></div>
 						</p>
 						<p>
-							여기 필터 ,  + 검색창 + 엑셀 다운 버튼
+							엑셀 다운 버튼
 						</p>
 					</div>
 					<div class="pd-20 card-box mb-30">
@@ -138,14 +155,16 @@
 		<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
 		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+
 		<script>
+
 			const data = [
 				{
 					empName: '10012',
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: 'Seoul',
+					vacStartDate: '2023.05.25',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -153,7 +172,7 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: 'Seoul',
+					vacStartDate: '2021.01.21',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -161,7 +180,7 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: 'Seoul',
+					vacStartDate: '2021.02.21',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -169,7 +188,7 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: 'Seoul',
+					vacStartDate: '2021.05.21',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -177,7 +196,7 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: 'Seoul',
+					vacStartDate: '2021.05.21',
 					vacRegDate: 'South Korea'
 				}
 			];
@@ -185,12 +204,13 @@
 			const grid = new tui.Grid({
 				el: document.getElementById('grid'),
 				data: data,
-				scrollX: false,
-				scrollY: false,
+				scrollX: true,
+				scrollY: true,
 				columns: [
 					{
 						header: '이름',
-						name: 'empName'
+						name: 'empName',
+						filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
 					},
 					{
 						header: '부서',
@@ -201,24 +221,35 @@
 						name: 'empGrade'
 					},
 					{
-						header: '휴가 유형 (메인서브 다 보여야 하낭?)',
+						header: '휴가 유형',
 						name: 'vacType'
 					},
 					{
-						header: '휴가 일자(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)',
+						<!--(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)-->
+						header: '휴가 일자',
 						name: 'vacStartDate',
-						filter: {
+						filter:{
+							showApplyBtn: true,
+							showClearBtn: true,
 							type: 'date',
-							operator: 'or',
-							type: 'date'
+							options: {
+								format: 'yyyy.MM.dd'
+							},
+							operator: 'OR'
 						}
+
 					},
 					{
 						header: '신청 일자',
 						name: 'vacRegDate'
 					}
-				]
+				],
+				search: {
+					enabled: true, // 검색 기능 활성화
+					allowRegex: false, // 정규식 검색 비활성화
+				}
 			});
+
 		</script>
 
 <!-- Google Tag Manager (noscript) -->
