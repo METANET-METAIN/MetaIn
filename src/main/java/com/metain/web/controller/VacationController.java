@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class VacationController {
-    @RequestMapping("/vacationlist")
+    @RequestMapping("vacation/vacation-list")
     public String vacationList() {
 
-        return "vacationlist";
+        return "/vacation/vacation-list";
     }
 }
