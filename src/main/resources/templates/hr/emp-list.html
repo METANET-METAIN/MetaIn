@@ -14,12 +14,12 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="title">
-                            <h4>사원 전체 보기</h4>
+                            <h4>전체 사원 조회</h4>
                         </div>
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="../index.html">인사 관리</a>
+                                    <a>인사 관리</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     전체 목록
@@ -57,17 +57,36 @@
             </div>
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 사원 목록 </h4>
-                <p>
-                <div id="grid"></div>
-                </p>
-                <p>
-                    여기 필터 ,  + 검색창 + 엑셀 다운 버튼
-                </p>
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
+                            <span>Copy</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
+                            <span>CSV</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
+                            <span>PDF</span></button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="DataTables_Table_2" type="button">
+                            <span>Print</span>
+                        </button>
+                    </div>
+                    <p>
+                        <div id="grid" ></div>
+                    </p>
             </div>
 
 
     </div>
 </div>
+
+        <!-- buttons for Export datatable -->
+        <script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
+        <script src="/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
+        <script src="/plugins/datatables/js/buttons.print.min.js"></script>
+        <script src="/plugins/datatables/js/buttons.html5.min.js"></script>
+        <script src="/plugins/datatables/js/buttons.flash.min.js"></script>
+        <script src="/plugins/datatables/js/pdfmake.min.js"></script>
+        <script src="/plugins/datatables/js/vfs_fonts.js"></script>
 <!-- welcome modal start -->
 
 <!-- welcome modal end -->
@@ -76,86 +95,207 @@
 		<script src="vendors/scripts/script.min.js"></script>
 		<script src="vendors/scripts/process.js"></script>
 		<script src="vendors/scripts/layout-settings.js"></script>-->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+    <script>
+
+    </script>
+
 
 <!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+
 <script>
+
     const data = [
         {
-            empName: '10012',
-            empDept: 'Seoul',
-            empGrade: 'Seoul',
-            vacType: 'Seoul',
-            vacStartDate: 'Seoul',
-            vacRegDate: 'South Korea'
+            empId: '10013',
+            empDept: '개발 1팀',
+            empGrade: '사원',
+            empName: '홍길동',
+            empFistDt: '2023.05.02',
+            empStatus: '재직'
         },
         {
-            empName: '10012',
-            empDept: 'Seoul',
-            empGrade: 'Seoul',
-            vacType: 'Seoul',
-            vacStartDate: 'Seoul',
-            vacRegDate: 'South Korea'
+            empId: '10012',
+            empDept: '개발 2팀',
+            empGrade: '팀장',
+            empName: '박길동',
+            empFistDt: '2023.01.12',
+            empStatus: '재직'
         },
         {
-            empName: '10012',
-            empDept: 'Seoul',
-            empGrade: 'Seoul',
-            vacType: 'Seoul',
-            vacStartDate: 'Seoul',
-            vacRegDate: 'South Korea'
+            empId: '10011',
+            empDept: '개발 3팀',
+            empGrade: '사원',
+            empName: '나길동',
+            empFistDt: '2023.05.19',
+            empStatus: '재직'
         },
         {
-            empName: '10012',
-            empDept: 'Seoul',
-            empGrade: 'Seoul',
-            vacType: 'Seoul',
-            vacStartDate: 'Seoul',
-            vacRegDate: 'South Korea'
+            empId: '10016',
+            empDept: '인사 관리',
+            empGrade: '사원',
+            empName: '김길동',
+            empFistDt: '2023.05.10',
+            empStatus: '재직'
         },
         {
-            empName: '10012',
-            empDept: 'Seoul',
-            empGrade: 'Seoul',
-            vacType: 'Seoul',
-            vacStartDate: 'Seoul',
-            vacRegDate: 'South Korea'
+            empId: '10010',
+            empDept: '개발 1팀',
+            empGrade: '사원',
+            empName: '홍길동',
+            empFistDt: '2023.05.12',
+            empStatus: '퇴사'
         }
     ];
+
+
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
         data: data,
-        scrollX: false,
-        scrollY: false,
+        bodyHeight: 500,
         columns: [
             {
-                header: '이름',
-                name: 'empName'
+                header: '사원 번호',
+                name: 'empId'
             },
             {
-                header: '부서',
-                name: 'empDept'
+                header: '부서명',
+                name: 'empDept',
+                filter: 'select'
             },
             {
                 header: '직급',
-                name: 'empGrade'
+                name: 'empGrade',
+                filter: 'select'
             },
             {
-                header: '휴가 유형 (메인서브 다 보여야 하낭?)',
-                name: 'vacType'
+                header: '이름',
+                name: 'empName',
+                filter: 'select'
             },
             {
-                header: '휴가 일자(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)',
-                name: 'vacStartDate'
+                header: '입사 일자',
+                name: 'empFistDt',
+                filter: {
+                    showApplyBtn: true,
+                    showClearBtn: true,
+                    type: 'date',
+                    options: {
+                        format: 'yyyy.MM.dd'
+                    }
+                }
             },
             {
-                header: '신청 일자',
-                name: 'vacRegDate'
+                header: '재직 상태',
+                name: 'empStatus',
+                filter: 'select'
+            },
+            {
+                header: '관리',
+                name: ' ',
+
             }
-        ]
+        ],
+        contextMenu: ({ rowKey, columnName }) => (
+            [
+                [
+                    {
+                        name: 'export',
+                        label: 'Export',
+                        subMenu: [
+                            {
+                                name: 'default',
+                                label: 'Default',
+                                subMenu: [
+                                    {
+                                        name: 'csvExport',
+                                        label: 'CSV export',
+                                        action: () => {
+                                            grid.export('csv');
+                                        }
+                                    },
+                                    {
+                                        name: 'excelExport',
+                                        label: 'Excel export',
+                                        action: () => {
+                                            grid.export('xlsx');
+                                        }
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'includeHeader',
+                                label: 'includeHeader: false',
+                                subMenu: [
+                                    {
+                                        name: 'csvExport',
+                                        label: 'CSV export',
+                                        action: () => {
+                                            grid.export('csv', { includeHeader: false });
+                                        }
+                                    },
+                                    {
+                                        name: 'excelExport',
+                                        label: 'Excel export',
+                                        action: () => {
+                                            grid.export('xlsx', { includeHeader: false });
+                                        }
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'colunmNames',
+                                label: `['name', 'artist']`,
+                                subMenu: [
+                                    {
+                                        name: 'csvExport',
+                                        label: 'CSV export',
+                                        action: () => {
+                                            grid.export('csv', { columnNames: ['name', 'artist'] });
+                                        }
+                                    },
+                                    {
+                                        name: 'excelExport',
+                                        label: 'Excel export',
+                                        action: () => {
+                                            grid.export('xlsx', { columnNames: ['name', 'artist'] });
+                                        }
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'onlySelected',
+                                label: 'onlySelected: true',
+                                subMenu: [
+                                    {
+                                        name: 'csvExport',
+                                        label: 'CSV export',
+                                        action: () => {
+                                            grid.export('csv', { onlySelected: true });
+                                        }
+                                    },
+                                    {
+                                        name: 'excelExport',
+                                        label: 'Excel export',
+                                        action: () => {
+                                            grid.export('xlsx', { onlySelected: true });
+                                        }
+                                    },
+                                ]
+                            },
+                        ],
+                    }
+                ],
+            ]
+        ),
     });
+
+
+
 </script>
 
 <!-- Google Tag Manager (noscript) -->
