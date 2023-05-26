@@ -5,5 +5,7 @@ import com.metain.web.domain.Emp;
 import java.util.List;
 
 public interface HrService {
-    List<Emp> empList();
+    public List<Emp> empList();
+
+    public int updateEmp(Emp emp);
 }
