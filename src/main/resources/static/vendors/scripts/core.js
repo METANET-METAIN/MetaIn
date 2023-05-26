@@ -17007,7 +17007,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         defaults = {
             classes: '',
             inline: false,
-            language: 'ru',
+            language: 'ko',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],
@@ -17050,7 +17050,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             prevHtml: '<svg><path d="M 17,12 l -5,5 l 5,5"></path></svg>',
             nextHtml: '<svg><path d="M 14,12 l 5,5 l -5,5"></path></svg>',
             navTitles: {
-                days: 'MM, <i>yyyy</i>',
+                days: 'yyyy, <i>MM</i>',
                 months: 'yyyy',
                 years: 'yyyy1 - yyyy2'
             },
@@ -17137,7 +17137,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
     datepicker.prototype = {
         VERSION: VERSION,
-        viewIndexes: ['days', 'months', 'years'],
+        viewIndexes: ['years', 'months','days' ],
 
         init: function () {
             if (!containerBuilt && !this.opts.inline && this.elIsInput) {
@@ -18467,14 +18467,14 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
     $.fn.datepicker.language = {
         ru: {
-            days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-            daysShort: ['Вос','Пон','Вто','Сре','Чет','Пят','Суб'],
-            daysMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
-            months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-            monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
-            today: 'Сегодня',
-            clear: 'Очистить',
-            dateFormat: 'dd.mm.yyyy',
+            days: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+            daysShort: ['일', '월', '화', '수', '목', '금', '토'],
+            daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+            months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'yyyy/mm/dd',
             timeFormat: 'hh:ii',
             firstDay: 1
         }
@@ -19228,18 +19228,21 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     };
 })();
  })(window, jQuery);
-;(function ($) { $.fn.datepicker.language['en'] = {
-    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
-    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    today: 'Today',
-    clear: 'Clear',
-    dateFormat: 'mm/dd/yyyy',
-    timeFormat: 'hh:ii aa',
-    firstDay: 0
-}; })(jQuery);
+;(function ($) {
+    $.fn.datepicker.language['ko'] = {
+        days: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+        daysShort: ['일', '월', '화', '수', '목', '금', '토'],
+        daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+        months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'yyyy/mm/dd',
+        timeFormat: 'hh:ii aa',
+        firstDay: 0
+    };
+})(jQuery);
+
 (function($) {
     $.fn.timeDropper = function(options, callbackFnk) {
         return $(this).each(function() {

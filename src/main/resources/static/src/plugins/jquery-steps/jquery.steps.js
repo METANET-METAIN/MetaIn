@@ -430,7 +430,7 @@ function getValidEnumValue(enumType, keyOrValue)
         {
             if (enumType[key] === keyOrValue)
             {
-                return keyOrValue;
+                return keyOrValue;ㅋㅋ
             }
         }
 

@@ -6,7 +6,7 @@
     monthsShort: ['Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Čvn', 'Čvc', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro'],
     today: 'Dnes',
     clear: 'Vymazat',
-    dateFormat: 'dd.mm.yyyy',
+    dateFormat: 'yyyy.mm.dd',
     timeFormat: 'hh:ii',
     firstDay: 1
 }; })(jQuery);
