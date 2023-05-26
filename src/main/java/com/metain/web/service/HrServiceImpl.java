@@ -15,4 +15,9 @@ public class HrServiceImpl implements HrService {
         List<Emp> list=hrMapper.empSelectAll();
         return list;
     }
+
+    @Override
+    public int updateEmp(Emp emp) {
+        return 0;
+    }
 }
