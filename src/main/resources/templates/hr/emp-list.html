@@ -27,57 +27,40 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-md-6 col-sm-12 text-right">
-                        <div class="dropdown">
-                            <a
-                                    class="btn btn-primary "
-                                    href="#"
-                                    role="button"
-                                    data-toggle="dropdown"
-                            >
-
-                            </a>
-                            <!--<div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item active" href="introduction.html"
-                                    >Introduction</a
-                                >
-                                <a class="dropdown-item" href="getting-started.html"
-                                    >Getting Started</a
-                                >
-                                <a class="dropdown-item" href="color-settings.html"
-                                    >Color Settings</a
-                                >
-                                <a class="dropdown-item" href="third-party-plugins.html"
-                                    >Third Party Plugins</a
-                                >
-                            </div>-->
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 사원 목록 </h4>
-                    <div class="dt-buttons btn-group flex-wrap">
-                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                            <span>Copy</span>
-                        </button>
-                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                            <span>CSV</span>
-                        </button>
-                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                            <span>PDF</span></button>
-                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                            <span>Print</span>
-                        </button>
-                    </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >-->
+<!--                        Search:-->
+<!--                        <p style="margin-left: 20px"><input type="search" class="form-control form-control-sm" placeholder="Search" aria-controls="DataTables_Table_0"></p>-->
+<!--                        <i class="dw dw-search2 search-icon" style="margin-right: 10px;margin-left: 10px"></i>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-12 col-md-6">-->
+<!--                        <div id="DataTables_Table_0_filter" class="dataTables_filter">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                    <div class="dt-buttons btn-group flex-wrap" style="text-align: right">-->
+<!--                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+<!--                            <span>Copy</span>-->
+<!--                        </button>-->
+<!--                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+<!--                            <span>CSV</span>-->
+<!--                        </button>-->
+<!--                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+<!--                            <span>PDF</span></button>-->
+<!--                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+<!--                            <span>Print</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
                     <p>
                         <div id="grid" ></div>
                     </p>
             </div>
-
-
+        </div>
     </div>
-</div>
 
         <!-- buttons for Export datatable -->
         <script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -98,6 +81,9 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
     <script>
+        grid.on('click',function(ev){
+        console.log("EV: " + ev);
+        })
 
     </script>
 
@@ -107,6 +93,7 @@
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 
 <script>
+
 
     const data = [
         {
@@ -199,99 +186,100 @@
                 name: ' ',
 
             }
-        ],
-        contextMenu: ({ rowKey, columnName }) => (
-            [
-                [
-                    {
-                        name: 'export',
-                        label: 'Export',
-                        subMenu: [
-                            {
-                                name: 'default',
-                                label: 'Default',
-                                subMenu: [
-                                    {
-                                        name: 'csvExport',
-                                        label: 'CSV export',
-                                        action: () => {
-                                            grid.export('csv');
-                                        }
-                                    },
-                                    {
-                                        name: 'excelExport',
-                                        label: 'Excel export',
-                                        action: () => {
-                                            grid.export('xlsx');
-                                        }
-                                    },
-                                ]
-                            },
-                            {
-                                name: 'includeHeader',
-                                label: 'includeHeader: false',
-                                subMenu: [
-                                    {
-                                        name: 'csvExport',
-                                        label: 'CSV export',
-                                        action: () => {
-                                            grid.export('csv', { includeHeader: false });
-                                        }
-                                    },
-                                    {
-                                        name: 'excelExport',
-                                        label: 'Excel export',
-                                        action: () => {
-                                            grid.export('xlsx', { includeHeader: false });
-                                        }
-                                    },
-                                ]
-                            },
-                            {
-                                name: 'colunmNames',
-                                label: `['name', 'artist']`,
-                                subMenu: [
-                                    {
-                                        name: 'csvExport',
-                                        label: 'CSV export',
-                                        action: () => {
-                                            grid.export('csv', { columnNames: ['name', 'artist'] });
-                                        }
-                                    },
-                                    {
-                                        name: 'excelExport',
-                                        label: 'Excel export',
-                                        action: () => {
-                                            grid.export('xlsx', { columnNames: ['name', 'artist'] });
-                                        }
-                                    },
-                                ]
-                            },
-                            {
-                                name: 'onlySelected',
-                                label: 'onlySelected: true',
-                                subMenu: [
-                                    {
-                                        name: 'csvExport',
-                                        label: 'CSV export',
-                                        action: () => {
-                                            grid.export('csv', { onlySelected: true });
-                                        }
-                                    },
-                                    {
-                                        name: 'excelExport',
-                                        label: 'Excel export',
-                                        action: () => {
-                                            grid.export('xlsx', { onlySelected: true });
-                                        }
-                                    },
-                                ]
-                            },
-                        ],
-                    }
-                ],
-            ]
-        ),
+         ]
+        // ,
+        // contextMenu: ({ rowKey, columnName }) => (
+        //     [
+        //         [
+        //             {
+        //                 name: 'export',
+        //                 label: 'Export',
+        //                 subMenu: [
+        //                     {
+        //                         name: 'default',
+        //                         label: 'Default',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv');
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx');
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'includeHeader',
+        //                         label: 'includeHeader: false',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { includeHeader: false });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { includeHeader: false });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'colunmNames',
+        //                         label: `['name', 'artist']`,
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { columnNames: ['name', 'artist'] });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { columnNames: ['name', 'artist'] });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'onlySelected',
+        //                         label: 'onlySelected: true',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { onlySelected: true });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { onlySelected: true });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                 ],
+        //             }
+        //         ],
+        //     ]
+        // ),
     });
 
 
