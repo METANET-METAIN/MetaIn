@@ -56,7 +56,7 @@
             prevHtml: '<svg><path d="M 17,12 l -5,5 l 5,5"></path></svg>',
             nextHtml: '<svg><path d="M 14,12 l 5,5 l -5,5"></path></svg>',
             navTitles: {
-                days: 'MM, <i>yyyy</i>',
+                days: 'yyyy, <i> MM</i>',
                 months: 'yyyy',
                 years: 'yyyy1 - yyyy2'
             },
@@ -143,7 +143,7 @@
 
     datepicker.prototype = {
         VERSION: VERSION,
-        viewIndexes: ['days', 'months', 'years'],
+        viewIndexes: ['years','months','days'],
 
         init: function () {
             if (!containerBuilt && !this.opts.inline && this.elIsInput) {
@@ -1423,9 +1423,9 @@
             _type = type ? type : 'day',
 
             conditions = {
-                day: d1.date == d2.date && d1.month == d2.month && d1.year == d2.year,
+                year: d1.year == d2.year,
                 month: d1.month == d2.month && d1.year == d2.year,
-                year: d1.year == d2.year
+                day: d1.date == d2.date && d1.month == d2.month && d1.year == d2.year
             };
 
         return conditions[_type];

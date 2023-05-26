@@ -10,4 +10,10 @@ public class VacationController {
 
         return "/vacation/vacation-list";
     }
+
+    @RequestMapping("vacation/vacation-applyform")
+    public String vacationApplyForm() {
+
+        return "/vacation/vacation-applyform";
+    }
 }
