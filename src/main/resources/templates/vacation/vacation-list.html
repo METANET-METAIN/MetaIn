@@ -8,6 +8,10 @@
 
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
+<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+
+
 		<div class="mobile-menu-overlay"></div>
 		<div class="main-container" >
 			<div class="pd-ltr-20 xs-pd-20-10">
@@ -39,100 +43,17 @@
 									>
 										신청 하기
 									</a>
-									<!--<div class="dropdown-menu dropdown-menu-right">
-										<a class="dropdown-item active" href="introduction.html"
-											>Introduction</a
-										>
-										<a class="dropdown-item" href="getting-started.html"
-											>Getting Started</a
-										>
-										<a class="dropdown-item" href="color-settings.html"
-											>Color Settings</a
-										>
-										<a class="dropdown-item" href="third-party-plugins.html"
-											>Third Party Plugins</a
-										>
-									</div>-->
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="pd-20 card-box mb-30" >
 						<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
-						<div class="row">
-							<div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >
-								Search:
-								<p style="margin-left: 20px"><input type="search" class="form-control form-control-sm" placeholder="Search" aria-controls="DataTables_Table_0"></p>
-								<i class="dw dw-search2 search-icon" style="margin-right: 10px;margin-left: 10px"></i>
-							</div>
-							<div class="col-sm-12 col-md-6">
-								<div id="DataTables_Table_0_filter" class="dataTables_filter">
 
-								</div>
-							</div>
-
-
-						</div>
 
 						<p>
 							<div id="grid"></div>
 						</p>
-						<p>
-							엑셀 다운 버튼
-						</p>
-					</div>
-					<div class="pd-20 card-box mb-30">
-						<h4 class="h4 text-blue mb-10">Support</h4>
-						<p>
-							For others, you can explore the component pages in the template,
-							and you can get the code structure of the component.
-						</p>
-						<p>
-							Also, you can make component requests or new features and we will
-							consider them.
-						</p>
-						<p>
-							If you find a bug or think of something cool to make Stisa better,
-							please
-							<a
-								href="https://github.com/dropways/deskapp/issues"
-								target="_blank"
-								class="text-primary"
-								>create an issue.</a
-							>
-						</p>
-					</div>
-					<h4 class="h4 text-blue mb-10">Note</h4>
-					<div
-						class="pd-20 card-box mb-30"
-						data-bgcolor="#ff4747"
-						data-color="#fdfdfd"
-					>
-						<ul>
-							<li class="d-flex pb-20">
-								<i class="dw dw-edit-file font-20 mr-2"></i> We have used our
-								name and brand as credit in CSS / Js we have created, you need
-								to change / remove that if you want while using in your personal
-								or client projects.
-							</li>
-							<li class="d-flex pb-20">
-								<i class="dw dw-edit-file font-20 mr-2"></i> You will find name
-								and brand of each third-party tools we have used, as credit in
-								their respective css / js, you can remove or change as per your
-								need.
-							</li>
-							<li class="d-flex pb-20">
-								<i class="dw dw-edit-file font-20 mr-2"></i> We have used
-								third-party tools / plugins in our templates, you will find
-								links from left navigation (menu) as Third Party Tools and you
-								can find their documentation from their respective websites link
-								we have given.
-							</li>
-							<li class="d-flex pb-20">
-								<i class="dw dw-edit-file font-20 mr-2"></i> We do not offer
-								support on any third-party plugins / tools we have used.
-							</li>
-						</ul>
 					</div>
 				</div>
 				<!--<div class="footer-wrap pd-20 mb-20 card-box">
@@ -153,18 +74,34 @@
 		<script src="vendors/scripts/layout-settings.js"></script>-->
 
 		<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
+
+
 		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 
-		<script>
 
-			const data = [
+		<script>
+			const dataSource = {
+			api: {
+				readData: { url: '/api/readData/', method: 'GET' },
+				createData: { url: '/api/createData', method: 'POST' }
+			},
+			contentType: 'application/json',
+			headers: { 'x-custom-header': 'custom-header' },
+			serializer(params) {
+				return Qs.stringify(params);
+			}
+		}
+
+
+		const data = [
 				{
 					empName: '10012',
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
 					vacStartDate: '2023.05.25',
+					vacEndDate:'2023.05.25',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -173,6 +110,7 @@
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
 					vacStartDate: '2021.01.21',
+					vacEndDate:'2023.05.25',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -181,6 +119,7 @@
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
 					vacStartDate: '2021.02.21',
+					vacEndDate:'2021.05.25',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -188,7 +127,8 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: '2021.05.21',
+					vacStartDate: '2023.05.21',
+					vacEndDate:'2023.05.25',
 					vacRegDate: 'South Korea'
 				},
 				{
@@ -196,9 +136,64 @@
 					empDept: 'Seoul',
 					empGrade: 'Seoul',
 					vacType: 'Seoul',
-					vacStartDate: '2021.05.21',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
 					vacRegDate: 'South Korea'
-				}
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
+					vacRegDate: 'South Korea'
+				},
+				{
+					empName: '10012',
+					empDept: 'Seoul',
+					empGrade: 'Seoul',
+					vacType: 'Seoul',
+					vacStartDate: '2022.05.21',
+					vacEndDate:'2023.05.01',
+					vacRegDate: 'South Korea'
+				},
+			{
+				empName: '10012',
+				empDept: 'Seoul',
+				empGrade: 'Seoul',
+				vacType: 'Seoul',
+				vacStartDate: '2022.05.21',
+				vacEndDate:'2023.05.01',
+				vacRegDate: 'South Korea'
+			}
 			];
 
 			const grid = new tui.Grid({
@@ -214,7 +209,8 @@
 					},
 					{
 						header: '부서',
-						name: 'empDept'
+						name: 'empDept',
+						filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
 					},
 					{
 						header: '직급',
@@ -225,8 +221,7 @@
 						name: 'vacType'
 					},
 					{
-						<!--(3일정도 썻을때는 시작날-종료날 둘다 보여야하남)-->
-						header: '휴가 일자',
+						header: '휴가 시작일',
 						name: 'vacStartDate',
 						filter:{
 							showApplyBtn: true,
@@ -235,7 +230,19 @@
 							options: {
 								format: 'yyyy.MM.dd'
 							},
-							operator: 'OR'
+						}
+
+					},
+					{
+						header: '휴가 종료일',
+						name: 'vacEndDate',
+						filter:{
+							showApplyBtn: true,
+							showClearBtn: true,
+							type: 'date',
+							options: {
+								format: 'yyyy.MM.dd'
+							},
 						}
 
 					},
@@ -244,9 +251,10 @@
 						name: 'vacRegDate'
 					}
 				],
-				search: {
-					enabled: true, // 검색 기능 활성화
-					allowRegex: false, // 정규식 검색 비활성화
+				rowHeaders: ['rowNum'],
+				pageOptions: {
+					useClient: true,
+					perPage: 10
 				}
 			});
 
