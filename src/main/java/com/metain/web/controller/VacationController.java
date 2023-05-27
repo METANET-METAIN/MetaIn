@@ -16,4 +16,7 @@ public class VacationController {
 
         return "/vacation/vacation-applyform";
     }
+    @RequestMapping("vacation/vacation-afterapply")
+    public void vacationAfterApplyForm() {
+    }
 }

@@ -35,21 +35,20 @@
 							</div>
 							<div class="col-md-6 col-sm-12 text-right">
 								<div class="dropdown">
-									<a
-										class="btn btn-primary "
-										href="vacation-applyform"
-										role="button"
+									<!--src-plug-sweetaler2-init.js 에서 정의-->
+									<button
+											type="button"
+											class="btn btn-primary btn-lg"
+											id="apply2-html-alert"
 									>
-										신청 하기
-									</a>
+										신청하기
+									</button>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="pd-20 card-box mb-30" >
 						<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
-
-
 						<p>
 							<div id="grid"></div>
 						</p>
@@ -72,12 +71,11 @@
 		<script src="vendors/scripts/process.js"></script>
 		<script src="vendors/scripts/layout-settings.js"></script>-->
 
-		<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
-
 
 		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-
+		<script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
+		<script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
 		<script>
 			const dataSource = {
@@ -258,9 +256,7 @@
 			});
 
 		</script>
-
 <!-- Google Tag Manager (noscript) -->
-
 		<noscript
 			><iframe
 				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"

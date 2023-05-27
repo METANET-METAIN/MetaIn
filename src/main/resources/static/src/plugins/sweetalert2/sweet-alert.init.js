@@ -154,6 +154,48 @@
                 cancelButtonText: '<i class="fa fa-thumbs-down"></i>'
             })
         });
+        //휴가 신청하기 버튼 누르면
+        $('#apply-html-alert').click(function () {
+            swal({
+                title: ' 휴가 유형 선택 ',
+                type: 'info',
+                html: ' <span style="font-size: 14px;">일반적 휴가는 <b> 일반 버튼</b>을, ' +
+                    '증빙 파일이 필요한 휴가는 <b> 사후 버튼</b>을 눌러주세요</span>',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '일반',
+                cancelButtonText: ' 사후'
+            }).then(function (result){
+                if(result.value){ //result.value 는 true or false로 반환
+                    window.location.href = 'vacation-applyform';
+                }else {
+                    window.location.href = 'vacation-afterapply';
+                }
+            });
+        });
+        //리스트에서 신청하기 버튼 누르면
+        $('#apply2-html-alert').click(function () {
+            swal({
+                title: ' 휴가 유형 선택 ',
+                type: 'info',
+                html: ' <span style="font-size: 14px;">일반적 휴가는 <b> 일반 버튼</b>을, ' +
+                    '증빙 파일이 필요한 휴가는 <b> 사후 버튼</b>을 눌러주세요</span>',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '일반',
+                cancelButtonText: ' 사후'
+            }).then(function (result){
+                if(result.value){ //result.value 는 true or false로 반환
+                    window.location.href = 'vacation-applyform';
+                }else {
+                    window.location.href = 'vacation-afterapply';
+                }
+            })
+        });
 
         //Custom width padding
         $('#custom-padding-width-alert').click(function () {
