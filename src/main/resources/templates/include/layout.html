@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
-<head>
-    <style>
-        #homeli { background-color: white;
-        }
-    </style>
-</head>
+
 <th:block th:fragment="setContent( section )">
     <head>
         <!-- Basic Page Info -->
@@ -437,7 +432,8 @@
                         </a>
                         <ul class="submenu">
                             <li><a href="/vacation/vacation-list"> 전체 목록</a></li>
-                            <li><a href="/vacation/vacation-applyform"> 휴가 신청 </a></li>
+                            <li><a id="apply-html-alert"> 신청하기
+                            </a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
