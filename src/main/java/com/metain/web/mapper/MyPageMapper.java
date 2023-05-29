@@ -19,7 +19,7 @@ public interface MyPageMapper {
 
 
     /**증명서 발급 내역 조회*/
-    public List<Issue> selectIssueAll();
+    public List<Issue> selectIssueAll(Long certId);
 
 
 //    /**증명서 다운로드*/ 보류

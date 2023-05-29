@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+    <section id="wrap">
+    </section>
+</th:block>
+
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
+<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container" >
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>휴가 신청 내역</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pd-20 card-box mb-30" >
+                <h4 class="h4 text-blue mb-10" > 휴가 신청 내역 목록 </h4>
+                <p>
+                <div id="grid" ></div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- buttons for Export datatable -->
+<script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="/plugins/datatables/js/vfs_fonts.js"></script>
+<!-- welcome modal start -->
+
+<!-- welcome modal end -->
+<!-- js --><!--
+		<script src="vendors/scripts/core.js"></script>
+		<script src="vendors/scripts/script.min.js"></script>
+		<script src="vendors/scripts/process.js"></script>
+		<script src="vendors/scripts/layout-settings.js"></script>-->
+
+
+<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
+<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+
+<script>
+    const data = [
+        {
+            vhisId: '10013',
+            vacType: '휴가유형',
+            vacStartDate: '2023.05.25',
+            vacEndDate:'2023.05.25',
+            vacRegDate: '2023.05.25',
+            vacStatus: '승인'
+
+        },
+        {
+            vhisId: '10013',
+            vacType: '휴가유형',
+            vacStartDate: '2023.05.25',
+            vacEndDate:'2023.05.25',
+            vacRegDate: '2023.05.25',
+            vacStatus: '승인'
+        },
+        {
+            vhisId: '10013',
+            vacType: '휴가유형',
+            vacStartDate: '2023.05.25',
+            vacEndDate:'2023.05.25',
+            vacRegDate: '2023.05.25',
+            vacStatus: '승인'
+        },
+        {
+            vhisId: '10013',
+            vacType: '휴가유형',
+            vacStartDate: '2023.05.25',
+            vacEndDate:'2023.05.25',
+            vacRegDate: '2023.05.25',
+            vacStatus: '승인'
+        },
+        {
+            vhisId: '10013',
+            vacType: '휴가유형',
+            vacStartDate: '2023.05.25',
+            vacEndDate:'2023.05.25',
+            vacRegDate: '2023.05.25',
+            vacStatus: '승인'
+        }
+    ];
+
+
+
+    const grid = new tui.Grid({
+        el: document.getElementById('grid'),
+        data: data,
+        bodyHeight: 500,
+        columns: [
+            {
+                header: '휴가 번호',
+                name: 'vhisId'
+            },
+            {
+                header: '휴가 유형',
+                name: 'vacType',
+                filter: 'select'
+            },
+            {
+                header: '휴가 시작일',
+                name: 'vacStartDate',
+                filter: {
+                    showApplyBtn: true,
+                    showClearBtn: true,
+                    type: 'date',
+                    options: {
+                        format: 'yyyy.MM.dd'
+                    }
+                }
+            },
+            {
+                header: '휴가 종료일',
+                name: 'vacEndDate',
+                filter: {
+                    showApplyBtn: true,
+                    showClearBtn: true,
+                    type: 'date',
+                    options: {
+                        format: 'yyyy.MM.dd'
+                    }
+                }
+            },
+            {
+                header: '신청일자',
+                name: 'vacRegDate',
+                filter: {
+                    showApplyBtn: true,
+                    showClearBtn: true,
+                    type: 'date',
+                    options: {
+                        format: 'yyyy.MM.dd'
+                    }
+                }
+            },
+            {
+                header: '결재 현황',
+                name: 'vacStatus',
+                filter: 'select'
+            }
+        ],
+        rowHeaders: ['rowNum'],
+        pageOptions: {
+            useClient: true,
+            perPage: 10
+        }
+
+    });
+
+
+</script>
+
+
+<!-- Google Tag Manager (noscript) -->
+
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</html>
