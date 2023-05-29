@@ -13,4 +13,5 @@ public class Issue {
     private Long empCertId;
     private Long experCertId;
     private Long retireCertId;
+    private Long issueStatus;
 }
