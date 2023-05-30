@@ -79,17 +79,20 @@
 <script>
 	$(document).ready(function() {
 			$.ajax({
-				url: "/vacation/vacation-list",
+				url: "/vacation/vacation-lists",
 				type: "get",
 				dataType: "json",
 				contentType: 'application/json;charset=utf-8',
 				success: function (result) {
-					console.log(result)
+					grid.resetData(result);
+					console.log(result);
 				},error:function(err){
 					console.log("err : "+JSON.stringify(err));
 				}
 			}); //ajax
-	})
+
+
+
 
 	const dataSource = {
 		api: {
@@ -104,111 +107,12 @@
 	}
 
 
-	const data = [
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2023.05.25',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2021.01.21',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2021.02.21',
-			vacEndDate:'2021.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2023.05.21',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		}
-	];
+
+
 
 	const grid = new tui.Grid({
 		el: document.getElementById('grid'),
-		data: data,
+		//data: data,
 		scrollX: true,
 		scrollY: true,
 		columns: [
@@ -267,7 +171,7 @@
 			perPage: 10
 		}
 	});
-
+})
 </script>
 <script>
 	grid.on('click',function(ev) {

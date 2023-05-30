@@ -19,13 +19,22 @@ import java.util.List;
 public class VacationController {
     @Autowired
     private VacationService vacationService;
-    @RequestMapping("/vacation-list")
+
+
+
+
+    @RequestMapping("/vacation-lists")
     @ResponseBody
-    public List<VacationListDTO> vacationList(Model model) {
-        List<VacationListDTO> list=vacationService.selectAllList();
+    public List<VacationListDTO> vacationLists(Model model) {
+        List<VacationListDTO> list = vacationService.selectAllList();
         System.out.println(list);
-       // model.addAttribute("vacList",list);
+        model.addAttribute("vacList",list);
         return list;
+    }
+
+    @RequestMapping("/vacation-list")
+    public String vacationList() {
+        return "/vacation/vacation-list";
     }
 
     @RequestMapping("/vacation-applyform")
