@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//등록일시 추가 필요
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
