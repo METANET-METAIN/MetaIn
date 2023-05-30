@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+  <section id="wrap">
+  </section>
+
+</th:block>
+<style>
+  /*.card-align {*/
+  /*  position: absolute;*/
+  /*  top: 75%;*/
+  /*  left: 50%;*/
+  /*  width: 700px;*/
+  /*  transform: translate(-30%, -50%);*/
+  /*}*/
+
+</style>
+<div class="mobile-menu-overlay"></div>
+  <div class="main-container" >
+    <div class="pd-ltr-20 xs-pd-20-10">
+      <div class="min-height-200px">
+        <div class="page-header">
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="title">
+                <h4>내 정보 수정하기</h4>
+              </div>
+              <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">마이페이지</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    내 정보 수정
+                  </li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-md-6 col-sm-12 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-align">
+          <div class="pd-20 card-box mb-30">
+            <h4 class="h4 text-blue mb-10" > 내 정보 </h4>
+            <form>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label">이름</label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="name" readonly type="text">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 비밀번호 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="password" readonly type="password" >
+                </div>
+                <div style="text-align : right">
+                <!-- Button trigger modal -->
+<!--                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--                  변경하기-->
+<!--                </button>-->
+
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    변경하기
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h3 class="modal-title" id="staticBackdropLabel">비밀번호 변경</h3>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="text-align: left">
+                          <p><strong>비밀번호 변경</strong></p>
+                          <input class="form-control" type="password" name="empPwd">
+                          <p><strong>비밀번호 확인</strong></p>
+                          <input class="form-control" type="password" name="empPwd2">
+                          <hr>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary">수정</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="empPhone" type="text" id="empPhone">
+                  <p id="checkPhoneMessage"></p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 주소 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="empAddr" type="text">
+
+
+                </div>
+                <div style="text-align : right">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">변경하기</button>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class = "modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel2">주소 변경</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" style="text-align: left;">
+                        <p><strong>주소 변경하기</strong></p>
+                        <input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호">
+                        <input class="form-control" type="text" id="sample6_address" placeholder="주소"><br>
+                        <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소">
+                        <input class="form-control" type="text" id="sample6_extraAddress" placeholder="참고항목">
+                        <div style="text-align : right">
+                          <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                        </div>
+                        <hr>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">저장</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 이메일 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="empEmail" type="email" readonly>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 부서 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="empDept" type="email" readonly>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 직급 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" value="empGrade" type="email" readonly>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="checkList()">수정</button>
+                <button type="button" class="btn btn-secondary" onclick="goBack()">뒤로가기</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+<!-- buttons for Export datatable -->
+<script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="/plugins/datatables/js/vfs_fonts.js"></script>
+<!-- Google Tag Manager (noscript) -->
+<!-- add sweet alert js & css in footer -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+  <!-- 유효성 검사 -->
+  function checkList() {
+    const empPhone = document.getElementById( "empPhone" ).value;
+    if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( empPhone ) ) {
+      document.getElementById( "checkPhoneMessage" ).innerText = " ";
+      return true;
+    } else {
+      document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+    }
+  }
+
+  function sample6_execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+        var addr = ''; // 주소 변수
+        var extraAddr = ''; // 참고항목 변수
+
+        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+          addr = data.roadAddress;
+        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+          addr = data.jibunAddress;
+        }
+
+        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+        if(data.userSelectedType === 'R'){
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            extraAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if(extraAddr !== ''){
+            extraAddr = ' (' + extraAddr + ')';
+          }
+          // 조합된 참고항목을 해당 필드에 넣는다.
+          document.getElementById("sample6_extraAddress").value = extraAddr;
+
+        } else {
+          document.getElementById("sample6_extraAddress").value = '';
+        }
+
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.getElementById('sample6_postcode').value = data.zonecode;
+        document.getElementById("sample6_address").value = addr;
+        // 커서를 상세주소 필드로 이동한다.
+        document.getElementById("sample6_detailAddress").focus();
+      }
+    }).open();
+  }
+
+
+
+
+
+
+<!--  modal  -->
+  const modalToggle = document.getElementById('exampleModal');
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+  <!-- modal js code -->
+  function openModalToPwd() {
+    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    if (!modal._isShown) {
+      modal.show();
+    }
+  }
+
+  function closeModal() {
+    const modals = bootstrap.Modal.getInstance(document.getElementById('modal'));
+    for (let i = 0; i < modals.length; i++) {
+      const modal = bootstrap.Modal.getInstance(modals[i]);
+      modal.hide();
+    }
+  }
+
+  $('input[type="submit"]').on('click', function (event) {
+    event.preventDefault(); // 기본 제출 동작 방지
+    swal('휴가가 신청되었습니다.').then(function () {
+      window.location.href = 'vacation-list';
+    });
+  });
+</script>
+<script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
+<script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
+<script src="../src/plugins/jquery-steps/jquery.steps.js"></script>
+<script src="../vendors/scripts/steps-setting.js"></script>
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</body>
+</html>

@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="title">
-                            <h4>전체 사원 조회</h4>
+                            <h4>신입 사원 조회</h4>
                         </div>
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="pd-20 card-box mb-30" >
-                <h4 class="h4 text-blue mb-10" > 사원 목록 </h4>
+                <h4 class="h4 text-blue mb-10" > 신입 사원 목록 </h4>
                 <!--                <div class="row">-->
                 <!--                    <div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >-->
                 <!--                        Search:-->
@@ -69,54 +69,46 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">사원 정보</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">신입 사원 정보</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="empId" class="col-form-label">사원 번호</label>
-                        <input type="text" class="form-control" id="empId">
+                        <label for="newId" class="col-form-label">신입 사원 번호</label>
+                        <input type="text" class="form-control" id="newId">
                     </div>
                     <div class="mb-3">
-                        <label for="empName" class="col-form-label">이름</label>
-                        <input type="text" class="form-control" id="empName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="empIdnum" class="col-form-label">주민번호</label>
-                        <input type="text" class="form-control" id="empIdnum">
-                    </div>
-                    <div class="mb-3">
-                        <label for="empPhone" class="col-form-label">전화번호</label>
-                        <input type="text" class="form-control" id="empPhone">
+                        <label for="newName" class="col-form-label">이름</label>
+                        <input type="text" class="form-control" id="newName">
                     </div>
                     <div class="mb-3">
                         <label for="empAddr" class="col-form-label">주소</label>
                         <input type="text" class="form-control" id="empAddr">
                     </div>
                     <div class="mb-3">
-                        <label for="empEmail" class="col-form-label">이메일</label>
-                        <input type="text" class="form-control" id="empEmail">
+                        <label for="newPhone" class="col-form-label">이메일</label>
+                        <input type="text" class="form-control" id="newPhone">
                     </div>
                     <div class="mb-3">
-                        <label for="empDept" class="col-form-label">부서</label>
-                        <input type="text" class="form-control" id="empDept">
+                        <label for="newIdNum" class="col-form-label">주민번호</label>
+                        <input type="text" class="form-control" id="newIdNum">
                     </div>
                     <div class="mb-3">
-                        <label for="empGrade" class="col-form-label">직급</label>
-                        <input type="text" class="form-control" id="empGrade">
+                        <label for="newEmail" class="col-form-label">이메일</label>
+                        <input type="text" class="form-control" id="newEmail">
                     </div>
                     <div class="mb-3">
-                        <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <input type="text" class="form-control" id="empStatus">
+                        <label for="newDept" class="col-form-label">지원 직무</label>
+                        <input type="text" class="form-control" id="newDept">
                     </div>
                     <div class="mb-3">
-                        <label for="empFistDt" class="col-form-label">입사 일자</label>
-                        <input type="text" class="form-control" id="empFistDt">
+                        <label for=" " class="col-form-label">제출 여부</label>
+                        <input type="text" class="form-control" id=" ">
                     </div>
                     <div class="mb-3">
-                        <label for="empLastDt" class="col-form-label">퇴사 일자</label>
-                        <input type="text" class="form-control" id="empLastDt">
+                        <label for=" " class="col-form-label">관리</label>
+                        <input type="text" class="form-control" id=" ">
                     </div>
                 </form>
             </div>
@@ -163,92 +155,56 @@
     //모달창 세팅
     const modalToggle = document.getElementById('exampleModal');
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-
-    const data = [
-        {
-            empId: '10013',
-            empDept: '개발 1팀',
-            empGrade: '사원',
-            empName: '홍길동',
-            empFistDt: '2023.05.02',
-            empStatus: '재직'
-        },
-        {
-            empId: '10012',
-            empDept: '개발 2팀',
-            empGrade: '팀장',
-            empName: '박길동',
-            empFistDt: '2023.01.12',
-            empStatus: '재직'
-        },
-        {
-            empId: '10011',
-            empDept: '개발 3팀',
-            empGrade: '사원',
-            empName: '나길동',
-            empFistDt: '2023.05.19',
-            empStatus: '재직'
-        },
-        {
-            empId: '10016',
-            empDept: '인사 관리',
-            empGrade: '사원',
-            empName: '김길동',
-            empFistDt: '2023.05.10',
-            empStatus: '재직'
-        },
-        {
-            empId: '10010',
-            empDept: '개발 1팀',
-            empGrade: '사원',
-            empName: '홍길동',
-            empFistDt: '2023.05.12',
-            empStatus: '퇴사'
-        }
-    ];
-
-
+    //신규직원 그리드 세팅 하는 변수
+    //const newEmpList = []; 1. 변수 선언
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: data,
+        data: data, // 3번 newEmpList 변수를 넣어서 그리드 데이터로 그리드 그리기
         bodyHeight: 500,
         columns: [
             {
-                header: '사원 번호',
-                name: 'empId'
-            },
-            {
-                header: '부서명',
-                name: 'empDept',
-                filter: 'select'
-            },
-            {
-                header: '직급',
-                name: 'empGrade',
-                filter: 'select'
+                header: '신입사원 번호',
+                name: 'newId'
             },
             {
                 header: '이름',
-                name: 'empName',
+                name: 'newName'
+            },
+            {
+                header: '전화 번호',
+                name: 'newPhone',
                 filter: 'select'
             },
             {
-                header: '입사 일자',
-                name: 'empFistDt',
-                filter: {
-                    showApplyBtn: true,
-                    showClearBtn: true,
-                    type: 'date',
-                    options: {
-                        format: 'yyyy.MM.dd'
-                    }
-                }
+                header: '주소',
+                name: 'newAddr',
+                filter: 'select'
             },
             {
-                header: '재직 상태',
-                name: 'empStatus',
+                header: '이메일',
+                name: 'newEmail',
                 filter: 'select'
+            },
+            {
+                header: '주민 번호',
+                name: 'newIdnum',
+                filter: 'select'
+            },
+            {
+                header: '지원 직무',
+                name: 'newDept',
+                filter: 'select'
+            },
+            {
+                header: '제출 여부',
+                name: ' ',
+                filter: 'select'
+            },
+            {
+                header: '관리',
+                name: '',
+                filter: ''
             }
         ],
         rowHeaders: ['rowNum'],
@@ -355,22 +311,27 @@
         console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
         const row = grid.getRow(ev.rowKey); //gird에서 제공하는 함수 로우키를 넣으면 해당하는 행의 값들을 보여줌
         console.log(row);
-        document.getElementById('empId').value = row.empId;
-        document.getElementById('empIdnum').value = row.empIdnum;
-        document.getElementById('empName').value = row.empName;
-        document.getElementById('empIdnum').value = row.empIdnum;
-        document.getElementById('empPhone').value = row.empPhone;
-        document.getElementById('empAddr').value = row.empAddr;
-        document.getElementById('empEmail').value = row.empEmail;
-        document.getElementById('empDept').value = row.empDept;
-        document.getElementById('empGrade').value = row.empGrade;
-        document.getElementById('empStatus').value = row.empStatus;
-        document.getElementById('empFistDt').value = row.empFistDt;
-        document.getElementById('empLastDt').value = row.empLastDt;
+        document.getElementById('newId').value = row.newId;
+        document.getElementById('newName').value = row.newName;
+        document.getElementById('newIdnum').value = row.newIdnum;
+        document.getElementById('newPhone').value = row.newPhone;
+        document.getElementById('newAddr').value = row.newAddr;
+        document.getElementById('newEmail').value = row.newEmail;
+        document.getElementById('newDept').value = row.newDept;
 
         myModal.show(myModal);
 
     })
+    //신규입사자 리스트 정보 불러오기
+    fetch('/new-emp-lists')
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(newEmpData){
+            //신규직원그리드명.resetData(newEmpList)
+            //newEmpList = newEmpData  2번 변수에다가 신규직원정보 넣어줌
+            console.log(newEmpData)
+        })
 
 </script>
 
