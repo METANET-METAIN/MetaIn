@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mypage")
 public class MyPageController {
 
+    @GetMapping("/update-mypage")
+    public String updateMyPage() {
+        return "/mypage/update-mypage";
+    }
+
     @GetMapping("/my-cert-list")
     public String selectIssueAll() {
         return "/mypage/my-cert-list";
