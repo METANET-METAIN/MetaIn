@@ -12,7 +12,8 @@ import java.util.Date;
 public class EmpCert {
     private Long empCertId;
     private Long empId;
+    private Long certSort;
     private Date certRegDate;
-    private String submit;
+    private String useOfCert;
 
 }
