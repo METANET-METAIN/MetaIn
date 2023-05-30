@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+  <section id="wrap">
+  </section>
+</th:block>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+  <div class="pd-ltr-20">
+
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="title">
+            <h4>재직증명서</h4>
+          </div>
+          <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="index.html">재직증명서 발급</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                발급완료
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+        <div class="col-md-6 col-sm-12 text-right">
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card-box pd-20 height-100-p mb-30">
+      <div class="row pb-30" style="height: 30px;"></div>
+      <!-- <div class="row align-items-center"> -->
+      <!-- <div class="col-md-4">
+          <img src="vendors/images/banner-img.png" alt="" />
+      </div> -->
+      <div class="col text-center">
+        <div class="row pb-30" style="height: 50px;"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="cornflowerblue" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        <h4 class="font-20 weight-500 mb-10 text-capitalize">
+          METAIN
+          <div class="weight-600 font-30 text-blue">재직증명서 발급완료!</div>
+        </h4>
+        <div class="row pb-30" style="height: 30px;"></div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="font-18 text-center">
+            user 님, 재직증명서가 발급 완료되었습니다. <br>
+            마이페이지 - 내 증명서 발급내역에서 확인가능합니다.
+          </p>
+          <div class="row pb-30" style="height: 50px;"></div>
+        </div>
+        <div class="row pb-30" style="height: 30px;"></div>
+      </div>
+      <!-- </div> -->
+      <div class="row">
+        <div class="col text-center">
+
+<!--          <button type="submit" class="btn btn-primary btn-lg" onclick="location.replace('my-certification-list.html');">-->
+<!--            발급내역 페이지로 이동-->
+<!--          </button>-->
+
+              <button type="button" class="btn btn-primary btn-lg">
+                <a class="text-white" href="my-cert-list">발급내역 페이지로 이동</a>
+              </button>
+
+
+<!--            <input class="btn btn-primary btm-lg" type="button" value="발급내역 페이지로 이동" onclick="location.href='my-cert-list'">-->
+
+
+<!--                <a-->
+<!--                  class="btn btn-primary btn-lg"-->
+<!--                  href="my-certification-list"-->
+<!--                >-->
+<!--                  발급내역 페이지로 이동-->
+<!--                </a>-->
+
+          <div class="row pb-30" style="height: 60px;"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="footer-wrap pd-20 mb-20 card-box">
+      메타인(주)
+      <a href="https://github.com/dropways" target="_blank"
+      >METAIN</a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- js -->
+<script src="vendors/scripts/core.js"></script>
+<script src="vendors/scripts/script.min.js"></script>
+<script src="vendors/scripts/process.js"></script>
+<script src="vendors/scripts/layout-settings.js"></script>
+<script src="src/plugins/apexcharts/apexcharts.min.js"></script>
+<script src="src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+<script src="vendors/scripts/dashboard.js"></script>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</body>
+</html>
