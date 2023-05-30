@@ -1,10 +1,389 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+    <section id="wrap">
+    </section>
+</th:block>
+<div class="mobile-menu-overlay"></div>
 
-</body>
+<div class="main-container" >
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>전체 사원 조회</h4>
+                        </div>
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a>인사 관리</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    전체 목록
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="pd-20 card-box mb-30" >
+                <h4 class="h4 text-blue mb-10" > 사원 목록 </h4>
+                <!--                <div class="row">-->
+                <!--                    <div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >-->
+                <!--                        Search:-->
+                <!--                        <p style="margin-left: 20px"><input type="search" class="form-control form-control-sm" placeholder="Search" aria-controls="DataTables_Table_0"></p>-->
+                <!--                        <i class="dw dw-search2 search-icon" style="margin-right: 10px;margin-left: 10px"></i>-->
+                <!--                    </div>-->
+                <!--                    <div class="col-sm-12 col-md-6">-->
+                <!--                        <div id="DataTables_Table_0_filter" class="dataTables_filter">-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!--                    <div class="dt-buttons btn-group flex-wrap" style="text-align: right">-->
+                <!--                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+                <!--                            <span>Copy</span>-->
+                <!--                        </button>-->
+                <!--                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+                <!--                            <span>CSV</span>-->
+                <!--                        </button>-->
+                <!--                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+                <!--                            <span>PDF</span></button>-->
+                <!--                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
+                <!--                            <span>Print</span>-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+                <p>
+                <div id="grid" ></div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 모달창 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">사원 정보</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="empId" class="col-form-label">사원 번호</label>
+                        <input type="text" class="form-control" id="empId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empName" class="col-form-label">이름</label>
+                        <input type="text" class="form-control" id="empName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empIdnum" class="col-form-label">주민번호</label>
+                        <input type="text" class="form-control" id="empIdnum">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empPhone" class="col-form-label">전화번호</label>
+                        <input type="text" class="form-control" id="empPhone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empAddr" class="col-form-label">주소</label>
+                        <input type="text" class="form-control" id="empAddr">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empEmail" class="col-form-label">이메일</label>
+                        <input type="text" class="form-control" id="empEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empDept" class="col-form-label">부서</label>
+                        <input type="text" class="form-control" id="empDept">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empGrade" class="col-form-label">직급</label>
+                        <input type="text" class="form-control" id="empGrade">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empStatus" class="col-form-label">재직 상태</label>
+                        <input type="text" class="form-control" id="empStatus">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empFistDt" class="col-form-label">입사 일자</label>
+                        <input type="text" class="form-control" id="empFistDt">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empLastDt" class="col-form-label">퇴사 일자</label>
+                        <input type="text" class="form-control" id="empLastDt">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">수정</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- buttons for Export datatable -->
+<script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="/plugins/datatables/js/vfs_fonts.js"></script>
+<!-- welcome modal start -->
+
+<!-- welcome modal end -->
+<!-- js --><!--
+		<script src="vendors/scripts/core.js"></script>
+		<script src="vendors/scripts/script.min.js"></script>
+		<script src="vendors/scripts/process.js"></script>
+		<script src="vendors/scripts/layout-settings.js"></script>-->
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
+<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+<script>
+
+
+</script>
+
+
+<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
+<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+
+<script>
+    //모달창 세팅
+    const modalToggle = document.getElementById('exampleModal');
+    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+    const data = [
+        {
+            empId: '10013',
+            empDept: '개발 1팀',
+            empGrade: '사원',
+            empName: '홍길동',
+            empFistDt: '2023.05.02',
+            empStatus: '재직'
+        },
+        {
+            empId: '10012',
+            empDept: '개발 2팀',
+            empGrade: '팀장',
+            empName: '박길동',
+            empFistDt: '2023.01.12',
+            empStatus: '재직'
+        },
+        {
+            empId: '10011',
+            empDept: '개발 3팀',
+            empGrade: '사원',
+            empName: '나길동',
+            empFistDt: '2023.05.19',
+            empStatus: '재직'
+        },
+        {
+            empId: '10016',
+            empDept: '인사 관리',
+            empGrade: '사원',
+            empName: '김길동',
+            empFistDt: '2023.05.10',
+            empStatus: '재직'
+        },
+        {
+            empId: '10010',
+            empDept: '개발 1팀',
+            empGrade: '사원',
+            empName: '홍길동',
+            empFistDt: '2023.05.12',
+            empStatus: '퇴사'
+        }
+    ];
+
+
+
+    const grid = new tui.Grid({
+        el: document.getElementById('grid'),
+        data: data,
+        bodyHeight: 500,
+        columns: [
+            {
+                header: '사원 번호',
+                name: 'empId'
+            },
+            {
+                header: '부서명',
+                name: 'empDept',
+                filter: 'select'
+            },
+            {
+                header: '직급',
+                name: 'empGrade',
+                filter: 'select'
+            },
+            {
+                header: '이름',
+                name: 'empName',
+                filter: 'select'
+            },
+            {
+                header: '입사 일자',
+                name: 'empFistDt',
+                filter: {
+                    showApplyBtn: true,
+                    showClearBtn: true,
+                    type: 'date',
+                    options: {
+                        format: 'yyyy.MM.dd'
+                    }
+                }
+            },
+            {
+                header: '재직 상태',
+                name: 'empStatus',
+                filter: 'select'
+            }
+        ],
+        rowHeaders: ['rowNum'],
+        pageOptions: {
+            useClient: true,
+            perPage: 10
+        }
+        // ,
+        // contextMenu: ({ rowKey, columnName }) => (
+        //     [
+        //         [
+        //             {
+        //                 name: 'export',
+        //                 label: 'Export',
+        //                 subMenu: [
+        //                     {
+        //                         name: 'default',
+        //                         label: 'Default',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv');
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx');
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'includeHeader',
+        //                         label: 'includeHeader: false',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { includeHeader: false });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { includeHeader: false });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'colunmNames',
+        //                         label: `['name', 'artist']`,
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { columnNames: ['name', 'artist'] });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { columnNames: ['name', 'artist'] });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                     {
+        //                         name: 'onlySelected',
+        //                         label: 'onlySelected: true',
+        //                         subMenu: [
+        //                             {
+        //                                 name: 'csvExport',
+        //                                 label: 'CSV export',
+        //                                 action: () => {
+        //                                     grid.export('csv', { onlySelected: true });
+        //                                 }
+        //                             },
+        //                             {
+        //                                 name: 'excelExport',
+        //                                 label: 'Excel export',
+        //                                 action: () => {
+        //                                     grid.export('xlsx', { onlySelected: true });
+        //                                 }
+        //                             },
+        //                         ]
+        //                     },
+        //                 ],
+        //             }
+        //         ],
+        //     ]
+        // ),
+    });
+    //그리드 클릭 시 이벤트
+    grid.on('click',function(ev){
+        console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+        const row = grid.getRow(ev.rowKey); //gird에서 제공하는 함수 로우키를 넣으면 해당하는 행의 값들을 보여줌
+        console.log(row);
+        document.getElementById('empId').value = row.empId;
+        document.getElementById('empIdnum').value = row.empIdnum;
+        document.getElementById('empName').value = row.empName;
+        document.getElementById('empIdnum').value = row.empIdnum;
+        document.getElementById('empPhone').value = row.empPhone;
+        document.getElementById('empAddr').value = row.empAddr;
+        document.getElementById('empEmail').value = row.empEmail;
+        document.getElementById('empDept').value = row.empDept;
+        document.getElementById('empGrade').value = row.empGrade;
+        document.getElementById('empStatus').value = row.empStatus;
+        document.getElementById('empFistDt').value = row.empFistDt;
+        document.getElementById('empLastDt').value = row.empLastDt;
+
+        myModal.show(myModal);
+
+    })
+
+</script>
+
+
+<!-- Google Tag Manager (noscript) -->
+
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </html>

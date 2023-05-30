@@ -256,6 +256,23 @@
 			});
 
 		</script>
+
+		<script>
+			grid.on('click',function(ev) {
+				console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+				const vacationObj = grid.getFocusedCell(ev.rowKey);
+				const vacationId=vacationObj.rowKey
+				console.log(vacationObj.rowKey); //글본호
+				console.log(vacationId); //글본호
+				// 글번호를 사용하여 원하는 동작 수행
+				console.log('Clicked row with postId:', vacationId);
+
+				if(vacationId){
+					window.location.href= 'vacation-detail/'+vacationId;
+				}
+			})
+		</script>
+
 <!-- Google Tag Manager (noscript) -->
 		<noscript
 			><iframe
