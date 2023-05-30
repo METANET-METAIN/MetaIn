@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="" class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
@@ -203,8 +203,17 @@
 <!--          <input class="btn btn-primary btm-lg" type="button" value="작성완료" onclick="return NotNullChk(); location.href='emp-cert-complete'" >-->
 <!--        </div>-->
         <div class="col text-center">
-          <input class="btn btn-primary btm-lg" type="button" value="작성완료" onclick="if (NotNullChk()) { location.href = 'emp-cert-complete'; }"
-          >
+<!--          <button type="button" class="btn btn-primary btm-lg" onclick="if (NotNullChk()) { location.href = 'emp-cert-complete'; }"-->
+<!--          >작성 완료 </button>-->
+
+<!--          <button type="button" class="btn btn-primary btm-lg" id="swalCert"-->
+<!--          >작성 완료 </button>-->
+
+          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit()"
+          >작성 완료 </button>
+          <button type="button" class="btn btn-primary btm-lg" id= "#swalCert"
+          >작성 완료 </button>
+
         </div>
 
       </form>
@@ -237,21 +246,38 @@
     }
   }
 
+  function validateAndSubmit() {
+    //체크된 체크박스 개수
+    var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
-  function NotNullChk(){
-    var arrSelect = document.getElementsByName("purposeOfUse");
-
-    for(var i=0; i< arrSelect.length; i++){
-
-      if(arrSelect[i].checked){
-        return true;
-      }
+    // 체크박스가 하나 이상인지 확인
+    if (checkedCount < 1) {
+      // 체크박스가 하나 이상이어야 한다는 경고창 표시
+      swal("경고", "사용용도를 선택해주세요", "warning")
+    } else {
+      // 조건이 충족되었을 때 페이지 이동
+      location.href = 'emp-cert-complete';
     }
-
-    alert("사용용도를 선택하세요");
-    return false;
   }
+
+
+
+  // function NotNullChk(){
+  //   var arrSelect = document.getElementsByName("purposeOfUse");
+  //
+  //   for(var i=0; i< arrSelect.length; i++){
+  //
+  //     if(arrSelect[i].checked){
+  //       return true;
+  //     }
+  //   }
+  //
+  //   alert("사용용도를 선택하세요");
+  //   return false;
+  // }
 </script>
+<script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
+<script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script src="vendors/scripts/core.js"></script>
 <script src="vendors/scripts/script.min.js"></script>
 <script src="vendors/scripts/process.js"></script>
