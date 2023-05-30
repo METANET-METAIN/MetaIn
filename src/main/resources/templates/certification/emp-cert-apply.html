@@ -209,8 +209,11 @@
 <!--          <button type="button" class="btn btn-primary btm-lg" id="swalCert"-->
 <!--          >작성 완료 </button>-->
 
-          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit()"
-          >작성 완료 </button>
+          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"
+          >작성 완료1 </button>
+
+          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
+          >작성 완료2 </button>
 <!--          <button type="button" class="btn btn-primary btm-lg" id= "#swalCert"-->
 <!--          >작성 완료 </button>-->
 
@@ -246,7 +249,7 @@
     }
   }
 
-  function validateAndSubmit() {
+  function validateAndSubmit1() {
     //체크된 체크박스 개수
     var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
@@ -255,8 +258,31 @@
       // 체크박스가 하나 이상이어야 한다는 경고창 표시
       swal("경고", "사용용도를 선택해주세요", "warning")
     } else {
-      // 조건이 충족되었을 때 페이지 이동
+      //조건이 충족되었을 때 내발급내역페이지 이동
       location.href = 'emp-cert-complete';
+    }}
+
+  function validateAndSubmit2() {
+    //체크된 체크박스 개수
+    var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+    // 체크박스가 하나 이상인지 확인
+    if (checkedCount < 1) {
+      // 체크박스가 하나 이상이어야 한다는 경고창 표시
+      swal("경고", "사용용도를 선택해주세요", "warning")
+    } else {
+      swal(
+              {
+                title: '발급 완료!',
+                html: '발급이 완료되었습니다 <br> 나의 증명서 발급내역에서 확인가능합니다',
+                type: 'success',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: '내 증명서 발급내역'
+              }).then(value => {
+                if(value){
+                  location.href='my-cert-list'
+                }
+      })
     }
   }
 
