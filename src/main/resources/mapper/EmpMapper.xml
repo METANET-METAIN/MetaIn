@@ -4,4 +4,9 @@
         <select id="selectAll" resultType="Emp">
             select * from TBL_EMPLOYEE
         </select>
+        <select id="newEmpSelectAll" resultType="NewEmp">
+            select * from TBL_NEW_EMPLOYEE
+        </select>
+
+
     </mapper>
