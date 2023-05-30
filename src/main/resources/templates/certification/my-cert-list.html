@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+  <section id="wrap">
+  </section>
+</th:block>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+  <div class="pd-ltr-20 xs-pd-20-10">
+    <div class="min-height-200px">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div class="title">
+              <h4>마이페이지</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="index.html">마이페이지</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  내 증명서 목록
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-md-6 col-sm-12 text-right">
+          </div>
+        </div>
+      </div>
+      <!-- basic table  Start -->
+      <div class="pd-20 card-box mb-30">
+        <div class="clearfix mb-20">
+          <div class="pull-left">
+            <h4 class="text-blue h4">내 증명서 목록</h4>
+
+          </div>
+          <div class="pull-right">
+            <a
+                    href="#basic-table"
+                    class="btn btn-primary btn-sm scroll-click"
+                    rel="content-y"
+                    data-toggle="collapse"
+                    role="button"
+            ><i class="fa fa-code"></i> Source Code</a
+            >
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">순번</th>
+            <th scope="col">증명서 종류</th>
+            <th scope="col">사용 용도</th>
+            <th scope="col">발급 일자</th>
+            <th scope="col">발급 상태</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>경력증명서</td>
+            <td>관공서 제출용</td>
+            <td>2023-05-29</td>
+            <td><a
+                    href="#horizontal-basic-form1"
+                    class="btn btn-primary btn-sm"
+                    rel="content-y"
+                    role="button"
+                    onClick="window.print()"
+            ><i class="icon-copy bi bi-download"></i>
+              인쇄</a
+            ></td>
+
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>재직증명서</td>
+            <td>금융기관 제출용</td>
+            <td>2021-02-03</td>
+            <td style="color: grey;">발급완료</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>재직증명서</td>
+            <td>금융기관 제출용</td>
+            <td>2021-02-28</td>
+            <td style="color: grey;">발급완료</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="collapse collapse-box" id="basic-table">
+          <div class="code-box">
+            <div class="clearfix">
+              <a
+                      href="javascript:;"
+                      class="btn btn-primary btn-sm code-copy pull-left"
+                      data-clipboard-target="#basic-table-code"
+              ><i class="fa fa-clipboard"></i> Copy Code</a
+              >
+              <a
+                      href="#basic-table"
+                      class="btn btn-primary btn-sm pull-right"
+                      rel="content-y"
+                      data-toggle="collapse"
+                      role="button"
+              ><i class="fa fa-eye-slash"></i> Hide Code</a
+              >
+            </div>
+            <pre><code class="xml copy-pre" id="basic-table-code">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+    </tr>
+  </tbody>
+</table>
+							</code></pre>
+          </div>
+        </div>
+      </div>
+      <!-- basic table  End -->
+
+
+    </div>
+    <div class="footer-wrap pd-20 mb-20 card-box">
+      메타인(주)
+      <a href="https://github.com/dropways" target="_blank"
+      >METAIN</a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- js -->
+
+<script src="vendors/scripts/core.js"></script>
+<script src="vendors/scripts/script.min.js"></script>
+<script src="vendors/scripts/process.js"></script>
+<script src="vendors/scripts/layout-settings.js"></script>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</body>
+</html>

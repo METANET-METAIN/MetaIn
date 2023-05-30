@@ -9,7 +9,6 @@
 </th:block>
 
 <div class="mobile-menu-overlay"></div>
-
 <!--코드작성-->
 <div class="main-container">
   <div class="pd-ltr-20 xs-pd-20-10">
@@ -26,7 +25,7 @@
                   <a href="index.html">재직증명서 발급</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                  예시
+                  양식
                 </li>
               </ol>
             </nav>
@@ -35,7 +34,7 @@
             <div class="dropdown">
               <a
                       class="btn btn-primary"
-                      href="#"
+                      href="emp-cert-apply"
                       role="button"
               >
                 신청하기
@@ -49,7 +48,8 @@
         <div class="invoice-box">
           <div class="invoice-header">
             <div class="logo text-center">
-              <img src="vendors/images/deskapp-logo.png" alt="" />
+              <div class="col font-12 text-left">제 A01-20230529-01 호</div>
+              <div class="row pb-30"></div>
             </div>
           </div>
           <h4 class="text-center mb-30 weight-600">재직증명서</h4>
@@ -66,33 +66,43 @@
                   <td class="col-2 table-active">성명</td>
                   <td class="col-4">홍길동</td>
                   <td class="col-2 table-active">생년월일</td>
-                  <td></td>
+                  <td>1991년 07월 12일</td>
                 </tr>
                 <tr>
                   <td class="col-2 table-active">주소</td>
                   <td colspan="3">서울 금천구 호서벤치타워</td>
                 </tr>
                 <tr>
-                  <td class="col-2 table-active">소속</td>
+                  <td class="col-2 table-active">근무부서</td>
                   <td class="col-4">개발 1팀</td>
                   <td class="col-2 table-active">직위</td>
                   <td>대리</td>
                 </tr>
                 <tr>
                   <td class="col-2 table-active">재직기간</td>
-                  <td colspan="3">2020-05-02</td>
+                  <td colspan="3">2020-05-02 - 2023-05-29</td>
+                </tr>
+                <tr>
+                  <td class="col-2 table-active">사용용도</td>
+                  <td colspan="3">금융기관 제출용</td>
                 </tr>
                 </tbody>
               </table>
 
               <div class="row pb-30" style="height: 60px;"></div>
-              <div class="col-12 text-center"> 상기와 같이 재직 중임을 증명함 </div>
+              <div class="col-12 text-center"> 상기와 같이 재직 중임을 증명합니다 </div>
+              <div class="row pb-30" style="height: 20px;"></div>
+              <div class="col-12 text-center"> 2023년 05월 29일 </div>
 
               <div class="row pb-30" style="height: 100px;"></div>
 
-              <div class="col-12 text-center"> 사용 용도:  </div>
+              <!-- <div class="row">
+                  <div class="col-6 text-right"> 사용 용도:  </div>
+                  <div class="col-6 text-left"> 금융기관 제출</div>
+              </div> -->
 
-              <div class="row pb-30" style="height: 180px;"></div>
+
+              <div class="row pb-30" style="height: 150px;"></div>
 
               <div class="row">
                 <div class="col-2"></div>
@@ -112,10 +122,14 @@
                 <div class="col-2"></div>
                 <div class="col-3 text-center"> 대표이사: </div>
                 <div class="col-3 text-left">  홍길동 </div>
-                <div class="col-3 text-left">(인)</div>
+                <div style="position: relative;">
+                  <div class="col-3 text-left" >(인)</div>
+                  <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120" >
+                </div>
+
               </div>
 
-              <div class="row pb-30" style="height: 50px;"></div>
+              <div class="row pb-30" style="height: 30px;"></div>
 
             </div>
 
@@ -141,6 +155,7 @@
   </div>
 </div>
 </div>
+
 <!-- js -->
 <script src="vendors/scripts/core.js"></script>
 <script src="vendors/scripts/script.min.js"></script>
