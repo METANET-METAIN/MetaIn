@@ -9,9 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -20,12 +21,12 @@ public class VacationController {
     @Autowired
     private VacationService vacationService;
     @RequestMapping("/vacation-list")
-    @ResponseBody
-    public List<VacationListDTO> vacationList(Model model) {
+    public String vacationList(Model model) {
         List<VacationListDTO> list=vacationService.selectAllList();
-        System.out.println(list);
-       // model.addAttribute("vacList",list);
-        return list;
+
+        model.addAttribute("vacList",list);
+
+        return "/vacation/vacation-list";
     }
 
     @RequestMapping("/vacation-applyform")

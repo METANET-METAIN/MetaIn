@@ -4,7 +4,7 @@
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
 	<section id="wrap">
 	</section>
-		</th:block>
+</th:block>
 
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
@@ -12,278 +12,161 @@
 <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 
 
-		<div class="mobile-menu-overlay"></div>
-		<div class="main-container" >
-			<div class="pd-ltr-20 xs-pd-20-10">
-				<div class="min-height-200px">
-					<div class="page-header">
-						<div class="row">
-							<div class="col-md-6 col-sm-12">
-								<div class="title">
-									<h4>휴가 전체 보기</h4>
-								</div>
-								<nav aria-label="breadcrumb" role="navigation">
-									<ol class="breadcrumb">
-										<li class="breadcrumb-item">
-											<a href="index">휴가 관리</a>
-										</li>
-										<li class="breadcrumb-item active" aria-current="page">
-											전체 목록
-										</li>
-									</ol>
-								</nav>
-							</div>
-							<div class="col-md-6 col-sm-12 text-right">
-								<div class="dropdown">
-									<!--src-plug-sweetaler2-init.js 에서 정의-->
-									<button
-											type="button"
-											class="btn btn-primary btn-lg"
-											id="apply2-html-alert"
-									>
-										신청하기
-									</button>
-								</div>
-							</div>
+<div class="mobile-menu-overlay"></div>
+<div class="main-container" >
+	<div class="pd-ltr-20 xs-pd-20-10">
+		<div class="min-height-200px">
+			<div class="page-header">
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<div class="title">
+							<h4>휴가 전체 보기</h4>
+						</div>
+						<nav aria-label="breadcrumb" role="navigation">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item">
+									<a href="index">휴가 관리</a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">
+									전체 목록
+								</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="col-md-6 col-sm-12 text-right">
+						<div class="dropdown">
+							<!--src-plug-sweetaler2-init.js 에서 정의-->
+							<button
+									type="button"
+									class="btn btn-primary btn-lg"
+									id="apply2-html-alert"
+							>
+								신청하기
+							</button>
 						</div>
 					</div>
-					<div class="pd-20 card-box mb-30" >
-						<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
-						<p>
-							<div id="grid"/>
-						</p>
-					</div>
 				</div>
-				<!--<div class="footer-wrap pd-20 mb-20 card-box">
-					DeskApp - Bootstrap 4 Admin Template By
-					<a href="https://github.com/dropways" target="_blank"
-						>Ankit Hingarajiya</a
-					>
-				</div>-->
+			</div>
+			<div class="pd-20 card-box mb-30" >
+				<h4 class="h4 text-blue mb-10" > 휴가 목록 </h4>
+				<p>
+				<div id="grid"/>
+				</p>
 			</div>
 		</div>
-		<!-- welcome modal start -->
+		<!--<div class="footer-wrap pd-20 mb-20 card-box">
+            DeskApp - Bootstrap 4 Admin Template By
+            <a href="https://github.com/dropways" target="_blank"
+                >Ankit Hingarajiya</a
+            >
+        </div>-->
+	</div>
+</div>
+<!-- welcome modal start -->
 
-		<!-- welcome modal end -->
-		<!-- js --><!--
+<!-- welcome modal end -->
+<!-- js --><!--
 		<script src="vendors/scripts/core.js"></script>
 		<script src="vendors/scripts/script.min.js"></script>
 		<script src="vendors/scripts/process.js"></script>
 		<script src="vendors/scripts/layout-settings.js"></script>-->
 
 
-		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-		<script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
-		<script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
-<script>
-	$(document).ready(function() {
-			$.ajax({
-				url: "/vacation/vacation-list",
-				type: "get",
-				dataType: "json",
-				contentType: 'application/json;charset=utf-8',
-				success: function (result) {
-					console.log(result)
-				},error:function(err){
-					console.log("err : "+JSON.stringify(err));
+<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
+<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+
+	<script th:inline="javascript">
+		const itemList = /*[[${vacList}]]*/ [];
+		console.log(itemList);
+
+		const grid = new tui.Grid({
+			el: document.getElementById('grid'),
+			data: itemList,
+			scrollX: true,
+			scrollY: true,
+			columns: [
+				{
+					header: '이름',
+					name: 'empName',
+					editor:'text',
+					filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+				},
+				{
+					header: '부서',
+					name: 'empDept',editor:'text',
+					filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+				},
+				{
+					header: '직급',editor:'text',
+					name: 'empGrade'
+				},
+				{
+					header: '휴가 유형',editor:'text',
+					name: 'vacType'
+				},
+				{
+					header: '휴가 시작일',
+					name: 'vacStartDate',
+					filter:{
+						showApplyBtn: true,
+						showClearBtn: true,
+						type: 'date',
+						options: {
+							format: 'yyyy.MM.dd'
+						},
+					}
+
+				},
+				{
+					header: '휴가 종료일',
+					name: 'vacEndDate',
+					editor: {
+						type: 'datePicker',
+						options: {
+							format: 'dd/MM/yyyy'
+						},
+						filter: {
+							showApplyBtn: true,
+							showClearBtn: true,
+							type: 'date',
+							options: {
+								format: 'yyyy.MM.dd'
+							},
+						}
+					}
+				},
+				{
+					header: '신청 일자',
+					name: 'vacRegDate'
 				}
-			}); //ajax
-	})
-
-	const dataSource = {
-		api: {
-			readData: { url: '/api/readData/', method: 'GET' },
-			createData: { url: '/api/createData', method: 'POST' }
-		},
-		contentType: 'application/json',
-		headers: { 'x-custom-header': 'custom-header' },
-		serializer(params) {
-			return Qs.stringify(params);
-		}
-	}
-
-
-	const data = [
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2023.05.25',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2021.01.21',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2021.02.21',
-			vacEndDate:'2021.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2023.05.21',
-			vacEndDate:'2023.05.25',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		},
-		{
-			empName: '10012',
-			empDept: 'Seoul',
-			empGrade: 'Seoul',
-			vacType: 'Seoul',
-			vacStartDate: '2022.05.21',
-			vacEndDate:'2023.05.01',
-			vacRegDate: 'South Korea'
-		}
-	];
-
-	const grid = new tui.Grid({
-		el: document.getElementById('grid'),
-		data: data,
-		scrollX: true,
-		scrollY: true,
-		columns: [
-			{
-				header: '이름',
-				name: 'empName',
-				filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+			],
+			rowHeaders: ['rowNum'],
+			pageOptions: {
+				useClient: true,
+				perPage: 10
 			},
-			{
-				header: '부서',
-				name: 'empDept',
-				filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
-			},
-			{
-				header: '직급',
-				name: 'empGrade'
-			},
-			{
-				header: '휴가 유형',
-				name: 'vacType'
-			},
-			{
-				header: '휴가 시작일',
-				name: 'vacStartDate',
-				filter:{
-					showApplyBtn: true,
-					showClearBtn: true,
-					type: 'date',
-					options: {
-						format: 'yyyy.MM.dd'
-					},
-				}
 
-			},
-			{
-				header: '휴가 종료일',
-				name: 'vacEndDate',
-				filter:{
-					showApplyBtn: true,
-					showClearBtn: true,
-					type: 'date',
-					options: {
-						format: 'yyyy.MM.dd'
-					},
-				}
+		});
 
-			},
-			{
-				header: '신청 일자',
-				name: 'vacRegDate'
+	</script>
+	<script>
+		grid.on('click',function(ev) {
+			console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+			const vacationObj = grid.getFocusedCell(ev.rowKey);
+			const vacationId=vacationObj.rowKey
+			console.log(vacationObj.rowKey); //글본호
+			console.log(vacationId); //글본호
+			// 글번호를 사용하여 원하는 동작 수행
+			console.log('Clicked row with postId:', vacationId);
+
+			if(vacationId){
+				window.location.href= 'vacation-detail/'+vacationId;
 			}
-		],
-		rowHeaders: ['rowNum'],
-		pageOptions: {
-			useClient: true,
-			perPage: 10
-		}
-	});
+		})
+	</script>
 
-</script>
-<script>
-	grid.on('click',function(ev) {
-		console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
-		const vacationObj = grid.getFocusedCell(ev.rowKey);
-		const vacationId=vacationObj.rowKey
-		console.log(vacationObj.rowKey); //글본호
-		console.log(vacationId); //글본호
-		// 글번호를 사용하여 원하는 동작 수행
-		console.log('Clicked row with postId:', vacationId);
-
-		if(vacationId){
-			window.location.href= 'vacation-detail/'+vacationId;
-		}
-	})
-</script>
 <!— Google Tag Manager (noscript) —>
 <noscript
 ><iframe
