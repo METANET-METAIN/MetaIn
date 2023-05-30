@@ -104,7 +104,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.12</version> <!-- 버전을 4.12 이상으로 변경 -->
             <scope>test</scope>
         </dependency>
 

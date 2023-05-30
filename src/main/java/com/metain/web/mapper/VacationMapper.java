@@ -1,6 +1,7 @@
 package com.metain.web.mapper;
 
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.VacationListDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
@@ -22,8 +23,8 @@ public interface VacationMapper {
     public List<Vacation> selectListByPeriod();
     /**
      * 휴가 전체 조회
-     * */
-    public List<Vacation> selectAllList();
+     */
+    public List<VacationListDTO> selectAllList();
     /**
      * 나의 휴가 조회 ----->마이페이지로 가져가><
      * */
