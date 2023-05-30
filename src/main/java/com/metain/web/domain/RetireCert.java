@@ -12,6 +12,7 @@ import java.util.Date;
 public class RetireCert {
     private Long retireCertId;
     private Long empId;
+    private Long certSort;
     private Date certRegDate;
-    private String submit;
+    private String useOfCert;
 }
