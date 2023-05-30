@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+	<section id="wrap">
+	</section>
+		</th:block>
+<style>
+	.card-align {
+		position: absolute;
+		top: 75%;
+		left: 50%;
+		width: 700px;
+		transform: translate(-30%, -50%);
+	}
+/*	@media (max-width: 400px) {
+		.card-align {
+			width: 90%;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}*/
+</style>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
+<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+
+
+		<div class="mobile-menu-overlay"></div>
+		<div class="main-container" >
+			<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+					<div class="page-header">
+						<div class="row">
+							<div class="col-md-6 col-sm-12">
+								<div class="title">
+									<h4>휴가 상세 보기</h4>
+								</div>
+								<nav aria-label="breadcrumb" role="navigation">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="index">휴가 관리</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">
+											전체 목록
+										</li>
+									</ol>
+								</nav>
+							</div>
+							<div class="col-md-6 col-sm-12 text-right">
+							</div>
+						</div>
+					</div>
+					<div class="card-align">
+					<div class="pd-20 card-box mb-30">
+						<h4 class="h4 text-blue mb-10" > 휴가 상세 </h4>
+						<form>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">사원 정보 </label>
+								<div class="col-sm-12 col-md-7">
+									<input class="form-control" value="사원넨임" readonly type="text">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label"> 휴가 종류 </label>
+								<div class="col-sm-12 col-md-7">
+									<input class="form-control" value=" 연차 ex" readonly type="text">
+								</div>
+							</div>
+							<div class="form-group row" style="margin-bottom: 25px;">
+								<label class="col-sm-12 col-md-2 col-form-label" >휴가 기간 </label>
+								<div class="col-sm-12 col-md-3">
+									<input class="form-control date-picker" value="startDate" readonly type="text">
+								</div>
+								<p> ~ </p>
+								<div class="col-sm-12 col-md-3">
+									<input class="form-control date-picker" value="ecddate" readonly type="text">
+								</div>
+								<div class="col-sm-12 col-md-3">
+									총 n일 선택<p></p><i class="icon-copy fi-flag"></i> 남은 연차 : n 일
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label"> 사유 </label>
+								<div class="col-sm-12 col-md-7">
+									<input class="form-control" value="ex 개인사유" readonly type="text">
+								</div>
+							</div>
+
+
+							<div class="form-group row" style="height: 150px;">
+								<label class="col-sm-12 col-md-2 col-form-label"> 결재라인 </label>
+								<div class="col-sm-10 col-md-2">
+									<div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
+										<img src="/vendors/images/photo1.jpg"
+											 style="width: 100px; height: 100px;"
+										/>
+									</div>
+									<h5 class="text-center h5 mb-0">사원넴</h5>
+									<p class="text-center text-muted font-14">
+										empDept
+									</p>
+								</div>`
+								<div class="col-sm-5 col-md-3" style="display: flex">
+
+									<img src="/vendors/images/001.jpg"
+										 style="width: 180px;"
+									/>
+								</div>
+
+								<div class="col-sm-12 col-md-2">
+									<div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
+										<img src="/vendors/images/photo1.jpg"
+											 style="width: 100px; height: 100px;"
+										/>
+									</div>
+									<h5 class="text-center h5 mb-0">관리자</h5>
+									<p class="text-center text-muted font-14">
+										empDept
+									</p>
+								</div>
+							</div>
+							<div class="form-group row" style="display: flex; justify-content: space-evenly; align-items: center;">
+								<button class="btn btn-primary" onclick="goBack()" style="width: 80%;">뒤로가기</button>
+							</div>
+
+
+						</form>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- welcome modal start -->
+
+		<!-- welcome modal end -->
+		<!-- js --><!--
+		<script src="vendors/scripts/core.js"></script>
+		<script src="vendors/scripts/script.min.js"></script>
+		<script src="vendors/scripts/process.js"></script>
+		<script src="vendors/scripts/layout-settings.js"></script>-->
+
+
+		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+		<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
+		<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+
+		<script>
+			const dataSource = {
+			api: {
+				readData: { url: '/api/readData/', method: 'GET' },
+				createData: { url: '/api/createData', method: 'POST' }
+			},
+			contentType: 'application/json',
+			headers: { 'x-custom-header': 'custom-header' },
+			serializer(params) {
+				return Qs.stringify(params);
+			}
+		}
+
+		</script>
+<!-- Google Tag Manager (noscript) -->
+		<noscript
+			><iframe
+				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+				height="0"
+				width="0"
+				style="display: none; visibility: hidden"
+			></iframe
+		></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+	</body>
+</html>
