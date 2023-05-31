@@ -15,7 +15,12 @@ public class HomeController {
     }
 
     @GetMapping("/hr/{newEmp}")
-    public String goPage(@PathVariable String newEmp) {
+    public String goPageHr(@PathVariable String newEmp) {
         return "/hr/" + newEmp;
+    }
+
+    @GetMapping("/my/{mypage}")
+    public String goPageMy(@PathVariable String mypage) {
+        return "/mypage/" + mypage;
     }
 }
