@@ -71,7 +71,7 @@
                     class="btn btn-primary btn-sm"
                     rel="content-y"
                     role="button"
-                    onClick="window.print()"
+                    onclick="printDiv()"
             ><i class="icon-copy bi bi-download"></i>
               인쇄</a
             ></td>
@@ -141,7 +141,135 @@
   </div>
 </div>
 
+          <!-- 인쇄할 문서 부분: 출력 X -->
+          <div class="print-only" id="targetDiv" style="display: none">
+            <div class="invoice-box">
+              <div class="invoice-header">
+                <div class="logo text-center">
+                  <div class="col font-12 text-left">제 A01-20230529-01 호</div>
+                  <div class="row pb-30"></div>
+                </div>
+              </div>
+              <h4 class="text-center mb-30 weight-600">재직증명서</h4>
+              <div class="row pb-30">
+              </div>
+
+              <div class="invoice-desc pb-30">
+
+                <div class="invoice-desc-body">
+
+                  <table class="table table-bordered text-center">
+                    <tbody>
+                    <tr>
+                      <td class="col-2 table-active">성명</td>
+                      <td class="col-4">홍길동</td>
+                      <td class="col-2 table-active">생년월일</td>
+                      <td>1991년 07월 12일</td>
+                    </tr>
+                    <tr>
+                      <td class="col-2 table-active">주소</td>
+                      <td colspan="3">서울 금천구 호서벤치타워</td>
+                    </tr>
+                    <tr>
+                      <td class="col-2 table-active">근무부서</td>
+                      <td class="col-4">개발 1팀</td>
+                      <td class="col-2 table-active">직위</td>
+                      <td>대리</td>
+                    </tr>
+                    <tr>
+                      <td class="col-2 table-active">재직기간</td>
+                      <td colspan="3">2020-05-02 - 2023-05-29</td>
+                    </tr>
+                    <tr>
+                      <td class="col-2 table-active">사용용도</td>
+                      <td colspan="3">금융기관 제출용</td>
+                    </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="row pb-30" style="height: 60px;"></div>
+                  <div class="col-12 text-center"> 상기와 같이 재직 중임을 증명합니다 </div>
+                  <div class="row pb-30" style="height: 20px;"></div>
+                  <div class="col-12 text-center"> 2023년 05월 29일 </div>
+
+                  <div class="row pb-30" style="height: 100px;"></div>
+
+                  <!-- <div class="row">
+                      <div class="col-6 text-right"> 사용 용도:  </div>
+                      <div class="col-6 text-left"> 금융기관 제출</div>
+                  </div> -->
+
+
+                  <div class="row pb-30" style="height: 150px;"></div>
+
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-3 text-center"> 주소: </div>
+                    <div class="col-6 text-left">  서울 금천구 호서대벤치타워 </div>
+
+                  </div>
+                  <div class="row pb-30" style="height: 10px;"></div>
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-3 text-center"> 회사명: </div>
+                    <div class="col-3 text-left">  메타인컴퍼니(주) </div>
+                    <div class="col-3"></div>
+                  </div>
+                  <div class="row pb-30" style="height: 10px;"></div>
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-3 text-center"> 대표이사: </div>
+                    <div class="col-3 text-left">  홍길동 </div>
+                    <div style="position: relative;">
+                      <div class="col-3 text-left" >(인)</div>
+                      <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120" >
+                    </div>
+
+                  </div>
+
+                  <div class="row pb-30" style="height: 30px;"></div>
+
+                </div>
+
+
+              </div>
+
+              <div class="invoice-desc-footer">
+                <div class="invoice-desc-body">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
 <!-- js -->
+<script>
+  function printDiv() {
+    var printContent = document.getElementById("targetDiv").innerHTML;
+    var printWindow = window.open('', '_blank');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+
+    printWindow.document.write('<link rel="stylesheet" href="/src/plugins/bootstrap/bootstrap.css">');
+    printWindow.document.write('<link rel="stylesheet" href="/src/plugins/datatables/css/dataTables.bootstrap4.min.css"/>');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/vendors/styles/style.css" />');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/src/plugins/datatables/css/responsive.bootstrap4.min.css"/>');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/vendors/styles/core.css" />');
+
+printWindow.document.write('<style>');
+    printWindow.document.write('/* 추가적인 스타일 정의 */');
+
+    printWindow.document.write('</style></head><body>');
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    printWindow.onload = function() {
+      printWindow.print();
+      printWindow.onafterprint = function() {
+        printWindow.close();
+  }}}
+</script>
 
 <script src="vendors/scripts/core.js"></script>
 <script src="vendors/scripts/script.min.js"></script>
