@@ -47,7 +47,7 @@ public class CertificationController {
     }
 
     @RequestMapping("/certification/retire-cert-apply")
-    public String reitreCertShow(){
+    public String retireCertShow(){
 
         return "/certification/retire-cert-apply";
     }
