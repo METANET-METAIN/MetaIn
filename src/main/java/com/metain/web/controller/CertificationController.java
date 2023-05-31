@@ -27,4 +27,20 @@ public class CertificationController {
         return "certification/my-cert-list";
     }
 
+
+    @RequestMapping("/certification/exper-cert-show")
+    public String experCertApply(){
+
+        return "/certification/exper-cert-show";
+    }
+
+    @RequestMapping("/certification/exper-cert-apply")
+    public String experCertShow(){
+
+        return "/certification/exper-cert-apply";
+    }
+
+
+
+
 }
