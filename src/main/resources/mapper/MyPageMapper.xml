@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.metain.web.mapper.MyPageMapper">
+
+    <select id="selectIssueAll" resultType="MyCertListDTO">
+        SELECT i.ISSUE_ID, i.ISSUE_STATUS
+        FROM TBL_CERT_ISSUE i;
+    </select>
+<!--    <select id="selectIssueAll" resultType="MyCertListDTO">-->
+<!--        SELECT i.ISSUE_ID, CERT_SORT, CREATE_GET_DATE-->
+<!--        FROM TBL_EMPLOYEE e JOIN TBL_CERT_ISSUE i-->
+<!--                                 ON e.EMP_ID=i.EMP_ID;-->
+<!--    </select>-->
+</mapper>
