@@ -67,60 +67,66 @@
       <form action="#">
 
         <div class="form-group">
-          <label>이름</label>
+          <label for="empName">이름</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empName"
                   placeholder="홍길동"
                   readonly
           />
         </div>
 
         <div class="form-group">
-          <label>생년월일</label>
+          <label for="empBirth">생년월일</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empBirth"
                   placeholder="1990-05-02"
                   readonly
           />
         </div>
 
         <div class="form-group">
-          <label>주소</label>
+          <label for="empAddr">주소</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empAddr"
                   placeholder="서울 금천구 호서대벤치타워"
                   readonly
           />
         </div>
 
         <div class="form-group">
-          <label>직위</label>
+          <label for="empGrade">직위</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empGrade"
                   placeholder="대리"
                   readonly
           />
         </div>
 
         <div class="form-group">
-          <label>근무 부서</label>
+          <label for="empDept">근무 부서</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empDept"
                   placeholder="개발 1팀"
                   readonly
           />
         </div>
 
         <div class="form-group">
-          <label>입사일자</label>
+          <label for="empFirstDt">입사일자</label>
           <input
                   class="form-control"
                   type="text"
+                  id="empFirstDt"
                   placeholder="2021-04-03"
                   readonly
           />
@@ -136,10 +142,10 @@
                         type="checkbox"
                         class="custom-control-input"
                         name="purposeOfUse"
-                        id="customCheck1"
+                        id="financialUse"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="customCheck1"
+                <label class="custom-control-label" for="financialUse"
                 >금융기관 제출</label
                 >
               </div>
@@ -148,10 +154,10 @@
                         type="checkbox"
                         class="custom-control-input"
                         name="purposeOfUse"
-                        id="customCheck2"
+                        id="govOffUse"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="customCheck2"
+                <label class="custom-control-label" for="govOffUse"
                 >관공서 제출</label
                 >
               </div>
@@ -160,10 +166,10 @@
                         type="checkbox"
                         class="custom-control-input"
                         name="purposeOfUse"
-                        id="customCheck3"
+                        id="schoolUse"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="customCheck3"
+                <label class="custom-control-label" for="schoolUse"
                 >학교 제출</label
                 >
               </div>
@@ -172,10 +178,10 @@
                         type="checkbox"
                         class="custom-control-input"
                         name="purposeOfUse"
-                        id="customCheck4"
+                        id="etcUse"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="customCheck4"
+                <label class="custom-control-label" for="etcUse"
                 >기타</label
                 >
               </div>
