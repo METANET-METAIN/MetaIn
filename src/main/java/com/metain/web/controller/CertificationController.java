@@ -40,6 +40,18 @@ public class CertificationController {
         return "/certification/exper-cert-apply";
     }
 
+    @RequestMapping("/certification/retire-cert-show")
+    public String retireCertApply(){
+
+        return "/certification/retire-cert-show";
+    }
+
+    @RequestMapping("/certification/retire-cert-apply")
+    public String reitreCertShow(){
+
+        return "/certification/retire-cert-apply";
+    }
+
 
 
 
