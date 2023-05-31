@@ -4,6 +4,7 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.Issue;
 import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.MyCertListDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface MyPageMapper {
 
     /**증명서 발급 내역 조회*/
 
-    public List<Issue> selectIssueAll(Long certId);
+    public List<MyCertListDTO> selectIssueAll();
 
 //    /**증명서 다운로드*/ 보류
 //    public int certDownload(Long issueId);

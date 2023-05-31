@@ -8,10 +8,6 @@
     </section>
 </th:block>
 
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
-<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 
 <div class="mobile-menu-overlay"></div>
 
@@ -32,6 +28,31 @@
                 <p>
                 <div id="grid" ></div>
                 </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 모달창 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">증명서 다운로드</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="col-form-label">증명서 다운로드</label>
+                        <button type="button"> 다운받기 </button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">수정</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
             </div>
         </div>
     </div>
@@ -59,71 +80,47 @@
 
 
 <!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
+<!--<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />-->
+<!--<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>-->
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-
-<script>
+<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
+<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+<script th:inline="javascript">
     //모달창 세팅
     const modalToggle = document.getElementById('exampleModal');
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 
-    const data = [
-        {
-            issueId: '10013',
-            empDept: '증명서 종류',
-            empGrade: '2023.05.02'
-
-        },
-        {
-            issueId: '10012',
-            empDept: '증명서 종류',
-            empGrade: '2023.05.02'
-        },
-        {
-            issueId: '10011',
-            empDept: '증명서 종류',
-            empGrade: '2023.05.02'
-        },
-        {
-            issueId: '10016',
-            empDept: '증명서 종류',
-            empGrade: '2023.05.02'
-        },
-        {
-            issueId: '10010',
-            empDept: '증명서 종류',
-            empGrade: '2023.05.02'
-        }
-    ];
-
-
+    const itemList = /*[[${issueList}]]*/ [];
+    console.log(itemList);
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: data,
-        bodyHeight: 500,
+        data: itemList,
+        scrollX: true,
+        scrollY: true,
         columns: [
             {
                 header: '증명서 번호',
                 name: 'issueId'
-            },
-            {  //증명서 어떻게 구분을 해야하는가..
-                header: '증명서 이름',
-                name: 'empDept',
-                filter: 'select'
+
             },
             {
-                header: '등록일자',
-                name: 'empGrade',
-                filter: {
-                    showApplyBtn: true,
-                    showClearBtn: true,
-                    type: 'date',
-                    options: {
-                        format: 'yyyy.MM.dd'
-                    }
+                header: '현황',
+                name: 'issueStatus',
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+
+            },
+            {
+                header: '다운로드',
+                formatter: function ({ value, row }){
+                    console.log(value)
+                    console.log(row)
+
+                    return '<a href="#" id="" class="grid-button"> 버튼 </a>';
                 }
             }
+
         ],
         rowHeaders: ['rowNum'],
         pageOptions: {
@@ -131,15 +128,19 @@
             perPage: 10
         }
 
-    });
 
-    //그리드 클릭 시 이벤트
+    });
+    // 그리드 클릭 시 이벤트
     grid.on('click', function (ev){
         console.log(ev);
         const row = grid.getRow(ev.rowKey);
         console.log(row);
-        document.getElementById('empCertId').value = row.empCertId;
+        document.getElementById('issueId').value = row.issueId;
+        myModal.show(myModal);
     })
+
+
+
 
 
 </script>
