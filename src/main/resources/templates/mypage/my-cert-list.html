@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<style>
+
+
+
+    .grid-button {
+        padding: 5px 25px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .grid-button:hover {
+        background-color: #0056b3;
+    }
+
+
+</style>
+
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
     <section id="wrap">
     </section>
 </th:block>
+
+
+
+
 
 
 <div class="mobile-menu-overlay"></div>
@@ -26,7 +55,7 @@
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 증명서 발급 내역 목록 </h4>
                 <p>
-                <div id="grid" ></div>
+                    <div id="grid" style="width: 100%; height: 300px;"></div>
                 </p>
             </div>
         </div>
@@ -34,29 +63,29 @@
 </div>
 
 <!-- 모달창 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">증명서 다운로드</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="col-form-label">증명서 다운로드</label>
-                        <button type="button"> 다운받기 </button>
-                    </div>
+<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h1 class="modal-title fs-5" id="exampleModalLabel">증명서 다운로드</h1>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label class="col-form-label">증명서 다운로드</label>-->
+<!--                        <button type="button"> 다운받기 </button>-->
+<!--                    </div>-->
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">수정</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-primary">수정</button>-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- buttons for Export datatable -->
 <script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -86,10 +115,12 @@
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+
 <script th:inline="javascript">
+
     //모달창 세팅
-    const modalToggle = document.getElementById('exampleModal');
-    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    // const modalToggle = document.getElementById('exampleModal');
+    // const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 
     const itemList = /*[[${issueList}]]*/ [];
     console.log(itemList);
@@ -102,23 +133,25 @@
         columns: [
             {
                 header: '증명서 번호',
-                name: 'issueId'
-
+                name: 'issueId',
+                align: 'center'// 텍스트 정렬 옵션
             },
             {
                 header: '현황',
                 name: 'issueStatus',
-                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                align: 'center'
 
             },
             {
                 header: '다운로드',
-                formatter: function ({ value, row }){
+                formatter: function ( value, row ){
                     console.log(value)
                     console.log(row)
 
-                    return '<a href="#" id="" class="grid-button"> 버튼 </a>';
-                }
+                    return '<button type="button" id="" class="grid-button"> 버튼 </button>';
+                },
+                align: 'center' // 가운데 정렬
             }
 
         ],
@@ -130,14 +163,19 @@
 
 
     });
+
     // 그리드 클릭 시 이벤트
     grid.on('click', function (ev){
         console.log(ev);
-        const row = grid.getRow(ev.rowKey);
-        console.log(row);
-        document.getElementById('issueId').value = row.issueId;
-        myModal.show(myModal);
-    })
+        const column = ev.data
+        // const row = grid.getRow(ev.rowKey);
+        if(column == '다운로드'){
+            const rowKey = ev.rowKey;
+            const row = grid.getRow(rowKey);
+            console.log(row);
+        }
+
+    });
 
 
 
