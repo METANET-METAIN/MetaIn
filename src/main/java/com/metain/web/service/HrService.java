@@ -21,4 +21,6 @@ public interface HrService {
 
     public Emp selectEmpInfo(Long empId);
 
+    //신입사원 승인
+    public int confirmNewEmp(List<NewEmp> newEmp);
 }

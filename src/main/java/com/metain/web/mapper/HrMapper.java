@@ -21,13 +21,13 @@ public interface HrMapper {
 
     /**신규 입사자 승인(삭제)
      * 이거 맞는지..*/
-    public int deleteNewEmp(Long NewEmpId);
+    public int deleteNewEmp(List<NewEmp> newEmp);
 
     /**신규입사자 전체보기*/
     public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int insertEmp(NewEmp newEmp);
+    public int confirmEmp(List<NewEmp> newEmp);
 
     /**사원 전체보기*/
     public List<Emp> empSelectAll();

@@ -53,6 +53,13 @@ public class HrController {
         return hrService.newEmpSelectAll();
     }
 
+    @PostMapping("/confirm-new-emp")
+    @ResponseBody
+    public int confirmNewEmp(@RequestBody List<NewEmp> newEmp) {
+        System.out.println(newEmp);
+        return hrService.confirmNewEmp(newEmp);
+    }
+
 
 
 
