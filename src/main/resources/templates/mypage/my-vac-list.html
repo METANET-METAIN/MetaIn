@@ -57,60 +57,20 @@
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 
 <script>
-    const data = [
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
 
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        }
-    ];
 
 
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: data,
+        // data: data,
+        scrollX: true,
+        scrollY: true,
         bodyHeight: 500,
         columns: [
             {
                 header: '휴가 번호',
-                name: 'vhisId'
+                name: 'vacId'
             },
             {
                 header: '휴가 유형',
@@ -166,6 +126,17 @@
         }
 
     });
+
+    //나의 휴가 리스트 불러오기
+    fetch('/mypage/my-vac')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (myVacData){
+            grid.resetData(myVacData);
+        })
+
+
 
 
 </script>

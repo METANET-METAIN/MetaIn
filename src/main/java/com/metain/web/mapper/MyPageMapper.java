@@ -1,10 +1,9 @@
 package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
-import com.metain.web.domain.Issue;
 import com.metain.web.domain.Notification;
-import com.metain.web.domain.Vacation;
 import com.metain.web.dto.MyCertListDTO;
+import com.metain.web.dto.MyVacDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface MyPageMapper {
     public int updateMyPage(Emp emp);
 
     /**휴가 신청 현황 조회*/
-    public List<Vacation> selectMyVacList(Long empId);
+    public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
 
 
     /**증명서 발급 내역 조회*/

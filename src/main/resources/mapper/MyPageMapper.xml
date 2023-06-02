@@ -11,4 +11,20 @@
 <!--        FROM TBL_EMPLOYEE e JOIN TBL_CERT_ISSUE i-->
 <!--                                 ON e.EMP_ID=i.EMP_ID;-->
 <!--    </select>-->
+
+
+    <select id="selectMyVacList" resultType="MyVacDTO">
+        SELECT
+            TE.EMP_ID,
+            TV.VAC_ID,
+            TV.VAC_TYPE,
+            TV.VAC_REG_DATE,
+            TV.VAC_START_DATE,
+            TV.VAC_END_DATE,
+            TV.VAC_STATUS
+        FROM TBL_EMPLOYEE TE
+                 JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
+        WHERE TE.EMP_ID = #{empId}
+
+    </select>
 </mapper>
