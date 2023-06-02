@@ -37,18 +37,18 @@
                 <div class="card-align">
                     <div class="pd-20 card-box mb-30">
                         <h4 class="h4 text-blue mb-10" > 신규 입사자 정보 </h4>
-                        <form>
+                        <form th:action="@{/hr/insert-new-emp}" method="post" id="insert-new-emp-form" onsubmit="return insertNewEmp()">
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">사원 이름</label>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="newName" type="text" id="newName">
+                                    <input class="form-control" value="" type="text" th:name="newName" id="newName" >
                                     <p id="checkNameMessage"></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="newPhone" type="text" id="newPhone">
+                                    <input class="form-control" value="" type="text" th:name="newPhone" id="newPhone">
                                     <p id="checkPhoneMessage"></p>
                                 </div>
                             </div>
@@ -56,16 +56,18 @@
                                 <label class="col-sm-12 col-md-2 col-form-label">주소</label>
                             <div class="form-row">
                                 <div class="form-group col-md-2">
-                                    <label for="sample6_postcode">우편번호</label>
-                                    <input type="text" class="form-control" id="sample6_postcode">
+                                    <label for="newZipcode">우편번호</label>
+                                    <input type="text" class="form-control"  th:name="newZipcode" id="newZipcode" readonly>
+                                    <p id="checkZipMessage"></p>
                                 </div>
                                 <div class="form-group col-md-8">
-                                    <label for="sample6_address">주소</label>
-                                    <input type="text" class="form-control" id="sample6_address">
+                                    <label for="newAddr">주소</label>
+                                    <input type="text" class="form-control" th:name="newAddr" id="newAddr" readonly>
+                                    <p id="checkAddrMessage"></p>
                                 </div>
                                 <div class="form-group col-md-9">
-                                    <label for="sample6_detailAddress">상세 주소</label>
-                                    <input type="text" class="form-control" id="sample6_detailAddress">
+                                    <label for="newDetailAddr">상세 주소</label>
+                                    <input type="text" class="form-control" th:name="newDetailAddr" id="newDetailAddr">
                                 </div>
                                 <div style="text-align : right; margin-top: 4%;">
                                    <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
@@ -75,23 +77,25 @@
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">이메일</label>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="newEmail" type="email" id="newEmail">
+                                    <input class="form-control" value="" type="email" th:name="newEmail" id="newEmail">
                                     <p id="checkEmailMessage"></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">지원 직무</label>
                                 <div class="form-group col-md-4">
-                                    <select id="newGrade" class="form-control">
-                                        <option selected>개발 1팀</option>
-                                        <option>개발 2팀</option>
-                                        <option>개발 2팀</option>
-                                        <option>인사팀</option>
+                                    <select id="newDept" th:name="newDept" class="form-control">
+                                        <option selected value="개발 1팀">개발 1팀</option>
+                                        <option value="개발 2팀">개발 2팀</option>
+                                        <option value="개발 3팀">개발 2팀</option>
+                                        <option value="인사팀">인사팀</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="checkList()">추가</button>
+                                <button class="btn btn-primary">
+                                    <div class="insert">추가</div>
+                                </button>
                                 <button type="button" class="btn btn-secondary" onclick="goBack()">뒤로가기</button>
                             </div>
                         </form>
@@ -111,31 +115,160 @@
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
 
-    <!-- 유효성검사 -->
-    function checkList() {
-        const newPhone = document.getElementById( "newPhone" ).value;
-        const newName = document.getElementById( "newName" ).value;
-        const newEmail = document.getElementById( "newEmail" ).value;
-
-        if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( newPhone ) ) {
-            document.getElementById( "checkPhoneMessage" ).innerText = " ";
-            return true;
+<script th:inline="javascript">
+    document.getElementById("newName").addEventListener('input',function(){
+        let newName = document.getElementById("newName").value.length;
+        if (newName <= 0) {
+            document.getElementById("checkNameMessage").innerText = "이름을 입력해주세요";
+            return false;
         } else {
-            document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+            document.getElementById("checkNameMessage").innerText = " ";
+        }
+    })
+
+    document.getElementById("newPhone").addEventListener('input',function(){
+        let newPhone = document.getElementById("newPhone").value;
+        if (newPhone.length <= 0) {
+            document.getElementById("checkPhoneMessage").innerText = "연락처를 입력해주세요";
+            return false;
+        } else if(/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(newPhone)) {
+            document.getElementById("checkPhoneMessage").innerText = " ";
+        } else {
+            document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+
+
+        }
+    })
+
+    document.getElementById("newEmail").addEventListener('input',function(){
+        let newEmail = document.getElementById("newEmail").value.length;
+        if (newEmail <= 0) {
+            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkEmailMessage").innerText = " ";
+        }
+    })
+
+    document.getElementById("newAddr").addEventListener('input',function(){
+        let newAddr = document.getElementById("newAddr").value.length;
+        if (newAddr <= 0) {
+            document.getElementById("checkAddrMessage").innerText = "주소를 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkAddrMessage").innerText = " ";
+        }
+    })
+
+    document.getElementById("newZipcode").addEventListener('input',function(){
+        let newZipcode = document.getElementById("newZipcode").value.length;
+        if (newZipcode <= 0) {
+            document.getElementById("checkZipMessage").innerText = "우편번호를 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkZipMessage").innerText = " ";
+        }
+    })
+
+
+
+    // 유효성 검사
+    function insertNewEmp() {
+
+        let newPhone = document.getElementById("newPhone").value;
+        let newName = document.getElementById("newName").value;
+        let newEmail = document.getElementById("newEmail").value;
+        let newAddr = document.getElementById("newAddr").value;
+        let newZipcode = document.getElementById("newZipcode").value;
+
+
+        if (newName == null || newName.trim() == "") {
+            document.getElementById("newName").focus();
+            document.getElementById("checkNameMessage").innerText = "이름을 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkNameMessage").innerText = " ";
         }
 
-        if(newName === null || newName === ""){
-            document.getElementById( "checkNameMessage" ).innerText = "이름을 입력해주세요";
-        } else
-        document.getElementById( "checkNameMessage" ).innerText = " ";
 
-        if(newEmail === null || newEmail === ""){
-            document.getElementById( "checkEmailMessage" ).innerText = "이메일을 입력해주세요";
+        if (newPhone === null || newPhone.trim() === "") {
+            document.getElementById("newPhone").focus();
+            document.getElementById("checkPhoneMessage").innerText = "연락처를 입력해주세요"
+            return false;
+        } else if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(newPhone)) {
+            document.getElementById("checkPhoneMessage").innerText = " ";
+        } else {
+            document.getElementById("newPhone").focus();
+            document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+            return false;
         }
-        document.getElementById( "checkEmailMessage" ).innerText = " ";
-    }
+
+        if (newAddr === null || newAddr.trim() === "") {
+            document.getElementById("newAddr").focus();
+            document.getElementById("checkAddrMessage").innerText = "주소를 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkAddrMessage").innerText = " ";
+        }
+
+
+        if (newZipcode === null || newZipcode.trim() === "") {
+            document.getElementById("newZipcode").focus();
+            document.getElementById("checkZipMessage").innerText = "우편번호를 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkZipMessage").innerText = " ";
+        }
+
+
+        if (newEmail === null || newEmail.trim() === "") {
+            document.getElementById("newEmail").focus();
+            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkEmailMessage").innerText = " ";
+        }
+
+        // document.getElementById('insert-new-emp-form').submit();
+    };
+
+
+</script>
+
+
+<script th:inline="javascript">
+
+//    /*<![CDATA[*/
+//
+//    <!-- 유효성검사 -->
+//    document.querySelector(".insert").addEventListener("click", function(event){
+//        event.preventDefault();
+//
+//
+//        const newPhone = document.getElementById( "newPhone" ).value;
+//        const newName = document.getElementById( "newName" ).value;
+//        const newEmail = document.getElementById( "newEmail" ).value;
+//
+//        if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( newPhone ) ) {
+//            document.getElementById( "checkPhoneMessage" ).innerText = " ";
+//            return true;
+//        } else {
+//            document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+//        }
+//
+//        if(newName === null || newName === ""){
+//            document.getElementById( "checkNameMessage" ).innerText = "이름을 입력해주세요";
+//        } else
+//        document.getElementById( "checkNameMessage" ).innerText = " ";
+//
+//
+//        if(newEmail === null || newEmail === ""){
+//            document.getElementById( "checkEmailMessage" ).innerText = "이메일을 입력해주세요";
+//        }
+//        document.getElementById( "checkEmailMessage" ).innerText = " ";
+//        return true;
+//    })
 
     function sample6_execDaumPostcode() {
         new daum.Postcode({
@@ -145,10 +278,10 @@
 
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = data.address;
+                document.getElementById('newZipcode').value = data.zonecode;
+                document.getElementById("newAddr").value = data.address;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+                document.getElementById("newDetailAddr").focus();
             }
         }).open();
     }
@@ -157,33 +290,33 @@
 
 
 
+    //
+    // <!--  modal  -->
+    // const modalToggle = document.getElementById('exampleModal');
+    // const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    //
+    // <!-- modal js code -->
+    // function openModalToPwd() {
+    //     const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    //     if (!modal._isShown) {
+    //         modal.show();
+    //     }
+    // }
+    //
+    // function closeModal() {
+    //     const modals = bootstrap.Modal.getInstance(document.getElementById('modal'));
+    //     for (let i = 0; i < modals.length; i++) {
+    //         const modal = bootstrap.Modal.getInstance(modals[i]);
+    //         modal.hide();
+    //     }
+    // }
 
-    <!--  modal  -->
-    const modalToggle = document.getElementById('exampleModal');
-    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-
-    <!-- modal js code -->
-    function openModalToPwd() {
-        const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-        if (!modal._isShown) {
-            modal.show();
-        }
-    }
-
-    function closeModal() {
-        const modals = bootstrap.Modal.getInstance(document.getElementById('modal'));
-        for (let i = 0; i < modals.length; i++) {
-            const modal = bootstrap.Modal.getInstance(modals[i]);
-            modal.hide();
-        }
-    }
-
-    $('input[type="submit"]').on('click', function (event) {
-        event.preventDefault(); // 기본 제출 동작 방지
-        swal('휴가가 신청되었습니다.').then(function () {
-            window.location.href = 'vacation-list';
-        });
-    });
+    // $('input[type="submit"]').on('click', function (event) {
+    //     event.preventDefault(); // 기본 제출 동작 방지
+    //     swal('휴가가 신청되었습니다.').then(function () {
+    //         window.location.href = 'vacation-list';
+    //     });
+    // });
 </script>
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
