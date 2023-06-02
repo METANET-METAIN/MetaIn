@@ -9,6 +9,8 @@ public class NewEmp {
     private String newIdnum;
     private String newPhone;
     private String newAddr;
+    private String newZipcode;
+    private String newDetailAddr;
     private String newEmail;
     private String newDept;
 }
