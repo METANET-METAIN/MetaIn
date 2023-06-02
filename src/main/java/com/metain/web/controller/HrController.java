@@ -1,13 +1,13 @@
 package com.metain.web.controller;
 
+import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.service.HrService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +36,16 @@ public class HrController {
 //        return "hr/new-emp-list";
 //    }
 
+
+    //신입사원 등록
+    @PostMapping("/insert-new-emp")
+    public String insertNewEmp(NewEmp newEmp){
+        System.out.println("신입사원 등록 :");
+        System.out.println(newEmp);
+        hrService.insertNewEmp(newEmp);
+        return "redirect:/hr/new-emp-list";
+    }
+
     @GetMapping("/new-list")
     @ResponseBody
     public List<NewEmpDTO> newEmpSelectAll(){
@@ -43,7 +53,8 @@ public class HrController {
         return hrService.newEmpSelectAll();
     }
 
-    //나머지도 다 dto로 함
+
+
 
 
 }

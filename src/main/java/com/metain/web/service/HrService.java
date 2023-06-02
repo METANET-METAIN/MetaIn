@@ -7,11 +7,18 @@ import com.metain.web.dto.NewEmpDTO;
 import java.util.List;
 
 public interface HrService {
+
+    //신입사원 등록
+    public int insertNewEmp(NewEmp newEmp);
+
+    //신입사원 목록
+    public List<NewEmpDTO> newEmpSelectAll();
+
+
     public List<Emp> empList();
 
     public int updateEmp(Emp emp);
 
-    public List<NewEmpDTO> newEmpSelectAll();
     public Emp selectEmpInfo(Long empId);
 
 }

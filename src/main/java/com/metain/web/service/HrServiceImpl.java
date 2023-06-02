@@ -1,6 +1,7 @@
 package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
+import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.mapper.HrMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,20 @@ public class HrServiceImpl implements HrService {
         return hrMapper.empSelectAll();
     }
 
+
+
+
     @Override
     public int updateEmp(Emp emp) {
         return 0;
     }
 
+
+    //신입 사원 등록
+    @Override
+    public int insertNewEmp(NewEmp newEmp) {
+        return hrMapper.insertNewEmp(newEmp);
+    }
 
     //전체 신입 사원 목록
     @Override
