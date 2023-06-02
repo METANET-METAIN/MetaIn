@@ -3,9 +3,13 @@
 <mapper namespace="com.metain.web.mapper.MyPageMapper">
 
     <select id="selectIssueAll" resultType="MyCertListDTO">
-        SELECT i.ISSUE_ID, i.ISSUE_STATUS
-        FROM TBL_CERT_ISSUE i;
+        SELECT TEC.EMP_CERT_ID, TEC.CERT_REG_DATE, TEC.USE_OF_CERT
+        FROM TBL_EMP_CERT TEC
+            JOIN TBL_EMPLOYEE TE ON TEC.EMP_ID = TE.EMP_ID
+        WHERE TE.EMP_ID = #{empId};
     </select>
+
+
 <!--    <select id="selectIssueAll" resultType="MyCertListDTO">-->
 <!--        SELECT i.ISSUE_ID, CERT_SORT, CREATE_GET_DATE-->
 <!--        FROM TBL_EMPLOYEE e JOIN TBL_CERT_ISSUE i-->

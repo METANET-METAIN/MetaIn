@@ -17,6 +17,8 @@ public class Emp {
     private String empIdnum;
     private String empPhone;
     private String empAddr;
+    private String empZipcode;
+    private String empDetailAddr;
     private String empEmail;
     private String empDept;
     private String empGrade;

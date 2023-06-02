@@ -70,12 +70,14 @@
         columns: [
             {
                 header: '휴가 번호',
-                name: 'vacId'
+                name: 'vacId',
+                align: 'center'
             },
             {
                 header: '휴가 유형',
                 name: 'vacType',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             },
             {
                 header: '휴가 시작일',
@@ -87,7 +89,8 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '휴가 종료일',
@@ -99,7 +102,8 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '신청일자',
@@ -111,12 +115,14 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '결재 현황',
                 name: 'vacStatus',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             }
         ],
         rowHeaders: ['rowNum'],
