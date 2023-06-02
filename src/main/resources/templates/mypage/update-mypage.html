@@ -105,22 +105,23 @@
               </div>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">주소</label>
-                <div class="form-row">
-                  <div class="form-group col-md-2">
-                    <label for="sample6_postcode">우편번호</label>
-                    <input type="text" class="form-control" id="sample6_postcode" readonly>
-                  </div>
+                <div class="form-row" style="margin-left: 1%;">
                   <div class="form-group col-md-8">
                     <label for="sample6_address">주소</label>
-                    <input type="text" class="form-control" id="sample6_address" readonly>
+                    <input type="text" class="form-control" id="sample6_address" readonly placeholder="주소">
                   </div>
-                  <div class="form-group col-md-9">
-                    <label for="sample6_detailAddress">상세 주소</label>
-                    <input type="text" class="form-control" id="sample6_detailAddress">
+                  <div class="form-group col-md-2">
+                    <label for="sample6_postcode">우편번호</label>
+                    <input type="text" class="form-control" id="sample6_postcode" readonly placeholder="우편번호">
                   </div>
                   <div style="text-align : right; margin-top: 4%;">
                     <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
                   </div>
+                  <div class="form-group col-md-9">
+                    <label for="sample6_detailAddress">상세 주소</label>
+                    <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세 주소">
+                  </div>
+
                 </div>
               </div>
 
@@ -152,7 +153,6 @@
 <!--                </div>-->
 
 
-              </div>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label"> 이메일 </label>
                 <div class="col-sm-12 col-md-7">
@@ -176,6 +176,8 @@
                 <button type="button" class="btn btn-secondary" onclick="goBack()">뒤로가기</button>
               </div>
             </form>
+        </div>
+        </div>
           </div>
         </div>
     </div>
@@ -271,7 +273,9 @@ function checkPwd(){
   //     modal.hide();
   //   }
   // }
-
+  function goBack() {
+    window.history.back();
+  }
 
 
 
