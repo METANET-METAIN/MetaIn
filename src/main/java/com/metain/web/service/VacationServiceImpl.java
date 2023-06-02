@@ -43,8 +43,14 @@ public class VacationServiceImpl implements VacationService{
     @Override
     public void approveVacationRequest(Long vacId) {
         int result =vacMapper.approveVacationRequest(vacId);
-        System.out.println("서비뜨"+result);
-        System.out.println("서비뜨 vacId"+vacId);
+
+        if(result==0) {
+            new Exception("에러");
+        }
+    }
+    @Override
+    public void rejectVacationRequest(Long vacId) {
+        int result =vacMapper.rejectVacationRequest(vacId);
         if(result==0) {
             new Exception("에러");
         }

@@ -15,4 +15,5 @@ public interface VacationService {
     List<VacationListDTO> requestList();
 
     public void approveVacationRequest(Long vacId);
+    public void rejectVacationRequest(Long vacId);
 }

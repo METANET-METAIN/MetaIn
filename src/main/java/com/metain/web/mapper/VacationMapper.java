@@ -36,7 +36,7 @@ public interface VacationMapper {
     /**
      * 휴가 거절-관리자
      * */
-    public void rejectVacationRequest(String vacStatus);
+    public int rejectVacationRequest(Long vacId);
     /**
      * 휴가 취소 - user
      * */

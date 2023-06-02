@@ -105,9 +105,14 @@ public class VacationController {
     @ResponseBody
     public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Long> requestData) {
         Long vacId = requestData.get("vacationId");
-        System.out.println("컨ㅌ에서"+vacId);
-        System.out.println("requestData"+requestData.get("vacationId"));
-        vacationService.approveVacationRequest(vacId);
+       vacationService.approveVacationRequest(vacId);
+        return ResponseEntity.ok("성공");
+    }
+    @PostMapping(value ="/rejectVacationRequest")
+    @ResponseBody
+    public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Long> requestData) {
+        Long vacId = requestData.get("vacationId");
+       vacationService.rejectVacationRequest(vacId);
         return ResponseEntity.ok("성공");
     }
 
