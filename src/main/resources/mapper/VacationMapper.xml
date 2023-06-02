@@ -25,6 +25,10 @@
         SET VAC_STATUS = '승인반려'
         WHERE VAC_ID = #{vacId}
     </update>
-
+    <update id="cancelVacationRequest" parameterType="Long">
+        UPDATE TBL_VACATION
+        SET VAC_STATUS = '승인취소'
+        WHERE VAC_ID = #{vacId} and EMP_ID=#{empId}
+    </update>
 
 </mapper>

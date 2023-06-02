@@ -125,7 +125,7 @@
 <!--                            <button class="btn btn-primary" onclick="goBack()" style="width: 80%;">뒤로가기</button>-->
 <!--                        </div>-->
                         <div class="form-group row" style="display: flex; justify-content: space-evenly; align-items: center;">
-                            <button class="btn btn-primary" onclick="" style="width: 30%;" >취소하기</button>
+                            <button class="btn btn-primary" onclick="cancelVacationRequest()" style="width: 30%;" >취소하기</button>
                             <button class="btn btn-secondary" onclick="goBack()" style="width: 30%;">뒤로가기</button>
                         </div>
 
@@ -143,17 +143,29 @@
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
-<script>
-    const dataSource = {
-        api: {
-            readData: { url: '/api/readData/', method: 'GET' },
-            createData: { url: '/api/createData', method: 'POST' }
-        },
-        contentType: 'application/json',
-        headers: { 'x-custom-header': 'custom-header' },
-        serializer(params) {
-            return Qs.stringify(params);
-        }
+    <script th:inline="javascript">
+        const vacationId = [[ ${vac.vacId} ]];
+        const vacStatus = [[ ${vac.vacStatus} ]];
+        const requestData = {
+            vacationId: vacationId,
+            empId:5, //수정
+            vacStatus:vacStatus
+    };
+        function cancelVacationRequest() {
+        //취소 아작스
+        $.ajax({
+            type: "POST",
+            url: "/mypage/cancelVacationRequest",
+            data:JSON.stringify(requestData),
+            dataType: 'text',
+            contentType: 'application/json;charset=utf-8',
+            success: function(response) {
+                window.location.pathname = "/mypage/my-vac-list";
+            },
+            error: function(error) {
+                console.log(JSON.stringify(error));
+            }
+        });//ajax
     }
 
 </script>

@@ -10,4 +10,5 @@ public interface MyPageService {
     List<MyCertListDTO> selectIssueAll();
 
     List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
+    List<MyVacDTO> myVacList(Long empId);
 }

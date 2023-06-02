@@ -16,4 +16,5 @@ public interface VacationService {
 
     public void approveVacationRequest(Long vacId);
     public void rejectVacationRequest(Long vacId);
+    public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 }

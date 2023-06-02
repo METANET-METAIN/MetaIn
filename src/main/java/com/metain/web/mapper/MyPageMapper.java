@@ -36,6 +36,5 @@ public interface MyPageMapper {
     public List<Notification> selectListNoti(Long notiId);
 
 
-
-
+    List<MyVacDTO> myVacList(Long empId);
 }

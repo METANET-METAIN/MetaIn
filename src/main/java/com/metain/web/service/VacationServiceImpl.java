@@ -55,4 +55,11 @@ public class VacationServiceImpl implements VacationService{
             new Exception("에러");
         }
     }
+
+    @Override
+    public void cancelVacationRequest(Long vacId, Long empId,String vacStatus) {
+        if(vacStatus.equals("승인대기")) {
+            int result = vacMapper.cancelVacationRequest(vacId, empId);
+        }
+    }
 }

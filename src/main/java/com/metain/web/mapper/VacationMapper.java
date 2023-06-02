@@ -25,22 +25,19 @@ public interface VacationMapper {
      * 휴가 전체 조회--0
      */
     public List<VacationListDTO> selectAllList();
+
     /**
-     * 나의 휴가 조회 ----->마이페이지로 가져가><
-     * */
-    public List<Vacation> selectMyList(Long empId);
-    /**
-     * 휴가 승인-관리자--0
+     * 휴가 승인-관리자--0 //시큐리티 이후 관리자 번호도 넣어야됨
      * */
     public int approveVacationRequest(Long vacId);
     /**
-     * 휴가 거절-관리자
+     * 휴가 거절-관리자 --0 //시큐리티 이후 관리자 번호도 넣어야됨
      * */
     public int rejectVacationRequest(Long vacId);
     /**
-     * 휴가 취소 - user
+     * 휴가 취소 - user --0
      * */
-    public void cancelVacationRequest(String vacStatus);
+    public int cancelVacationRequest(Long vacId, Long empId);
     /**
      * 휴가 알림
      * */
@@ -50,7 +47,7 @@ public interface VacationMapper {
      * */
     public Vacation vacDetail(Long vacId);
     /**
-     * 연차별로 휴가(1일) 부여하는 기능
+     * 연차별로 휴가(1일) 부여하는 기능 +연차 차감 이런것도 해야댐
      * */
     public int vacationCount(Date empFistDt);
     /**

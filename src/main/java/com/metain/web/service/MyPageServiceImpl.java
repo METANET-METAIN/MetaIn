@@ -31,4 +31,10 @@ public class MyPageServiceImpl implements MyPageService{
         }
         return list;
     }
+
+    @Override
+    public List<MyVacDTO> myVacList(Long empId) {
+        List<MyVacDTO> list =myPageMapper.myVacList(empId);
+        return list;
+    }
 }
