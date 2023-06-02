@@ -10,6 +10,7 @@ import java.sql.Date;
 @Setter
 
 public class VacationListDTO {
+    private Long vacId;
     private String empName;
     private String empDept;
     private String empGrade;
