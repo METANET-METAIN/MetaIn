@@ -7,6 +7,9 @@
         <select id="newEmpSelectAll" resultType="NewEmp">
             select * from TBL_NEW_EMPLOYEE
         </select>
+    <select id="selectEmpInfo" resultType="Emp">
+        select * from TBL_EMPLOYEE where EMP_ID=#{empId}
+    </select>
 
 
     </mapper>

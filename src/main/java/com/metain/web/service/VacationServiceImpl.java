@@ -5,9 +5,12 @@ import com.metain.web.dto.VacationListDTO;
 import com.metain.web.mapper.VacationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-@Controller
+@Service
+@Transactional
 public class VacationServiceImpl implements VacationService{
     @Autowired
     private VacationMapper vacMapper;
@@ -18,5 +21,32 @@ public class VacationServiceImpl implements VacationService{
             return null;
         }
             return list;
+    }
+
+    @Override
+    public Vacation vacationDetail(Long vacationId) {
+        Vacation dbVacation=vacMapper.vacDetail(vacationId);
+        if (dbVacation==null){
+            return null;
+        }
+        return dbVacation;}
+
+    @Override
+    public List<VacationListDTO> requestList() {
+        List<VacationListDTO> list = vacMapper.requestList();
+        if (list==null) {
+            return null;
+        }
+        return list;
+    }
+
+    @Override
+    public void approveVacationRequest(Long vacId) {
+        int result =vacMapper.approveVacationRequest(vacId);
+        System.out.println("서비뜨"+result);
+        System.out.println("서비뜨 vacId"+vacId);
+        if(result==0) {
+            new Exception("에러");
+        }
     }
 }

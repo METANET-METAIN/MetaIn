@@ -42,7 +42,7 @@ public interface HrMapper {
     public List<Emp> selectListByFistDt(String empFistDt);
 
     /**인사 정보 상세 조회*/
-    public List<Emp> selectEmpInfo(Long empId);
+    public Emp selectEmpInfo(Long empId);
 
     /**인사 정보 수정(직급, 부서, 재직상태)*/
     public int updateEmp(Emp emp);

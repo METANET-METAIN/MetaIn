@@ -2,8 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.metain.web.mapper.VacationMapper">
         <select id="selectAllList" resultType="VacationListDTO">
-            SELECT e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE
+            SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE
             FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
             ON e.EMP_ID=v.EMP_ID;
         </select>
-    </mapper>
+    <select id="vacDetail" resultType="Vacation">
+        SELECT * FROM TBL_VACATION WHERE VAC_ID=#{vacId};
+    </select>
+    <select id="requestList" resultType="VacationListDTO">
+        SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE
+        FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
+        ON e.EMP_ID=v.EMP_ID
+        WHERE vac_status='승인대기';
+    </select>
+    <update id="approveVacationRequest" parameterType="Long">
+        UPDATE TBL_VACATION
+        SET VAC_STATUS = '승인완료'
+        WHERE VAC_ID = #{vacId}
+    </update>
+    <update id="rejectVacationRequest" parameterType="Long">
+        UPDATE TBL_VACATION
+        SET VAC_STATUS = '승인반려'
+        WHERE VAC_ID = #{vacId}
+    </update>
+
+
+</mapper>

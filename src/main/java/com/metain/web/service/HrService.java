@@ -11,4 +11,6 @@ public interface HrService {
     public int updateEmp(Emp emp);
 
     public List<NewEmp> newEmpSelectAll();
+
+    public Emp selectEmpInfo(Long empId);
 }

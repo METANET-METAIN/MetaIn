@@ -25,4 +25,13 @@ public class HrServiceImpl implements HrService {
     public List<NewEmp> newEmpSelectAll() {
         return hrMapper.newEmpSelectAll();
     }
+
+    @Override
+    public Emp selectEmpInfo(Long empId) {
+        Emp dbEmp=hrMapper.selectEmpInfo(empId);
+        if (dbEmp==null){ //db에서 꺼내온  emp가 null이면 에러페이지 이동
+            return null;
+        }
+        return dbEmp;
+    }
 }

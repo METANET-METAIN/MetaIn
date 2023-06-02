@@ -22,7 +22,7 @@ public interface VacationMapper {
      * */
     public List<Vacation> selectListByPeriod();
     /**
-     * 휴가 전체 조회
+     * 휴가 전체 조회--0
      */
     public List<VacationListDTO> selectAllList();
     /**
@@ -30,9 +30,9 @@ public interface VacationMapper {
      * */
     public List<Vacation> selectMyList(Long empId);
     /**
-     * 휴가 승인-관리자
+     * 휴가 승인-관리자--0
      * */
-    public void approveVacationRequest(String vacStatus);
+    public int approveVacationRequest(Long vacId);
     /**
      * 휴가 거절-관리자
      * */
@@ -46,11 +46,16 @@ public interface VacationMapper {
      * */
     public void alarmVacation(String vacStatus);
     /**
-     * 휴가 디테일
+     * 휴가 디테일--0
      * */
     public Vacation vacDetail(Long vacId);
     /**
      * 연차별로 휴가(1일) 부여하는 기능
      * */
     public int vacationCount(Date empFistDt);
+    /**
+    * 요청된 휴가 목록--0
+    * */
+    public List<VacationListDTO> requestList();
+
 }

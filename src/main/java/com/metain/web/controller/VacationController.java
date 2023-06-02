@@ -1,25 +1,29 @@
 package com.metain.web.controller;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.util.DateUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("vacation/")
 public class VacationController {
     @Autowired
     private VacationService vacationService;
+    @Autowired
+    private HrService hrService;
     @RequestMapping("/vacation-list")
     public String vacationList(Model model) {
         List<VacationListDTO> list=vacationService.selectAllList();
@@ -39,27 +43,72 @@ public class VacationController {
     }
 
     @GetMapping("/vacation-detail/{vacationId}")
-    public String vacationDetail(@PathVariable("vacationId") Long vacationId) {
-        if (vacationId == null || vacationId.equals("")) {
+    public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model) {
+        if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
+        Vacation vac=vacationService.vacationDetail(vacationId);
+        System.out.println("어드민 넘"+vac.getAdmId());
+        //신청인 정보
+        Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+        //관리자 정보
+        Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+        //총 사용날짜 구하기
+        java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
+        java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
 
-        return "vacation/vacation-detail";
+        long diff = endDate.getTime() - startDate.getTime();
+        int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+        System.out.println(emp);
+        System.out.println(admin);
+        model.addAttribute("vac",vac);
+        model.addAttribute("emp",emp);
+        model.addAttribute("admin",admin);
+        model.addAttribute("diff",daysDiff);
+        return "/vacation/vacation-detail";
     }
 
     //요청 휴가 디테일
     @RequestMapping("/request-vacation/{vacationId}")
-    public String requestedVacation(@PathVariable("vacationId") Long vacationId){
-        if (vacationId == null || vacationId.equals("")) {
+    public String requestedVacation(@PathVariable("vacationId") Long vacationId, Model model){
+        if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
+        Vacation vac=vacationService.vacationDetail(vacationId);
+        System.out.println("어드민넘"+vac.getAdmId());
+        //신청인 정보
+        Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+        //관리자 정보
+        Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+        //총 사용날짜 구하기
+        java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
+        java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
+
+        long diff = endDate.getTime() - startDate.getTime();
+        int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+        //System.out.println(emp);
+        //System.out.println(admin);
+        model.addAttribute("vac",vac);
+        model.addAttribute("emp",emp);
+        model.addAttribute("admin",admin);
+        model.addAttribute("diff",daysDiff);
         return "/vacation/request-vacation";
     }
     //요청 휴가 목록
     @RequestMapping("/vacation-req-list")
-    public String requestedVacationList(){
-
+    public String requestedVacationList(Model model){
+        List<VacationListDTO> list = vacationService.requestList();
+        model.addAttribute("list",list);
         return "/vacation/vacation-req-list";
     }
-    
+    @PostMapping(value ="/approveVacationRequest")
+    @ResponseBody
+    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Long> requestData) {
+        Long vacId = requestData.get("vacationId");
+        System.out.println("컨ㅌ에서"+vacId);
+        System.out.println("requestData"+requestData.get("vacationId"));
+        vacationService.approveVacationRequest(vacId);
+        return ResponseEntity.ok("성공");
+    }
+
 }

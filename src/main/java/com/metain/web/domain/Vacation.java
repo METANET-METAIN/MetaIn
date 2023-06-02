@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class Vacation {
     private Date vacStartDate;
     private Date vacEndDate;
     private Long fileId;
-    private Long amdId; //팀관리자 번호
+    private Long admId; //팀관리자 번호
     private String vacResn;
     private String vacStatus; //승인상태
     private Date vacUpdat;
