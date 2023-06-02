@@ -2,6 +2,7 @@ package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface HrMapper {
     public int deleteNewEmp(Long NewEmpId);
 
     /**신규입사자 전체보기*/
-    public List<NewEmp> newEmpSelectAll();
+    public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
     public int insertEmp(NewEmp newEmp);

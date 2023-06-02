@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.metain.web.mapper.HrMapper">
+
+        <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
             select * from TBL_EMPLOYEE
         </select>
-        <select id="newEmpSelectAll" resultType="NewEmp">
-            select * from TBL_NEW_EMPLOYEE
+
+
+        <!--  전체 신입사원 목록  -->
+        <select id="newEmpSelectAll" resultType="NewEmpDTO">
+            select tne.NEW_ID, tne.NEW_NAME, tne.NEW_IDNUM, tne.NEW_PHONE, tne.NEW_ADDR, tne.NEW_EMAIL, tne.NEW_DEPT
+            from TBL_NEW_EMPLOYEE tne
         </select>
     <select id="selectEmpInfo" resultType="Emp">
         select * from TBL_EMPLOYEE where EMP_ID=#{empId}

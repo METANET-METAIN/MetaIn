@@ -2,6 +2,7 @@ package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.dto.NewEmpDTO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface HrService {
 
     public int updateEmp(Emp emp);
 
-    public List<NewEmp> newEmpSelectAll();
-
+    public List<NewEmpDTO> newEmpSelectAll();
     public Emp selectEmpInfo(Long empId);
+
 }

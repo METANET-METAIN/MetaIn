@@ -104,40 +104,54 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label"> 주소 </label>
-                <div class="col-sm-12 col-md-7">
-                  <input class="form-control" id="empAddr" value="empAddr" type="text">
-
-
-                </div>
-                <div style="text-align : right">
-                  <button type="button" id="addressUpdate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">변경하기</button>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                  <div class = "modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel2">주소 변경</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body" style="text-align: left;">
-                        <p><strong>주소 변경하기</strong></p>
-                        <input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호"  readonly>
-                        <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly><br>
-                        <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소">
-                        <div style="text-align : right">
-                          <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-                        </div>
-                        <hr>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">저장</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                      </div>
-                    </div>
+                <label class="col-sm-12 col-md-2 col-form-label">주소</label>
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                    <label for="sample6_postcode">우편번호</label>
+                    <input type="text" class="form-control" id="sample6_postcode" readonly>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="sample6_address">주소</label>
+                    <input type="text" class="form-control" id="sample6_address" readonly>
+                  </div>
+                  <div class="form-group col-md-9">
+                    <label for="sample6_detailAddress">상세 주소</label>
+                    <input type="text" class="form-control" id="sample6_detailAddress">
+                  </div>
+                  <div style="text-align : right; margin-top: 4%;">
+                    <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
                   </div>
                 </div>
+              </div>
+
+
+                <!-- Modal -->
+<!--                <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
+<!--                  <div class = "modal-dialog modal-dialog-scrollable">-->
+<!--                    <div class="modal-content">-->
+<!--                      <div class="modal-header">-->
+<!--                        <h1 class="modal-title fs-5" id="exampleModalLabel2">주소 변경</h1>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                      </div>-->
+<!--                      <div class="modal-body" style="text-align: left;">-->
+<!--                        <p><strong>주소 변경하기</strong></p>-->
+<!--                        <input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호"  readonly>-->
+<!--                        <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly><br>-->
+<!--                        <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소">-->
+<!--                        <div style="text-align : right">-->
+<!--                          <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>-->
+<!--                        </div>-->
+<!--                        <hr>-->
+<!--                      </div>-->
+<!--                      <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-primary">저장</button>-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+
               </div>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label"> 이메일 </label>
