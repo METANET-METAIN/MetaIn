@@ -40,6 +40,7 @@
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 신입 사원 목록 </h4>
                 <p>
+                    <button id="confirmNewEmp">승인</button>
                 <div id="grid" ></div>
                 </p>
             </div>
@@ -158,6 +159,7 @@
         //data: newEmpList,
         scrollX: true,
         scrollY: true,
+        rowHeaders: ['checkbox'],
         columns: [
             {
                 header: '신입사원 번호',
@@ -202,7 +204,6 @@
             //     filter: ''
             // }
         ],
-        rowHeaders: ['rowNum'],
         pageOptions: {
             useClient: true,
             perPage: 10
@@ -236,6 +237,39 @@
         .then(function(newEmpData){
             grid.resetData(newEmpData); //값 넣고 grid reset한다.
         })
+
+    // 신규직원 승인하는 이벤트
+    document.getElementById("confirmNewEmp").addEventListener('click',function(){
+        let newEmpChecked = grid.getCheckedRows(); // grid에서 체크시 체크한 항목 보여줌
+        console.log(newEmpChecked);
+        if(newEmpChecked.length == 0){
+            alert('승인대상을 선택해주세요.');
+            return false;
+        }else{
+            let result = confirm('승인하시겠습니까?'); //확인 true 취소 false
+            if(result){
+                fetch('/hr/confirm-new-emp',{
+                    method : 'POST',
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body : JSON.stringify(newEmpChecked)
+                })
+                    .then(function(res){
+                        return res.json();
+                    })
+                    .then(function(confirmResult){
+                        if(confirmResult){
+                            alert('승인을 완료하였습니다.');
+                            location.reload();
+                        }else{
+                            alert('승인을 실패하였습니다.');
+                        }
+                    });
+                return false; // 이벤트 핸들러 종료
+            }
+        }
+    })
 
 </script>
 
