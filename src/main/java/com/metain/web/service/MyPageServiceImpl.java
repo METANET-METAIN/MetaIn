@@ -1,6 +1,7 @@
 package com.metain.web.service;
 
 import com.metain.web.dto.MyCertListDTO;
+import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.MyPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,14 @@ public class MyPageServiceImpl implements MyPageService{
         }
         return list;
 
+    }
+
+    @Override
+    public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
+        List<MyVacDTO> list = myPageMapper.selectMyVacList(myVacDTO);
+        if(list == null){
+            return null;
+        }
+        return list;
     }
 }
