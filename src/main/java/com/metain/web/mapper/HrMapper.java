@@ -30,7 +30,7 @@ public interface HrMapper {
     public int confirmEmp(List<NewEmp> newEmp);
 
     /**사원 전체보기*/
-    public List<Emp> empSelectAll();
+    public List<Emp> selectAll();
 
     /**부서별 사원 조회*/
     public List<Emp> selectListByDept(String empDept);

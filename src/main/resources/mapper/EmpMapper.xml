@@ -16,8 +16,8 @@
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            SELECT *
-            FROM TBL_EMPLOYEE
+            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME
+            FROM TBL_EMPLOYEE TE
         </select>
 
         <!--   사원 정보 상세 보기   -->

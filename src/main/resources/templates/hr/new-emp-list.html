@@ -259,7 +259,7 @@
                         return res.json();
                     })
                     .then(function(confirmResult){
-                        if(confirmResult){
+                        if(confirmResult>=1){
                             alert('승인을 완료하였습니다.');
                             location.reload();
                         }else{

@@ -33,11 +33,6 @@
     </section>
 </th:block>
 
-
-
-
-
-
 <div class="mobile-menu-overlay"></div>
 
 <div class="main-container" >
@@ -55,37 +50,24 @@
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 증명서 발급 내역 목록 </h4>
                 <p>
-                    <div id="grid" style="width: 100%; height: 300px;"></div>
+                    <div id="gridEmp" style="width: 100%; height: 300px;"></div>
+                </p>
+            </div>
+            <div class="pd-20 card-box mb-30" >
+                <h4 class="h4 text-blue mb-10" > 증명서 발급 내역 목록 </h4>
+                <p>
+                    <div id="gridExp" style="width: 100%; height: 300px;"></div>
+                </p>
+            </div>
+            <div class="pd-20 card-box mb-30" >
+                <h4 class="h4 text-blue mb-10" > 증명서 발급 내역 목록 </h4>
+                <p>
+                    <div id="gridRet" style="width: 100%; height: 300px;"></div>
                 </p>
             </div>
         </div>
     </div>
 </div>
-
-<!-- 모달창 -->
-<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h1 class="modal-title fs-5" id="exampleModalLabel">증명서 다운로드</h1>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <form>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label class="col-form-label">증명서 다운로드</label>-->
-<!--                        <button type="button"> 다운받기 </button>-->
-<!--                    </div>-->
-
-<!--                </form>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-primary">수정</button>-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <!-- buttons for Export datatable -->
 <script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -125,8 +107,9 @@
     const itemList = /*[[${issueList}]]*/ [];
     console.log(itemList);
 
-    const grid = new tui.Grid({
-        el: document.getElementById('grid'),
+    function initializeGrid(gridId, data) {
+        new tui.Grid({
+        el: document.getElementById(gridId),
         data: itemList,
         scrollX: true,
         scrollY: true,

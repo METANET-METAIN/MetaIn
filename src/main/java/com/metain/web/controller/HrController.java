@@ -1,5 +1,6 @@
 package com.metain.web.controller;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.service.HrService;
@@ -20,12 +21,11 @@ public class HrController {
 
 
 
-    @RequestMapping("/emp-list")
+    @GetMapping("/emp-lists")
+    @ResponseBody
+    public List<Emp> selectAll(){
 
-    public String selectAll(Model model){
-//        List<Emp> empList = hrService.empList();
-//        model.addAttribute("list",empList);
-        return "hr/emp-list";
+        return hrService.selectAll();
     }
 
 //    @RequestMapping("/new-emp-list")

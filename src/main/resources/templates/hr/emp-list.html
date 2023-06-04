@@ -161,54 +161,10 @@
     const modalToggle = document.getElementById('exampleModal');
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 
-    const data = [
-        {
-            empId: '10013',
-            empDept: '개발 1팀',
-            empGrade: '사원',
-            empName: '홍길동',
-            empFistDt: '2023.05.02',
-            empStatus: '재직'
-        },
-        {
-            empId: '10012',
-            empDept: '개발 2팀',
-            empGrade: '팀장',
-            empName: '박길동',
-            empFistDt: '2023.01.12',
-            empStatus: '재직'
-        },
-        {
-            empId: '10011',
-            empDept: '개발 3팀',
-            empGrade: '사원',
-            empName: '나길동',
-            empFistDt: '2023.05.19',
-            empStatus: '재직'
-        },
-        {
-            empId: '10016',
-            empDept: '인사 관리',
-            empGrade: '사원',
-            empName: '김길동',
-            empFistDt: '2023.05.10',
-            empStatus: '재직'
-        },
-        {
-            empId: '10010',
-            empDept: '개발 1팀',
-            empGrade: '사원',
-            empName: '홍길동',
-            empFistDt: '2023.05.12',
-            empStatus: '퇴사'
-        }
-    ];
-
-
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: data,
+        // data: data,
         bodyHeight: 500,
         columns: [
             {
@@ -276,6 +232,14 @@
             myModal.show(myModal);
 
     })
+
+    fetch('/hr/emp-lists')
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(empData){
+            grid.resetData(empData);
+        })
 
 </script>
 

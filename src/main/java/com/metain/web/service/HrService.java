@@ -15,7 +15,7 @@ public interface HrService {
     public List<NewEmpDTO> newEmpSelectAll();
 
 
-    public List<Emp> empList();
+    public List<Emp> selectAll();
 
     public int updateEmp(Emp emp);
 
