@@ -2,6 +2,7 @@ package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,16 +21,16 @@ public interface HrMapper {
 
     /**신규 입사자 승인(삭제)
      * 이거 맞는지..*/
-    public int deleteNewEmp(Long NewEmpId);
+    public int deleteNewEmp(List<NewEmp> newEmp);
 
     /**신규입사자 전체보기*/
-    public List<NewEmp> newEmpSelectAll();
+    public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int insertEmp(NewEmp newEmp);
+    public int confirmEmp(List<NewEmp> newEmp);
 
     /**사원 전체보기*/
-    public List<Emp> empSelectAll();
+    public List<Emp> selectAll();
 
     /**부서별 사원 조회*/
     public List<Emp> selectListByDept(String empDept);
@@ -42,7 +43,7 @@ public interface HrMapper {
     public List<Emp> selectListByFistDt(String empFistDt);
 
     /**인사 정보 상세 조회*/
-    public List<Emp> selectEmpInfo(Long empId);
+    public Emp selectEmpInfo(Long empId);
 
     /**인사 정보 수정(직급, 부서, 재직상태)*/
     public int updateEmp(Emp emp);

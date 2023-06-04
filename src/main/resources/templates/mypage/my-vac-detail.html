@@ -35,15 +35,15 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="title">
-                            <h4>휴가 상세 보기</h4>
+                            <h4>휴가 신청 내역 상세 보기</h4>
                         </div>
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="/index">휴가 관리</a>
+                                    <a href="index">마이페이지</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    전체 목록
+                                    휴가 신청 내역 상세보기
                                 </li>
                             </ol>
                         </nav>
@@ -55,37 +55,36 @@
             <div class="card-align">
                 <div class="pd-20 card-box mb-30">
                     <h4 class="h4 text-blue mb-10" > 휴가 상세 </h4>
-                    <div>
+                    <form>
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">사원 정보 </label>
                             <div class="col-sm-12 col-md-7">
-                                <input class="form-control" th:value="${emp.empName}" readonly type="text">
+                                <input class="form-control" value="사원넨임" readonly type="text">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label"> 휴가 종류 </label>
                             <div class="col-sm-12 col-md-7">
-                                <input class="form-control" th:value="${vac.getVacType()}" readonly type="text">
+                                <input class="form-control" value=" 연차 ex" readonly type="text">
                             </div>
                         </div>
                         <div class="form-group row" style="margin-bottom: 25px;">
                             <label class="col-sm-12 col-md-2 col-form-label" >휴가 기간 </label>
                             <div class="col-sm-12 col-md-3">
-                                <input class="form-control date-picker" th:value="${vac.getVacStartDate()}" readonly>
+                                <input class="form-control date-picker" value="startDate" readonly type="text">
                             </div>
                             <p> ~ </p>
                             <div class="col-sm-12 col-md-3">
-                                <input class="form-control date-picker" th:value="${vac.getVacEndDate()}" readonly>
+                                <input class="form-control date-picker" value="ecddate" readonly type="text">
                             </div>
                             <div class="col-sm-12 col-md-3">
-                                총 <b><span th:text="${diff}"/> 일</b> 선택<br>
-                                <i class="icon-copy fi-flag"></i> 남은 연차 : <b><span th:text="${emp.getEmpVac() - diff}"/></b> 일
+                                총 n일 선택<p></p><i class="icon-copy fi-flag"></i> 남은 연차 : n 일
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label"> 사유 </label>
                             <div class="col-sm-12 col-md-7">
-                                <input class="form-control" th:value="${vac.getVacResn()}" readonly type="text">
+                                <input class="form-control" value="ex 개인사유" readonly type="text">
                             </div>
                         </div>
 
@@ -98,11 +97,11 @@
                                          style="width: 100px; height: 100px;"
                                     />
                                 </div>
-                                <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
-                                <p class="text-center text-muted font-14" >
-                                    <span th:text="${emp.getEmpDept()}"></span>
+                                <h5 class="text-center h5 mb-0">사원넴</h5>
+                                <p class="text-center text-muted font-14">
+                                    empDept
                                 </p>
-                            </div>
+                            </div>`
                             <div class="col-sm-5 col-md-3" style="display: flex">
 
                                 <img src="/vendors/images/001.jpg"
@@ -116,74 +115,57 @@
                                          style="width: 100px; height: 100px;"
                                     />
                                 </div>
-                                <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
-                                <p class="text-center text-muted font-14" >
-                                    <span th:text="${admin.getEmpDept()}"></span>
+                                <h5 class="text-center h5 mb-0">관리자</h5>
+                                <p class="text-center text-muted font-14">
+                                    empDept
                                 </p>
                             </div>
                         </div>
+<!--                        <div class="form-group row" style="display: flex; justify-content: space-evenly; align-items: center;">-->
+<!--                            <button class="btn btn-primary" onclick="goBack()" style="width: 80%;">뒤로가기</button>-->
+<!--                        </div>-->
                         <div class="form-group row" style="display: flex; justify-content: space-evenly; align-items: center;">
-                            <button class="btn btn-primary" style="width: 35%;" onclick="approveVacationRequest()">승인하기</button>
-                            <button class="btn btn-primary reject" style="width: 35%; border-color:#f56767; background-color: #f56767;" onclick="rejectVacationRequest()">반려하기</button>
-
+                            <button class="btn btn-primary" onclick="cancelVacationRequest()" style="width: 30%;" >취소하기</button>
+                            <button class="btn btn-secondary" onclick="goBack()" style="width: 30%;">뒤로가기</button>
                         </div>
 
-                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- welcome modal start -->
-
-<!-- welcome modal end -->
-<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
 
 
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
-<script th:inline="javascript">
-    const vacationId = [[ ${vac.vacId} ]];
-    const requestData = {
-        vacationId: vacationId
+
+    <script th:inline="javascript">
+        const vacationId = [[ ${vac.vacId} ]];
+        const vacStatus = [[ ${vac.vacStatus} ]];
+        const requestData = {
+            vacationId: vacationId,
+            empId:5, //수정
+            vacStatus:vacStatus
     };
-    function approveVacationRequest() {
-        //승인 아작스
+        function cancelVacationRequest() {
+        //취소 아작스
         $.ajax({
             type: "POST",
-            url: "/vacation/approveVacationRequest",
+            url: "/mypage/cancelVacationRequest",
             data:JSON.stringify(requestData),
             dataType: 'text',
             contentType: 'application/json;charset=utf-8',
             success: function(response) {
-                window.location.pathname = "/vacation/vacation-req-list";
+                window.location.pathname = "/mypage/my-vac-list";
             },
             error: function(error) {
                 console.log(JSON.stringify(error));
             }
         });//ajax
-    }
-    function rejectVacationRequest() {
-        //거절버튼 아작스
-        $.ajax({
-            type: "POST",
-            url: "/vacation/rejectVacationRequest",
-            data:JSON.stringify(requestData),
-            dataType: 'text',
-            contentType: 'application/json;charset=utf-8',
-            success: function(response) {
-                window.location.pathname = "/vacation/vacation-req-list";
-            },
-            error: function(error) {
-                console.log(JSON.stringify(error));
-            }
-        });
     }
 
 </script>

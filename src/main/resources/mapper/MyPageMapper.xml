@@ -3,12 +3,47 @@
 <mapper namespace="com.metain.web.mapper.MyPageMapper">
 
     <select id="selectIssueAll" resultType="MyCertListDTO">
-        SELECT i.ISSUE_ID, i.ISSUE_STATUS
-        FROM TBL_CERT_ISSUE i;
+        SELECT TEC.EMP_CERT_ID, TEC.CERT_REG_DATE, TEC.USE_OF_CERT
+        FROM TBL_EMP_CERT TEC
+            JOIN TBL_EMPLOYEE TE ON TEC.EMP_ID = TE.EMP_ID
+        WHERE TE.EMP_ID = #{empId};
     </select>
+
+
 <!--    <select id="selectIssueAll" resultType="MyCertListDTO">-->
 <!--        SELECT i.ISSUE_ID, CERT_SORT, CREATE_GET_DATE-->
 <!--        FROM TBL_EMPLOYEE e JOIN TBL_CERT_ISSUE i-->
 <!--                                 ON e.EMP_ID=i.EMP_ID;-->
 <!--    </select>-->
+
+
+    <select id="selectMyVacList" resultType="MyVacDTO">
+        SELECT
+            TE.EMP_ID,
+            TV.VAC_ID,
+            TV.VAC_TYPE,
+            TV.VAC_REG_DATE,
+            TV.VAC_START_DATE,
+            TV.VAC_END_DATE,
+            TV.VAC_STATUS
+        FROM TBL_EMPLOYEE TE
+                 JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
+        WHERE TE.EMP_ID = #{empId}
+
+    </select>
+
+    <select id="myVacList" resultType="MyVacDTO" parameterType="Long">
+        SELECT
+            TE.EMP_ID,
+            TV.VAC_ID,
+            TV.VAC_TYPE,
+            TV.VAC_REG_DATE,
+            TV.VAC_START_DATE,
+            TV.VAC_END_DATE,
+            TV.VAC_STATUS
+        FROM TBL_EMPLOYEE TE
+                 JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
+        WHERE TE.EMP_ID = #{empId}
+
+    </select>
 </mapper>

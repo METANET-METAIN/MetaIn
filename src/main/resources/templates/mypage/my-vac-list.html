@@ -52,70 +52,28 @@
 		<script src="vendors/scripts/layout-settings.js"></script>-->
 
 
-<!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 
 <script>
-    const data = [
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        },
-        {
-            vhisId: '10013',
-            vacType: '휴가유형',
-            vacStartDate: '2023.05.25',
-            vacEndDate:'2023.05.25',
-            vacRegDate: '2023.05.25',
-            vacStatus: '승인'
-        }
-    ];
-
-
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: data,
+        // data: data,
+        scrollX: true,
+        scrollY: true,
         bodyHeight: 500,
         columns: [
             {
                 header: '휴가 번호',
-                name: 'vhisId'
+                name: 'vacId',
+                align: 'center'
             },
             {
                 header: '휴가 유형',
                 name: 'vacType',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             },
             {
                 header: '휴가 시작일',
@@ -127,7 +85,8 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '휴가 종료일',
@@ -139,7 +98,8 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '신청일자',
@@ -151,12 +111,14 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
-                }
+                },
+                align: 'center'
             },
             {
                 header: '결재 현황',
                 name: 'vacStatus',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             }
         ],
         rowHeaders: ['rowNum'],
@@ -167,9 +129,28 @@
 
     });
 
-
+    //나의 휴가 리스트 불러오기
+    fetch('/mypage/my-vac')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (myVacData){
+            grid.resetData(myVacData);
+        })
 </script>
+<script th:inline="javascript">
+    const vacList= /*[[${vacList}]]*/ [];
+    grid.on('click',function(ev) {
+        console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+        const indexOfRow=grid.getIndexOfRow(ev.rowKey); //인덱스
+        //클릭한 인덱스의 vacId
+        const vacationId=vacList[indexOfRow].vacId;
 
+        if(vacationId){
+            window.location.href= 'my-vac-detail/'+vacationId;
+        }
+    })
+</script>
 
 <!-- Google Tag Manager (noscript) -->
 

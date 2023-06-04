@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class HomeController {
     @RequestMapping("/index")
@@ -19,7 +17,7 @@ public class HomeController {
         return "/hr/" + newEmp;
     }
 
-    @GetMapping("/my/{mypage}")
+    @GetMapping("/mypage/{mypage}")
     public String goPageMy(@PathVariable String mypage) {
         return "/mypage/" + mypage;
     }

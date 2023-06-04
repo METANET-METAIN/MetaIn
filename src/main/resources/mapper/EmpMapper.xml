@@ -1,12 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.metain.web.mapper.HrMapper">
+
+        <!--  신규 사원 등록  -->
+        <insert id="insertNewEmp" parameterType="com.metain.web.domain.NewEmp">
+            INSERT INTO TBL_NEW_EMPLOYEE (NEW_NAME, NEW_PHONE, NEW_ADDR, NEW_ZIPCODE, NEW_DETAIL_ADDR, NEW_EMAIL, NEW_DEPT)
+            VALUES (#{newName}, #{newPhone}, #{newAddr}, #{newZipcode}, #{newDetailAddr}, #{newEmail}, #{newDept})
+        </insert>
+
+        <!--  신입 사원 전체 목록  -->
+        <select id="newEmpSelectAll" resultType="NewEmpDTO">
+            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_IDNUM, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT
+            FROM TBL_NEW_EMPLOYEE TNE
+        </select>
+
+        <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            select * from TBL_EMPLOYEE
-        </select>
-        <select id="newEmpSelectAll" resultType="NewEmp">
-            select * from TBL_NEW_EMPLOYEE
+            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME
+            FROM TBL_EMPLOYEE TE
         </select>
 
+        <!--   사원 정보 상세 보기   -->
+        <select id="selectEmpInfo" resultType="Emp">
+            SELECT *
+            FROM TBL_EMPLOYEE
+            WHERE EMP_ID=#{empId}
+        </select>
+        <!-- 신규직원 승인(신규직원 테이블에서 정보 삭제)-->
+        <delete id="deleteNewEmp" parameterType="NewEmp">
+            <foreach collection="newEmp" item="newEmpList" separator=";">
+                DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID =#{newEmpList.newId}
+            </foreach>
+        </delete>
+        <!--신규직원 승인(직원테이블에 정보 생성)-->
+        <insert id="confirmEmp" parameterType="NewEmp">
 
+                INSERT INTO TBL_EMPLOYEE
+                    (
+                     EMP_NAME, EMP_IDNUM, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
+                     EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT
+                     )
+                VALUES
+            <foreach collection="newEmp" item="newEmpList" separator=",">
+               (
+                #{newEmpList.newName},#{newEmpList.newIdnum},#{newEmpList.newPhone},
+                #{newEmpList.newAddr},#{newEmpList.newZipcode},#{newEmpList.newDetailAddr},
+                #{newEmpList.newEmail},#{newEmpList.newDept},DATE_FORMAT(NOW(),'%Y%m%d')
+                )
+            </foreach>
+        </insert>
     </mapper>
