@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="" class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
@@ -30,16 +30,7 @@
             </nav>
           </div>
           <div class="col-md-6 col-sm-12 text-right">
-<!--            <div class="applybutton">-->
-<!--              <a-->
-<!--                      class="btn btn-primary apply"-->
-<!--                      href="emp-cert-complete"-->
-<!--                      role="button"-->
-<!--              >-->
-<!--                완료-->
-<!--              </a>-->
 
-<!--            </div>-->
           </div>
         </div>
       </div>
@@ -63,17 +54,20 @@
                 ><i class="fa fa-code"></i> Source Code</a
             >
         </div> -->
-      </div>
-      <form action="#">
 
+
+        <!--   th:object="${Emp}" -->
+      </div>
+      <form th:if="${empInfoList != null}" th:action="CertificationController" method="post">
+<!--        <div th:each="emp : ${empInfoList}"> </div>-->
         <div class="form-group">
           <label for="certSort">증명서 종류</label>
           <input
                   class="form-control"
                   type="text"
                   id="certSort"
+                  name="certSort"
                   value="A01"
-                  placeholder="재직증명서"
                   readonly
           />
         </div>
@@ -84,7 +78,8 @@
                   class="form-control"
                   type="text"
                   id="empName"
-                  placeholder="홍길동"
+                  name="empName"
+                  th:value="${empInfoList.empName}"
                   readonly
           />
         </div>
@@ -95,7 +90,8 @@
                   class="form-control"
                   type="text"
                   id="empBirth"
-                  placeholder="1990-05-02"
+                  name="empBirth"
+                  th:value="${empInfoList.empIdnum}"
                   readonly
           />
         </div>
@@ -106,7 +102,8 @@
                   class="form-control"
                   type="text"
                   id="empAddr"
-                  placeholder="서울 금천구 호서대벤치타워"
+                  name="empAddr"
+                  th:value="${empInfoList.empAddr}"
                   readonly
           />
         </div>
@@ -117,7 +114,9 @@
                   class="form-control"
                   type="text"
                   id="empGrade"
-                  placeholder="대리"
+                  name="empGrade"
+                  th:value="${empInfoList.empGrade}"
+
                   readonly
           />
         </div>
@@ -128,7 +127,9 @@
                   class="form-control"
                   type="text"
                   id="empDept"
-                  placeholder="개발 1팀"
+                  name="empDept"
+                  th:value="${empInfoList.empDept}"
+
                   readonly
           />
         </div>
@@ -139,7 +140,9 @@
                   class="form-control"
                   type="text"
                   id="empFirstDt"
-                  placeholder="2021-04-03"
+                  name="empFirstDt"
+                  th:value="${empInfoList.empFistDt}"
+
                   readonly
           />
         </div>
@@ -155,6 +158,7 @@
                         class="custom-control-input"
                         name="purposeOfUse"
                         id="financialUse"
+                        value="금융기관"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="financialUse"
@@ -167,6 +171,7 @@
                         class="custom-control-input"
                         name="purposeOfUse"
                         id="govOffUse"
+                        value="관공서"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="govOffUse"
@@ -178,11 +183,12 @@
                         type="checkbox"
                         class="custom-control-input"
                         name="purposeOfUse"
-                        id="schoolUse"
+                        id="enterpriseUse"
+                        value="기업"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="schoolUse"
-                >학교 제출</label
+                <label class="custom-control-label" for="enterpriseUse"
+                >기업 제출</label
                 >
               </div>
               <div class="custom-control custom-checkbox mb-5">
@@ -191,6 +197,7 @@
                         class="custom-control-input"
                         name="purposeOfUse"
                         id="etcUse"
+                        value="기타"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="etcUse"
@@ -209,21 +216,21 @@
             <textarea class="form-control"></textarea>
         </div> -->
 
-<!--        <div class="col-12 text-center">-->
-<!--          &lt;!&ndash; <a-->
-<!--              href="#horizontal-basic-form1"-->
-<!--              class="btn btn-primary btn-lg"-->
-<!--              rel="content-y"-->
-<!--              role="button"-->
-<!--              >완료</a-->
-<!--          > &ndash;&gt;-->
-<!--        <div class="col text-center">-->
-<!--          <input class="btn btn-primary btm-lg" type="button" value="작성완료" onclick="return NotNullChk(); location.href='emp-cert-complete'" >-->
-<!--        </div>-->
+        <!--        <div class="col-12 text-center">-->
+        <!--          &lt;!&ndash; <a-->
+        <!--              href="#horizontal-basic-form1"-->
+        <!--              class="btn btn-primary btn-lg"-->
+        <!--              rel="content-y"-->
+        <!--              role="button"-->
+        <!--              >완료</a-->
+        <!--          > &ndash;&gt;-->
+        <!--        <div class="col text-center">-->
+        <!--          <input class="btn btn-primary btm-lg" type="button" value="작성완료" onclick="return NotNullChk(); location.href='emp-cert-complete'" >-->
+        <!--        </div>-->
         <div class="col text-center">
 
-<!--          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"-->
-<!--          >작성 완료1 </button>-->
+          <!--          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"-->
+          <!--          >작성 완료1 </button>-->
 
           <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
           >작성 완료 </button>
@@ -231,6 +238,11 @@
         </div>
 
       </form>
+      <!-- emp객체 데이터 잘 넘어오나 확인 코드 -->
+      <div th:unless="${empTest != null}">
+        <span> 데이터가 없습니다.</span>
+      </div>
+
     </div>
   </div>
 </div>
@@ -251,6 +263,7 @@
 <!-- js -->
 
 <script>
+
   function NoMultiChk(chk){
     var obj = document.getElementsByName("purposeOfUse");
     for(var i=0; i<obj.length; i++){
@@ -290,9 +303,9 @@
                 confirmButtonClass: 'btn btn-success',
                 confirmButtonText: '내 증명서 발급내역'
               }).then(value => {
-                if(value){
-                  location.href='my-cert-list'
-                }
+        if(value){
+          location.href='my-cert-list'
+        }
       })
     }
   }
@@ -313,6 +326,7 @@
   //   return false;
   // }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script src="vendors/scripts/core.js"></script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.metain.web.mapper.CertificationMapper">
+
+    <insert id="insertEmpCert" parameterType="EmpCert">
+        insert into TBL_EMP_CERT (EMP_ID, USE_OF_CERT, CERT_PATH, CERT_FILE_NAME)
+            values (empId, useOfCert,certPath,certFileName)
+    </insert>
+    <select id="selectEmpCert" resultType="EmpCert">
+        select * from TBL_EMP_CERT
+    </select>
+
+
+
+</mapper>

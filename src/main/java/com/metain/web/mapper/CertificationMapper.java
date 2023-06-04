@@ -12,6 +12,7 @@ import java.util.List;
 public interface CertificationMapper {
     /**증명서 신청
      */
+    public  void insertIssue(EmpCert empCert);
      public void insertEmpCert(EmpCert empcert);
      public void insertExperienceCert(ExperienceCert experiencecert);
      public void insertRetireCert(RetireCert retirecert);
