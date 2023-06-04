@@ -17,34 +17,38 @@ public class CertificationServiceImpl implements CertificationService{
     @Autowired
     private CertificationMapper certificationMapper;
 
+    private final HrService hrService;
+
     @Autowired
-    private HrMapper hrMapper;
+    public CertificationServiceImpl(HrService hrService) {
+        this.hrService = hrService;
+    }
+
 
     //로그인한 사원 인사정보 조회
     @Override
-    public List<Emp> getEmpInfoList(Long empId) {
-        List<Emp> list = hrMapper.selectEmpInfo(empId);
-        if(list == null){
+    public Emp getEmpInfoList(Long empId) {
+        Emp empInfolist = hrService.selectEmpInfo(empId);
+        if(empInfolist == null){
             return null;
         }
-        return list;
+        return empInfolist;
     }
 
-    //증명서신청시 발급내역 추가
-    @Override
-    public int addCertIssue(Issue issue) {
-        certificationMapper.insertIssue(issue);
-        return 1;
-    }
 
-    //재직증명서 신청시 발급정보 추가
+
+//재직증명서 발급신청 - 정보입력 
+    //재직증명서 신청시 입력정보 추가
+    //재직증명서신청시 발급내역 추가
     @Override
     public int applyEmpCert(EmpCert empCert) {
-        certificationMapper.insertEmpCert(empCert);
+//        //트랜젝션처리하기
+//        certificationMapper.insertEmpCert(empCert);
+//        certificationMapper.insertIssue(empCert);
         return 1;
     }
     
-    //증명서 생성시 넣어줄 증명서발급정보
+    //증명서 생성 기능
     @Override
     public List<EmpCert> getEmpCertList(Long empId) {
         List<EmpCert> list = certificationMapper.selectAllEmpCert(empId);
