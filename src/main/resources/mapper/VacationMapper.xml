@@ -30,5 +30,8 @@
         SET VAC_STATUS = '승인취소'
         WHERE VAC_ID = #{vacId} and EMP_ID=#{empId}
     </update>
-
+    <insert id="requestVacation" parameterType="Vacation">
+        INSERT INTO TBL_VACATION(VAC_TYPE, EMP_ID, VAC_START_DATE,VAC_END_DATE,ADM_ID, VAC_RESN, VAC_STATUS)
+        VALUES(#{vacType}, #{empId}, #{vacStartDate}, #{vacEndDate}, #{admId},#{vacResn}, #{vacStatus})
+    </insert>
 </mapper>

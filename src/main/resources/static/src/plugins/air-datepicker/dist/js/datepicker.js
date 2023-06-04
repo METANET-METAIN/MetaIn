@@ -1494,19 +1494,21 @@
 
 ;(function () {
     var templates = {
-        days:'' +
-        '<div class="datepicker--days datepicker--body">' +
-        '<div class="datepicker--days-names"></div>' +
-        '<div class="datepicker--cells datepicker--cells-days"></div>' +
-        '</div>',
-        months: '' +
-        '<div class="datepicker--months datepicker--body">' +
-        '<div class="datepicker--cells datepicker--cells-months"></div>' +
-        '</div>',
+
+
         years: '' +
         '<div class="datepicker--years datepicker--body">' +
         '<div class="datepicker--cells datepicker--cells-years"></div>' +
-        '</div>'
+        '</div>',
+            months: '' +
+                '<div class="datepicker--months datepicker--body">' +
+                '<div class="datepicker--cells datepicker--cells-months"></div>' +
+                '</div>',
+            days:'' +
+                '<div class="datepicker--days datepicker--body">' +
+                '<div class="datepicker--days-names"></div>' +
+                '<div class="datepicker--cells datepicker--cells-days"></div>' +
+                '</div>'
         },
         datepicker = $.fn.datepicker,
         dp = datepicker.Constructor;
@@ -1564,19 +1566,6 @@
                 html = d.date;
 
             switch (type) {
-                case 'day':
-                    if (parent.isWeekend(d.day)) classes += " -weekend-";
-                    if (d.month != this.d.parsedDate.month) {
-                        classes += " -other-month-";
-                        if (!opts.selectOtherMonths) {
-                            classes += " -disabled-";
-                        }
-                        if (!opts.showOtherMonths) html = '';
-                    }
-                    break;
-                case 'month':
-                    html = parent.loc[parent.opts.monthsField][d.month];
-                    break;
                 case 'year':
                     var decade = parent.curDecade;
                     html = d.year;
@@ -1586,6 +1575,20 @@
                             classes += " -disabled-";
                         }
                         if (!opts.showOtherYears) html = '';
+                    }
+                    break;
+
+                case 'month':
+                    html = parent.loc[parent.opts.monthsField][d.month];
+                    break;
+                case 'day':
+                    if (parent.isWeekend(d.day)) classes += " -weekend-";
+                    if (d.month != this.d.parsedDate.month) {
+                        classes += " -other-month-";
+                        if (!opts.selectOtherMonths) {
+                            classes += " -disabled-";
+                        }
+                        if (!opts.showOtherMonths) html = '';
                     }
                     break;
             }
@@ -1667,10 +1670,8 @@
         _getDayHtml: function (date) {
            var content = this._getCellContents(date, 'day');
 
-            return '<div class="' + content.classes + '" ' +
-                'data-date="' + date.getDate() + '" ' +
-                'data-month="' + date.getMonth() + '" ' +
-                'data-year="' + date.getFullYear() + '">' + content.html + '</div>';
+            return '<div class="' + content.classes + '" ' +'data-year="' + date.getFullYear() + '">'
+                +'data-month="' + date.getMonth() + '" ' +'data-date="' + date.getDate() + '" ' + content.html + '</div>';
         },
 
         /**

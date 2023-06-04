@@ -38,6 +38,12 @@ public class VacationController {
 
         return "/vacation/vacation-applyform";
     }
+    @PostMapping("/insert-vaction")
+    public String insertVacation(Vacation vacation){
+        System.out.println("오냐??");
+        vacationService.insertVacation(vacation);
+        return "redirect:/mypage/my-vac-list";
+    }
     @RequestMapping("/vacation-afterapply")
     public void vacationAfterApplyForm() {
     }
@@ -48,7 +54,7 @@ public class VacationController {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         Vacation vac=vacationService.vacationDetail(vacationId);
-        System.out.println("어드민 넘"+vac.getAdmId());
+
         //신청인 정보
         Emp emp=hrService.selectEmpInfo(vac.getEmpId());
         //관리자 정보

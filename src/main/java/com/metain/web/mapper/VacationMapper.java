@@ -12,7 +12,7 @@ public interface VacationMapper {
     /**
      * 휴가 신청
      * */
-    public void requestVacation();
+    public int requestVacation(Vacation vacation);
     /**
      * 부서별 휴가 조회 - 메인 캘린더 표출, 필터
      * */

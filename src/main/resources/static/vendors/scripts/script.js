@@ -182,18 +182,18 @@ jQuery(document).ready(function () {
 
 	// date picker
 	$(".date-picker").datepicker({
-		language: "en",
+		language: "ru",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yyyy MM dd",
 	});
 	$(".datetimepicker").datepicker({
 		timepicker: true,
-		language: "en",
+		language: "ru",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yyyy MM dd",
 	});
 	$(".datetimepicker-range").datepicker({
-		language: "en",
+		language: "ru",
 		range: true,
 		multipleDates: true,
 		multipleDatesSeparator: " - ",

@@ -62,4 +62,9 @@ public class VacationServiceImpl implements VacationService{
             int result = vacMapper.cancelVacationRequest(vacId, empId);
         }
     }
+
+    @Override
+    public void insertVacation(Vacation vacation) {
+        vacMapper.requestVacation(vacation);
+    }
 }
