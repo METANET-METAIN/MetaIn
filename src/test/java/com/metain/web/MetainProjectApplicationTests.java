@@ -18,7 +18,7 @@ private HrService empSer;
 
     @org.junit.Test
     void t(){
-        List<Emp> empList=empSer.empList();
+        List<Emp> empList=empSer.selectAll();
         System.out.println(empList);
     }
 
