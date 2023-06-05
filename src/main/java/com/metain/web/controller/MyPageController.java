@@ -3,7 +3,7 @@ package com.metain.web.controller;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.Vacation;
-import com.metain.web.dto.MyCertListDTO;
+import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
@@ -34,13 +34,21 @@ public class MyPageController {
         return "/mypage/update-mypage";
     }
 
-    @RequestMapping("/my-cert-list")
-    public String selectIssueAll(Model model) {
-        List<MyCertListDTO> list = myPageService.selectIssueAll();
+//    @RequestMapping("/my-cert-list")
+//    public String selectIssueAll(Model model) {
+//        List<MyCertDTO> list = myPageService.selectIssueAll();
+//
+//        model.addAttribute("issueList", list);
+//        return "/mypage/my-cert-list";
+//    }
 
-        model.addAttribute("issueList", list);
-        return "/mypage/my-cert-list";
+    @GetMapping("/")
+    public List<EmpCert> selectMyEmpCert(EmpCert empCert){
+        empCert.setEmpId(4L);
+        return myPageService.selectMyEmpCert(empCert);
     }
+
+
 
     @GetMapping("/my-vac")
     @ResponseBody
@@ -79,6 +87,7 @@ public class MyPageController {
         model.addAttribute("diff",daysDiff);
         return "/mypage/my-vac-detail";
     }
+
     @PostMapping(value ="/cancelVacationRequest")
     @ResponseBody
     public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {

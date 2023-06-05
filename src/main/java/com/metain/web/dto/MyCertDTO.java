@@ -2,10 +2,8 @@ package com.metain.web.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
-
 @Data
-public class MyCertListDTO {
+public class MyCertDTO {
     private Long issueId;
 //    private Long empId;
 //    private Long empCertId;

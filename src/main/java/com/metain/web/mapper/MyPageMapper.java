@@ -1,9 +1,7 @@
 package com.metain.web.mapper;
 
-import com.metain.web.domain.Emp;
-import com.metain.web.domain.Notification;
-import com.metain.web.domain.Vacation;
-import com.metain.web.dto.MyCertListDTO;
+import com.metain.web.domain.*;
+import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,7 +25,16 @@ public interface MyPageMapper {
 
     /**증명서 발급 내역 조회*/
 
-    public List<MyCertListDTO> selectIssueAll();
+//    public List<MyCertDTO> selectIssueAll();
+
+    /**나의 재직 증명서 발급 내역 조회*/
+    public List<EmpCert> selectMyEmpCert();
+
+    /**나의 경력 증명서 발급 내역 조회*/
+    public List<ExperienceCert> selectMyExperCert();
+
+    /**나의 퇴직 증명서 발급 내역 조회*/
+    public List<RetireCert> selectMyRetCert();
 
 //    /**증명서 다운로드*/ 보류
 //    public int certDownload(Long issueId);
