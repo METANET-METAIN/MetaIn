@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
 // TEST
 @Data
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public class Emp {
     private int empSabun;
     private String empName;
     private String empPwd;
-    private String empIdnum;
+    private Date empBirth;
     private String empPhone;
     private String empAddr;
     private String empZipcode;

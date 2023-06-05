@@ -75,16 +75,17 @@
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="empId" class="col-form-label">사원 번호</label>
-                        <input type="text" class="form-control" id="empId">
+                        <label for="empSabun" class="col-form-label">사원 번호</label>
+                        <input type="text" class="form-control" id="empSabun">
+                        <input type="hidden" class="form-control" id="empId">
                     </div>
                     <div class="mb-3">
                         <label for="empName" class="col-form-label">이름</label>
                         <input type="text" class="form-control" id="empName">
                     </div>
                     <div class="mb-3">
-                        <label for="empIdnum" class="col-form-label">주민번호</label>
-                        <input type="text" class="form-control" id="empIdnum">
+                        <label for="empBirth" class="col-form-label">생년월일</label>
+                        <input type="text" class="form-control" id="empBirth">
                     </div>
                     <div class="mb-3">
                         <label for="empPhone" class="col-form-label">전화번호</label>
@@ -169,7 +170,7 @@
         columns: [
             {
                 header: '사원 번호',
-                name: 'empId'
+                name: 'empSabun'
             },
             {
                 header: '부서명',
@@ -216,8 +217,9 @@
         console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
         const row = grid.getRow(ev.rowKey); //gird에서 제공하는 함수 로우키를 넣으면 해당하는 행의 값들을 보여줌
         console.log(row);
+        document.getElementById('empSabun').value = row.empId;
         document.getElementById('empId').value = row.empId;
-        document.getElementById('empIdnum').value = row.empIdnum;
+        document.getElementById('empBirth').value = row.empBirth;
         document.getElementById('empName').value = row.empName;
         document.getElementById('empIdnum').value = row.empIdnum;
         document.getElementById('empPhone').value = row.empPhone;
