@@ -21,4 +21,9 @@ public class HomeController {
     public String goPageMy(@PathVariable String mypage) {
         return "/mypage/" + mypage;
     }
+
+    @GetMapping("/member/{member}")
+    public String goPageMem(@PathVariable String member) {
+        return "/member/" + member;
+    }
 }

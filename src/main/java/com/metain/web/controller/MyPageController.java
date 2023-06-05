@@ -44,21 +44,21 @@ public class MyPageController {
     @GetMapping("/my-empCert")
     @ResponseBody
     public List<EmpCert> selectMyEmpCert(EmpCert empCert){
-        empCert.setEmpId(4L);
+//        empCert.setEmpId(4L);
         return myPageService.selectMyEmpCert(empCert);
     }
     //경력증명서 리스트
     @GetMapping("/my-experCert")
     @ResponseBody
     public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert){
-        experienceCert.setEmpId(4L);
+//        experienceCert.setEmpId(4L);
         return myPageService.selectMyExperCert(experienceCert);
     }
     //퇴직증명서 리스트
     @GetMapping("/my-retireCert")
     @ResponseBody
     public List<RetireCert> selectMyRetCert(RetireCert retireCert){
-        retireCert.setEmpId(4L);
+//        retireCert.setEmpId(4L);
         return myPageService.selectMyRetCert(retireCert);
     }
 
