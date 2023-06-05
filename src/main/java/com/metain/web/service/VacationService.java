@@ -19,4 +19,5 @@ public interface VacationService {
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 
     public void insertVacation(Vacation vacation);
+    public void insertAfterVacation(Vacation vacation);
 }

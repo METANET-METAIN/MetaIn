@@ -169,9 +169,9 @@
                 cancelButtonText: '사후'
             }).then(function (result) {
                 if (result.value) { // 확인 버튼이 눌렸을 때
-                    window.location.href = 'vacation-applyform'; // vacation-applyform.html로 이동
+                    window.location.href = '/vacation/vacation-applyform'; // vacation-applyform.html로 이동
                 } else if (result.dismiss === "cancel") { // 취소 버튼이 눌렸을 때
-                    window.location.href = 'vacation-afterapply'; // vacation-afterapply.html로 이동
+                    window.location.href = '/vacation/vacation-afterapply'; // vacation-afterapply.html로 이동
                 }
             });
         });

@@ -1,7 +1,10 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.File;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.FileDTO;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.VacationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,9 @@ import java.util.List;
 public class VacationServiceImpl implements VacationService{
     @Autowired
     private VacationMapper vacMapper;
+    @Autowired
+    private FileMapper fileMapper;
+
     @Override
     public List<VacationListDTO> selectAllList() {
         List<VacationListDTO> list = vacMapper.selectAllList();
@@ -67,4 +73,20 @@ public class VacationServiceImpl implements VacationService{
     public void insertVacation(Vacation vacation) {
         vacMapper.requestVacation(vacation);
     }
+
+    @Override
+    public void insertAfterVacation(Vacation vacation) {
+        String fn = vacation.getFileName();
+        // 파일 정보 삽입
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setFileName(fn);
+        fileDTO.setEmpId(5L);
+        fileMapper.insertFile(fileDTO);
+        //인서트 되면 AUTOINCREAMENT 값 가져 와서 VAC에 넣기 
+        int fileId = fileMapper.getFileId();
+        vacation.setFileId((long) fileId);
+        //그로 VAC INSERT 시킨당
+        vacMapper.insertAfterVacation(vacation);
+    }
+
 }

@@ -13,4 +13,5 @@ public class File {
     private Long fileId;
     private String fileName;
     private Date fileRegDate;
+    private Long empId;
 }

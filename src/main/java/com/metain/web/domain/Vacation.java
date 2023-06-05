@@ -3,6 +3,7 @@ package com.metain.web.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 
@@ -17,8 +18,11 @@ public class Vacation {
     private Date vacStartDate;
     private Date vacEndDate;
     private Long fileId;
+    private String fileName; // 파일 이름
     private Long admId; //팀관리자 번호
     private String vacResn;
     private String vacStatus; //승인상태
     private Date vacUpdat;
+    private MultipartFile file; // 파일 첨부
+
 }

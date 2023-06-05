@@ -14,6 +14,10 @@ public interface VacationMapper {
      * */
     public int requestVacation(Vacation vacation);
     /**
+     * 휴가 신청
+     * */
+    public int insertAfterVacation(Vacation vacation);
+    /**
      * 부서별 휴가 조회 - 메인 캘린더 표출, 필터
      * */
     public List<Vacation> selectListByDept(String empDept);

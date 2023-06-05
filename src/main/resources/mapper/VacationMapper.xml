@@ -34,4 +34,8 @@
         INSERT INTO TBL_VACATION(VAC_TYPE, EMP_ID, VAC_START_DATE,VAC_END_DATE,ADM_ID, VAC_RESN, VAC_STATUS)
         VALUES(#{vacType}, #{empId}, #{vacStartDate}, #{vacEndDate}, #{admId},#{vacResn}, #{vacStatus})
     </insert>
+    <insert id="insertAfterVacation" parameterType="Vacation">
+        INSERT INTO TBL_VACATION(VAC_TYPE, EMP_ID, VAC_START_DATE,VAC_END_DATE,FILE_ID,ADM_ID, VAC_RESN, VAC_STATUS,FILE_NAME)
+        VALUES(#{vacType}, #{empId}, #{vacStartDate}, #{vacEndDate}, #{fileId},#{admId},#{vacResn}, #{vacStatus},#{fileName})
+    </insert>
 </mapper>

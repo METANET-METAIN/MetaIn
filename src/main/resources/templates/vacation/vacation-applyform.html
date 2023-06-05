@@ -50,7 +50,7 @@
             <div class="form-group row" style="margin-bottom: 25px;">
               <label class="col-sm-12 col-md-2 col-form-label" >휴가 기간 </label>
               <div class="col-sm-12 col-md-3">
-                <input class="form-control date-picker" th:id="vacStartDate" th:onclick="start()" th:name="vacStartDate" placeholder="Select" type="text">
+                <input class="form-control date-picker" th:id="vacStartDate" th:name="vacStartDate" placeholder="Select" type="text">
               </div>
               <p> ~ </p>
               <div class="col-sm-12 col-md-3">
@@ -113,12 +113,6 @@
 </div>
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
-<script th:inline="javascript">
-  function handleSelectChange(selectElement) {
-    var vacType = selectElement.value;
-    console.log(vacType);
-  }
-</script>
 <!--<script>
   $('input[type="submit"]').on('click', function (event) {
     event.preventDefault(); // 기본 제출 동작 방지

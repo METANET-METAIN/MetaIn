@@ -3,19 +3,32 @@ package com.metain.web.controller;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.mapper.FileMapper;
+import com.metain.web.mapper.HrMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("vacation/")
@@ -24,6 +37,9 @@ public class VacationController {
     private VacationService vacationService;
     @Autowired
     private HrService hrService;
+    @Autowired
+    private FileMapper fileMapper;
+
     @RequestMapping("/vacation-list")
     public String vacationList(Model model) {
         List<VacationListDTO> list=vacationService.selectAllList();
@@ -40,14 +56,36 @@ public class VacationController {
     }
     @PostMapping("/insert-vaction")
     public String insertVacation(Vacation vacation){
-        System.out.println("오냐??");
         vacationService.insertVacation(vacation);
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
     public void vacationAfterApplyForm() {
     }
+    @PostMapping("/insert-aftervaction")
+    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
+        Emp empInfo=hrService.selectEmpInfo(vacation.getEmpId());
 
+        String type=vacation.getVacType();
+        int sabun=empInfo.getEmpSabun();
+        //파일이름
+        UUID uuid= UUID.randomUUID();
+        String originalFileName=file.getOriginalFilename();
+        String extension=originalFileName.substring(originalFileName.lastIndexOf("."));//확장자
+
+        String savedFileName=type+sabun+uuid.toString().substring(0,4)+extension;
+        byte[] bytes = savedFileName.getBytes();
+        //저장될 경로 : webapp /save/
+        String savePath = "src/main/resources/static/file/" + savedFileName;
+        FileCopyUtils.copy(bytes, new File(savePath));
+
+        // 파일 이름을 DB의 file_name 컬럼에 저장
+        vacation.setFileName(savedFileName);
+
+        vacationService.insertAfterVacation(vacation);
+
+        return "redirect:/mypage/my-vac-list";
+    }
     @GetMapping("/vacation-detail/{vacationId}")
     public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model) {
         if (vacationId == null) {
