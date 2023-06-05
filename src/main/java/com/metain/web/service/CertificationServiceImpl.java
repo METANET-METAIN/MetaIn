@@ -42,6 +42,8 @@ public class CertificationServiceImpl implements CertificationService{
     //재직증명서신청시 발급내역 추가
     @Override
     public int applyEmpCert(EmpCert empCert) {
+
+        certificationMapper.insertEmpCert(empCert);
 //        //트랜젝션처리하기
 //        certificationMapper.insertEmpCert(empCert);
 //        certificationMapper.insertIssue(empCert);
@@ -50,8 +52,8 @@ public class CertificationServiceImpl implements CertificationService{
     
     //증명서 생성 기능
     @Override
-    public List<EmpCert> getEmpCertList(Long empId) {
-        List<EmpCert> list = certificationMapper.selectAllEmpCert(empId);
+    public EmpCert getEmpCertList(Long empId) {
+       EmpCert list = certificationMapper.selectAllEmpCert(empId);
         if(list == null){
             return null;
         }

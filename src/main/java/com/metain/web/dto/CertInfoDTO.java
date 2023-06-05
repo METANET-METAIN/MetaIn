@@ -15,7 +15,7 @@ public class CertInfoDTO {
 
     //증명서에 적힐 사원 인적정보
     private String empName;
-    private String empIdNum;
+    private String empBirth;
     private String empAddr;
     private String empDetailAddr;
     private String empDept;

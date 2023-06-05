@@ -1,12 +1,12 @@
 package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
+import com.metain.web.domain.EmpCert;
 import com.metain.web.service.CertificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -56,7 +56,7 @@ public class CertificationController {
         //String userId = (String) session.getAttribute("userId");
 
         // 사원의 정보를 데이터베이스에서 조회해서 가져오는 로직
-        Long empId = 80L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
+        Long empId = 5L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
         System.out.println("empInfoList 객체 생성 전");
         Emp empInfoList = certificationService.getEmpInfoList(empId);
         System.out.println("empInfoList 객체 생성 후 " + empInfoList);
@@ -71,17 +71,19 @@ public class CertificationController {
     
     
     //apply 정보입력 form에서 정보 넘겨받아서 empcert테이블에 insert할 메소드
-//    @PostMapping("/CertificationController")
-//    public String handleEmpCertInfo(EmpCert empCert) throws Exception {
-//        System.out.println("---------------------> 증명서 정보 들어왔나 테스트 !!");
-//        System.out.println("---------------------> " + empCert.getEmpId());
-//        System.out.println("---------------------> " + empCert.getUseOfCert());
-//
-//        // 전달된 데이터를 처리하는 로직 작성
-//        // ...
-//
-//        return "result";
-//    }
+    @PostMapping("/handleEmpCertInfo")
+    public String handleEmpCertInfo(@ModelAttribute("empInfoList") EmpCert empInfoList,  @RequestParam("certSort") String certSort, @RequestParam("selectedUseOfCert") String selectedUseOfCert ) throws Exception {
+        empInfoList.setCertSort(certSort);
+        empInfoList.setUseOfCert(selectedUseOfCert);
+        System.out.println("---------------------> tbl_empcert에 insert할때 필요한 증명서 정보 들어왔나 테스트 !!");
+        System.out.println("---------------------> " + empInfoList.getEmpId());
+        System.out.println("---------------------> " + empInfoList.getUseOfCert());
+
+        // 전달된 데이터를 처리하는 로직 작성
+        certificationService.applyEmpCert(empInfoList);
+
+        return "/certification/emp-cert-complete";
+    }
 
     @RequestMapping("/certification/emp-cert-complete")
     public  String empCertComplete(){
