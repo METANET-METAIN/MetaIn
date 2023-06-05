@@ -104,9 +104,23 @@
     // const modalToggle = document.getElementById('exampleModal');
     // const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 
-        //재직증명서 그리드
-        const gridEmp = new tui.Grid({
-            el: document.getElementById('gridEmp'),
+
+     function initializeGrid(gridId, data) {
+         console.log('initializeGrid');
+         console.log(initializeGrid);
+
+         const dataSource = new tui.Grid.DataSource({
+             api: {
+                 readDate: {
+                     url: 'mypage/my-empCert',
+                     method: 'GET',
+                 },
+             },
+         });
+
+        new tui.Grid({
+            el: document.getElementById(gridId),
+            data: dataSource,
             scrollX: true,
             scrollY: true,
             columns: [
@@ -151,179 +165,34 @@
         });
 
         // 그리드 클릭 시 이벤트
-        gridEmp.on('click', function (ev) {
+        grid.on('click', function (ev) {
             console.log(ev);
             const column = ev.data
             // const row = grid.getRow(ev.rowKey);
             if (column == '다운로드') {
                 const rowKey = ev.rowKey;
-                const row = gridEmp.getRow(rowKey);
+                const row = grid.getRow(rowKey);
                 console.log(row);
             }
 
         });
+     }
 
+     //데이터 가져오기
+    function fetchData(url, gridId) {
+        fetch(url)
+            .then(function(res){
+                return res.json();
+            })
+            .then(function (data){
+                initializeGrid(gridId, data);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    }
 
-
-
-        //데이터 가져오기
-            fetch('/mypage/my-empCert')
-                .then(function(res){
-                    return res.json();
-                })
-                .then(function(empData){
-                    gridEmp.resetData(empData);
-                })
-
-
-
-
-
-
-        //경력증명서 그리드
-        const gridExp = new tui.Grid({
-            el: document.getElementById('gridExp'),
-            scrollX: true,
-            scrollY: true,
-            columns: [
-                {
-                    header: '증명서 번호',
-                    name: 'experCertId',
-                    align: 'center'// 텍스트 정렬 옵션
-                },
-                {
-                    header: '발급일자',
-                    name: 'certRegDate',
-                    filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                    align: 'center'
-
-                },
-                {
-                    header: '발급상태',
-                    name: 'issueStatus',
-                    filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                    align: 'center'
-
-                },
-                {
-                    header: '다운로드',
-                    formatter: function (value, row) {
-                        console.log(value)
-                        console.log(row)
-
-                        return '<button type="button" id="" class="grid-button"> 버튼 </button>';
-                    },
-                    align: 'center' // 가운데 정렬
-                }
-
-            ],
-            rowHeaders: ['rowNum'],
-            pageOptions: {
-                useClient: true,
-                perPage: 10
-            }
-
-
-        });
-
-        // 그리드 클릭 시 이벤트
-        gridExp.on('click', function (ev) {
-            console.log(ev);
-            const column = ev.data
-            // const row = grid.getRow(ev.rowKey);
-            if (column == '다운로드') {
-                const rowKey = ev.rowKey;
-                const row = gridExp.getRow(rowKey);
-                console.log(row);
-            }
-
-        });
-
-
-
-
-        //데이터 가져오기
-            fetch('/mypage/my-experCert')
-                .then(function(res){
-                    return res.json();
-                })
-                .then(function(expData){
-                    gridExp.resetData(expData);
-                })
-
-
-
-        //퇴직증명서 그리드
-        const gridRet = new tui.Grid({
-            el: document.getElementById('gridRet'),
-            scrollX: true,
-            scrollY: true,
-            columns: [
-                {
-                    header: '증명서 번호',
-                    name: 'retireCertId',
-                    align: 'center'// 텍스트 정렬 옵션
-                },
-                {
-                    header: '발급일자',
-                    name: 'certRegDate',
-                    filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                    align: 'center'
-
-                },
-                {
-                    header: '발급상태',
-                    name: 'issueStatus',
-                    filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                    align: 'center'
-
-                },
-                {
-                    header: '다운로드',
-                    formatter: function (value, row) {
-                        console.log(value)
-                        console.log(row)
-
-                        return '<button type="button" id="" class="grid-button"> 버튼 </button>';
-                    },
-                    align: 'center' // 가운데 정렬
-                }
-
-            ],
-            rowHeaders: ['rowNum'],
-            pageOptions: {
-                useClient: true,
-                perPage: 10
-            }
-
-
-        });
-
-        // 그리드 클릭 시 이벤트
-        gridRet.on('click', function (ev) {
-            console.log(ev);
-            const column = ev.data
-            // const row = grid.getRow(ev.rowKey);
-            if (column == '다운로드') {
-                const rowKey = ev.rowKey;
-                const row = gridRet.getRow(rowKey);
-                console.log(row);
-            }
-
-        });
-
-
-
-        //데이터 가져오기
-            fetch('/mypage/my-retireCert')
-                .then(function(res){
-                    return res.json();
-                })
-                .then(function(retData){
-                    gridRet.resetData(retData);
-                })
-
-
+    fetchData('/mypage/my-empCert', 'gridEmp');
 
 
 

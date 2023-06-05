@@ -1,8 +1,6 @@
 package com.metain.web.controller;
 
-import com.metain.web.domain.Emp;
-import com.metain.web.domain.EmpCert;
-import com.metain.web.domain.Vacation;
+import com.metain.web.domain.*;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.service.HrService;
@@ -42,10 +40,26 @@ public class MyPageController {
 //        return "/mypage/my-cert-list";
 //    }
 
-    @GetMapping("/")
+    //재직증명서 리스트
+    @GetMapping("/my-empCert")
+    @ResponseBody
     public List<EmpCert> selectMyEmpCert(EmpCert empCert){
         empCert.setEmpId(4L);
         return myPageService.selectMyEmpCert(empCert);
+    }
+    //경력증명서 리스트
+    @GetMapping("/my-experCert")
+    @ResponseBody
+    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert){
+        experienceCert.setEmpId(4L);
+        return myPageService.selectMyExperCert(experienceCert);
+    }
+    //퇴직증명서 리스트
+    @GetMapping("/my-retireCert")
+    @ResponseBody
+    public List<RetireCert> selectMyRetCert(RetireCert retireCert){
+        retireCert.setEmpId(4L);
+        return myPageService.selectMyRetCert(retireCert);
     }
 
 

@@ -1,6 +1,8 @@
 package com.metain.web.service;
 
 import com.metain.web.domain.EmpCert;
+import com.metain.web.domain.ExperienceCert;
+import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.MyPageMapper;
@@ -39,9 +41,25 @@ public class MyPageServiceImpl implements MyPageService{
         return list;
     }
 
+    //재직증명서 목록
     @Override
     public List<EmpCert> selectMyEmpCert(EmpCert empCert) {
         List<EmpCert> list = myPageMapper.selectMyEmpCert();
+        return list;
+    }
+
+
+    //경력증명서 목록
+    @Override
+    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert) {
+        List<ExperienceCert> list = myPageMapper.selectMyExperCert();
+        return list;
+    }
+
+    //퇴직증명서 목록
+    @Override
+    public List<RetireCert> selectMyRetCert(RetireCert retireCert) {
+        List<RetireCert> list = myPageMapper.selectMyRetCert();
         return list;
     }
 }

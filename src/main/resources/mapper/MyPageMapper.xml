@@ -18,12 +18,36 @@
 
 
     <!--  나의 재직 증명서 발급 내역 조회   -->
-    <select id="selectMyEmpCert" resultType="MyCertDTO">
+    <select id="selectMyEmpCert" resultType="EmpCert">
         SELECT
             TEC.EMP_CERT_ID, TEC.CERT_REG_DATE, TEC.ISSUE_STATUS
         FROM
             TBL_EMPLOYEE TE
                 JOIN TBL_EMP_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
+        WHERE
+            TE.EMP_ID = 5
+
+    </select>
+
+    <!--  나의 경력 증명서 발급 내역 조회   -->
+    <select id="selectMyExperCert" resultType="ExperienceCert">
+        SELECT
+            TEC.EXPER_CERT_ID, TEC.CERT_REG_DATE, TEC.ISSUE_STATUS
+        FROM
+            TBL_EMPLOYEE TE
+                JOIN TBL_EXPERIENCE_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
+        WHERE
+            TE.EMP_ID = 4
+
+    </select>
+
+    <!--  나의 퇴직 증명서 발급 내역 조회   -->
+    <select id="selectMyRetCert" resultType="RetireCert">
+        SELECT
+            TRC.RETIRE_CERT_ID, TRC.CERT_REG_DATE, TRC.ISSUE_STATUS
+        FROM
+            TBL_EMPLOYEE TE
+                JOIN TBL_RETIRE_CERT TRC ON TE.EMP_ID = TRC.EMP_ID
         WHERE
             TE.EMP_ID = 4
 
