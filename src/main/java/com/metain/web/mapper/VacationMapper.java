@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper
 public interface VacationMapper {
     /**
-     * 휴가 신청
+     * 휴가 신청--0
      * */
     public int requestVacation(Vacation vacation);
     /**
-     * 휴가 신청
+     * 휴가 신청(첨부파일
      * */
     public int insertAfterVacation(Vacation vacation);
     /**

@@ -9,6 +9,7 @@ import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -63,21 +65,24 @@ public class VacationController {
     public void vacationAfterApplyForm() {
     }
     @PostMapping("/insert-aftervaction")
-    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
-        Emp empInfo=hrService.selectEmpInfo(vacation.getEmpId());
+    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation, HttpServletRequest request) throws IOException {
+        Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
 
-        String type=vacation.getVacType();
-        int sabun=empInfo.getEmpSabun();
-        //파일이름
-        UUID uuid= UUID.randomUUID();
-        String originalFileName=file.getOriginalFilename();
-        String extension=originalFileName.substring(originalFileName.lastIndexOf("."));//확장자
+        String type = vacation.getVacType();
+        int sabun = empInfo.getEmpSabun();
+        // 파일 이름
+        UUID uuid = UUID.randomUUID();
+        String originalFileName = file.getOriginalFilename();
+        String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
 
-        String savedFileName=type+sabun+uuid.toString().substring(0,4)+extension;
-        byte[] bytes = savedFileName.getBytes();
-        //저장될 경로 : webapp /save/
-        String savePath = "src/main/resources/static/file/" + savedFileName;
-        FileCopyUtils.copy(bytes, new File(savePath));
+        String savedFileName = type + sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
+
+        // 저장될 경로
+        String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
+
+        System.out.println(savePath);
+        File destFile = new File(savePath);
+        file.transferTo(destFile);
 
         // 파일 이름을 DB의 file_name 컬럼에 저장
         vacation.setFileName(savedFileName);
@@ -86,6 +91,7 @@ public class VacationController {
 
         return "redirect:/mypage/my-vac-list";
     }
+
     @GetMapping("/vacation-detail/{vacationId}")
     public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model) {
         if (vacationId == null) {
