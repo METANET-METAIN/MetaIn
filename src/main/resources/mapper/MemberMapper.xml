@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.metain.web.mapper.MemberMapper">
+
+    <!--  로그인  -->
+    <select id="login" resultType="Emp">
+        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME
+        FROM TBL_EMPLOYEE
+        WHERE EMP_SABUN = #{empSabun} AND EMP_PWD = #{empPwd};
+    </select>
+
+
+</mapper>
