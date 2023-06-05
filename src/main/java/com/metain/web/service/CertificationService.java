@@ -25,7 +25,7 @@ public interface CertificationService {
 
     //증명서 생성 기능
     //증명서 생성할때 필요한 증명서발급정보 list로 가져오기
-    public List<EmpCert> getEmpCertList(Long empId);
+    public EmpCert getEmpCertList(Long empId);
 
 //    public List<ExperienceCert> getExperCertList(Long empId);
 //

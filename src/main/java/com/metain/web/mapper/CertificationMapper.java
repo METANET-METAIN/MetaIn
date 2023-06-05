@@ -19,12 +19,12 @@ public interface CertificationMapper {
 
     /**내 증명서 발급 내역 조회
      */
-    public List<Issue> selectAllIssue(Long empId);
+    public List<Issue>  selectAllIssue(Long empId);
 
 
     /** 증명서 발급(다운로드)*/
 
-    public List<EmpCert> selectAllEmpCert(Long empId);
+    public EmpCert selectAllEmpCert(Long empId);
     public List<ExperienceCert> selectAllExperienceCert(Long empId);
     public List<RetireCert> selectAllRetireCert(Long empId);
 }

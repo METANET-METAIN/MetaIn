@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.metain.web.mapper.CertificationMapper">
 
-    <insert id="insertEmpCert" parameterType="EmpCert">
-        insert into TBL_EMP_CERT (EMP_ID, USE_OF_CERT, CERT_PATH, CERT_FILE_NAME)
-            values (empId, useOfCert,certPath,certFileName)
+    <!--재직증명서 신청 쿼리문-->
+    <insert id="insertEmpCert" parameterType="com.metain.web.domain.EmpCert">
+        INSERT INTO TBL_EMP_CERT (EMP_ID, USE_OF_CERT, CERT_FILE_NAME)
+        VALUES (#{empId}, #{useOfCert},CONCAT('재직증명서-', CURDATE()));
     </insert>
+
+    <!--증명서 생성시 증명서 정보 가져오는 쿼리문-->
     <select id="selectEmpCert" resultType="EmpCert">
         select * from TBL_EMP_CERT
     </select>

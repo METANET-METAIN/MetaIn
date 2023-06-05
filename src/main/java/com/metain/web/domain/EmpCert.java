@@ -18,4 +18,5 @@ public class EmpCert {
     private String certFileName; //증명서파일이름
     private Long issueStatus; //발급상태
 
+    private String certSort;
 }

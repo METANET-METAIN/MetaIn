@@ -58,7 +58,7 @@
 
         <!--   th:object="${Emp}" -->
       </div>
-      <form th:if="${empInfoList != null}" th:action="CertificationController" method="post">
+      <form th:if="${empInfoList != null}" th:action="@{/handleEmpCertInfo}" method="post">
 <!--        <div th:each="emp : ${empInfoList}"> </div>-->
         <div class="form-group">
           <label for="certSort">증명서 종류</label>
@@ -73,13 +73,22 @@
         </div>
 
         <div class="form-group">
+          <input
+                  class="form-control"
+                  type="hidden"
+                  id="empId"
+                  name="empId"
+                  th:field="${empInfoList.empId}" />
+        </div>
+
+        <div class="form-group">
           <label for="empName">이름</label>
           <input
                   class="form-control"
                   type="text"
                   id="empName"
                   name="empName"
-                  th:value="${empInfoList.empName}"
+                  th:field="${empInfoList.empName}"
                   readonly
           />
         </div>
@@ -91,7 +100,7 @@
                   type="text"
                   id="empBirth"
                   name="empBirth"
-                  th:value="${empInfoList.empIdnum}"
+                  th:field="${empInfoList.empBirth}"
                   readonly
           />
         </div>
@@ -103,7 +112,7 @@
                   type="text"
                   id="empAddr"
                   name="empAddr"
-                  th:value="${empInfoList.empAddr}"
+                  th:field="${empInfoList.empAddr}"
                   readonly
           />
         </div>
@@ -115,7 +124,7 @@
                   type="text"
                   id="empGrade"
                   name="empGrade"
-                  th:value="${empInfoList.empGrade}"
+                  th:field="${empInfoList.empGrade}"
 
                   readonly
           />
@@ -128,7 +137,7 @@
                   type="text"
                   id="empDept"
                   name="empDept"
-                  th:value="${empInfoList.empDept}"
+                  th:field="${empInfoList.empDept}"
 
                   readonly
           />
@@ -141,7 +150,7 @@
                   type="text"
                   id="empFirstDt"
                   name="empFirstDt"
-                  th:value="${empInfoList.empFistDt}"
+                  th:field="${empInfoList.empFistDt}"
 
                   readonly
           />
@@ -156,7 +165,7 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="financialUse"
                         value="금융기관"
                         onclick="NoMultiChk(this)"
@@ -169,7 +178,7 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="govOffUse"
                         value="관공서"
                         onclick="NoMultiChk(this)"
@@ -182,7 +191,7 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="enterpriseUse"
                         value="기업"
                         onclick="NoMultiChk(this)"
@@ -195,7 +204,7 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="etcUse"
                         value="기타"
                         onclick="NoMultiChk(this)"
@@ -204,6 +213,15 @@
                 >기타</label
                 >
               </div>
+
+              <div class="col-md-6 col-sm-12">
+                <input
+                        type="hidden"
+                        id="selectedUseOfCert"
+                        name="selectedUseOfCert"
+                        value=""
+                />
+
             </div>
             <div class="col-md-6 col-sm-12">
             </div>
@@ -232,7 +250,7 @@
           <!--          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"-->
           <!--          >작성 완료1 </button>-->
 
-          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
+          <button type="submit" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
           >작성 완료 </button>
 
         </div>
@@ -264,13 +282,26 @@
 
 <script>
 
-  function NoMultiChk(chk){
-    var obj = document.getElementsByName("purposeOfUse");
-    for(var i=0; i<obj.length; i++){
-      if(obj[i] != chk){
+  // function NoMultiChk(chk){
+  //   var checkboxes = document.getElementsByName("useOfCert");
+  //   for(var i=0; i<checkboxes.length; i++){
+  //     if(checkboxes[i] != chk){
+  //       checkboxes[i].checked = false;
+  //     }
+  //   }
+  // }
+
+  function NoMultiChk(chk) {
+    var obj = document.getElementsByName("useOfCert");
+    var selectedValue = "";
+    for (var i = 0; i < obj.length; i++) {
+      if (obj[i] != chk) {
         obj[i].checked = false;
+      } else if (obj[i].checked) {
+        selectedValue = obj[i].value;
       }
     }
+    document.getElementById("selectedUseOfCert").value = selectedValue;
   }
 
   // function validateAndSubmit1() {
