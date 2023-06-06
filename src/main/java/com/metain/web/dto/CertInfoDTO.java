@@ -25,7 +25,7 @@ public class CertInfoDTO {
     private String empStatus;
     
     ///증명서에 적힐 해당 증명서정보
-    private Long empCertId;
+    private Long certSort;
     private Date certRegDate;
     private String useOfCert;
     

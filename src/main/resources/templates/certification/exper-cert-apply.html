@@ -64,18 +64,34 @@
             >
         </div> -->
       </div>
-      <form action="#">
+      <form th:if="${empInfoList != null}" th:action="@{/handleEmpCertInfo}" method="post">
 
         <div class="form-group">
           <label for="certSort">증명서 종류</label>
           <input
                   class="form-control"
                   type="text"
-                  id="certSort"
-                  value="A02"
-                  placeholder="경력증명서"
+                  id="certSortDisplay"
+                  name="certSortDisplay"
+                  value="경력증명서"
                   readonly
           />
+          <input
+                  class="form-control"
+                  type="hidden"
+                  id="certSort"
+                  name="certSort"
+                  value="A02"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+                  class="form-control"
+                  type="hidden"
+                  id="empId"
+                  name="empId"
+                  th:field="${empInfoList.empId}" />
         </div>
 
         <div class="form-group">
@@ -84,20 +100,22 @@
                   class="form-control"
                   type="text"
                   id="empName"
-                  placeholder="홍길동"
+                  name="empName"
+                  th:field="${empInfoList.empName}"
                   readonly
           />
         </div>
 
         <div class="form-group">
           <label for="empBirth">생년월일</label>
-          <input
+            <input
                   class="form-control"
                   type="text"
                   id="empBirth"
-                  placeholder="1990-05-02"
+                  name="empBirth"
+                  th:field="${empInfoList.empBirth}"
                   readonly
-          />
+            />
         </div>
 
         <div class="form-group">
@@ -106,7 +124,8 @@
                   class="form-control"
                   type="text"
                   id="empAddr"
-                  placeholder="서울 금천구 호서대벤치타워"
+                  name="empAddr"
+                  th:field="${empInfoList.empAddr}"
                   readonly
           />
         </div>
@@ -117,7 +136,9 @@
                   class="form-control"
                   type="text"
                   id="empGrade"
-                  placeholder="대리"
+                  name="empGrade"
+                  th:field="${empInfoList.empGrade}"
+
                   readonly
           />
         </div>
@@ -128,7 +149,9 @@
                   class="form-control"
                   type="text"
                   id="empDept"
-                  placeholder="개발 1팀"
+                  name="empDept"
+                  th:field="${empInfoList.empDept}"
+
                   readonly
           />
         </div>
@@ -139,7 +162,9 @@
                   class="form-control"
                   type="text"
                   id="empFirstDt"
-                  placeholder="2021-04-03"
+                  name="empFirstDt"
+                  th:field="${empInfoList.empFistDt}"
+
                   readonly
           />
         </div>
@@ -154,8 +179,9 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="financialUse"
+                        value="금융기관"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="financialUse"
@@ -166,8 +192,9 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="govOffUse"
+                        value="관공서"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="govOffUse"
@@ -178,27 +205,38 @@
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
-                        id="schoolUse"
+                        name="useOfCert"
+                        id="enterpriseUse"
+                        value="기업"
                         onclick="NoMultiChk(this)"
                 />
-                <label class="custom-control-label" for="schoolUse"
-                >학교 제출</label
+                <label class="custom-control-label" for="enterpriseUse"
+                >기업 제출</label
                 >
               </div>
               <div class="custom-control custom-checkbox mb-5">
                 <input
                         type="checkbox"
                         class="custom-control-input"
-                        name="purposeOfUse"
+                        name="useOfCert"
                         id="etcUse"
+                        value="기타"
                         onclick="NoMultiChk(this)"
                 />
                 <label class="custom-control-label" for="etcUse"
                 >기타</label
                 >
               </div>
-            </div>
+
+              <div class="col-md-6 col-sm-12">
+                <input
+                        type="hidden"
+                        id="selectedUseOfCert"
+                        name="selectedUseOfCert"
+                        value=""
+                />
+
+              </div>
             <div class="col-md-6 col-sm-12">
             </div>
           </div>
@@ -226,7 +264,7 @@
           <!--          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"-->
           <!--          >작성 완료1 </button>-->
 
-          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
+          <button type="submit" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
           >작성 완료 </button>
 
         </div>
@@ -252,13 +290,17 @@
 <!-- js -->
 
 <script>
-  function NoMultiChk(chk){
-    var obj = document.getElementsByName("purposeOfUse");
-    for(var i=0; i<obj.length; i++){
-      if(obj[i] != chk){
+  function NoMultiChk(chk) {
+    var obj = document.getElementsByName("useOfCert");
+    var selectedValue = "";
+    for (var i = 0; i < obj.length; i++) {
+      if (obj[i] != chk) {
         obj[i].checked = false;
+      } else if (obj[i].checked) {
+        selectedValue = obj[i].value;
       }
     }
+    document.getElementById("selectedUseOfCert").value = selectedValue;
   }
 
   // function validateAndSubmit1() {

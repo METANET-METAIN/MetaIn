@@ -14,13 +14,13 @@ public interface CertificationService {
 
 
     //재직증명서 신청 기능
-    public int applyEmpCert(EmpCert empCert);
+    public int applyEmpCert(CommonCert commonCert);
 
-//    //경력증명서 신청
-//    public int applyExperCert(ExperienceCert experienceCert);
-//
-//    //퇴직증명서 신청
-//    public int applyRetireCert(RetireCert retireCert);
+    //경력증명서 신청
+    public int applyExperCert(CommonCert commonCert);
+
+    //퇴직증명서 신청
+    public int applyRetireCert(CommonCert commonCert);
 
 
     //증명서 생성 기능
