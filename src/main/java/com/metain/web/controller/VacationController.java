@@ -3,29 +3,22 @@ package com.metain.web.controller;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
-import com.metain.web.mapper.FileMapper;
-import com.metain.web.mapper.HrMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -38,7 +31,7 @@ public class VacationController {
     @Autowired
     private HrService hrService;
     @Autowired
-    private FileMapper fileMapper;
+    private HttpServletRequest request;
 
     @RequestMapping("/vacation-list")
     public String vacationList(Model model) {
@@ -64,20 +57,23 @@ public class VacationController {
     }
     @PostMapping("/insert-aftervaction")
     public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
-        Emp empInfo=hrService.selectEmpInfo(vacation.getEmpId());
+        Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
 
-        String type=vacation.getVacType();
-        int sabun=empInfo.getEmpSabun();
-        //파일이름
-        UUID uuid= UUID.randomUUID();
-        String originalFileName=file.getOriginalFilename();
-        String extension=originalFileName.substring(originalFileName.lastIndexOf("."));//확장자
+        String type = vacation.getVacType();
+        int sabun = empInfo.getEmpSabun();
+        // 파일 이름
+        UUID uuid = UUID.randomUUID();
+        String originalFileName = file.getOriginalFilename();
+        String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
 
-        String savedFileName=type+sabun+uuid.toString().substring(0,4)+extension;
-        byte[] bytes = savedFileName.getBytes();
-        //저장될 경로 : webapp /save/
-        String savePath = "src/main/resources/static/file/" + savedFileName;
-        FileCopyUtils.copy(bytes, new File(savePath));
+        String savedFileName = type + sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
+
+        // 저장될 경로
+        String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
+
+        System.out.println(savePath);
+        File destFile = new File(savePath);
+        file.transferTo(destFile);
 
         // 파일 이름을 DB의 file_name 컬럼에 저장
         vacation.setFileName(savedFileName);
@@ -86,6 +82,7 @@ public class VacationController {
 
         return "redirect:/mypage/my-vac-list";
     }
+
     @GetMapping("/vacation-detail/{vacationId}")
     public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model) {
         if (vacationId == null) {
@@ -147,17 +144,37 @@ public class VacationController {
     }
     @PostMapping(value ="/approveVacationRequest")
     @ResponseBody
-    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Long> requestData) {
-        Long vacId = requestData.get("vacationId");
-       vacationService.approveVacationRequest(vacId);
+    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {
+        Long vacId = Long.parseLong(requestData.get("vacationId").toString());
+        String vacStatus=requestData.get("vacStatus").toString();
+
+       vacationService.approveVacationRequest(vacId,vacStatus);
         return ResponseEntity.ok("성공");
     }
     @PostMapping(value ="/rejectVacationRequest")
     @ResponseBody
-    public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Long> requestData) {
-        Long vacId = requestData.get("vacationId");
-       vacationService.rejectVacationRequest(vacId);
+    public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Object> requestData) {
+        Long vacId = Long.parseLong(requestData.get("vacationId").toString());
+        String vacStatus=requestData.get("vacStatus").toString();
+
+        vacationService.rejectVacationRequest(vacId,vacStatus);
         return ResponseEntity.ok("성공");
+    }
+    @GetMapping("/calendar")
+    public ResponseEntity<List<VacationListDTO>> calendar(HttpSession session) {
+        // session에서 객체 가져오기
+        Emp emp = (Emp) session.getAttribute("loginEmp");
+
+        if (emp != null) {
+            String empDept = emp.getEmpDept();
+            LocalDate today = LocalDate.now();
+            List<VacationListDTO> events = vacationService.calendar(empDept,today);
+            System.out.println(events);
+            return ResponseEntity.ok(events);
+        } else {
+            // 로그인되지 않은 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 }

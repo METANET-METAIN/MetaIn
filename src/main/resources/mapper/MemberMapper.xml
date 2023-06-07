@@ -4,7 +4,7 @@
 
     <!--  로그인  -->
     <select id="login" resultType="Emp">
-        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_GRADE
+        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE
         FROM TBL_EMPLOYEE
         WHERE EMP_SABUN = #{empSabun} AND EMP_PWD = #{empPwd};
     </select>

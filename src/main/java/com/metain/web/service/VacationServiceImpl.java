@@ -6,11 +6,15 @@ import com.metain.web.dto.FileDTO;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.VacationMapper;
+import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 @Service
 @Transactional
@@ -47,18 +51,21 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void approveVacationRequest(Long vacId) {
-        int result =vacMapper.approveVacationRequest(vacId);
-
-        if(result==0) {
-            new Exception("에러");
+    public void approveVacationRequest(Long vacId,String vacStatus) {
+        if(vacStatus.equals("승인대기")) {
+            int result = vacMapper.approveVacationRequest(vacId, vacStatus);
+            if (result == 0) {
+                new Exception("에러");
+            }
         }
     }
     @Override
-    public void rejectVacationRequest(Long vacId) {
-        int result =vacMapper.rejectVacationRequest(vacId);
-        if(result==0) {
-            new Exception("에러");
+    public void rejectVacationRequest(Long vacId,String vacStatus) {
+        if(vacStatus.equals("승인대기")) {
+            int result = vacMapper.rejectVacationRequest(vacId, vacStatus);
+            if (result == 0) {
+                new Exception("에러");
+            }
         }
     }
 
@@ -87,6 +94,26 @@ public class VacationServiceImpl implements VacationService{
         vacation.setFileId((long) fileId);
         //그로 VAC INSERT 시킨당
         vacMapper.insertAfterVacation(vacation);
+    }
+
+    @Override
+    public List<VacationListDTO> selectListByDept(String empDept, LocalDate today) {
+        today = LocalDate.now();
+        List<VacationListDTO> currMonthVac=vacMapper.selectListByDept(empDept,today);
+        return currMonthVac;
+    }
+
+    @Override
+    public List<VacationListDTO> calendar(String empDept, LocalDate today) {
+        today = LocalDate.now();
+        List<VacationListDTO> calendar=vacMapper.calendar(empDept,today);
+        return calendar;
+    }
+
+    @Override
+    public int decreaseVacation(int selectedDays) {
+
+        return 0;
     }
 
 }
