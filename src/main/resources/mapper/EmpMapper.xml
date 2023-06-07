@@ -10,13 +10,13 @@
 
         <!--  신입 사원 전체 목록  -->
         <select id="newEmpSelectAll" resultType="NewEmpDTO">
-            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_IDNUM, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT
+            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT
             FROM TBL_NEW_EMPLOYEE TNE
         </select>
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME
+            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT
             FROM TBL_EMPLOYEE TE
         </select>
 
@@ -37,13 +37,13 @@
 
                 INSERT INTO TBL_EMPLOYEE
                     (
-                     EMP_NAME, EMP_IDNUM, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
+                     EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
                      EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT
                      )
                 VALUES
             <foreach collection="newEmp" item="newEmpList" separator=",">
                (
-                #{newEmpList.newName},#{newEmpList.newIdnum},#{newEmpList.newPhone},
+                #{newEmpList.newName},#{newEmpList.newPhone},
                 #{newEmpList.newAddr},#{newEmpList.newZipcode},#{newEmpList.newDetailAddr},
                 #{newEmpList.newEmail},#{newEmpList.newDept},DATE_FORMAT(NOW(),'%Y%m%d')
                 )

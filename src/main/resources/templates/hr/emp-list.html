@@ -112,8 +112,8 @@
                         <input type="text" class="form-control" id="empStatus">
                     </div>
                     <div class="mb-3">
-                        <label for="empFistDt" class="col-form-label">입사 일자</label>
-                        <input type="text" class="form-control" id="empFistDt">
+                        <label for="empFirstDt" class="col-form-label">입사 일자</label>
+                        <input type="text" class="form-control" id="empFirstDt">
                     </div>
                     <div class="mb-3">
                         <label for="empLastDt" class="col-form-label">퇴사 일자</label>
@@ -189,7 +189,7 @@
             },
             {
                 header: '입사 일자',
-                name: 'empFistDt',
+                name: 'empFirstDt',
                 filter: {
                     showApplyBtn: true,
                     showClearBtn: true,
@@ -227,7 +227,7 @@
         document.getElementById('empDept').value = row.empDept;
         document.getElementById('empGrade').value = row.empGrade;
         document.getElementById('empStatus').value = row.empStatus;
-        document.getElementById('empFistDt').value = row.empFistDt;
+        document.getElementById('empFirstDt').value = row.empFirstDt;
         document.getElementById('empLastDt').value = row.empLastDt;
 
             myModal.show(myModal);
