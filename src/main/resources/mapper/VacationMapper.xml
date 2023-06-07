@@ -38,4 +38,10 @@
         INSERT INTO TBL_VACATION(VAC_TYPE, EMP_ID, VAC_START_DATE,VAC_END_DATE,FILE_ID,ADM_ID, VAC_RESN, VAC_STATUS,FILE_NAME)
         VALUES(#{vacType}, #{empId}, #{vacStartDate}, #{vacEndDate}, #{fileId},#{admId},#{vacResn}, #{vacStatus},#{fileName})
     </insert>
+    <select id="selectListByDept" resultType="VacationListDTO">
+        SELECT v.VAC_ID, e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE, v.VAC_STATUS
+        FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
+        ON e.EMP_ID=v.EMP_ID
+        WHERE MONTH(v.VAC_START_DATE)=#{today.monthValue} AND EMP_DEPT=#{empDept} AND VAC_STATUS='승인완료';
+    </select>
 </mapper>

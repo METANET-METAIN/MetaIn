@@ -3,31 +3,22 @@ package com.metain.web.controller;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
-import com.metain.web.mapper.FileMapper;
-import com.metain.web.mapper.HrMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -40,7 +31,7 @@ public class VacationController {
     @Autowired
     private HrService hrService;
     @Autowired
-    private FileMapper fileMapper;
+    private HttpServletRequest request;
 
     @RequestMapping("/vacation-list")
     public String vacationList(Model model) {
@@ -153,17 +144,23 @@ public class VacationController {
     }
     @PostMapping(value ="/approveVacationRequest")
     @ResponseBody
-    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Long> requestData) {
-        Long vacId = requestData.get("vacationId");
-       vacationService.approveVacationRequest(vacId);
+    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {
+        Long vacId = Long.parseLong(requestData.get("vacationId").toString());
+        String vacStatus=requestData.get("vacStatus").toString();
+
+       vacationService.approveVacationRequest(vacId,vacStatus);
         return ResponseEntity.ok("성공");
     }
     @PostMapping(value ="/rejectVacationRequest")
     @ResponseBody
-    public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Long> requestData) {
-        Long vacId = requestData.get("vacationId");
-       vacationService.rejectVacationRequest(vacId);
+    public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Object> requestData) {
+        Long vacId = Long.parseLong(requestData.get("vacationId").toString());
+        String vacStatus=requestData.get("vacStatus").toString();
+
+        vacationService.rejectVacationRequest(vacId,vacStatus);
         return ResponseEntity.ok("성공");
     }
+
+
 
 }
