@@ -23,7 +23,7 @@ public class Emp {
     private String empDept;
     private String empGrade;
     private String empStatus;
-    private Date empFistDt;
+    private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
 
