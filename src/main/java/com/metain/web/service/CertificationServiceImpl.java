@@ -1,5 +1,6 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.CommonCert;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.Issue;
@@ -41,19 +42,35 @@ public class CertificationServiceImpl implements CertificationService{
     //재직증명서 신청시 입력정보 추가
     //재직증명서신청시 발급내역 추가
     @Override
-    public int applyEmpCert(EmpCert empCert) {
+    public int applyEmpCert(CommonCert commonCert) {
 
-        certificationMapper.insertEmpCert(empCert);
+        certificationMapper.insertEmpCert(commonCert);
 //        //트랜젝션처리하기
 //        certificationMapper.insertEmpCert(empCert);
 //        certificationMapper.insertIssue(empCert);
         return 1;
     }
+
+    public int applyExperCert(CommonCert commonCert){
+
+        certificationMapper.insertExperCert(commonCert);
+
+        return 1;
+    }
+
+    public int applyRetireCert(CommonCert commonCert){
+
+        certificationMapper.insertRetireCert(commonCert);
+
+        return 1;
+    }
+
+
     
     //증명서 생성 기능
     @Override
     public EmpCert getEmpCertList(Long empId) {
-       EmpCert list = certificationMapper.selectAllEmpCert(empId);
+       EmpCert list = certificationMapper.selectEmpCert(empId);
         if(list == null){
             return null;
         }

@@ -6,7 +6,6 @@ import lombok.Data;
 public class NewEmpDTO {
     private Long newId;
     private String newName;
-    private String newIdnum;
     private String newPhone;
     private String newAddr;
     private String newEmail;

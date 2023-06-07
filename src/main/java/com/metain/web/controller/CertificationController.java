@@ -1,15 +1,15 @@
 package com.metain.web.controller;
 
+import com.metain.web.domain.CommonCert;
 import com.metain.web.domain.Emp;
-import com.metain.web.domain.EmpCert;
 import com.metain.web.service.CertificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 
 
 @Controller
@@ -27,8 +27,11 @@ public class CertificationController {
 
     
     //테스트apply 페이지 연결요청 및 데이터 보내기 테스트
-    @RequestMapping("/certification/emp-cert-apply")
-    public  String empCertApply(Model model){
+    @RequestMapping(path = {"/certification/emp-cert-apply","/certification/exper-cert-apply","/certification/retire-cert-apply"})
+    public  String empCertApply(HttpServletRequest request, Model model){
+
+        // 요청 URL 가져오기
+        String requestUrl = request.getRequestURI();
 
         //재직증명서 신청페이지 나오면 emp객체 넘겨줄거 여기에 작성
         // 유저 정보가 재직 상태와 퇴사일자를 포함한 가상의 예시 데이터라고 가정
@@ -63,24 +66,59 @@ public class CertificationController {
 
         if (empInfoList == null) {
             // 처리할 로직이 없는 경우
-            return "error"; // 에러 페이지로 이동하거나 다른 처리를 수행
+            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
         }
         model.addAttribute("empInfoList", empInfoList);
-        return "/certification/emp-cert-apply"; //뷰 이름 리턴
+
+
+        // 요청 URL에 따른 처리
+        if (requestUrl.equals("/certification/emp-cert-apply")) {
+            return "/certification/emp-cert-apply"; // "/certification/emp-cert-apply"에 대한 결과 페이지 반환
+        } else if (requestUrl.equals("/certification/exper-cert-apply")) {
+            return "/certification/exper-cert-apply"; // "/certification/exper-cert-apply"에 대한 결과 페이지 반환
+        } else if (requestUrl.equals("/certification/retire-cert-apply")){
+            return "/certification/retire-cert-apply"; //"/certification/retire-cert-apply"에 대한 결과 페이지 반환
+        }else {
+            return "/index"; // 그 외의 경우의 결과 페이지 반환
+        }
+
+       // return "/certification/emp-cert-apply"; //뷰 이름 리턴
     }
     
     
     //apply 정보입력 form에서 정보 넘겨받아서 empcert테이블에 insert할 메소드
     @PostMapping("/handleEmpCertInfo")
-    public String handleEmpCertInfo(@ModelAttribute("empInfoList") EmpCert empInfoList,  @RequestParam("certSort") String certSort, @RequestParam("selectedUseOfCert") String selectedUseOfCert ) throws Exception {
-        empInfoList.setCertSort(certSort);
-        empInfoList.setUseOfCert(selectedUseOfCert);
+    public String handleEmpCertInfo(@ModelAttribute("commonCert")CommonCert commonCert, @RequestParam("certSort") String certSort, @RequestParam("selectedUseOfCert") String selectedUseOfCert, Model model) throws Exception {
+        //empInfoList.setCertSort(certSort);
+        commonCert.setUseOfCert(selectedUseOfCert);
         System.out.println("---------------------> tbl_empcert에 insert할때 필요한 증명서 정보 들어왔나 테스트 !!");
-        System.out.println("---------------------> " + empInfoList.getEmpId());
-        System.out.println("---------------------> " + empInfoList.getUseOfCert());
+        System.out.println("---------------------> " + commonCert.getCertSort());
+        System.out.println("---------------------> " + commonCert.getEmpId());
+        System.out.println("---------------------> " + commonCert.getUseOfCert());
 
         // 전달된 데이터를 처리하는 로직 작성
-        certificationService.applyEmpCert(empInfoList);
+        //certificationService.applyEmpCert(empInfoList);
+        
+        //분기 시도
+        if (certSort.equals("A01")){ //증명서종류가 재직증명서일 경우
+            //EmpCert 테이블에 insert되도록
+            System.out.println("!!!!!재직증명서 테이블에 insert된다!!!!!!!!!");
+            certificationService.applyEmpCert(commonCert);
+        } else if (certSort.equals("A02")){ //증명서종류가 경력증명서일 경우
+            //ExperCert 테이블에 insert되도록
+            System.out.println("!!!!!경력증명서 테이블에 insert된다!!!!!!!!!");
+            certificationService.applyExperCert(commonCert);
+        }else if (certSort.equals("A03")){ //증명서종류가 퇴직증명서일 경우
+            //RetireCert 테이블에 insert되도록
+            System.out.println("!!!!!퇴직증명서 테이블에 insert된다!!!!!!!!!");
+            certificationService.applyRetireCert(commonCert);
+        }else {
+            System.out.println("!!!!!분기 안됐어 실패!!!!!!!!!");
+            return "index"; //에러창 만들어서 넣기
+        }
+
+        // certSort 값을 Model 객체에 추가하여 View로 전달
+        model.addAttribute("certSort", certSort);
 
         return "/certification/emp-cert-complete";
     }
@@ -107,11 +145,11 @@ public class CertificationController {
         return "/certification/exper-cert-show";
     }
 
-    @RequestMapping("/certification/exper-cert-apply")
-    public String experCertShow(){
-
-        return "/certification/exper-cert-apply";
-    }
+//    @RequestMapping("/certification/exper-cert-apply")
+//    public String experCertShow(){
+//
+//        return "/certification/exper-cert-apply";
+//    }
 
     
     //퇴직증명서 관련
@@ -121,11 +159,11 @@ public class CertificationController {
         return "/certification/retire-cert-show";
     }
 
-    @RequestMapping("/certification/retire-cert-apply")
-    public String retireCertShow(){
-
-        return "/certification/retire-cert-apply";
-    }
+//    @RequestMapping("/certification/retire-cert-apply")
+//    public String retireCertShow(){
+//
+//        return "/certification/retire-cert-apply";
+//    }
 
 
 

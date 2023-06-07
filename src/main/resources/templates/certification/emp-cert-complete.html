@@ -73,9 +73,10 @@
 <!--            발급내역 페이지로 이동-->
 <!--          </button>-->
 
-              <button type="button" class="btn btn-primary btn-lg">
-                <a class="text-white" href="my-cert-list">발급내역 페이지로 이동</a>
+              <button type="button" class="btn btn-primary btn-lg" onclick="printDiv()">
+                <a class="text-white" href="/my-cert-list">발급내역 페이지로 이동</a>
               </button>
+          <span>증명서 종류 데이터 전달됐나 확인 ! 증명서 종류 : [[${certSort}]]</span>
 
 
 <!--            <input class="btn btn-primary btm-lg" type="button" value="발급내역 페이지로 이동" onclick="location.href='my-cert-list'">-->
@@ -104,7 +105,245 @@
   </div>
 </div>
 
+
+
+<!-- 재직증명서 인쇄할 문서 부분: 출력 X -->
+<div class="print-only" id="A01Div" style="display: none">
+  <div class="invoice-box">
+    <div class="invoice-header">
+      <div class="logo text-center">
+        <div class="col font-12 text-left">제 A01-20230529-01 호</div>
+        <div class="row pb-30"></div>
+      </div>
+    </div>
+    <h4 class="text-center mb-30 weight-600">재직증명서</h4>
+    <div class="row pb-30">
+    </div>
+
+    <div class="invoice-desc pb-30">
+
+      <div class="invoice-desc-body">
+
+        <table class="table table-bordered text-center">
+          <tbody>
+          <tr>
+            <td class="col-2 table-active">성명</td>
+            <td class="col-4">홍길동</td>
+            <td class="col-2 table-active">생년월일</td>
+            <td>1991년 07월 12일</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">주소</td>
+            <td colspan="3">서울 금천구 호서벤치타워</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">근무부서</td>
+            <td class="col-4">개발 1팀</td>
+            <td class="col-2 table-active">직위</td>
+            <td>대리</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">재직기간</td>
+            <td colspan="3">2020-05-02 - 2023-05-29</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">사용용도</td>
+            <td colspan="3">금융기관 제출용</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="row pb-30" style="height: 60px;"></div>
+        <div class="col-12 text-center"> 상기와 같이 재직 중임을 증명합니다 </div>
+        <div class="row pb-30" style="height: 20px;"></div>
+        <div class="col-12 text-center"> 2023년 05월 29일 </div>
+
+        <div class="row pb-30" style="height: 100px;"></div>
+
+        <div class="row pb-30" style="height: 150px;"></div>
+
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 주소: </div>
+          <div class="col-6 text-left">  서울 금천구 호서대벤치타워 </div>
+
+        </div>
+        <div class="row pb-30" style="height: 10px;"></div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 회사명: </div>
+          <div class="col-3 text-left">  메타인컴퍼니(주) </div>
+          <div class="col-3"></div>
+        </div>
+        <div class="row pb-30" style="height: 10px;"></div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 대표이사: </div>
+          <div class="col-3 text-left">  홍길동 </div>
+          <div style="position: relative;">
+            <div class="col-3 text-left" >(인)</div>
+            <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120" >
+          </div>
+
+        </div>
+
+        <div class="row pb-30" style="height: 30px;"></div>
+
+      </div>
+
+
+    </div>
+
+    <div class="invoice-desc-footer">
+      <div class="invoice-desc-body">
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--인쇄 div 끝 -->
+
+<!-- 경력증명서 인쇄할 문서 부분: 출력 X -->
+<div class="print-only" id="A02Div" style="display: none">
+  <div class="invoice-box">
+    <div class="invoice-header">
+      <div class="logo text-center">
+        <div class="col font-12 text-left">제 A01-20230529-01 호</div>
+        <div class="row pb-30"></div>
+      </div>
+    </div>
+    <h4 class="text-center mb-30 weight-600">경력증명서</h4>
+    <div class="row pb-30">
+    </div>
+
+    <div class="invoice-desc pb-30">
+
+      <div class="invoice-desc-body">
+
+        <table class="table table-bordered text-center">
+          <tbody>
+          <tr>
+            <td class="col-2 table-active">성명</td>
+            <td class="col-4">홍길동</td>
+            <td class="col-2 table-active">생년월일</td>
+            <td>1991년 07월 12일</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">주소</td>
+            <td colspan="3">서울 금천구 호서벤치타워</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">근무부서</td>
+            <td class="col-4">개발 1팀</td>
+            <td class="col-2 table-active">직위</td>
+            <td>대리</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">재직기간</td>
+            <td colspan="3">2020-05-02 - 2023-05-29</td>
+          </tr>
+          <tr>
+            <td class="col-2 table-active">사용용도</td>
+            <td colspan="3">금융기관 제출용</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="row pb-30" style="height: 60px;"></div>
+        <div class="col-12 text-center"> 상기와 같이 재직 중임을 증명합니다 </div>
+        <div class="row pb-30" style="height: 20px;"></div>
+        <div class="col-12 text-center"> 2023년 05월 29일 </div>
+
+        <div class="row pb-30" style="height: 100px;"></div>
+
+        <div class="row pb-30" style="height: 150px;"></div>
+
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 주소: </div>
+          <div class="col-6 text-left">  서울 금천구 호서대벤치타워 </div>
+
+        </div>
+        <div class="row pb-30" style="height: 10px;"></div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 회사명: </div>
+          <div class="col-3 text-left">  메타인컴퍼니(주) </div>
+          <div class="col-3"></div>
+        </div>
+        <div class="row pb-30" style="height: 10px;"></div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-3 text-center"> 대표이사: </div>
+          <div class="col-3 text-left">  홍길동 </div>
+          <div style="position: relative;">
+            <div class="col-3 text-left" >(인)</div>
+            <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120" >
+          </div>
+
+        </div>
+
+        <div class="row pb-30" style="height: 30px;"></div>
+
+      </div>
+
+
+    </div>
+
+    <div class="invoice-desc-footer">
+      <div class="invoice-desc-body">
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--인쇄 div 끝 -->
+
+
 <!-- js -->
+
+<script>
+  var certSort = "[[${certSort}]]";
+
+  if (certSort === "A01") {
+    document.getElementById("A01Div").style.display = "block";
+  } else if (certSort === "A02") {
+    document.getElementById("A02Div").style.display = "block";
+  }
+  function printDiv(certSort) {
+    var printContent = document.getElementById("targetDiv").innerHTML;
+
+    if (certSort === "A01") {
+      var printContent = document.getElementById("A01Div").innerHTML;
+    } else if (certSort === "A02") {
+      var printContent = document.getElementById("A02Div").innerHTML;
+    }
+
+    var printWindow = window.open('', '_blank');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+
+    printWindow.document.write('<link rel="stylesheet" href="/src/plugins/bootstrap/bootstrap.css">');
+    printWindow.document.write('<link rel="stylesheet" href="/src/plugins/datatables/css/dataTables.bootstrap4.min.css"/>');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/vendors/styles/style.css" />');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/src/plugins/datatables/css/responsive.bootstrap4.min.css"/>');
+    printWindow.document.write('<link rel="stylesheet" type="text/css" href="/vendors/styles/core.css" />');
+
+    printWindow.document.write('<style>');
+    printWindow.document.write('/* 추가적인 스타일 정의 */');
+
+    printWindow.document.write('</style></head><body>');
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    printWindow.onload = function() {
+      printWindow.print();
+      printWindow.onafterprint = function() {
+        printWindow.close();
+      }}}
+</script>
+
 <script src="vendors/scripts/core.js"></script>
 <script src="vendors/scripts/script.min.js"></script>
 <script src="vendors/scripts/process.js"></script>
