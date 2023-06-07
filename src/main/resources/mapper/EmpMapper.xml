@@ -32,21 +32,24 @@
                 DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID =#{newEmpList.newId}
             </foreach>
         </delete>
+
+
         <!--신규직원 승인(직원테이블에 정보 생성)-->
         <insert id="confirmEmp" parameterType="NewEmp">
-
-                INSERT INTO TBL_EMPLOYEE
-                    (
-                     EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
-                     EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT
-                     )
-                VALUES
-            <foreach collection="newEmp" item="newEmpList" separator=",">
-               (
-                #{newEmpList.newName},#{newEmpList.newPhone},
-                #{newEmpList.newAddr},#{newEmpList.newZipcode},#{newEmpList.newDetailAddr},
-                #{newEmpList.newEmail},#{newEmpList.newDept},DATE_FORMAT(NOW(),'%Y%m%d')
+            <foreach collection="newEmp" item="newEmpList" separator=";">
+                INSERT INTO TBL_EMPLOYEE (
+                EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
+                EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN
                 )
+                SELECT
+                #{newEmpList.newName}, #{newEmpList.newPhone},
+                #{newEmpList.newAddr}, #{newEmpList.newZipcode}, #{newEmpList.newDetailAddr},
+                #{newEmpList.newEmail}, #{newEmpList.newDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
+                CONCAT(YEAR(NOW()),
+                    LPAD((SELECT IFNULL(MAX(SUBSTR(EMP_SABUN, 5)), 0) + 1
+                          FROM TBL_EMPLOYEE), 4, '0'))
             </foreach>
         </insert>
-    </mapper>
+
+
+</mapper>

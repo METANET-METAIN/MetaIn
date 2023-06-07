@@ -26,6 +26,7 @@ import java.util.List;
 @Controller
 //@EnableScheduling
 public class HomeController {
+
     @Autowired
     private VacationService vacationService;
 
