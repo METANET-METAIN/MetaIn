@@ -3,6 +3,7 @@ package com.metain.web.mapper;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,9 +20,12 @@ public interface VacationMapper {
      * */
     public int insertAfterVacation(Vacation vacation);
     /**
-     * 부서별 휴가 조회 - 메인 캘린더
+     * 부서별 휴가 조회 - 메인에서 우리팀 휴가 목록
      * */
-    public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
+    public List<VacationListDTO> selectListByDept(@Param("empDept")String empDept, @Param("today")LocalDate today);
+    public List<VacationListDTO> calendar(@Param("empDept")String empDept, @Param("today")LocalDate today);
+
+
     /**
      * 기간별 휴가 조회
      *
@@ -63,4 +67,5 @@ public interface VacationMapper {
      * 연차차감
      * */
     public int decreaseVacation(int selectedDays);
+
 }

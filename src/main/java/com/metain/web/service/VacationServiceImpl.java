@@ -100,8 +100,14 @@ public class VacationServiceImpl implements VacationService{
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today) {
         today = LocalDate.now();
         List<VacationListDTO> currMonthVac=vacMapper.selectListByDept(empDept,today);
-        System.out.println("서비스에서 이번달 휴가목록"+currMonthVac);
         return currMonthVac;
+    }
+
+    @Override
+    public List<VacationListDTO> calendar(String empDept, LocalDate today) {
+        today = LocalDate.now();
+        List<VacationListDTO> calendar=vacMapper.calendar(empDept,today);
+        return calendar;
     }
 
     @Override

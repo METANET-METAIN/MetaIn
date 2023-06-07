@@ -6,8 +6,8 @@ import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +56,7 @@ public class VacationController {
     public void vacationAfterApplyForm() {
     }
     @PostMapping("/insert-aftervaction")
-    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation, HttpServletRequest request) throws IOException {
+    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
         Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
 
         String type = vacation.getVacType();
@@ -160,7 +160,21 @@ public class VacationController {
         vacationService.rejectVacationRequest(vacId,vacStatus);
         return ResponseEntity.ok("성공");
     }
+    @GetMapping("/calendar")
+    public ResponseEntity<List<VacationListDTO>> calendar(HttpSession session) {
+        // session에서 객체 가져오기
+        Emp emp = (Emp) session.getAttribute("loginEmp");
 
-
+        if (emp != null) {
+            String empDept = emp.getEmpDept();
+            LocalDate today = LocalDate.now();
+            List<VacationListDTO> events = vacationService.calendar(empDept,today);
+            System.out.println(events);
+            return ResponseEntity.ok(events);
+        } else {
+            // 로그인되지 않은 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
 }

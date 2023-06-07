@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,12 +50,8 @@ public class HomeController {
     }*/
 
     @RequestMapping("/fetchEvents")
-    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser() {
-        // 로그인한 사용자의 empDept
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
+    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(HttpSession session) {
         // session에서 객체 가져오기
-        HttpSession session = requestAttributes.getRequest().getSession();
         Emp emp = (Emp) session.getAttribute("loginEmp");
 
         if (emp != null) {
@@ -71,6 +68,8 @@ public class HomeController {
         LocalDate today = LocalDate.now();
         return vacationService.selectListByDept(empDept, today);
     }
+
+
 
     @GetMapping("/hr/{newEmp}")
     public String goPageHr(@PathVariable String newEmp) {
