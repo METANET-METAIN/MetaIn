@@ -104,7 +104,7 @@ public class MyPageController {
 
     @PostMapping(value ="/cancelVacationRequest")
     @ResponseBody
-    public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {
+    public ResponseEntity<String> cancelVacationRequest(@RequestBody Map<String,Object> requestData) {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         Long empId = Long.parseLong(requestData.get("empId").toString());
         String vacStatus=requestData.get("vacStatus").toString();

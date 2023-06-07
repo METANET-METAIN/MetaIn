@@ -18,4 +18,5 @@ public class VacationListDTO {
     private Date vacStartDate;
     private Date vacEndDate;
     private Date vacRegDate;
+    private String vacStatus;
 }
