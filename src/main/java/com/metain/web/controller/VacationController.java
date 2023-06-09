@@ -45,6 +45,9 @@ public class VacationController {
     @RequestMapping("/vacation-applyform")
     public String vacationApplyForm(HttpSession session,Model model) {
         Emp emp= (Emp) session.getAttribute("loginEmp");
+        //if(emp.getEmpDept()==)
+
+
         model.addAttribute("loginEmp",emp);
         return "/vacation/vacation-applyform";
     }
@@ -55,14 +58,15 @@ public class VacationController {
     }
     @RequestMapping("/vacation-afterapply")
     public void vacationAfterApplyForm(HttpSession session,Model model) {
-
+        Emp emp= (Emp) session.getAttribute("loginEmp");
+        model.addAttribute("loginEmp",emp);
     }
     @PostMapping("/insert-aftervaction")
     public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
         Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
 
         String type = vacation.getVacType();
-        int sabun = empInfo.getEmpSabun();
+        String sabun = empInfo.getEmpSabun();
         // 파일 이름
         UUID uuid = UUID.randomUUID();
         String originalFileName = file.getOriginalFilename();
