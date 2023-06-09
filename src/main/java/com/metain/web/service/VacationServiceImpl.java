@@ -111,9 +111,9 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public int decreaseVacation(int selectedDays) {
-
-        return 0;
+    public int decreaseVacation(int selectedDays,Long empId) {
+        int re=vacMapper.decreaseVacation(selectedDays, empId);
+        return re;
     }
 
 }

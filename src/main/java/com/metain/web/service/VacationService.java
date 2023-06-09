@@ -25,5 +25,5 @@ public interface VacationService {
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
 
-    public int decreaseVacation(int selectedDays);
+    public int decreaseVacation(int selectedDays,Long empId);
 }

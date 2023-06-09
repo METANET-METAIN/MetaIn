@@ -4,17 +4,11 @@
 
     <!--  로그인  -->
     <select id="login" resultType="Emp">
-        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE
+        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE, EMP_BIRTH, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE,EMP_DETAIL_ADDR,EMP_EMAIL,EMP_STATUS,EMP_FIRST_DT,EMP_LAST_DT,EMP_VAC
         FROM TBL_EMPLOYEE
         WHERE EMP_SABUN = #{empSabun} AND EMP_PWD = #{empPwd};
     </select>
 
-    <!-- 유저 정보 -->
-<!--    <select id="findByUserId" resultType="Emp">-->
-<!--        SELECT -->
-<!--        FROM-->
-<!--        WHERE-->
-<!--    </select>-->
 
 <!--    <select id="findEmpNo" resultType="Integer">-->
 <!--        SELECT EMP_SABUN-->
@@ -45,6 +39,13 @@
 <!--        WHERE EMP_EMPGRADE = #{emp_empGrade}-->
 <!--    </select>-->
 
+
+
+    <select id="selectAdminInfo" resultType="Emp">
+    SELECT EMP_ID, EMP_SABUN, EMP_NAME, EMP_DEPT,EMP_GRADE
+    FROM TBL_EMPLOYEE
+    WHERE EMP_DEPT = #{empDept} AND EMP_GRADE = #{empGrade};
+    </select>
 
 
 </mapper>

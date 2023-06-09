@@ -16,4 +16,13 @@ public class MemberServiceImpl implements MemberService{
     public Emp login(Emp emp) {
         return memberMapper.login(emp.getEmpSabun(), emp.getEmpPwd());
     }
+
+    @Override
+    public Emp selectAdminInfo(String empDept, String empGrade) {
+        Emp adminInfo=memberMapper.selectAdminInfo(empDept, empGrade) ;
+            if(adminInfo==null && empGrade!="팀관리자"){
+                return null;
+            }
+        return adminInfo;
+    }
 }

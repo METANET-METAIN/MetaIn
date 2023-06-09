@@ -4,6 +4,7 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.HrService;
+import com.metain.web.service.MemberService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,8 @@ public class VacationController {
     @Autowired
     private HrService hrService;
     @Autowired
+    private MemberService memberService;
+    @Autowired
     private HttpServletRequest request;
 
     @RequestMapping("/vacation-list")
@@ -43,17 +46,35 @@ public class VacationController {
     }
 
     @RequestMapping("/vacation-applyform")
-    public String vacationApplyForm() {
+    public String vacationApplyForm(HttpSession session,Model model) {
+        
+        Emp emp= (Emp) session.getAttribute("loginEmp");
+        String empDept=emp.getEmpDept();
+        Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
+        //if(emp.getEmpDept()==admin.getEmpDept()){
+            model.addAttribute("loginEmp",emp);
+            model.addAttribute("admin",admin);
+       // }
 
         return "/vacation/vacation-applyform";
     }
     @PostMapping("/insert-vaction")
-    public String insertVacation(Vacation vacation){
+    public String insertVacation(Vacation vacation,@RequestParam("selectedDays") String diffDays, @RequestParam("empId")Long empId){
         vacationService.insertVacation(vacation);
+        System.out.println(diffDays);
+        //사용한 만큼 연차 차감
+        empId=vacation.getEmpId();
+        int selectedDays=Integer.parseInt(diffDays);
+        vacationService.decreaseVacation(selectedDays,empId);
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
-    public void vacationAfterApplyForm() {
+    public void vacationAfterApplyForm(HttpSession session,Model model) {
+        Emp emp= (Emp) session.getAttribute("loginEmp");
+        String empDept=emp.getEmpDept();
+        Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
+        model.addAttribute("loginEmp",emp);
+        model.addAttribute("admin",admin);
     }
     @PostMapping("/insert-aftervaction")
     public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
@@ -169,7 +190,7 @@ public class VacationController {
             String empDept = emp.getEmpDept();
             LocalDate today = LocalDate.now();
             List<VacationListDTO> events = vacationService.calendar(empDept,today);
-            System.out.println(events);
+
             return ResponseEntity.ok(events);
         } else {
             // 로그인되지 않은 경우 처리

@@ -26,6 +26,7 @@ public interface MemberMapper {
 //    권한 알아내기
     public int findRole(@Param("empGrade") String empGrade);
 
+    public Emp selectAdminInfo(String empDept, String empGrade);
 
 
 
