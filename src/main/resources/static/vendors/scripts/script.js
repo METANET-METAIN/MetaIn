@@ -9,7 +9,6 @@ jQuery(window).on("load resize", function () {
 	// custom scrollbar
 	$(".customscroll").mCustomScrollbar({
 		theme: "dark-2",
-		scrollInertia: 300,
 		autoExpandScrollbar: true,
 		advanced: { autoExpandHorizontalScroll: true },
 	});

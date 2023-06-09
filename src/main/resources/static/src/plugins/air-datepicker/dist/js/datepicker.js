@@ -1115,11 +1115,11 @@
             }
         },
 
-        _onShowEvent: function (e) {
+       /* _onShowEvent: function (e) {
             if (!this.visible) {
                 this.show();
             }
-        },
+        },*/
 
         _onBlur: function () {
             if (!this.inFocus && this.visible) {

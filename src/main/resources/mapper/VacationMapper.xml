@@ -48,7 +48,7 @@
     <select id="calendar" resultType="VacationListDTO">
     SELECT v.VAC_ID, e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE, v.VAC_STATUS
     FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
-                             ON e.EMP_ID=v.EMP_ID
+    ON e.EMP_ID=v.EMP_ID
     WHERE MONTH(v.VAC_START_DATE)=#{today.monthValue} AND e.EMP_DEPT=#{empDept} AND v.VAC_STATUS='승인완료';
 </select>
 

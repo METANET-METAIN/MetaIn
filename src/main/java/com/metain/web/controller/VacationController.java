@@ -43,8 +43,9 @@ public class VacationController {
     }
 
     @RequestMapping("/vacation-applyform")
-    public String vacationApplyForm() {
-
+    public String vacationApplyForm(HttpSession session,Model model) {
+        Emp emp= (Emp) session.getAttribute("loginEmp");
+        model.addAttribute("loginEmp",emp);
         return "/vacation/vacation-applyform";
     }
     @PostMapping("/insert-vaction")
@@ -53,7 +54,8 @@ public class VacationController {
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
-    public void vacationAfterApplyForm() {
+    public void vacationAfterApplyForm(HttpSession session,Model model) {
+
     }
     @PostMapping("/insert-aftervaction")
     public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
