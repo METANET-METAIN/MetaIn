@@ -15,7 +15,10 @@
 <!--        FROM-->
 <!--        WHERE-->
 <!--    </select>-->
-
-
+    <select id="selectAdminInfo" resultType="Emp">
+    SELECT EMP_ID, EMP_SABUN, EMP_NAME, EMP_DEPT,EMP_GRADE
+    FROM TBL_EMPLOYEE
+    WHERE EMP_DEPT = #{empDept} AND EMP_GRADE = #{empGrade};
+    </select>
 
 </mapper>

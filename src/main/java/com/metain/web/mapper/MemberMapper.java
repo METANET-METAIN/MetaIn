@@ -15,6 +15,7 @@ public interface MemberMapper {
     //로그인
     public Emp login(Emp emp);
 
+    public Emp selectAdminInfo(String empDept, String empGrade);
 
 
 

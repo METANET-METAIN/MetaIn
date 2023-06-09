@@ -51,5 +51,9 @@
     ON e.EMP_ID=v.EMP_ID
     WHERE MONTH(v.VAC_START_DATE)=#{today.monthValue} AND e.EMP_DEPT=#{empDept} AND v.VAC_STATUS='승인완료';
 </select>
-
+    <update id="decreaseVacation" parameterType="map">
+        UPDATE TBL_EMPLOYEE
+        SET EMP_VAC = EMP_VAC-#{selectedDays}
+        WHERE EMP_ID=#{empId}
+    </update>
 </mapper>

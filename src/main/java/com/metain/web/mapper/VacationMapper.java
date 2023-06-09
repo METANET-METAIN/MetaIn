@@ -69,6 +69,6 @@ public interface VacationMapper {
     /**
      * 연차차감
      * */
-    public int decreaseVacation(int selectedDays);
+    public int decreaseVacation(int selectedDays,Long empId);
 
 }
