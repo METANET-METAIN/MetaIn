@@ -60,7 +60,7 @@ public class VacationController {
         Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
 
         String type = vacation.getVacType();
-        int sabun = empInfo.getEmpSabun();
+        String sabun = empInfo.getEmpSabun();
         // 파일 이름
         UUID uuid = UUID.randomUUID();
         String originalFileName = file.getOriginalFilename();

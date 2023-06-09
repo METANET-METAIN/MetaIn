@@ -11,7 +11,7 @@ import java.sql.Date;
 @NoArgsConstructor
 public class Emp {
     private Long empId;
-    private int empSabun;
+    private String empSabun;
     private String empName;
     private String empPwd;
     private Date empBirth;
@@ -21,10 +21,11 @@ public class Emp {
     private String empDetailAddr;
     private String empEmail;
     private String empDept;
-    private String empGrade;
+    private Role empGrade;
     private String empStatus;
     private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
+
 
 }

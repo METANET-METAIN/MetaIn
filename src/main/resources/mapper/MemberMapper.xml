@@ -16,6 +16,35 @@
 <!--        WHERE-->
 <!--    </select>-->
 
+<!--    <select id="findEmpNo" resultType="Integer">-->
+<!--        SELECT EMP_SABUN-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_SABUN = #{emp_sabun};-->
+<!--    </select>-->
+
+<!--    <select id="findRole" resultType="Integer">-->
+<!--        SELECT EMP_GRADE-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_GRADE = #{emp_grade};-->
+<!--    </select>-->
+
+
+
+
+<!--    &lt;!&ndash; 유저 정보 &ndash;&gt;-->
+<!--    <select id="findEmpNo" resultType="Integer">-->
+<!--        SELECT EMP_EMPID-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_EMPSABUN = #{emp_empSabun}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 유저 정보 &ndash;&gt;-->
+<!--    <select id="findGradeNo" resultType="void">-->
+<!--        SELECT EMP_EMPGRADE-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_EMPGRADE = #{emp_empGrade}-->
+<!--    </select>-->
+
 
 
 </mapper>

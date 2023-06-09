@@ -13,6 +13,13 @@
 					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
 				</div>
 				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
+				<label class="col-sm-12 col-md-2 col-form-label">이름</label>
+				<div class="col-sm-12 col-md-7" th:text="${getUsername}">
+					<span th:utext="${name}"></span>
+					<span th:utext="${auth}"></span>
+					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">
+				</div>
+			</div>
 				<div class="pd-ltr-12 xs-pd-20-10">
 					<div class="pd-20 card-box mb-30">
 						<div class="calendar-wrap">

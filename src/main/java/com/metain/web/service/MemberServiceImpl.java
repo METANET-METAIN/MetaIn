@@ -14,6 +14,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Emp login(Emp emp) {
-        return memberMapper.login(emp);
+        return memberMapper.login(emp.getEmpSabun(), emp.getEmpPwd());
     }
 }

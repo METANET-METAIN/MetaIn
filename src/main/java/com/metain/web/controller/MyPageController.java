@@ -1,7 +1,6 @@
 package com.metain.web.controller;
 
 import com.metain.web.domain.*;
-import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
@@ -27,8 +26,18 @@ public class MyPageController {
     @Autowired
     private HrService hrService;
 
+//    @GetMapping("/update-mypage")
+//    public String updateMyPage() {
+//
+//        return "/mypage/update-mypage";
+//    }
     @GetMapping("/update-mypage")
-    public String updateMyPage() {
+    public String updateMyPage( Model model, Emp emp) {
+//        model.addAttribute("empList", principalDetails.empList(emp));
+//
+//
+//        model.addAttribute("empLoginName", principalDetails.getUsername());
+//        model.addAttribute("empLoginPwd", principalDetails.getPassword());
         return "/mypage/update-mypage";
     }
 
