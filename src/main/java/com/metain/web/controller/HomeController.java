@@ -2,24 +2,18 @@ package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.dto.VacationListDTO;
-import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,9 +24,35 @@ public class HomeController {
     @Autowired
     private VacationService vacationService;
 
+    @Autowired
+    private HttpSession httpSession;
+
     @RequestMapping("/index")
-    public String home(Model model) {
+    public String home( Model model, Authentication auth, Emp emp) {
+
+//
+//        model.addAttribute("loginType", "login-form");
+//        model.addAttribute("pageName", "loginPage");
+
+//        if(auth != null){
+//            Emp loginEmp =
+//        }
+
+//        Emp loginEmp = (Emp) httpSession.getAttribute("loginEmp");
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+//        model.addAttribute("empList", principalDetails.empList(emp));
+        System.out.println(emp);
+//        if(principalDetails != null) {
+//            model.addAttribute("getUsername", principalDetails.getUsername());
+//
+//        }
+//        System.out.println("emp!!! " + emp);
+//        System.out.println("model!!!! " + model);
+//        System.out.println("principalDetails!!!!!! " + principalDetails);
         return "index";
+
+
     }
 
     /*@Scheduled(cron = "5 * * * * ?") // 오초마다

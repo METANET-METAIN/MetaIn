@@ -1,40 +1,68 @@
 //package com.metain.web.config;
 //
+//import com.metain.web.service.HomeService;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.builders.WebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //
-//@Configuration
-//@EnableWebSecurity
+//@Configuration//이 클래스를 통해 bean 등록이나 각종 설정을 하겠다는 표시
+//@EnableWebSecurity// Spring Security 설정할 클래스라고 정의
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
+//
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//
+//    @Autowired
+//    private HomeService homeService;
+//
+////    @Bean //회원가입시 비번 암호화에 필요한 bean 등록
+////    public BCryptPasswordEncoder passwordEncoder() {
+////        return new BCryptPasswordEncoder();
+////    }
+//
+//    @Bean //실제 인증을 한 이후에 인증이 완료되면 Authentication객체를 반환을 위한 bean등록
+//    public DaoAuthenticationProvider authenticationProvider(HomeService homeService) {
+//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        authenticationProvider.setUserDetailsService(homeService);
+//        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+//        return authenticationProvider;
+//    }
 //
 //
 //    //HTTP 관련 보안 설정 **가장 중요
 //    //URL 별 권한 설정, 로그인, 세션 등등 HTTP 보안 관련 설정
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
+////        http.csrf().disable();// 비활성화
 //                //인증, 인가가 필요한 URL 지정
-//                .authorizeRequests()
+//        http.authorizeRequests()
+//                //접속 허락
+//                .antMatchers("/member/login-form").permitAll()
 //                //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
-//                .antMatchers("/mypage/**").authenticated()
-//                .antMatchers("/vacation/**").authenticated()
-//                .antMatchers("/hr/**").authenticated()
-//                .antMatchers("/certification/**").authenticated()
+//                .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW")
+////                .antMatchers("/vacation/**").hasAnyAuthority("ROLE_SW", "ROLE_ADMIN")
+////                .antMatchers("/hr/**").authenticated()
+////                .antMatchers("/certification/**").authenticated()
 //                //해당 URL에 진입하기 위해서 Authorization(인가, ex)권한이 ADMIN인 유저만 진입 가능)이 필요함
 ////                .antMatchers("/security-login/admin/**").hasAuthority(UserRole.ADMIN.name())
-////                .anyRequest().permitAll()
+//                .anyRequest().permitAll()
 //                .and()
 //                .formLogin()
 //                .usernameParameter("empSabun")
 //                .passwordParameter("empPwd")
 //                .loginPage("/member/login-form")
 //                .defaultSuccessUrl("/index")
-//                .failureUrl("/member/login-form");
+//                .failureUrl("/member/login-form")
+//                .permitAll(); // 로그인 페이지에는 모두 접근 가능하도록 설정
+//
 ////                .and()
 ////                .logout()
 ////                .logoutUrl("/security-login/logout")
@@ -45,8 +73,8 @@
 //    //실제 인증을 진행할 Provider
 //    //DB로부터 id, pwd가 맞는지, 해당  유저가 어떤 권한을 갖는지 체크
 //    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-////        auth.authenticationProvider(userRoleProvider);
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(authenticationProvider(homeService));
 //
 //    }
 //
@@ -55,11 +83,13 @@
 //    //파일을 접근 가능하게 처리하는 소스 입력
 //    @Override
 //    public void configure(WebSecurity web) {
+//        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
 //    }
-//
-//
-//
-//
-//
-//
 //}
+//
+//
+//
+//
+//
+//
+//

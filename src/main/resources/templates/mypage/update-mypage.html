@@ -51,8 +51,8 @@
             <form>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">이름</label>
-                <div class="col-sm-12 col-md-7">
-                  <input class="form-control" value="name" readonly type="text">
+                <div class="col-sm-12 col-md-7" th:text="${empList.getEmpName()}">
+                  <input class="form-control" value="name" readonly type="text" th:text="${empList.getEmpName()}">
                 </div>
               </div>
               <div class="form-group row">

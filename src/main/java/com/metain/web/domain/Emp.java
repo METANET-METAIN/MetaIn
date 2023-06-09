@@ -21,10 +21,11 @@ public class Emp {
     private String empDetailAddr;
     private String empEmail;
     private String empDept;
-    private String empGrade;
+    private Role empGrade;
     private String empStatus;
     private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
+
 
 }
