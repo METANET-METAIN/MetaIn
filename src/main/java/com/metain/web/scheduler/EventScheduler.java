@@ -1,8 +1,6 @@
-package com.metain.web.config;
+package com.metain.web.scheduler;
 
-import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.VacationService;
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -10,10 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
 
 @Component
 public class EventScheduler implements Job {

@@ -16,7 +16,7 @@
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT
+            SELECT TE.EMP_ID, TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT,TE.EMP_VAC
             FROM TBL_EMPLOYEE TE
         </select>
 
@@ -50,6 +50,10 @@
                           FROM TBL_EMPLOYEE), 4, '0'))
             </foreach>
         </insert>
-
+    <update id="annualUpdate" parameterType="Emp">
+        update TBL_EMPLOYEE
+        set EMP_VAC = #{empVac}
+        where EMP_ID = #{empId}
+    </update>
 
 </mapper>

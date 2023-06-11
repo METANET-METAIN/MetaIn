@@ -1,5 +1,6 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
 import org.apache.ibatis.annotations.Param;
@@ -26,4 +27,6 @@ public interface VacationService {
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
 
     public int decreaseVacation(int selectedDays,Long empId);
+
+    int annualUpdate(Emp empInfo);
 }

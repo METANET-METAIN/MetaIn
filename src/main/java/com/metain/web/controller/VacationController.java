@@ -50,7 +50,7 @@ public class VacationController {
         
         Emp emp= (Emp) session.getAttribute("loginEmp");
         String empDept=emp.getEmpDept();
-        Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
+        Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
         //if(emp.getEmpDept()==admin.getEmpDept()){
             model.addAttribute("loginEmp",emp);
             model.addAttribute("admin",admin);
