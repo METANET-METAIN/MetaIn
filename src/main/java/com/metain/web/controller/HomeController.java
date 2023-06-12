@@ -1,12 +1,14 @@
 package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
+import com.metain.web.dto.PrincipalDetails;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,11 +27,20 @@ public class HomeController {
     @Autowired
     private VacationService vacationService;
 
-    @Autowired
-    private HttpSession httpSession;
 
-    @RequestMapping("/index")
-    public String home( Model model, Authentication auth, Emp emp) {
+    @GetMapping("/index")
+    public String home(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth.getPrincipal());
+
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+        System.out.println(auth.getName());
+        model.addAttribute("name", principalDetails.getUsername());
+        model.addAttribute("auth", principalDetails.getAuthorities());
+
+
+
+
 
 //
 //        model.addAttribute("loginType", "login-form");
@@ -42,7 +54,7 @@ public class HomeController {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
 //        model.addAttribute("empList", principalDetails.empList(emp));
-        System.out.println(emp);
+        System.out.println("index 접근했다!!! " );
 //        if(principalDetails != null) {
 //            model.addAttribute("getUsername", principalDetails.getUsername());
 //

@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.Date;
 // TEST
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Emp {
+public class Emp  {
     private Long empId;
     private String empSabun;
     private String empName;

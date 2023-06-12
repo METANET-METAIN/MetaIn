@@ -1,21 +1,58 @@
 package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
+import com.metain.web.domain.NewEmp;
+import com.metain.web.dto.PrincipalDetails;
+import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     public MemberMapper memberMapper;
 
+    @Autowired
+    public HrMapper hrMapper;
 
-    @Override
-    public Emp login(Emp emp) {
-        return memberMapper.login(emp.getEmpSabun(), emp.getEmpPwd());
-    }
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+
+
+
+
+//    //신입사원 승인
+//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+//    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp) {
+////        return hrMapper.deleteNewEmp(newEmp);
+//        emp.setEmpPwd(bCryptPasswordEncoder.encode(emp.getEmpPwd()));
+//        int cnt = memberMapper.confirmEmp(newEmp);
+//        if(cnt >= 1){
+//
+//            return hrMapper.deleteNewEmp(newEmp);
+//        }
+//        return 0;
+//    }
+
+
+
+
+//    @Override
+//    public Emp login(Emp emp) {
+//        return memberMapper.login(emp.getEmpSabun());
+//    }
 
     @Override
     public Emp selectAdminInfo(String empDept, String empGrade) {
@@ -25,4 +62,6 @@ public class MemberServiceImpl implements MemberService{
             }
         return adminInfo;
     }
+
+
 }
