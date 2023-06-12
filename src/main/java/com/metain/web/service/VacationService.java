@@ -17,7 +17,7 @@ public interface VacationService {
 
     List<VacationListDTO> requestList();
 
-    public void approveVacationRequest(Long vacId,String vacStatus);
+    public void approveVacationRequest(Long vacId,String vacStatus,Long receiver);
     public void rejectVacationRequest(Long vacId,String vacStatus);
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 

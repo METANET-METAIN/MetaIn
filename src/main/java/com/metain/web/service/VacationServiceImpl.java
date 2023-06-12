@@ -3,8 +3,11 @@ package com.metain.web.service;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.File;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.AlarmDTO;
+import com.metain.web.dto.AlarmResponse;
 import com.metain.web.dto.FileDTO;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.VacationMapper;
@@ -27,6 +30,10 @@ public class VacationServiceImpl implements VacationService{
     private FileMapper fileMapper;
     @Autowired
     private HrMapper hrMapper;
+    @Autowired
+    private AlarmMapper alarmMapper;
+    @Autowired
+    private AlarmService alarmService;
 
     @Override
     public List<VacationListDTO> selectAllList() {
@@ -55,9 +62,16 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void approveVacationRequest(Long vacId,String vacStatus) {
+    public void approveVacationRequest(Long vacId,String vacStatus,Long receiver) {
         if(vacStatus.equals("승인대기")) {
             int result = vacMapper.approveVacationRequest(vacId, vacStatus);
+
+            AlarmDTO alarmDTO=new AlarmDTO();
+            alarmDTO.setNotiContent("승인되었어영");
+            alarmDTO.setEmpId(receiver);
+            alarmMapper.insertAlarm(alarmDTO);
+
+            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 승인되었습니다!!"));
             if (result == 0) {
                 new Exception("에러");
             }

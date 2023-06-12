@@ -137,10 +137,12 @@
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script th:inline="javascript">
     const vacationId = [[ ${vac.vacId} ]];
+    const empId = [[ ${emp.empId} ]];
     const vacStatus = "승인대기";
     const requestData = {
         vacationId: vacationId,
-        vacStatus:vacStatus
+        vacStatus:vacStatus,
+        receiver:empId
     };
     function approveVacationRequest() {
         //승인 아작스

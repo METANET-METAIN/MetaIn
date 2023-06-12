@@ -73,7 +73,6 @@ public class Scheduler {
             if (empInfo.getEmpStatus() != "퇴직") {
                 if (empInfo.getEmpFirstDt() != null) {
                     System.out.println("emp 정보 ㅜ" + empInfo );
-
                     //입사일
                     String usiStartWorkDat = (empInfo.getEmpFirstDt()).toString();
                     usiStartWorkDat = usiStartWorkDat.substring(0, 4); //입사 년도
@@ -84,9 +83,9 @@ public class Scheduler {
                         int empVacCount = empInfo.getEmpVac();
                         if (empVacCount < 12) {
                             empInfo.setEmpId(empLists.get(i).getEmpId());
-                            empInfo.setEmpVac(empVacCount+ 1); // empVacCount 값을 업데이트
+                            empInfo.setEmpVac(empVacCount+ 1);
                             System.out.println(empVacCount);
-                            vacService.annualUpdate(empInfo); // 업데이트된 객체를 전달
+                            vacService.annualUpdate(empInfo);
                         }
                     }
                 }

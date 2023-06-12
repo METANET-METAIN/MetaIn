@@ -168,8 +168,9 @@ public class VacationController {
     public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
+        Long receiver = Long.parseLong(requestData.get("receiver").toString());
 
-       vacationService.approveVacationRequest(vacId,vacStatus);
+       vacationService.approveVacationRequest(vacId,vacStatus,receiver);
         return ResponseEntity.ok("성공");
     }
     @PostMapping(value ="/rejectVacationRequest")
