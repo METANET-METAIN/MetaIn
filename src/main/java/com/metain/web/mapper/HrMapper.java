@@ -66,4 +66,5 @@ public interface HrMapper {
     /**배치 스케쥴러 통한 연차 초기화*/
     public int annualUpdate(Emp empInfo);
 
+    List<Emp> newEmp();
 }

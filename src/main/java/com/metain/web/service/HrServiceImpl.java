@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
- public class HrServiceImpl implements HrService, UserDetailsService {
+public class HrServiceImpl implements HrService, UserDetailsService {
     @Autowired
     private HrMapper hrMapper;
 
@@ -119,8 +119,8 @@ import java.util.List;
                 return hrMapper.deleteNewEmp(newEmpList);
             }
         }
-            return 0;
-        }
+        return 0;
+    }
 
 
     @Override
@@ -165,8 +165,9 @@ import java.util.List;
         }
         return dbEmp;
     }
-
-
-
-
+    @Override
+    public List<Emp> newEmp() {
+        List<Emp> list=hrMapper.newEmp();
+        return list;
+    }
 }

@@ -16,6 +16,7 @@ public class SseEmitters {
         System.out.println("new emitter added: {}"+emitter);
         System.out.println("emitter list size: {}"+emitters.size());
 
+
         emitter.onCompletion(() -> {
             System.out.println("onCompletion callback");
             this.emitters.remove(emitter);    // 만료되면 리스트에서 삭제

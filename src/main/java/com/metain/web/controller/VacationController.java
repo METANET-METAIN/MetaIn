@@ -2,7 +2,9 @@ package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.service.AlarmService;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MemberService;
 import com.metain.web.service.VacationService;
@@ -178,8 +180,9 @@ public class VacationController {
     public ResponseEntity<String> rejectVacationRequest(@RequestBody Map<String,Object> requestData) {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
+        Long receiver = Long.parseLong(requestData.get("receiver").toString());
 
-        vacationService.rejectVacationRequest(vacId,vacStatus);
+        vacationService.rejectVacationRequest(vacId,vacStatus,receiver);
         return ResponseEntity.ok("성공");
     }
     @GetMapping("/calendar")
@@ -193,6 +196,34 @@ public class VacationController {
             List<VacationListDTO> events = vacationService.calendar(empDept,today);
 
             return ResponseEntity.ok(events);
+        } else {
+            // 로그인되지 않은 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @PostMapping("/alarm")
+    public ResponseEntity<List<AlarmDTO>> alarm(HttpSession session) {
+        // session에서 객체 가져오기
+        Emp emp = (Emp) session.getAttribute("loginEmp");
+
+        if (emp != null) {
+            Long empId = emp.getEmpId();
+            List<AlarmDTO> alarmList = vacationService.alarmListAll(empId);
+            return ResponseEntity.ok(alarmList);
+        } else {
+            // 로그인되지 않은 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @PostMapping("/today")
+    public ResponseEntity<List<VacationListDTO>>todayVacation(HttpSession session) {
+        // session에서 객체 가져오기
+        Emp emp = (Emp) session.getAttribute("loginEmp");
+        if (emp != null) {
+            String empDept= emp.getEmpDept();
+            List<VacationListDTO> alarmList = vacationService.todayVacation(empDept);
+
+            return ResponseEntity.ok(alarmList);
         } else {
             // 로그인되지 않은 경우 처리
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

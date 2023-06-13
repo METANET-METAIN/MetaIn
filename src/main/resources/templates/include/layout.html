@@ -119,47 +119,109 @@
         </style>
     </head>
     <body>
-<!--    <div class="pre-loader">-->
-<!--        <div class="pre-loader-box">-->
-<!--            <div class="loader-logo">-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + [[${session.loginEmp.empId}]]);
+            sse.addEventListener("subscribe", function(e) {
+                var receivedConnectData = e.data;
+                console.log("connect event data: ", e); // "connected!"
+            });
 
-<!--                <img src="/vendors/images/logo.png" alt="" />-->
+            sse.addEventListener("alarm", function(e) {
+                var receivedData = e.data;
+                var data = JSON.parse(receivedData);
+                var randomId = Math.random().toString(36).substring(2, 12);
+                var alarmDiv = "";
+                if ($(".bell").find('h3:contains("' + data.body + '")').length === 0) {
+                    alarmDiv += '<li >';
+                    alarmDiv += '   <a href="#">';
+                    alarmDiv += '       <img src="/vendors/images/bell.png" alt="" />';
+                    alarmDiv += '       <h3>' + data.body + '</h3>';
+                    alarmDiv += '       <p>' + data.createdAt.substring(0, 10) + '</p>';
+                    alarmDiv += '   </a>';
+                    alarmDiv += '</li>';
+                    $(".bell").append(alarmDiv);
+                }
+            });
 
-<!--            </div>-->
-<!--            <div class="loader-progress" id="progress_div">-->
-<!--                <div class="bar" id="bar1"></div>-->
-<!--            </div>-->
-<!--            <div class="percent" id="percent1">0%</div>-->
-<!--            <div class="loading-text">Loading...</div>-->
-<!--        </div>-->
-<!--    </div>-->
-<script>
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + [[${session.loginEmp.empId}]]);
-    //     sse.addEventListener("subscribe", function(e) {
-    //         var receivedConnectData = e.data;
-    //         console.log("connect event data: ", e); // "connected!"
-    //     });
-    //
-    //     sse.addEventListener("alarm", function(e) {
-    //         var receivedData = e.data;
-    //         var data = JSON.parse(receivedData);
-    //         var randomId = Math.random().toString(36).substring(2, 12);
-    //         var alarmDiv = "";
-    //
-    //         alarmDiv += '<li role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" id=' + randomId + '>';
-    //         alarmDiv += '   <a href="#">';
-    //         alarmDiv += '       <img src="/vendors/images/bell.png" alt="" />';
-    //         alarmDiv += '       <h3>'+ data.body + '</h3>';
-    //         alarmDiv += '       <p>'+ data.createdAt.substring(0,10)+'</p>';
-    //         alarmDiv += '   </a>';
-    //         alarmDiv += '</li>';
-    //         $(".bell").append(alarmDiv);
-    //     });
-    // });
-</script>
+            $(document).on("click", ".dropdown-toggle", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/vacation/today",
+                    dataType: "JSON",
+                    success: function (result) {
+                        console.log("오늘 휴가 사용자 "+result);
+                        let alarmList = "";
+                        for (let alarmListElement of result) {
+                            if (alarmListElement.empName != null) {
+                                let alarmItem = "";
+                                alarmItem += '<li >';
+                                alarmItem += '   <a href="#">';
+                                alarmItem += '       <img src="/vendors/images/bell.png" alt="" />';
+                                alarmItem += '       <h3> 오늘은 '+ alarmListElement.empName + ' 님의 '+alarmListElement.vacType+' 휴가입니다. </h3>';
+                                alarmItem += '       <p>'+ alarmListElement.vacStartDate+' ~ '+alarmListElement.vacEndDate+'</p>';
+                                alarmItem += '   </a>';
+                                alarmItem += '</li>';
 
-<div class="header">
+                                alarmList += alarmItem;
+                            }
+                        }
+                        $(".bell").append(alarmList);
+
+                        // 첫 번째 AJAX 요청
+                        $.ajax({
+                            type: "POST",
+                            url: "/vacation/alarm",
+                            dataType: "JSON",
+                            success: function (result) {
+                                console.log(result);
+                                let alarmList = "";
+                                if (result.length === 0) {
+                                    let alarmItem = "";
+                                    alarmItem += '<li >';
+                                    alarmItem += '   <a href="#">';
+                                    alarmItem += '       <h3> 등록된 알람이 없습니다. </h3>';
+                                    alarmItem += '   </a>';
+                                    alarmItem += '</li>';
+
+                                    alarmList += alarmItem;
+                                } else {
+                                    for (let alarmListElement of result) {
+                                        if (alarmListElement.empId != null) {
+                                            let alarmItem = "";
+                                            alarmItem += '<li >';
+                                            alarmItem += '   <a href="#">';
+                                            alarmItem += '       <img src="/vendors/images/bell.png" alt="" />';
+                                            alarmItem += '       <h3>'+ alarmListElement.notiContent + '</h3>';
+                                            alarmItem += '       <p>'+ alarmListElement.notiDt.substring(0,10)+'</p>';
+                                            alarmItem += '   </a>';
+                                            alarmItem += '</li>';
+
+                                            alarmList += alarmItem;
+                                        }
+                                    }
+                                }
+                                $(".bell").append(alarmList);
+                            },
+                            error: function (request, status, error) {
+                                alert("ajax 실행 실패");
+                                alert("code:" + request.status + "\n" + "error :" + error);
+                            }
+                        });
+                    },
+                    error: function (request, status, error) {
+                        alert("ajax 실행 실패");
+                        alert("code:" + request.status + "\n" + "error :" + error);
+                    }
+                });
+            });
+
+        });
+    </script>
+
+
+
+    <div class="header">
         <div class="header-left">
             <div class="menu-icon bi bi-list"></div>
 
@@ -187,18 +249,6 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="notification-list mx-h-350 customscroll">
                             <ul class="bell">
-                                <li>
-                                    <a href="#">
-
-                                        <img src="/vendors/images/bell.png" alt="" />
-
-                                        <h3>John Doe</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
 
                             </ul>
                         </div>
@@ -218,7 +268,7 @@
 									<img src="/vendors/images/photo1.jpg" alt="" />
 
 								</span>
-<!--                        <span class="user-name" th:if="${session.loginEmp!=null}" >[[${session.loginEmp.empName}]] 님</span>-->
+                        <span class="user-name" th:if="${session.loginEmp!=null}" >[[${session.loginEmp.empName}]] 님</span>
                     </a>
                     <div
                             class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
