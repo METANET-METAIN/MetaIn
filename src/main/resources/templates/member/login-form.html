@@ -107,9 +107,9 @@
             <h2 class="text-center text-primary">Meta人 로그인하기 </h2>
           </div>
           <h6 class="mb-20" style="text-align: center; color: darkgrey;" >사번과 비밀번호를 입력해주세요</h6>
-          <!--          <form th:action="@{/member/loginEmp}" method="post" role="form" id="loginForm">-->
+          <form th:action="@{/loginEmp}" th:object="${loginRequest}" method="post" role="form" id="loginForm">
           <div class="input-group custom">
-            <input type="text" class="form-control form-control-lg" id="empSabun" name="empSabun" placeholder="사번" />
+            <input type="text" th:field="${loginRequest.empSabun}" class="form-control form-control-lg" id="empSabun" name="empSabun" placeholder="사번" />
             <input type="hidden" class="form-control form-control-lg" id="empId" name="empId" />
             <div class="input-group-append custom">
 				<span class="input-group-text">
@@ -118,17 +118,18 @@
             </div>
           </div>
           <div class="input-group custom">
-            <input type="password" class="form-control form-control-lg" id="empPwd" name="empPwd" placeholder="비밀번호" />
+            <input type="password" th:field="${loginRequest.empPwd}" class="form-control form-control-lg" id="empPwd" name="empPwd" placeholder="비밀번호" />
             <div class="input-group-append custom">
 				<span class="input-group-text">
                   <i class="dw dw-padlock1"></i>
                 </span>
             </div>
           </div>
+
           <div class="row align-items-center" style="justify-content: space-around;">
             <div class="col-10">
               <div class="input-group mb-0" >
-                <button class="btn btn-primary btn-lg btn-block" onclick="loginEmp()"> 로그인 </button>
+                <button class="btn btn-primary btn-lg btn-block" > 로그인 </button>
 
                 <!--
                     use code for form submit
@@ -140,7 +141,7 @@
               </div>
             </div>
           </div>
-          <!--          </form>-->
+          </form>
         </div>
       </div>
     </div>
@@ -157,30 +158,56 @@
 
 
 <script>
-  function loginEmp() {
-    const empParam = {
-      empSabun: document.querySelector('#empSabun').value,
-      empPwd: document.querySelector('#empPwd').value
-    };
+  // const empSabun = document.querySelector('#empSabun').value;
+  // const empPwd = document.querySelector('#empPwd').value;
+  // const requestData = {
+  //   empSabun: empSabun,
+  //   empPwd:empPwd
+  // };
+  //
+  // function approveVacationRequest() {
+  //   //승인 아작스
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "/loginEmp",
+  //     data:JSON.stringify(requestData),
+  //     dataType: 'text',
+  //     contentType: 'application/json;charset=utf-8',
+  //     success: function(response) {
+  //       console.log(response);
+  //     },
+  //     error: function(error) {
+  //       console.log(JSON.stringify(error));
+  //     }
+  //   });//ajax
 
-    fetch('/loginEmp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(empParam)
-    })
-            .then(function(res) {
-              return res.text();
-            })
-            .then(function(result) {
-              result = JSON.parse(result);
-              if (result) {
-                alert('login!');
-                location.href = '/index';
-              }
-              console.log(result);
-            })
+  // }
+
+  // function loginEmp() {
+  //   const empParam = {
+  //     empSabun: document.querySelector('#empSabun').value,
+  //     empPwd: document.querySelector('#empPwd').value
+  //   };
+  //
+  //   fetch('/loginEmp', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(empParam)
+  //   })
+  //           .then(function(res) {
+  //             return res.text();
+  //           })
+  //           .then(function(result) {
+  //             result = JSON.parse(result);
+  //             if (result) {
+  //               alert('login!');
+  //               console.log(result);
+  //               location.href = '/index';
+  //             }
+  //             console.log(result);
+  //           })
 
     // fetch('/loginEmp', {
     //   method : 'POST',
@@ -201,7 +228,7 @@
     //
     //           console.log(result);
     //         })
-  }
+  // }
 </script>
 
 

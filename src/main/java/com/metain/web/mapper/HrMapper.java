@@ -2,6 +2,7 @@ package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.domain.Role;
 import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,6 +10,20 @@ import java.util.List;
 
 @Mapper
 public interface HrMapper {
+
+    //로그인
+    public Emp login(String empSabun);
+
+    //비밀번호 업데이트
+    public int updatePwdEmp(Emp emp);
+
+    //    사원번호 알아내기
+    public int findEmpNo(String empsabun);
+
+    //    권한 알아내기
+    public Role findRole(String empGrade);
+
+
 
     /**신규 입사자 등록*/
     public int insertNewEmp(NewEmp newEmp);
@@ -27,7 +42,7 @@ public interface HrMapper {
     public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int confirmEmp(List<NewEmp> newEmp);
+    public int confirmEmp(Emp emp);
 
     /**사원 전체보기*/
     public List<Emp> selectAll();
