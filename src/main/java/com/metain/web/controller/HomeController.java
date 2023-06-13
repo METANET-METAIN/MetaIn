@@ -27,9 +27,6 @@ public class HomeController {
     @Autowired
     private HrService hrService;
 
-    @Autowired
-    private HttpSession httpSession;
-
     @RequestMapping("/index")
     public String home( Model model, Authentication auth, Emp emp) {
 

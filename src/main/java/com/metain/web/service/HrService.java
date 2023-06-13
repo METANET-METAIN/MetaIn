@@ -3,11 +3,15 @@ package com.metain.web.service;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
-import com.metain.web.dto.VacationListDTO;
 
 import java.util.List;
 
 public interface HrService {
+
+
+
+    //public Emp login(Emp emp);
+
 
     //신입사원 등록
     public int insertNewEmp(NewEmp newEmp);
@@ -22,8 +26,10 @@ public interface HrService {
 
     public Emp selectEmpInfo(Long empId);
 
+    //    //신입사원 승인
+//    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp);
     //신입사원 승인
-    public int confirmNewEmp(List<NewEmp> newEmp);
+    public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp);
 
     List<Emp> newEmp();
 }
