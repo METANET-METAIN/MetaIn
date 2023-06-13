@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface AlarmMapper {
-    List<Notification> alarmListAll(Long empId);
+    List<AlarmDTO> alarmListAll(Long empId);
 
     int insertAlarm(AlarmDTO alarmDTO);
 }

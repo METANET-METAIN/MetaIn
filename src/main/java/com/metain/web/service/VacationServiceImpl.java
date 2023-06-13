@@ -2,6 +2,7 @@ package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.File;
+import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.AlarmResponse;
@@ -67,20 +68,28 @@ public class VacationServiceImpl implements VacationService{
             int result = vacMapper.approveVacationRequest(vacId, vacStatus);
 
             AlarmDTO alarmDTO=new AlarmDTO();
-            alarmDTO.setNotiContent("승인되었어영");
+            alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 승인되었습니다!");
             alarmDTO.setEmpId(receiver);
             alarmMapper.insertAlarm(alarmDTO);
 
-            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 승인되었습니다!!"));
+            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 승인되었습니다!"));
             if (result == 0) {
                 new Exception("에러");
             }
         }
     }
     @Override
-    public void rejectVacationRequest(Long vacId,String vacStatus) {
+    public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver) {
         if(vacStatus.equals("승인대기")) {
             int result = vacMapper.rejectVacationRequest(vacId, vacStatus);
+            AlarmDTO alarmDTO=new AlarmDTO();
+            alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 반려되었습니다!");
+            alarmDTO.setEmpId(receiver);
+            alarmMapper.insertAlarm(alarmDTO);
+
+            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 반려되었습니다!"));
+
+
             if (result == 0) {
                 new Exception("에러");
             }
@@ -138,6 +147,24 @@ public class VacationServiceImpl implements VacationService{
     public int annualUpdate(Emp empInfo) {
         System.out.println("서비스에서 "+empInfo);
         return hrMapper.annualUpdate(empInfo);
+    }
+
+    @Override
+    public List<AlarmDTO> alarmListAll(Long empId) {
+        List<AlarmDTO>  alarmListAll=alarmMapper.alarmListAll(empId);
+        if(alarmListAll==null){
+            return null;
+        }
+        return alarmListAll;
+    }
+
+    @Override
+    public List<VacationListDTO> todayVacation(String empDept) {
+        List<VacationListDTO> list=vacMapper.todayVacation(empDept);
+        if(list==null) {
+            return null;
+        }
+        return list;
     }
 
 }

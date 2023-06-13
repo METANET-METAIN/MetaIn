@@ -64,4 +64,10 @@ public class HrServiceImpl implements HrService {
         }
         return 0;
     }
+
+    @Override
+    public List<Emp> newEmp() {
+        List<Emp> list=hrMapper.newEmp();
+        return list;
+    }
 }

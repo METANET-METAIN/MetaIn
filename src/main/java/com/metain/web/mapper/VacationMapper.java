@@ -71,4 +71,5 @@ public interface VacationMapper {
      * */
     public int decreaseVacation(int selectedDays,Long empId);
 
+    List<VacationListDTO> todayVacation(String empDept);
 }

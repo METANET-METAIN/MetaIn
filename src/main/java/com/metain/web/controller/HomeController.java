@@ -2,6 +2,7 @@ package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class HomeController {
 
     @Autowired
     private VacationService vacationService;
+
+    @Autowired
+    private HrService hrService;
 
     @Autowired
     private HttpSession httpSession;
@@ -61,7 +65,8 @@ public class HomeController {
 
         if (emp != null) {
             String empDept = emp.getEmpDept();
-            List<VacationListDTO> events = fetchEvents(empDept);
+            LocalDate today = LocalDate.now();
+            List<VacationListDTO> events = vacationService.selectListByDept(empDept, today);
             return ResponseEntity.ok(events);
         } else {
             // 로그인되지 않은 경우 처리
@@ -69,11 +74,17 @@ public class HomeController {
         }
     }
 
-    private List<VacationListDTO> fetchEvents(String empDept) {
-        LocalDate today = LocalDate.now();
-        return vacationService.selectListByDept(empDept, today);
+    @RequestMapping("/newEmp")
+    public ResponseEntity<List<Emp>> newEmp() {
+        List<Emp> events = hrService.newEmp();
+        System.out.println(events);
+        if (events != null) {;
+            return ResponseEntity.ok(events);
+        } else {
+            // 로그인되지 않은 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
-
 
 
     @GetMapping("/hr/{newEmp}")

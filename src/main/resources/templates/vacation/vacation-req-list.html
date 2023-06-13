@@ -72,6 +72,23 @@
 			const itemList = /*[[${list}]]*/ [];
 			console.log(itemList);
 
+			for (let i = 0; i < itemList.length; i++) {
+				if (itemList[i].empGrade === 'ROLE_SW') {
+					itemList[i].empGrade = '사원';
+				} else if (itemList[i].empGrade === 'ROLE_DR') {
+					itemList[i].empGrade = '대리';
+				}
+				else if (itemList[i].empGrade === 'ROLE_GJ') {
+					itemList[i].empGrade = '과장';
+				}else if (itemList[i].empGrade === 'ROLE_CJ') {
+					itemList[i].empGrade = '차장';
+				}else if (itemList[i].empGrade === 'ROLE_ADMIN') {
+					itemList[i].empGrade = '관리자';
+				}else if (itemList[i].empGrade === 'ROLE_HR') {
+					itemList[i].empGrade = '인사';
+				}
+			}
+
 			grid = new tui.Grid({
 				el: document.getElementById('grid'),
 				data: itemList,
@@ -81,24 +98,29 @@
 					{
 						header: '이름',
 						name: 'empName',
-						filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+						filter: { type: 'text', showApplyBtn: true, showClearBtn: true },
+						align: 'center'
 					},
 					{
 						header: '부서',
 						name: 'empDept',
+						align: 'center',
 						filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
 					},
 					{
 						header: '직급',
+						align: 'center',
 						name: 'empGrade'
 					},
 					{
 						header: '휴가 유형',
+						align: 'center',
 						name: 'vacType'
 					},
 					{
 						header: '휴가 시작일',
 						name: 'vacStartDate',
+						align: 'center',
 						filter:{
 							showApplyBtn: true,
 							showClearBtn: true,
@@ -112,6 +134,7 @@
 					{
 						header: '휴가 종료일',
 						name: 'vacEndDate',
+						align: 'center',
 						filter:{
 							showApplyBtn: true,
 							showClearBtn: true,
@@ -124,6 +147,7 @@
 					},
 					{
 						header: '신청 일자',
+						align: 'center',
 						name: 'vacRegDate'
 					}
 				],
