@@ -31,31 +31,4 @@ public class MemberController {
         return "/member/login-form";
     }
 
-
-    public void authenticateUser(String empSabun, String password) {
-        try {
-            System.out.println(empSabun);
-            // 사용자가 제공한 인증 정보로 UsernamePasswordAuthenticationToken 생성
-            Authentication authentication = new UsernamePasswordAuthenticationToken(empSabun, password);
-
-            // 실제 인증 과정 수행
-            Authentication authenticated = authenticationManager.authenticate(authentication);
-
-            // 인증 성공한 경우, SecurityContext에 인증된 사용자 정보 저장
-            SecurityContextHolder.getContext().setAuthentication(authenticated);
-
-            // 추가적인 로직 수행 가능
-            System.out.println(authentication);
-            System.out.println(authenticated);
-
-        } catch (AuthenticationException e) {
-            // 인증 실패한 경우 예외 처리
-            // ...
-        }
-    }
-
-
-
-
-
 }

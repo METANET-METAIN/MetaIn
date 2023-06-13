@@ -48,11 +48,11 @@
         <div class="card-align">
           <div class="pd-20 card-box mb-30">
             <h4 class="h4 text-blue mb-10" > 내 정보 </h4>
-            <form>
+            <form th:object="${emp}">
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">이름</label>
-                <div class="col-sm-12 col-md-7" th:text="${info}">
-                  <input class="form-control" value="name" readonly type="text" th:text="${empList.getEmpName()}">
+                <div class="col-sm-12 col-md-7" >
+                  <input class="form-control" readonly type="text" th:value="${emp.getEmpSabun}">
                 </div>
               </div>
               <div class="form-group row">

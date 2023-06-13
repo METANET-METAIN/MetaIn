@@ -29,50 +29,33 @@ public class MyPageController {
     @Autowired
     private HrService hrService;
 
-//    @GetMapping("/update-mypage")
-//    public String updateMyPage() {
-//
-//        return "/mypage/update-mypage";
-//    }
     @GetMapping("/update-mypage")
     public String updateMyPage( Model model, Authentication authentication) {
         Emp emp = (Emp) authentication.getPrincipal();
-        model.addAttribute("info", emp.getEmpId());
-//        model.addAttribute("empList", principalDetails.empList(emp));
-//
-//
-//        model.addAttribute("empLoginName", principalDetails.getUsername());
-//        model.addAttribute("empLoginPwd", principalDetails.getPassword());
+        model.addAttribute("emp", emp);
         return "/mypage/update-mypage";
     }
-
-//    @RequestMapping("/my-cert-list")
-//    public String selectIssueAll(Model model) {
-//        List<MyCertDTO> list = myPageService.selectIssueAll();
-//
-//        model.addAttribute("issueList", list);
-//        return "/mypage/my-cert-list";
-//    }
 
     //재직증명서 리스트
     @GetMapping("/my-empCert")
     @ResponseBody
     public List<EmpCert> selectMyEmpCert(EmpCert empCert){
-//        empCert.setEmpId(4L);
         return myPageService.selectMyEmpCert(empCert);
     }
+
+
     //경력증명서 리스트
     @GetMapping("/my-experCert")
     @ResponseBody
     public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert){
-//        experienceCert.setEmpId(4L);
         return myPageService.selectMyExperCert(experienceCert);
     }
+
+
     //퇴직증명서 리스트
     @GetMapping("/my-retireCert")
     @ResponseBody
     public List<RetireCert> selectMyRetCert(RetireCert retireCert){
-//        retireCert.setEmpId(4L);
         return myPageService.selectMyRetCert(retireCert);
     }
 

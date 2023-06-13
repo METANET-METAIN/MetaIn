@@ -31,29 +31,6 @@ public class MemberServiceImpl implements MemberService {
 
 
 
-
-
-//    //신입사원 승인
-//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
-//    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp) {
-////        return hrMapper.deleteNewEmp(newEmp);
-//        emp.setEmpPwd(bCryptPasswordEncoder.encode(emp.getEmpPwd()));
-//        int cnt = memberMapper.confirmEmp(newEmp);
-//        if(cnt >= 1){
-//
-//            return hrMapper.deleteNewEmp(newEmp);
-//        }
-//        return 0;
-//    }
-
-
-
-
-//    @Override
-//    public Emp login(Emp emp) {
-//        return memberMapper.login(emp.getEmpSabun());
-//    }
-
     @Override
     public Emp selectAdminInfo(String empDept, String empGrade) {
         Emp adminInfo=memberMapper.selectAdminInfo(empDept, empGrade) ;

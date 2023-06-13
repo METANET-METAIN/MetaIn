@@ -107,9 +107,10 @@
             <h2 class="text-center text-primary">Meta人 로그인하기 </h2>
           </div>
           <h6 class="mb-20" style="text-align: center; color: darkgrey;" >사번과 비밀번호를 입력해주세요</h6>
-          <form th:action="@{/loginEmp}" th:object="${loginRequest}" method="post" role="form" id="loginForm">
+<!--          <form th:action="@{/loginEmp}" th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
+          <form th:action="@{/loginEmp}"  method="post" role="form" id="loginForm">
           <div class="input-group custom">
-            <input type="text" th:field="${loginRequest.empSabun}" class="form-control form-control-lg" id="empSabun" name="empSabun" placeholder="사번" />
+            <input type="text" name="empSabun" class="form-control form-control-lg" id="empSabun" placeholder="사번" />
             <input type="hidden" class="form-control form-control-lg" id="empId" name="empId" />
             <div class="input-group-append custom">
 				<span class="input-group-text">
@@ -118,7 +119,8 @@
             </div>
           </div>
           <div class="input-group custom">
-            <input type="password" th:field="${loginRequest.empPwd}" class="form-control form-control-lg" id="empPwd" name="empPwd" placeholder="비밀번호" />
+<!--            <input type="password" th:field="${loginRequest.empPwd}" class="form-control form-control-lg" id="empPwd" name="empPwd" placeholder="비밀번호" />-->
+            <input type="password" name="empPwd" class="form-control form-control-lg" id="empPwd" placeholder="비밀번호" />
             <div class="input-group-append custom">
 				<span class="input-group-text">
                   <i class="dw dw-padlock1"></i>

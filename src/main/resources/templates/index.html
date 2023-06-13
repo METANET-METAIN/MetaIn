@@ -230,6 +230,11 @@
 		<script src="vendors/scripts/calendar-setting.js"></script>
 		<script>
 
+			// CSRF 토큰 값 가져오기
+			var csrfToken = document.querySelector('input[name="_csrf"]').value;
+			console.log('토큰값이다!!!!' + csrfToken.user);
+
+
 			document.addEventListener('DOMContentLoaded', function() {
 				//우리팀 휴가 목록 아작스
 				$.ajax({

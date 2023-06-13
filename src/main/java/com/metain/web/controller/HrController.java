@@ -33,13 +33,6 @@ public class HrController {
         return hrService.selectAll();
     }
 
-//    @RequestMapping("/new-emp-list")
-//    public String newEmpSelectAll(Model model){
-//        List<NewEmpDTO> list = hrService.newEmpSelectAll();
-//        System.out.println(list);
-//        model.addAttribute("newEmpList", list);
-//        return "hr/new-emp-list";
-//    }
 
 
     //신입사원 등록
@@ -58,42 +51,11 @@ public class HrController {
         return hrService.newEmpSelectAll();
     }
 
-//    @PostMapping("/confirm-new-emp")
-//    @ResponseBody
-//    public int confirmNewEmp(@RequestBody List<NewEmp> newEmp, Emp emp) {
-//        System.out.println(newEmp);
-//        return hrService.confirmNewEmp(newEmp, emp);
-//    }
-
 
 //    사원 승인하기 (회원가입)
     @PostMapping("/confirm-new-emp")
     @ResponseBody
     public int confirmNewEmp(@RequestBody List<NewEmp> newEmpList, Emp emp) {
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//        if (newEmpList != null && !newEmpList.isEmpty()) {
-//            for (NewEmp newEmp : newEmpList) {
-//                if (newEmp.getNewBirth() != null && !newEmp.getNewBirth().isEmpty()) {
-//                    try {
-//                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                        Date empBirth = dateFormat.parse(newEmp.getNewBirth());
-//                        emp.setEmpBirth(empBirth);
-//
-//                        // 생년월일 암호화
-//                        String encodedBirth = encoder.encode(newEmp.getNewBirth());
-//                        emp.setEmpPwd(encodedBirth);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//        // emp의 비밀번호 암호화
-//        if (emp.getEmpPwd() != null && !emp.getEmpPwd().isEmpty()) {
-//            String encodedPwd = encoder.encode(emp.getEmpPwd());
-//            emp.setEmpPwd(encodedPwd);
-//        }
         return hrService.confirmNewEmp(newEmpList, emp);
 
     }

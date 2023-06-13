@@ -29,27 +29,9 @@ public class HomeController {
 
     @RequestMapping("/index")
     public String home( Model model, Authentication auth, Emp emp) {
-        model.addAttribute("loginRequest",emp);
-        System.out.println(model);
-//        model.addAttribute("loginType", "login-form");
-//        model.addAttribute("pageName", "loginPage");
 
-//        if(auth != null){
-//            Emp loginEmp =
-//        }
-
-//        Emp loginEmp = (Emp) httpSession.getAttribute("loginEmp");
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-//        model.addAttribute("empList", principalDetails.empList(emp));
         System.out.println("HomeController!!!!" + emp);
-//        if(principalDetails != null) {
-//            model.addAttribute("getUsername", principalDetails.getUsername());
-//
-//        }
-//        System.out.println("emp!!! " + emp);
-//        System.out.println("model!!!! " + model);
-//        System.out.println("principalDetails!!!!!! " + principalDetails);
+
         return "index";
 
 
