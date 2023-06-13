@@ -26,11 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private HrServiceImpl hrServiceImpl;
 
 
-//    @Bean //회원가입시 비번 암호화에 필요한 bean 등록
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean //실제 인증을 한 이후에 인증이 완료되면 Authentication객체를 반환을 위한 bean등록
     public DaoAuthenticationProvider authenticationProvider(HrServiceImpl hrServiceImpl) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -52,19 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
+                .antMatchers("/", "/index").authenticated()
                 .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
                 .antMatchers("/certification/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-//                .antMatchers("/**").hasAnyAuthority("ROLE_SW")
                 .antMatchers("/vacation/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
                 .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
                 .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
                 .antMatchers("/vacation/vacation-req-list/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/hr/**").hasAnyAuthority("ROLE_HR")
-//                .antMatchers("/hr/**").authenticated()
-//                .antMatchers("/certification/**").authenticated()
-                //해당 URL에 진입하기 위해서 Authorization(인가, ex)권한이 ADMIN인 유저만 진입 가능)이 필요함
-//                .antMatchers("/security-login/admin/**").hasAuthority(UserRole.ADMIN.name())
                 .anyRequest().permitAll();
         http
                 .formLogin()
@@ -72,9 +63,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("empPwd")
                 .loginPage("/loginEmp")
                 .defaultSuccessUrl("/index")
-//                .loginProcessingUrl("/index")
                 .failureUrl("/loginEmp")
                 .permitAll(); // 로그인 페이지에는 모두 접근 가능하도록 설정
+
+                //로그아웃
+        http
+                .logout()
+                .logoutUrl("/logout") // 로그아웃 URL 설정
+                .logoutSuccessUrl("/loginEmp") // 로그아웃 성공 시 이동할 페이지 설정
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
+
+
+                //접근이 거부된 경우 이동할 페이지 설정
+        http
+                .exceptionHandling()
+                .accessDeniedHandler((request, response, accessDeniedException) ->
+                        // 페이지 이동
+                        response.sendRedirect("/index"));
+
+
 //        http
 //                .logout()
 //                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

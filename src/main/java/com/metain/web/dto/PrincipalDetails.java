@@ -74,6 +74,10 @@ public class PrincipalDetails implements UserDetails {
         return emp.getEmpSabun();
     }
 
+    public Long getEmpId() {
+        return emp.getEmpId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -36,6 +36,7 @@ public class HomeController {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
         System.out.println(auth.getName());
         model.addAttribute("name", principalDetails.getUsername());
+        model.addAttribute("empId", principalDetails.getEmpId());
         model.addAttribute("auth", principalDetails.getAuthorities());
 
 

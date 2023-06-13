@@ -19,6 +19,8 @@ public class MemberController {
     @GetMapping("/loginEmp")
     public String loginPage(Model model) {
         model.addAttribute("loginRequest", new Emp());
+        System.out.println(model);
+
 
         return "/member/login-form";
     }
