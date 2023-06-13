@@ -2,15 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.metain.web.mapper.HrMapper">
 
-        <!--  신규 사원 등록  -->
+    <!--  로그인  -->
+    <select id="login" resultType="Emp">
+        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE, EMP_BIRTH, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE,EMP_DETAIL_ADDR,EMP_EMAIL,EMP_STATUS,EMP_FIRST_DT,EMP_LAST_DT,EMP_VAC
+        FROM TBL_EMPLOYEE
+        WHERE EMP_SABUN = #{empSabun};
+    </select>
+
+    <!--    <select id="findEmpNo" resultType="Integer">-->
+    <!--        SELECT EMP_SABUN-->
+    <!--        FROM TBL_EMPLOYEE-->
+    <!--        WHERE EMP_SABUN = #{emp_sabun};-->
+    <!--    </select>-->
+
+    <!--    <select id="findRole" resultType="Integer">-->
+    <!--        SELECT EMP_GRADE-->
+    <!--        FROM TBL_EMPLOYEE-->
+    <!--        WHERE EMP_GRADE = #{emp_grade};-->
+    <!--    </select>-->
+
+
+
+
+
+    <!--  신규 사원 등록  -->
         <insert id="insertNewEmp" parameterType="com.metain.web.domain.NewEmp">
-            INSERT INTO TBL_NEW_EMPLOYEE (NEW_NAME, NEW_PHONE, NEW_ADDR, NEW_ZIPCODE, NEW_DETAIL_ADDR, NEW_EMAIL, NEW_DEPT)
-            VALUES (#{newName}, #{newPhone}, #{newAddr}, #{newZipcode}, #{newDetailAddr}, #{newEmail}, #{newDept})
+            INSERT INTO TBL_NEW_EMPLOYEE (NEW_NAME, NEW_PHONE, NEW_ADDR, NEW_ZIPCODE, NEW_DETAIL_ADDR, NEW_EMAIL, NEW_DEPT, NEW_BIRTH)
+            VALUES (#{newName}, #{newPhone}, #{newAddr}, #{newZipcode}, #{newDetailAddr}, #{newEmail}, #{newDept}, #{newBirth})
         </insert>
 
         <!--  신입 사원 전체 목록  -->
         <select id="newEmpSelectAll" resultType="NewEmpDTO">
-            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT
+            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT, TNE.NEW_BIRTH
             FROM TBL_NEW_EMPLOYEE TNE
         </select>
 
@@ -35,21 +58,25 @@
 
 
         <!--신규직원 승인(직원테이블에 정보 생성)-->
-        <insert id="confirmEmp" parameterType="NewEmp">
-            <foreach collection="newEmp" item="newEmpList" separator=";">
-                INSERT INTO TBL_EMPLOYEE (
-                EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
-                EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN
-                )
-                SELECT
-                #{newEmpList.newName}, #{newEmpList.newPhone},
-                #{newEmpList.newAddr}, #{newEmpList.newZipcode}, #{newEmpList.newDetailAddr},
-                #{newEmpList.newEmail}, #{newEmpList.newDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
-                CONCAT(YEAR(NOW()),
-                    LPAD((SELECT IFNULL(MAX(SUBSTR(EMP_SABUN, 5)), 0) + 1
-                          FROM TBL_EMPLOYEE), 4, '0'))
-            </foreach>
-        </insert>
+
+
+    <insert id="confirmEmp" parameterType="com.metain.web.domain.Emp">
+        INSERT INTO TBL_EMPLOYEE (
+            EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
+            EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH
+        )
+        VALUES (
+                   #{empName}, #{empPhone}, #{empAddr}, #{empZipcode}, #{empDetailAddr},
+                   #{empEmail}, #{empDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
+                   CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
+                   #{empPwd}, #{empBirth}
+               )
+    </insert>
+
+
+
+
+
     <update id="annualUpdate" parameterType="Emp">
         update TBL_EMPLOYEE
         set EMP_VAC = #{empVac}

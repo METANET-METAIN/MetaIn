@@ -6,7 +6,9 @@ import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/mypage")
 public class MyPageController {
+
 
     @Autowired
     private MyPageService myPageService;
@@ -32,7 +35,9 @@ public class MyPageController {
 //        return "/mypage/update-mypage";
 //    }
     @GetMapping("/update-mypage")
-    public String updateMyPage( Model model, Emp emp) {
+    public String updateMyPage( Model model, Authentication authentication) {
+        Emp emp = (Emp) authentication.getPrincipal();
+        model.addAttribute("info", emp.getEmpId());
 //        model.addAttribute("empList", principalDetails.empList(emp));
 //
 //
