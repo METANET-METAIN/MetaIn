@@ -43,7 +43,7 @@ public interface HrMapper {
     public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int confirmEmp(List<NewEmp> newEmp, Emp emp);
+    public int confirmEmp(List<NewEmp> newEmp);
 
     /**사원 전체보기*/
     public List<Emp> selectAll();

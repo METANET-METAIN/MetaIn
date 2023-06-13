@@ -5,6 +5,7 @@ import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.dto.PrincipalDetails;
 import com.metain.web.mapper.HrMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
  public class HrServiceImpl implements HrService, UserDetailsService {
     @Autowired
     private HrMapper hrMapper;
@@ -36,7 +39,11 @@ import java.util.List;
 //        return null;
 //    }
 
-    //    db로부터 사원정보를 가져와 사원인지 아닌지를 체크하는 메소드
+
+
+
+
+    //  db로부터 사원정보를 가져와 사원인지 아닌지를 체크하는 메소드
     @Override
     public UserDetails loadUserByUsername(String empSabun) throws UsernameNotFoundException {
         System.out.println("HrServiceImpl = " + empSabun);
@@ -54,6 +61,15 @@ import java.util.List;
 
     }
 
+    // 생년월일을 사용하여 비밀번호 생성
+    private String generatePasswordFromBirth(Date birth) {
+        // 생년월일을 사용하여 비밀번호 생성 로직 구현
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String birthPassword = dateFormat.format(birth);
+        return birthPassword;
+    }
+
+
 
 
     // 신입사원 승인
@@ -64,41 +80,71 @@ import java.util.List;
                 if (newEmp.getNewBirth() != null && !newEmp.getNewBirth().isEmpty()) {
                     try {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date empBirth = dateFormat.parse(newEmp.getNewBirth());
-                        emp.setEmpBirth(empBirth);
+                        Date empBirthInsert = dateFormat.parse(newEmp.getNewBirth());
+
                         System.out.println("생년월일 저장!! " + newEmpList);
                         System.out.println("emp!!! " + emp);
 
+                        // 생년월일을 empBirth에 할당
+                        emp.setEmpBirth(empBirthInsert);
+
                         // 생년월일 암호화
-                        String encodedBirth = bCryptPasswordEncoder.encode(newEmp.getNewBirth());
+                        String encodedBirth = generatePasswordFromBirth(empBirthInsert);
+
                         System.out.println("암호화된 생년월일 저장!! " + newEmpList);
                         System.out.println("emp!!! " + emp);
 
-                        emp.setEmpPwd(encodedBirth);
-                        System.out.println("암호화된 생년월일 저장!! " + newEmpList);
-                        System.out.println("emp!!! " + emp);
+                        // 비밀번호 암호화하여 empPwd에 할당
+                        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                        String encryptedPwd = passwordEncoder.encode(encodedBirth);
+                        emp.setEmpPwd(encryptedPwd);
 
-
-                        break;
+                        int cnt = hrMapper.confirmEmp(newEmpList);
+                        if (cnt >= 1) {
+                            return hrMapper.deleteNewEmp(newEmpList);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
+
+                        break;
+
                     }
                 }
-            }
 
-            System.out.println(newEmpList);
-            System.out.println(emp);
+                System.out.println(newEmpList);
+                System.out.println(emp);
 
-            // emp 테이블에 저장하기 전에 empPwd 필드에 암호화된 생년월일 할당
-
-            int cnt = hrMapper.confirmEmp(newEmpList, emp);
-            if (cnt >= 1) {
-                return hrMapper.deleteNewEmp(newEmpList);
             }
         }
 
-        return 0;
-    }
+            return 0;
+        }
+//
+//                        int cnt = hrMapper.confirmEmp(newEmpList);
+//                        if (cnt >= 1) {
+//                            return hrMapper.deleteNewEmp(newEmpList);
+//                        }
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//
+//                        break;
+//
+//                }
+//            }
+//
+//            System.out.println(newEmpList);
+//            System.out.println(emp);
+//
+//            // emp 테이블에 저장하기 전에 empPwd 필드에 암호화된 생년월일 할당
+//
+//            int cnt = hrMapper.confirmEmp(newEmpList, emp.getEmpBirth());
+//            if (cnt >= 1) {
+//                return hrMapper.deleteNewEmp(newEmpList);
+//            }
+//        }
+//
+//        return 0;
+//    }
 
 
 

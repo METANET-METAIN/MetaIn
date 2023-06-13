@@ -62,8 +62,7 @@
             <foreach collection="newEmp" item="newEmpList" separator=";">
                 INSERT INTO TBL_EMPLOYEE (
                 EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
-                EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD
---                 , EMP_BIRTH
+                EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH
                 )
                 SELECT
                 #{newEmpList.newName}, #{newEmpList.newPhone},
@@ -73,8 +72,9 @@
                     LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1
                           FROM TBL_EMPLOYEE), 4, '0')),
 --                 CONCAT(REPLACE(#{newEmpList.newBirth}, '-', '')),
-                #{newEmpList.newBirth}
---                        , #{empBirth}
+                #{newEmpList.newBirth},  -- 생년월일 그대로 저장
+                CONCAT(YEAR(#{newEmpList.newBirth}), LPAD(MONTH(#{newEmpList.newBirth}), 2, '0'), LPAD(DAY(#{newEmpList.newBirth}), 2, '0')) -- 생년월일을 비밀번호로 변환
+
             </foreach>
         </insert>
 
