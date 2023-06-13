@@ -11,13 +11,19 @@
 			<div class="xs-pd-20-10 pd-ltr-20">
 				<div class="title pb-20">
 					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
+					<!-- CSRF 토큰 삽입 -->
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 				</div>
 				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
 				<label class="col-sm-12 col-md-2 col-form-label">이름</label>
-				<span th:utext="${empId}"></span>
+<!--				<span th:utext="${empId}"></span>-->
 				<div class="col-sm-12 col-md-7">
 					<span th:utext="${name}"></span>
-					<span th:utext="${auth}"></span>
+					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">
+
+					<span th:object="${emp}" th:field="${emp.empId}"></span>
+<!--					<span th:utext="${auth}"></span>-->
 <!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
 				</div>
 			</div>
@@ -223,10 +229,11 @@
 		<script src="src/plugins/fullcalendar/fullcalendar.min.js"></script>
 		<script src="vendors/scripts/calendar-setting.js"></script>
 		<script>
+
 			document.addEventListener('DOMContentLoaded', function() {
 				//우리팀 휴가 목록 아작스
 				$.ajax({
-					url: '/fetchEvents',
+					url: '/fetchEvents?empId=' + empId,
 					method: 'GET',
 					success: function(response) {
 						response.slice(0,5).forEach(function(item) {
