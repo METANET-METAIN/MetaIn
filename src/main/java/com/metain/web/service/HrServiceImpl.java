@@ -66,6 +66,7 @@ import java.util.List;
         // 생년월일을 사용하여 비밀번호 생성 로직 구현
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String birthPassword = dateFormat.format(birth);
+        System.out.println("생년월일 -> 비밀번호 (암호화 전) : " + birthPassword);
         return birthPassword;
     }
 
@@ -75,6 +76,9 @@ import java.util.List;
     // 신입사원 승인
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp) {
+
+        int successCount = 0; // 승인된 신입사원 수
+
         if (newEmpList != null && !newEmpList.isEmpty()) {
             for (NewEmp newEmp : newEmpList) {
                 if (newEmp.getNewBirth() != null && !newEmp.getNewBirth().isEmpty()) {
@@ -91,19 +95,28 @@ import java.util.List;
                         // 생년월일 암호화
                         String encodedBirth = generatePasswordFromBirth(empBirthInsert);
 
-                        System.out.println("암호화된 생년월일 저장!! " + newEmpList);
-                        System.out.println("emp!!! " + emp);
+                        System.out.println("암호화된 생년월일 저장 전 " + emp);
 
                         // 비밀번호 암호화하여 empPwd에 할당
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                         String encryptedPwd = passwordEncoder.encode(encodedBirth);
                         emp.setEmpPwd(encryptedPwd);
 
-                        int cnt = hrMapper.confirmEmp(newEmpList);
+                        emp.setEmpName(newEmp.getNewName());
+                        emp.setEmpPhone(newEmp.getNewPhone());
+                        emp.setEmpAddr(newEmp.getNewAddr());
+                        emp.setEmpZipcode(newEmp.getNewZipcode());
+                        emp.setEmpDetailAddr(newEmp.getNewDetailAddr());
+                        emp.setEmpEmail(newEmp.getNewEmail());
+                        emp.setEmpDept(newEmp.getNewDept());
+                        System.out.println("암호화 완료 " + encryptedPwd);
+
+
+                        int cnt = hrMapper.confirmEmp(emp);
                         if (cnt >= 1) {
-                            return hrMapper.deleteNewEmp(newEmpList);
+                            successCount++;
                         }
-                    } catch (ParseException e) {
+                    }   catch (ParseException e) {
                         e.printStackTrace();
 
                         break;
@@ -115,8 +128,11 @@ import java.util.List;
                 System.out.println(emp);
 
             }
-        }
 
+            if (successCount == newEmpList.size()) {
+                return hrMapper.deleteNewEmp(newEmpList);
+            }
+        }
             return 0;
         }
 //

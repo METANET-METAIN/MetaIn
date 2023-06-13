@@ -27,5 +27,4 @@ public class Emp  {
     private Date empLastDt;
     private int empVac;
 
-
 }

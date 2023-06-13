@@ -6,7 +6,6 @@ import com.metain.web.domain.Role;
 import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -43,7 +42,7 @@ public interface HrMapper {
     public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int confirmEmp(List<NewEmp> newEmp);
+    public int confirmEmp(Emp emp);
 
     /**사원 전체보기*/
     public List<Emp> selectAll();

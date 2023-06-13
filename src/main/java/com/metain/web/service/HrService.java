@@ -29,5 +29,5 @@ public interface HrService {
 //    //신입사원 승인
 //    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp);
     //신입사원 승인
-    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp);
+    public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp);
 }
