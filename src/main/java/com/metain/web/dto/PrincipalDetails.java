@@ -55,9 +55,10 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(() -> {
-            return emp.getEmpGrade().value();
-        });
+        if (emp != null && emp.getEmpGrade() != null) {
+            authorities.add(() -> emp.getEmpGrade().value());
+        }
+
         return authorities;
     }
 

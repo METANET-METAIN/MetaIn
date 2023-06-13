@@ -33,16 +33,6 @@ import java.util.List;
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-//
-//    @Override
-//    public Emp login(Emp emp) {
-//        return null;
-//    }
-
-
-
-
-
     //  db로부터 사원정보를 가져와 사원인지 아닌지를 체크하는 메소드
     @Override
     public UserDetails loadUserByUsername(String empSabun) throws UsernameNotFoundException {
@@ -58,7 +48,6 @@ import java.util.List;
 
         return new PrincipalDetails(emp); // UserDetails 클래스를 상속받은 PrincipalDetails 리턴한다.
 
-
     }
 
     // 생년월일을 사용하여 비밀번호 생성
@@ -69,9 +58,6 @@ import java.util.List;
         System.out.println("생년월일 -> 비밀번호 (암호화 전) : " + birthPassword);
         return birthPassword;
     }
-
-
-
 
     // 신입사원 승인
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
@@ -135,46 +121,6 @@ import java.util.List;
         }
             return 0;
         }
-//
-//                        int cnt = hrMapper.confirmEmp(newEmpList);
-//                        if (cnt >= 1) {
-//                            return hrMapper.deleteNewEmp(newEmpList);
-//                        }
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//
-//                        break;
-//
-//                }
-//            }
-//
-//            System.out.println(newEmpList);
-//            System.out.println(emp);
-//
-//            // emp 테이블에 저장하기 전에 empPwd 필드에 암호화된 생년월일 할당
-//
-//            int cnt = hrMapper.confirmEmp(newEmpList, emp.getEmpBirth());
-//            if (cnt >= 1) {
-//                return hrMapper.deleteNewEmp(newEmpList);
-//            }
-//        }
-//
-//        return 0;
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override

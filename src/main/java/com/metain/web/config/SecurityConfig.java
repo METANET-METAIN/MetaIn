@@ -52,8 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
-                .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW")
-//                .antMatchers("/vacation/**").hasAnyAuthority("ROLE_SW", "ROLE_ADMIN")
+                .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+                .antMatchers("/certification/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/**").hasAnyAuthority("ROLE_SW")
+                .antMatchers("/vacation/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+                .antMatchers("/vacation/vacation-req-list/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/hr/**").hasAnyAuthority("ROLE_HR")
 //                .antMatchers("/hr/**").authenticated()
 //                .antMatchers("/certification/**").authenticated()
                 //해당 URL에 진입하기 위해서 Authorization(인가, ex)권한이 ADMIN인 유저만 진입 가능)이 필요함
