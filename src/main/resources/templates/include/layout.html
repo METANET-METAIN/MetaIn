@@ -121,7 +121,7 @@
     <body>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + [[${session.loginEmp.empId}]]);
+            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + [[${empId}]]);
             sse.addEventListener("subscribe", function(e) {
                 var receivedConnectData = e.data;
                 console.log("connect event data: ", e); // "connected!"
@@ -153,12 +153,12 @@
                         console.log("오늘 휴가 사용자 "+result);
                         let alarmList = "";
                         for (let alarmListElement of result) {
-                            if (alarmListElement.empName != null) {
+                            if (alarmListElement != null) {
                                 let alarmItem = "";
                                 alarmItem += '<li >';
                                 alarmItem += '   <a href="#">';
                                 alarmItem += '       <img src="/vendors/images/bell.png" alt="" />';
-                                alarmItem += '       <h3> 오늘은 '+ alarmListElement.empName + ' 님의 '+alarmListElement.vacType+' 휴가입니다. </h3>';
+                                alarmItem += '       <h3> 오늘은 '+ alarmListElement + ' 님의 '+alarmListElement.vacType+' 휴가입니다. </h3>';
                                 alarmItem += '       <p>'+ alarmListElement.vacStartDate+' ~ '+alarmListElement.vacEndDate+'</p>';
                                 alarmItem += '   </a>';
                                 alarmItem += '</li>';
@@ -268,7 +268,6 @@
 									<img src="/vendors/images/photo1.jpg" alt="" />
 
 								</span>
-                        <span class="user-name" th:if="${session.loginEmp!=null}" >[[${session.loginEmp.empName}]] 님</span>
                     </a>
                     <div
                             class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"

@@ -56,9 +56,9 @@ public class HomeController {
     }
 
     @RequestMapping("/fetchEvents")
-    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(HttpSession session) {
-        // session에서 객체 가져오기
-        Emp emp = (Emp) session.getAttribute("loginEmp");
+    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(Long empId) {
+
+        Emp emp=hrService.selectEmpInfo(empId);
 
         if (emp != null) {
             String empDept = emp.getEmpDept();
