@@ -39,7 +39,7 @@
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            SELECT TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT
+            SELECT TE.EMP_ID, TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT,TE.EMP_VAC
             FROM TBL_EMPLOYEE TE
         </select>
 
@@ -59,6 +59,7 @@
 
         <!--신규직원 승인(직원테이블에 정보 생성)-->
 
+
     <insert id="confirmEmp" parameterType="com.metain.web.domain.Emp">
         INSERT INTO TBL_EMPLOYEE (
             EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
@@ -74,27 +75,12 @@
 
 
 
-    <!--&lt;!&ndash;신규직원 승인(직원테이블에 정보 생성)&ndash;&gt;-->
-<!--        <insert id="confirmEmp" parameterType="NewEmp">-->
-<!--            <foreach collection="newEmp" item="newEmpList" separator=";">-->
-<!--                INSERT INTO TBL_EMPLOYEE (-->
-<!--                EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,-->
-<!--                EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH-->
-<!--                )-->
-<!--                SELECT-->
-<!--                #{newEmpList.newName}, #{newEmpList.newPhone},-->
-<!--                #{newEmpList.newAddr}, #{newEmpList.newZipcode}, #{newEmpList.newDetailAddr},-->
-<!--                #{newEmpList.newEmail}, #{newEmpList.newDept}, DATE_FORMAT(NOW(), '%Y%m%d'),-->
-<!--                CONCAT(YEAR(NOW()),-->
-<!--                    LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1-->
-<!--                          FROM TBL_EMPLOYEE), 4, '0')),-->
-<!--&#45;&#45;                 CONCAT(REPLACE(#{newEmpList.newBirth}, '-', '')),-->
-<!--                #{newEmpList.newBirth},  &#45;&#45; 생년월일 그대로 저장-->
-<!--                #{newEmpList.newBirth}-->
-<!--&#45;&#45;                 CONCAT(YEAR(#{newEmpList.newBirth}), LPAD(MONTH(#{newEmpList.newBirth}), 2, '0'), LPAD(DAY(#{newEmpList.newBirth}), 2, '0')) &#45;&#45; 생년월일을 비밀번호로 변환-->
 
-<!--            </foreach>-->
-<!--        </insert>-->
 
+    <update id="annualUpdate" parameterType="Emp">
+        update TBL_EMPLOYEE
+        set EMP_VAC = #{empVac}
+        where EMP_ID = #{empId}
+    </update>
 
 </mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.metain.web.mapper.VacationMapper">
         <select id="selectAllList" resultType="VacationListDTO">
-            SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE
+            SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE,v.VAC_STATUS
             FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
             ON e.EMP_ID=v.EMP_ID;
         </select>

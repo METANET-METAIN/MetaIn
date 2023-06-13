@@ -63,7 +63,7 @@ public interface HrMapper {
     /**인사 정보 수정(직급, 부서, 재직상태)*/
     public int updateEmp(Emp emp);
 
-
-
+    /**배치 스케쥴러 통한 연차 초기화*/
+    public int annualUpdate(Emp empInfo);
 
 }

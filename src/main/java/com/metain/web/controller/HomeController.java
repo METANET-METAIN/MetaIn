@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-//@EnableScheduling
 public class HomeController {
 
     @Autowired
@@ -67,21 +66,6 @@ public class HomeController {
 
 
     }
-
-    /*@Scheduled(cron = "5 * * * * ?") // 오초마다
-    public void fetchEventsScheduler() {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-        // session에서 객체 가져오기
-        HttpSession session = requestAttributes.getRequest().getSession();
-        Emp emp = (Emp) session.getAttribute("loginEmp");
-        // Emp 객체를 이용한 로직 처리
-        if (emp != null) {
-            String empDept = emp.getEmpDept();
-            List<VacationListDTO> events = fetchEvents(empDept);
-            System.out.println(events);
-        }
-    }*/
 
     @RequestMapping("/fetchEvents")
     public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(HttpSession session) {

@@ -50,7 +50,7 @@ public class VacationController {
         
         Emp emp= (Emp) session.getAttribute("loginEmp");
         String empDept=emp.getEmpDept();
-        Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
+        Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
         //if(emp.getEmpDept()==admin.getEmpDept()){
             model.addAttribute("loginEmp",emp);
             model.addAttribute("admin",admin);
@@ -168,8 +168,9 @@ public class VacationController {
     public ResponseEntity<String> approveVacationRequest(@RequestBody Map<String,Object> requestData) {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
+        Long receiver = Long.parseLong(requestData.get("receiver").toString());
 
-       vacationService.approveVacationRequest(vacId,vacStatus);
+       vacationService.approveVacationRequest(vacId,vacStatus,receiver);
         return ResponseEntity.ok("성공");
     }
     @PostMapping(value ="/rejectVacationRequest")
