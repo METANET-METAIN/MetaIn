@@ -48,9 +48,8 @@ public class VacationController {
     }
 
     @RequestMapping("/vacation-applyform")
-    public String vacationApplyForm(HttpSession session,Model model) {
-        
-        Emp emp= (Emp) session.getAttribute("loginEmp");
+    public String vacationApplyForm(Long empId,Model model) {
+        Emp emp=hrService.selectEmpInfo(empId);
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
         //if(emp.getEmpDept()==admin.getEmpDept()){
@@ -71,8 +70,8 @@ public class VacationController {
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
-    public void vacationAfterApplyForm(HttpSession session,Model model) {
-        Emp emp= (Emp) session.getAttribute("loginEmp");
+    public void vacationAfterApplyForm(Long empId,Model model) {
+        Emp emp=hrService.selectEmpInfo(empId);
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
         model.addAttribute("loginEmp",emp);
@@ -186,10 +185,8 @@ public class VacationController {
         return ResponseEntity.ok("성공");
     }
     @GetMapping("/calendar")
-    public ResponseEntity<List<VacationListDTO>> calendar(HttpSession session) {
-        // session에서 객체 가져오기
-        Emp emp = (Emp) session.getAttribute("loginEmp");
-
+    public ResponseEntity<List<VacationListDTO>> calendar(Long empId) {
+        Emp emp=hrService.selectEmpInfo(empId);
         if (emp != null) {
             String empDept = emp.getEmpDept();
             LocalDate today = LocalDate.now();
@@ -202,12 +199,10 @@ public class VacationController {
         }
     }
     @PostMapping("/alarm")
-    public ResponseEntity<List<AlarmDTO>> alarm(HttpSession session) {
-        // session에서 객체 가져오기
-        Emp emp = (Emp) session.getAttribute("loginEmp");
+    public ResponseEntity<List<AlarmDTO>> alarm(Long empId) {
+        Emp emp=hrService.selectEmpInfo(empId);
 
         if (emp != null) {
-            Long empId = emp.getEmpId();
             List<AlarmDTO> alarmList = vacationService.alarmListAll(empId);
             return ResponseEntity.ok(alarmList);
         } else {
@@ -216,9 +211,8 @@ public class VacationController {
         }
     }
     @PostMapping("/today")
-    public ResponseEntity<List<VacationListDTO>>todayVacation(HttpSession session) {
-        // session에서 객체 가져오기
-        Emp emp = (Emp) session.getAttribute("loginEmp");
+    public ResponseEntity<List<VacationListDTO>>todayVacation(Long empId) {
+        Emp emp=hrService.selectEmpInfo(empId);
         if (emp != null) {
             String empDept= emp.getEmpDept();
             List<VacationListDTO> alarmList = vacationService.todayVacation(empDept);
