@@ -83,4 +83,8 @@
         where EMP_ID = #{empId}
     </update>
 
+    <select id="newEmp" resultType="Emp">
+        select EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN from TBL_EMPLOYEE ;
+    </select>
+
 </mapper>

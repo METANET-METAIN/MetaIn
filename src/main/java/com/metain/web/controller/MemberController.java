@@ -4,6 +4,11 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,56 +20,42 @@ import java.util.List;
 public class MemberController {
     @Autowired
     private MemberService memberService;
-
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    //login 창
     @GetMapping("/loginEmp")
     public String loginPage(Model model) {
         model.addAttribute("loginRequest", new Emp());
         System.out.println(model);
 
-
         return "/member/login-form";
     }
 
-//    @PostMapping("/loginEmp")
-//    public String login(Emp emp, HttpServletRequest request,
-//                        RedirectAttributes rediAttr, Model model){
-//
-//         HttpSession session = request.getSession();
-//         Emp empUser = memberService.login(emp);
-//         if(empUser == null){
-//             session.setAttribute("empUser", null);
-//             rediAttr.addAttribute("msg", false);
-//             model.addAttribute("fail", 1);
-//
-//             return "member/login-form";
-//
-//         } else {
-//             session.setAttribute("empUser", empUser);
-//             session.setMaxInactiveInterval(1800);
-//         }
-//            return "redirect:/index";
-//
-//    }
 
-//    @PostMapping("/confirm-new-emp")
-//    @ResponseBody
-//    public int confirmNewEmp(@RequestBody List<NewEmp> newEmp, Emp emp) {
-//        System.out.println(newEmp);
-//        return memberService.confirmNewEmp(newEmp, emp);
-//    }
+    public void authenticateUser(String empSabun, String password) {
+        try {
+            System.out.println(empSabun);
+            // 사용자가 제공한 인증 정보로 UsernamePasswordAuthenticationToken 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(empSabun, password);
+
+            // 실제 인증 과정 수행
+            Authentication authenticated = authenticationManager.authenticate(authentication);
+
+            // 인증 성공한 경우, SecurityContext에 인증된 사용자 정보 저장
+            SecurityContextHolder.getContext().setAuthentication(authenticated);
+
+            // 추가적인 로직 수행 가능
+            System.out.println(authentication);
+            System.out.println(authenticated);
+
+        } catch (AuthenticationException e) {
+            // 인증 실패한 경우 예외 처리
+            // ...
+        }
+    }
 
 
-//    @RequestMapping("/loginEmp")
-//    @ResponseBody
-//    public Emp login(@RequestBody Emp emp, HttpSession session){
-//        Emp loginEmp = memberService.login(emp);
-//        if(loginEmp != null) {
-//            session.setAttribute("loginEmp", loginEmp);
-//            System.out.println("로그인!!!: " + loginEmp);
-//            System.out.println("empId : " + emp.getEmpId());
-//
-//        }
-//        return loginEmp;
-//
-//    }
+
+
+
 }

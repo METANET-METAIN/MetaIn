@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-public class HrServiceImpl implements HrService, UserDetailsService {
+public class HrServiceImpl implements HrService {
     @Autowired
     private HrMapper hrMapper;
 
@@ -33,22 +33,7 @@ public class HrServiceImpl implements HrService, UserDetailsService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    //  db로부터 사원정보를 가져와 사원인지 아닌지를 체크하는 메소드
-    @Override
-    public UserDetails loadUserByUsername(String empSabun) throws UsernameNotFoundException {
-        System.out.println("HrServiceImpl = " + empSabun);
 
-        // DB로부터 회원 정보를 가져온다.
-        Emp emp = hrMapper.login(empSabun);
-        System.out.println(emp.getEmpSabun());
-
-        if (emp == null) {
-            throw new UsernameNotFoundException(empSabun + "의 사원이 존재하지 않습니다.");
-        }
-
-        return new PrincipalDetails(emp); // UserDetails 클래스를 상속받은 PrincipalDetails 리턴한다.
-
-    }
 
     // 생년월일을 사용하여 비밀번호 생성
     private String generatePasswordFromBirth(Date birth) {
