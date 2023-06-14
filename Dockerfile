@@ -8,7 +8,7 @@ ADD server.xml /usr/local/tomcat/conf/
 
 
 # 컨테이너 외부에서 사용하는 포트 지정
-#EXPOSE 9000
+EXPOSE 9000
 EXPOSE 443
 
 
