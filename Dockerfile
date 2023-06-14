@@ -8,7 +8,8 @@ ADD server.xml /usr/local/tomcat/conf/
 
 
 # 컨테이너 외부에서 사용하는 포트 지정
-EXPOSE 9000
+#EXPOSE 9000
+EXPOSE 443
 
 
 #start tomcat(Tomcat 실행 시 웹 애플리케이션을 자동으로 로드)
