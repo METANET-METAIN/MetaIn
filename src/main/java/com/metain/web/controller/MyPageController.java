@@ -30,9 +30,12 @@ public class MyPageController {
     private HrService hrService;
 
     @GetMapping("/update-mypage")
-    public String updateMyPage( Model model, Authentication authentication) {
-        Emp emp = (Emp) authentication.getPrincipal();
+    public String updateMyPage( Model model, Authentication auth) {
+        Emp emp = (Emp) auth.getPrincipal();
         model.addAttribute("emp", emp);
+        System.out.println("updateMyPage : " + emp);
+        System.out.println("updateMyPage(model) : " + model);
+        System.out.println("updateMyPage(auth) : " + auth);
         return "/mypage/update-mypage";
     }
 

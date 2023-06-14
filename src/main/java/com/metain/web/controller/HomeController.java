@@ -28,13 +28,11 @@ public class HomeController {
     private HrService hrService;
 
     @RequestMapping("/index")
-    public String home( Model model, Authentication auth, Emp emp) {
-
-        System.out.println("HomeController!!!!" + emp);
-
+    public String home( Model model, Authentication auth) {
+        Emp emp = (Emp)auth.getPrincipal();
+        model.addAttribute("emp",emp);
+        System.out.println("home : " + emp);
         return "index";
-
-
     }
 
     @RequestMapping("/fetchEvents")
