@@ -6,6 +6,9 @@ ADD target/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 ADD server.xml /usr/local/tomcat/conf/
 
+# 인증서 파일 복사
+COPY keystore.p12 /ssl/keystore.p12
+
 # 컨테이너 외부에서 사용하는 포트 지정
 EXPOSE 9000
 
