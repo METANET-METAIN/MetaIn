@@ -6,6 +6,8 @@ import com.metain.web.domain.Role;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.mapper.HrMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class HrServiceImpl implements HrService {
 
 
 
+    private static final Logger logger = LoggerFactory.getLogger(HrServiceImpl.class);
 
     // 생년월일을 사용하여 비밀번호 생성
     private String generatePasswordFromBirth(Date birth) {
@@ -64,7 +67,7 @@ public class HrServiceImpl implements HrService {
                         System.out.println("emp!!! " + emp);
 
                         // 생년월일을 empBirth에 할당
-                        emp.setEmpBirth(empBirthInsert);
+                        emp.setEmpBirth((java.sql.Date) empBirthInsert);
 
                         // 생년월일 암호화
                         String encodedBirth = generatePasswordFromBirth(empBirthInsert);
@@ -165,6 +168,17 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<Emp> newEmp() {
         List<Emp> list=hrMapper.newEmp();
+        System.out.println(list);
         return list;
+    }
+
+    @Override
+    public void updateEmp(String empStatus, String empGrade, Long updateEmpId) {
+        Emp emp = new Emp();
+        emp.setEmpStatus(empStatus);
+        //emp.setEmpGrade(empGrade);
+        emp.setEmpId(updateEmpId);
+        logger.info("hrService의 updateEmp의 Emp", emp);
+        hrMapper.updateEmp(emp);
     }
 }

@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.sql.Date;
 // TEST
 @Component
 @Data
@@ -32,11 +31,7 @@ public class Emp  {
     private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
-
-
     private String RoleName;
     private List<GrantedAuthority> authorities;
-
-
-
+    private String empProfile;
 }

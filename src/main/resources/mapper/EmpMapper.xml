@@ -74,7 +74,7 @@
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
-            SELECT TE.EMP_ID, TE.EMP_SABUN, TE.EMP_DEPT, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT,TE.EMP_VAC
+            SELECT TE.EMP_ID, TE.EMP_PHONE, TE.EMP_ADDR, TE.EMP_EMAIL,TE.EMP_SABUN,TE.EMP_BIRTH, TE.EMP_DEPT, TE.EMP_STATUS, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT,TE.EMP_VAC, TE.EMP_PROFILE
             FROM TBL_EMPLOYEE TE
         </select>
 
@@ -107,10 +107,11 @@
                    #{empPwd}, #{empBirth}
                )
     </insert>
-
-
-
-
+    <update id="updateEmp" parameterType="Emp">
+        update TBL_EMPLOYEE
+        set EMP_STATUS = #{empStatus} AND EMP_GRADE= #{empGrade}
+        where EMP_ID = #{empId}
+    </update>
 
     <update id="annualUpdate" parameterType="Emp">
         update TBL_EMPLOYEE
@@ -119,7 +120,7 @@
     </update>
 
     <select id="newEmp" resultType="Emp">
-        select EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN from TBL_EMPLOYEE ;
+        select EMP_ID, EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN,EMP_VAC,EMP_PROFILE from TBL_EMPLOYEE WHERE MONTH(EMP_FIRST_DT) = MONTH(CURRENT_DATE()) AND YEAR(EMP_FIRST_DT) = YEAR(CURRENT_DATE()) order by EMP_FIRST_DT desc;
     </select>
 
 </mapper>

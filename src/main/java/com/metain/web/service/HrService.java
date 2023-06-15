@@ -32,4 +32,6 @@ public interface HrService {
     public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp);
 
     List<Emp> newEmp();
+
+    void updateEmp(String empStatus, String empGrade, Long updateEmpId);
 }

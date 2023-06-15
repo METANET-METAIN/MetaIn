@@ -44,7 +44,7 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label">사원 정보 </label>
                             <div class="col-sm-12 col-md-7">
-                                <input class="form-control" th:value="${emp.empName}" readonly type="text">
+                                <input class="form-control" th:value="${req.empName}" readonly type="text">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-sm-12 col-md-3">
                                 총 <b><span th:text="${diff}"/> 일</b> 선택<br>
-                                <i class="icon-copy fi-flag"></i> 남은 연차 : <b><span th:text="${emp.getEmpVac() - diff}"/></b> 일
+                                <i class="icon-copy fi-flag"></i> 남은 연차 : <b><span th:text="${req.getEmpVac() - diff}"/></b> 일
                             </div>
                         </div>
                         <div class="form-group row">
@@ -84,9 +84,9 @@
                                          style="width: 100px; height: 100px;"
                                     />
                                 </div>
-                                <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
+                                <div th:text="${req.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
                                 <p class="text-center text-muted font-14" >
-                                    <span th:text="${emp.getEmpDept()}"></span>
+                                    <span th:text="${req.getEmpDept()}"></span>
                                 </p>
                             </div>
                             <div class="col-sm-5 col-md-3" style="display: flex">
@@ -136,23 +136,31 @@
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script th:inline="javascript">
+    var header = $("meta[name='_csrf_header']").attr('content');
+    var token = $("meta[name='_csrf']").attr('content');
+    var receiver = [[ ${req.empId} ]];
+
     const vacationId = [[ ${vac.vacId} ]];
-    const empId = [[ ${emp.empId} ]];
     const vacStatus = "승인대기";
     const requestData = {
         vacationId: vacationId,
         vacStatus:vacStatus,
-        receiver:empId
+        receiver:receiver
     };
+    $(document).ajaxSend(function(e,xht,op){
+        xht.setRequestHeader(header ,token);
+    });
     function approveVacationRequest() {
         //승인 아작스
         $.ajax({
+
             type: "POST",
             url: "/vacation/approveVacationRequest",
             data:JSON.stringify(requestData),
             dataType: 'text',
             contentType: 'application/json;charset=utf-8',
             success: function(response) {
+                console.log(response)
                 window.location.pathname = "/vacation/vacation-req-list";
                 document.querySelector(".btn-primary").disabled = true;
                 },

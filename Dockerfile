@@ -6,15 +6,13 @@ ADD target/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 ADD server.xml /usr/local/tomcat/conf/
 
-# 인증서 파일 복사
-#COPY keystore.p12 /ssl/keystore.p12
 
 # 컨테이너 외부에서 사용하는 포트 지정
 EXPOSE 9000
+EXPOSE 443
 
 
 #start tomcat(Tomcat 실행 시 웹 애플리케이션을 자동으로 로드)
 CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
 
-# mavem 버전정보, pom.xmml, build되면 파일이름 뭐로 되는지,
-# 빌드될때 무슨 파일들 빌드 되도록 되어있는지 check 
+

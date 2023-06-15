@@ -37,6 +37,7 @@ public class HomeController {
     private HrMapper hrMapper;
 
     @RequestMapping("/index")
+
     public String home(Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
         Long empId = principalDetails.getEmpId();
@@ -56,6 +57,14 @@ public class HomeController {
             return "index";
         }
         return null;
+
+//     public String home( Model model, Authentication auth) {
+//         Emp emp = (Emp)auth.getPrincipal();
+//         model.addAttribute("emp",emp);
+//         return "index";
+
+
+
     }
 
 //    @RequestMapping("/index")
@@ -92,7 +101,6 @@ public class HomeController {
     @RequestMapping("/newEmp")
     public ResponseEntity<List<Emp>> newEmp() {
         List<Emp> events = hrService.newEmp();
-        System.out.println(events);
         if (events != null) {;
             return ResponseEntity.ok(events);
         } else {

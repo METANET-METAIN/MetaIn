@@ -12,7 +12,7 @@
 				<div class="title pb-20">
 					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
 					<!-- CSRF 토큰 삽입 -->
-<!--					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 				</div>
 				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
@@ -20,8 +20,10 @@
 
 <!--				<span th:utext="${empId}"></span>-->
 				<div class="col-sm-12 col-md-7">
+
 <!--					<span th:utext="${name}"></span>-->
 <!--					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
+
 
 <!--					<span th:object="${emp}" th:field="${emp.empId}"></span>-->
 <!--					<span th:utext="${auth}"></span>-->
@@ -177,33 +179,15 @@
 				<div class="d-flex justify-content-between">
 					<div class="h5 mb-0">이달의 신규입사자</div>
 				</div>
-				<div style="text-align: center;">
+				<div style="text-align: center;margin-bottom:10px;margin-top:10px;">
 				  <span>
-					<span style="display: inline-block;"> 🎉 메타인이 되신걸 환영합니다 🎉 </span>
+					<span style="display: inline-block;" > 🎉 메타인이 되신걸 환영합니다 🎉 </span>
 				  </span>
 				</div>
+				<div id="newcard" style="overflow-y: scroll; height: 400px; overflow-x: hidden;width: 500px;">
 				<!--카드 -->
-				<div class="row clearfix">
-					<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
-						<div class="da-card">
-							<div class="da-card-photo">
-								<img src="vendors/user/1.png" style="width: 100px; height: 100px" />
-								<div class="da-overlay">
-									<div class="da-social">
-										<ul class="clearfix">
-
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="da-card-content">
-								<h5 class="h5 mb-10">유저네임</h5>
-								<p class="mb-0">부서 : ㅈ3333333</p>
-								<p class="mb-0">입사일 : 1</p>
-							</div>
-						</div>
-					</div>
-
+				<div class="col clearfix">
+				</div>
 				</div>
 			</div>
 		</div>
@@ -238,10 +222,11 @@
 			console.log('토큰값이다!!!!' + emp);
 
 
+		<script th:inline="javascript">
 			document.addEventListener('DOMContentLoaded', function() {
 				//우리팀 휴가 목록 아작스
 				$.ajax({
-					url: '/fetchEvents?empId=' + empId,
+					url: '/fetchEvents?empId='+empId,
 					method: 'GET',
 					success: function(response) {
 						response.slice(0,5).forEach(function(item) {
@@ -279,29 +264,36 @@
 					method: 'GET',
 					success: function(response) {
 						console.log(response)
-						/*
-						response.slice(0,5).forEach(function(item) {
+
+						response.forEach(function(item) {
 							var empName = item.empName;
 							var empDept = item.empDept;
-							var vacStartDate = item.vacStartDate;
-							var vacType = item.vacType;
-							var empGrade = item.empGrade;
+							var empFirstDt = new Date(item.empFirstDt);
+							var empProfile=item.empProfile;
 
-							var teamList = $('<li class="d-flex align-items-center justify-content-between">' +
-									'<div class="name-avatar d-flex align-items-center pr-2">' +
-									'<div class="txt">' +
-									'<span class="badge badge-pill badge-sm" style="background-color: #e7ebf5;">' + vacType + '</span>' +
-									'<div class="font-14 weight-600">' + empName + '</div>' +
-									'<div class="font-12 weight-500" data-color="#b2b1b6">' + empDept+'    '+empGrade + '</div>' +
+							empFirstDt.setDate(empFirstDt.getDate()+1)
+							empFirstDt=empFirstDt.toISOString().substring(0,10)
+							console.log(empProfile)
+							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30">' +
+									'<div class="da-card" style="display: flex;width: 350px; height: 100px">' +
+									'<div class="da-card-photo">' +
+									'<img src="vendors/user/'+empProfile+' "style="width: 100px; height: 80px" />' +
+									'<div class="da-overlay">' +
+									'<div class="da-social">' +
+									'<ul class="clearfix"></ul>' +
 									'</div>' +
 									'</div>' +
-									'<div class="cta flex-shrink-0">' +
-									'<a href="#" class="btn btn-sm btn-outline-primary" style="font-size: 13px;">' + vacStartDate + '</a>' +
 									'</div>' +
-									'</li>');
+									'<div class="da-card-content" style="padding-top: 10px; padding-bottom: 10px;">' +
+									'<h5 class="h5 mb-10">'+empName+' 님'+'</h5>' +
+									'<p class="mb-0"> 부서: '+empDept+'</p>' +
+									'<p class="mb-0">입사일 :'+empFirstDt + '</p>' +
+									'</div>' +
+									'</div>' +
+									'</div>');
 
-							$('.team-vac').append(teamList);
-						});*/
+							$(".col.clearfix").append(newCard);
+						});
 					},
 					error: function(xhr, status, error) {/*
 						var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
