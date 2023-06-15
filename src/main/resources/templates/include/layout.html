@@ -223,6 +223,8 @@
             });
 
         });
+
+
     </script>
 
 
@@ -275,12 +277,27 @@
 
 								</span>
                     </a>
-                    <div
-                            class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                    >
-                        <a class="dropdown-item" href="login.html"
-                        ><i class="dw dw-logout"></i> Log Out</a
-                        >
+
+
+                    <!-- 로그아웃  -->
+                    <form id="logoutForm" th:action="@{/logout}" method="post">
+                        <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}"/>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                            <a class="dropdown-item" onclick="logout()" >
+                                <i class="dw dw-logout"></i> Log Out
+                            </a>
+                        </div>
+                    </form>
+
+
+
+
+
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                        <a class="dropdown-item">
+                            <i class="dw dw-logout"></i>
+                            Log Out
+                        </a>
                     </div>
                 </div>
             </div>
@@ -555,6 +572,14 @@
     <script src="/vendors/scripts/dashboard3.js"></script>
     <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
     <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+    <script>
+
+       function logout() {
+           document.getElementById('logoutForm').submit(); // 폼 제출
+           console.log('로그아웃 된다');
+       }
+
+    </script>
 
 
     <!-- Google Tag Manager (noscript) -->

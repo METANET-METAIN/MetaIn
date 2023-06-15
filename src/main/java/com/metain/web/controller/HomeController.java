@@ -32,12 +32,14 @@ public class HomeController {
         Emp emp = (Emp)auth.getPrincipal();
         model.addAttribute("emp",emp);
         return "index";
+
+
     }
 
     @RequestMapping("/fetchEvents")
-    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(Authentication auth) {
-        Emp empInfo= (Emp) auth.getPrincipal();
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
+    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(Long empId) {
+
+        Emp emp=hrService.selectEmpInfo(empId);
 
         if (emp != null) {
             String empDept = emp.getEmpDept();
@@ -53,7 +55,6 @@ public class HomeController {
     @RequestMapping("/newEmp")
     public ResponseEntity<List<Emp>> newEmp() {
         List<Emp> events = hrService.newEmp();
-        //System.out.println("home의 newEmp메소드"+events);
         if (events != null) {;
             return ResponseEntity.ok(events);
         } else {

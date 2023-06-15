@@ -109,7 +109,10 @@
           <h6 class="mb-20" style="text-align: center; color: darkgrey;" >사번과 비밀번호를 입력해주세요</h6>
 <!--          <form th:action="@{/loginEmp}" th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
           <form th:action="@{/loginEmp}"  method="post" role="form" id="loginForm">
-          <div class="input-group custom">
+            <!-- CSRF 토큰을 폼 데이터에 포함 -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+            <div class="input-group custom">
             <input type="text" name="empSabun" class="form-control form-control-lg" id="empSabun" placeholder="사번" />
             <input type="hidden" class="form-control form-control-lg" id="empId" name="empId" />
             <div class="input-group-append custom">
