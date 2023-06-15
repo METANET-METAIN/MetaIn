@@ -3,7 +3,6 @@ package com.metain.web.controller;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.dto.VacationListDTO;
-import com.metain.web.mapper.HrMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.management.relation.Role;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,31 +28,28 @@ public class HomeController {
 
     @Autowired
     private HrService hrService;
+//   @RequestMapping("/index")
 
-    @Autowired
-    private HrMapper hrMapper;
-
-    @RequestMapping("/index")
-
-    public String home(Model model, Authentication auth) {
-        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-        Long empId = principalDetails.getEmpId();
-        List<String> roleNames = new ArrayList<>();
-
-        for (GrantedAuthority authority : principalDetails.getAuthorities()) {
-            String roleName = authority.getAuthority();
-            roleNames.add(roleName);
-        }
-
-
-        if (roleNames != null && !roleNames.isEmpty()) {
-
-
-        model.addAttribute("emp", principalDetails);
-            model.addAttribute("roleNames : " + roleNames);
-            return "index";
-        }
-        return null;
+//    public String home(Model model, Authentication auth) {
+//        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+//        Long empId = principalDetails.getEmpId();
+//        List<String> roleNames = new ArrayList<>();
+//        System.out.println(principalDetails);
+//        System.out.println(empId);
+//
+//        for (GrantedAuthority authority : principalDetails.getAuthorities()) {
+//            String roleName = authority.getAuthority();
+//            roleNames.add(roleName);
+//        }
+//
+//
+//        if (roleNames != null && !roleNames.isEmpty()) {
+//            System.out.println(principalDetails);
+//        model.addAttribute("emp", principalDetails);
+//        model.addAttribute("roleNames : " , roleNames);
+//            return "index";
+//        }
+//        return null;
 
 //     public String home( Model model, Authentication auth) {
 //         Emp emp = (Emp)auth.getPrincipal();
@@ -65,27 +58,28 @@ public class HomeController {
 
 
 
-    }
+    //}
+    @RequestMapping("/index")
+    public String home( Model model, Authentication auth) {
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp empList =  hrService.selectEmpInfo(EmpId);
 
-//    @RequestMapping("/index")
-//    public String home( Model model, Authentication auth) {
-//        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
-//        Long EmpId = principalDetails.getEmpId();
-//        Emp empList =  hrService.selectEmpInfo(EmpId);
-//
-//        if (empList != null) {
-//            model.addAttribute("emp", empList);
-//            System.out.println("home : " + empList);
-//            return "index";
-//        } return null;
-//    }
+        if (empList != null) {
+            model.addAttribute("emp", empList);
+            System.out.println("home : " + empList);
+            return "index";
+        }
+    return null;
+    }
 // 유효하지 않은 경우에 대한 처리
 
 
         @RequestMapping("/fetchEvents")
-    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(Long empId) {
-
-        Emp emp=hrService.selectEmpInfo(empId);
+    public ResponseEntity<List<VacationListDTO>> fetchEventsForLoggedInUser(Authentication auth) {
+            PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+            Long EmpId = principalDetails.getEmpId();
+            Emp emp =  hrService.selectEmpInfo(EmpId);
 
         if (emp != null) {
             String empDept = emp.getEmpDept();
@@ -99,7 +93,10 @@ public class HomeController {
     }
 
     @RequestMapping("/newEmp")
-    public ResponseEntity<List<Emp>> newEmp() {
+    public ResponseEntity<List<Emp>> newEmp(Authentication auth) {
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+
         List<Emp> events = hrService.newEmp();
         if (events != null) {;
             return ResponseEntity.ok(events);

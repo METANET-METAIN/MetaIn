@@ -1,6 +1,7 @@
 package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
+import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.VacationListDTO;
@@ -193,8 +194,9 @@ public class VacationController {
     }
     @GetMapping("/calendar")
     public ResponseEntity<List<VacationListDTO>> calendar(Authentication auth) {
-        Emp empInfo = (Emp) auth.getPrincipal();
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(EmpId);
         if (emp != null) {
             String empDept = emp.getEmpDept();
             LocalDate today = LocalDate.now();
@@ -208,9 +210,9 @@ public class VacationController {
     }
     @GetMapping("/alarm")
     public ResponseEntity<List<AlarmDTO>> alarm(Authentication auth) {
-        Emp empInfo= (Emp) auth.getPrincipal();
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
-
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(EmpId);
         if (emp != null) {
             List<AlarmDTO> alarmList = vacationService.alarmListAll(emp.getEmpId());
             return ResponseEntity.ok(alarmList);
@@ -221,8 +223,9 @@ public class VacationController {
     }
     @GetMapping("/today")
     public ResponseEntity<List<VacationListDTO>>todayVacation(Authentication auth) {
-        Emp empInfo= (Emp) auth.getPrincipal();
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(EmpId);
         if (emp != null) {
             String empDept= emp.getEmpDept();
             List<VacationListDTO> alarmList = vacationService.todayVacation(empDept);
