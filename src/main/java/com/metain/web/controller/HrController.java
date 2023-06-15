@@ -52,7 +52,7 @@ public class HrController {
 
     @GetMapping("/new-list")
     @ResponseBody
-    public List<NewEmpDTO> newEmpSelectAll() {
+    public List<NewEmpDTO> newEmpSelectAll(Authentication auth) {
 
         return hrService.newEmpSelectAll();
     }
@@ -61,7 +61,9 @@ public class HrController {
 //    사원 승인하기 (회원가입)
     @PostMapping("/confirm-new-emp")
     @ResponseBody
-    public int confirmNewEmp(@RequestBody List<NewEmp> newEmpList, Emp emp) {
+    public int confirmNewEmp(@RequestBody List<NewEmp> newEmpList, Emp emp, Model model, Authentication auth) {
+        emp = (Emp) auth.getPrincipal();
+        model.addAttribute("emp", emp);
         return hrService.confirmNewEmp(newEmpList, emp);
 
     }

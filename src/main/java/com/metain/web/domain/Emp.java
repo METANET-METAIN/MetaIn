@@ -3,9 +3,14 @@ package com.metain.web.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.sql.Date;
 // TEST
+@Component
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,10 +26,12 @@ public class Emp  {
     private String empDetailAddr;
     private String empEmail;
     private String empDept;
-    private Role empGrade;
+    private String empGrade;
     private String empStatus;
     private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
+    private String RoleName;
+    private List<GrantedAuthority> authorities;
     private String empProfile;
 }

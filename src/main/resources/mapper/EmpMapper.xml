@@ -4,22 +4,57 @@
 
     <!--  로그인  -->
     <select id="login" resultType="Emp">
-        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE, EMP_BIRTH, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE,EMP_DETAIL_ADDR,EMP_EMAIL,EMP_STATUS,EMP_FIRST_DT,EMP_LAST_DT,EMP_VAC
-        FROM TBL_EMPLOYEE
+        SELECT TBL.EMP_ID, TBL.EMP_SABUN, TBL.EMP_PWD, TBL.EMP_NAME, TBL.EMP_DEPT,
+               TBL.EMP_GRADE, TBL.EMP_BIRTH, TBL.EMP_PHONE, TBL.EMP_ADDR,
+               TBL.EMP_ZIPCODE, TBL.EMP_DETAIL_ADDR, TBL.EMP_EMAIL, TBL.EMP_STATUS,
+               TBL.EMP_FIRST_DT, TBL.EMP_LAST_DT, TBL.EMP_VAC
+--                ,
+--                TR.ROLE_NAME
+        FROM TBL_EMPLOYEE TBL
+--         INNER JOIN TBL_USER_ROLE TUR
+--         ON TBL.EMP_ID = TUR.EMP_ID
+--         INNER JOIN TBL_ROLE TR
+--         ON TUR.ROLE_ID = TR.ROLE_ID
         WHERE EMP_SABUN = #{empSabun};
     </select>
 
-    <!--    <select id="findEmpNo" resultType="Integer">-->
-    <!--        SELECT EMP_SABUN-->
-    <!--        FROM TBL_EMPLOYEE-->
-    <!--        WHERE EMP_SABUN = #{emp_sabun};-->
-    <!--    </select>-->
+    <!-- 권한 확인 -->
+    <select id="selectRoleName"  resultType="String">
+        SELECT TR.ROLE_NAME
+        FROM TBL_EMPLOYEE TBL
+        INNER JOIN TBL_USER_ROLE TUR
+        ON TBL.EMP_ID = TUR.EMP_ID
+        INNER JOIN TBL_ROLE TR
+        ON TUR.ROLE_ID = TR.ROLE_ID
+        WHERE TBL.EMP_SABUN = #{empSabun};
+    </select>
 
-    <!--    <select id="findRole" resultType="Integer">-->
-    <!--        SELECT EMP_GRADE-->
-    <!--        FROM TBL_EMPLOYEE-->
-    <!--        WHERE EMP_GRADE = #{emp_grade};-->
-    <!--    </select>-->
+    <!--  권한 저장   -->
+
+    <insert id="userRoleSave"  parameterType="com.metain.web.domain.Emp">
+        INSERT INTO TBL_USER_ROLE
+        (
+            EMP_ID,
+            ROLE_ID
+        )
+        VALUES
+            (
+                #{empId},
+                #{roleId}
+            )
+    </insert>
+
+        <select id="findEmpNo" resultType="Integer">
+            SELECT EMP_ID
+            FROM TBL_EMPLOYEE
+            WHERE EMP_SABUN = #{emp_sabun};
+        </select>
+
+        <select id="findRoleNo" resultType="Integer">
+            SELECT ROLE_ID
+            FROM TBL_ROLE
+            WHERE ROLE_NAME = #{roleName};
+        </select>
 
 
 

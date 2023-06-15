@@ -2,27 +2,20 @@ package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.domain.Role;
 import com.metain.web.dto.NewEmpDTO;
-import com.metain.web.dto.PrincipalDetails;
 import com.metain.web.mapper.HrMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -33,6 +26,18 @@ public class HrServiceImpl implements HrService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private void roleBasedOnGradeAndStatus(Emp emp) {
+        String empGrade = emp.getEmpGrade();
+        Role gradeRole = Role.fromGrade(empGrade);
+        emp.setRoleName(String.valueOf(gradeRole));
+
+        String empStatus = emp.getEmpStatus();
+        Role statusRole = Role.fromStatus(empStatus);
+        emp.setRoleName(String.valueOf(statusRole));
+    }
+
+
 
     private static final Logger logger = LoggerFactory.getLogger(HrServiceImpl.class);
 
@@ -83,11 +88,20 @@ public class HrServiceImpl implements HrService {
                         emp.setEmpDept(newEmp.getNewDept());
                         System.out.println("암호화 완료 " + encryptedPwd);
 
+                        roleBasedOnGradeAndStatus(emp); //역할 할당
 
                         int cnt = hrMapper.confirmEmp(emp);
                         if (cnt >= 1) {
                             successCount++;
                         }
+
+
+                        //역할 부여
+                        int findEmpNo = hrMapper.findEmpNo(emp.getEmpSabun());
+                        int findRoleNo = hrMapper.findRoleNo(emp.getRoleName());
+                        hrMapper.userRoleSave(findEmpNo, findRoleNo);
+
+
                     }   catch (ParseException e) {
                         e.printStackTrace();
 

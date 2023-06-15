@@ -1,13 +1,11 @@
 package com.metain.web.config;
 
-import com.metain.web.dto.PrincipalDetails;
-import com.metain.web.service.HrService;
-import com.metain.web.service.HrServiceImpl;
+import com.metain.web.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,8 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+
+
     @Autowired
-    private PrincipalDetails principalDetails;
+    private CustomAuthenticationProvider customAuthenticationProvider;
 
 
 //    @Bean //실제 인증을 한 이후에 인증이 완료되면 Authentication객체를 반환을 위한 bean등록
@@ -48,19 +48,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
+                .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
                 .antMatchers("/", "/index").authenticated()
-                .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/certification/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
-                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/hr/**").hasAnyAuthority("ROLE_HR")
+//                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
+//                .antMatchers("/vacation/request-vacation").access("hasAnyAuthority('ADMIN') and hasAnyAuthority('ACT')")
+                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE")
                 .anyRequest().permitAll();
+//        http
+//                .authorizeRequests()[
+//                //접속 허락
+//                .antMatchers("/loginEmp").permitAll()
+//                //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
+//                .antMatchers("/", "/index").authenticated()
+//                .antMatchers("/mypage/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/certification/**").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ROLE_SW", "ROLE_DR", "ROLE_GJ", "ROLE_CJ", "ROLE_HR", "ROLE_ADMIN")
+//                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/hr/**").hasAnyAuthority("ROLE_HR")
+//                .anyRequest().permitAll();
         http
                 .formLogin()
                 .usernameParameter("empSabun")
@@ -104,7 +124,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(hrServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
-        auth.authenticationProvider(principalDetails);
+        auth.authenticationProvider(customAuthenticationProvider);
 //        auth.authenticationProvider(user)
 
     }
