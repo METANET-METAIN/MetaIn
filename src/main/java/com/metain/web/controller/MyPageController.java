@@ -31,7 +31,9 @@ public class MyPageController {
 
     @GetMapping("/update-mypage")
     public String updateMyPage( Model model, Authentication auth) {
-        Emp emp = (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+//        Emp emp = (Emp) auth.getPrincipal();
+        Emp emp = hrService.selectEmpInfo(principalDetails.getEmpId());
         model.addAttribute("emp", emp);
         System.out.println("updateMyPage : " + emp);
         System.out.println("updateMyPage(model) : " + model);

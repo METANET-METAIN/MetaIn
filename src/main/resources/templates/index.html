@@ -17,12 +17,13 @@
 				</div>
 				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
 				<label class="col-sm-12 col-md-2 col-form-label">이름</label>
+
 <!--				<span th:utext="${empId}"></span>-->
 				<div class="col-sm-12 col-md-7">
-					<span th:utext="${name}"></span>
-					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">
+<!--					<span th:utext="${name}"></span>-->
+<!--					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
 
-					<span th:object="${emp}" th:field="${emp.empId}"></span>
+<!--					<span th:object="${emp}" th:field="${emp.empId}"></span>-->
 <!--					<span th:utext="${auth}"></span>-->
 <!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
 				</div>
@@ -233,6 +234,8 @@
 			// CSRF 토큰 값 가져오기
 			const csrfToken = document.querySelector('input[name="_csrf"]').value;
 			console.log('토큰값이다!!!!' + csrfToken);
+			console.log('토큰값이다!!!!' + csrfToken.empName);
+			console.log('토큰값이다!!!!' + emp);
 
 
 			document.addEventListener('DOMContentLoaded', function() {

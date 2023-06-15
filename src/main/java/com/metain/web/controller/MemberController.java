@@ -22,6 +22,8 @@ public class MemberController {
     private MemberService memberService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
+
     //login 창
     @GetMapping("/loginEmp")
     public String loginPage(Model model) {

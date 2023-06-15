@@ -6,6 +6,7 @@ import com.metain.web.domain.Role;
 import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -17,11 +18,17 @@ public interface HrMapper {
     //비밀번호 업데이트
     public int updatePwdEmp(Emp emp);
 
+    //role 확인하기
+    List<String> selectRoleName(String empSabun);
+
+    //권한 저장
+    public int userRoleSave(int empId, int roleId);
+
     //    사원번호 알아내기
     public int findEmpNo(String empsabun);
 
     //    권한 알아내기
-    public Role findRole(String empGrade);
+    public int findRoleNo(String roleName);
 
 
 
