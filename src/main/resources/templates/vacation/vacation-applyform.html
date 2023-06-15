@@ -106,7 +106,7 @@
             </div>
 
             <input type="hidden" th:name="empId" th:value=${emp.empId} />
-            <input type="hidden" th:name="admId" th:value="" />
+            <input type="hidden" th:name="admId" th:value="${admin.empId}" />
             <input type="hidden" th:name="vacStatus" th:value="승인대기" />
             <input type="hidden" th:id="selectedDays" th:name="selectedDays" th:value="0"/>
           </form>

@@ -43,7 +43,9 @@ public class VacationController {
     @RequestMapping("/vacation-list")
     public String vacationList(Model model,Authentication auth) {
         List<VacationListDTO> list=vacationService.selectAllList();
-        Emp empInfo = (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo=hrService.selectEmpInfo(empId);
         model.addAttribute("vacList",list);
         model.addAttribute("emp",empInfo);
         return "/vacation/vacation-list";
@@ -51,9 +53,10 @@ public class VacationController {
 
     @RequestMapping("/vacation-applyform")
     public String vacationApplyForm(Authentication auth,Model model) {
-        Emp empInfo= (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp emp=hrService.selectEmpInfo(empId);
 
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
 
@@ -72,8 +75,10 @@ public class VacationController {
     }
     @RequestMapping("/vacation-afterapply")
     public void vacationAfterApplyForm(Authentication auth,Model model) {
-        Emp empInfo= (Emp) auth.getPrincipal();
-        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp emp=hrService.selectEmpInfo(empId);
+
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
         model.addAttribute("emp",emp);
@@ -165,8 +170,9 @@ public class VacationController {
     @RequestMapping("/vacation-req-list")
     public String requestedVacationList(Authentication auth,Model model){
         List<VacationListDTO> list = vacationService.requestList();
-        Emp empInfo= (Emp) auth.getPrincipal();
-
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo=hrService.selectEmpInfo(empId);
         model.addAttribute("list",list);
         model.addAttribute("emp",empInfo);
         return "/vacation/vacation-req-list";

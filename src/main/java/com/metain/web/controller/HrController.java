@@ -2,6 +2,7 @@ package com.metain.web.controller;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.HrService;
@@ -32,9 +33,12 @@ public class HrController {
 
     @GetMapping("/emp-list")
     public String selectAll(Model model, Authentication auth) {
-        Emp empInfo = (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(EmpId);
         List<Emp> list=hrService.selectAll();
-        model.addAttribute("emp",empInfo);
+
+        model.addAttribute("emp",emp);
         model.addAttribute("list",list);
         return "/hr/emp-list";
     }
