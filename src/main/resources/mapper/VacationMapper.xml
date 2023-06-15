@@ -15,20 +15,20 @@
         ON e.EMP_ID=v.EMP_ID
         WHERE vac_status='승인대기';
     </select>
-    <update id="approveVacationRequest" parameterType="Long">
+    <update id="approveVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
         SET VAC_STATUS = '승인완료'
-        WHERE VAC_ID = #{vacId}
+        WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
-    <update id="rejectVacationRequest" parameterType="Long">
+    <update id="rejectVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
         SET VAC_STATUS = '승인반려'
-        WHERE VAC_ID = #{vacId}
+        WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
-    <update id="cancelVacationRequest" parameterType="Long">
+    <update id="cancelVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '승인취소'
-        WHERE VAC_ID = #{vacId} and EMP_ID=#{empId}
+        SET VAC_STATUS = '요청취소'
+        WHERE VAC_ID = #{vacId}
     </update>
     <insert id="requestVacation" parameterType="Vacation">
         INSERT INTO TBL_VACATION(VAC_TYPE, EMP_ID, VAC_START_DATE,VAC_END_DATE,ADM_ID, VAC_RESN, VAC_STATUS)

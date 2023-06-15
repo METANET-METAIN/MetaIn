@@ -153,6 +153,7 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<Emp> newEmp() {
         List<Emp> list=hrMapper.newEmp();
+        System.out.println(list);
         return list;
     }
 }

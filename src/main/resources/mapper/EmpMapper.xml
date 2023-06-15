@@ -84,7 +84,7 @@
     </update>
 
     <select id="newEmp" resultType="Emp">
-        select EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN from TBL_EMPLOYEE ;
+        select EMP_ID, EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN,EMP_VAC,EMP_PROFILE from TBL_EMPLOYEE WHERE MONTH(EMP_FIRST_DT) = MONTH(CURRENT_DATE()) AND YEAR(EMP_FIRST_DT) = YEAR(CURRENT_DATE()) order by EMP_FIRST_DT desc;
     </select>
 
 </mapper>

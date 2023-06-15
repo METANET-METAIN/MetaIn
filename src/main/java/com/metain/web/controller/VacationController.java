@@ -11,6 +11,7 @@ import com.metain.web.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("vacation/")
+@RequestMapping("/vacation")
 public class VacationController {
     @Autowired
     private VacationService vacationService;
@@ -39,30 +40,29 @@ public class VacationController {
     private HttpServletRequest request;
 
     @RequestMapping("/vacation-list")
-    public String vacationList(Model model) {
+    public String vacationList(Model model,Authentication auth) {
         List<VacationListDTO> list=vacationService.selectAllList();
-
+        Emp empInfo = (Emp) auth.getPrincipal();
         model.addAttribute("vacList",list);
-
+        model.addAttribute("emp",empInfo);
         return "/vacation/vacation-list";
     }
 
     @RequestMapping("/vacation-applyform")
-    public String vacationApplyForm(Long empId,Model model) {
-        Emp emp=hrService.selectEmpInfo(empId);
+    public String vacationApplyForm(Authentication auth,Model model) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+
+        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
-        //if(emp.getEmpDept()==admin.getEmpDept()){
-            model.addAttribute("loginEmp",emp);
-            model.addAttribute("admin",admin);
-       // }
 
+            model.addAttribute("emp",emp);
+            model.addAttribute("admin",admin);
         return "/vacation/vacation-applyform";
     }
     @PostMapping("/insert-vaction")
     public String insertVacation(Vacation vacation,@RequestParam("selectedDays") String diffDays, @RequestParam("empId")Long empId){
         vacationService.insertVacation(vacation);
-        System.out.println(diffDays);
         //사용한 만큼 연차 차감
         empId=vacation.getEmpId();
         int selectedDays=Integer.parseInt(diffDays);
@@ -70,20 +70,24 @@ public class VacationController {
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
-    public void vacationAfterApplyForm(Long empId,Model model) {
-        Emp emp=hrService.selectEmpInfo(empId);
+    public void vacationAfterApplyForm(Authentication auth,Model model) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
         String empDept=emp.getEmpDept();
-        Emp admin=memberService.selectAdminInfo(empDept,"팀관리자");
-        model.addAttribute("loginEmp",emp);
+        Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
+        model.addAttribute("emp",emp);
         model.addAttribute("admin",admin);
     }
     @PostMapping("/insert-aftervaction")
-    public String insertAfterVacation(@RequestParam("file") MultipartFile file, Vacation vacation) throws IOException {
+    public String insertAfterVacation(@RequestParam("file") MultipartFile file,@RequestParam("selectedDays") String diffDays ,Vacation vacation) throws IOException {
         Emp empInfo = hrService.selectEmpInfo(vacation.getEmpId());
+        Long empId=empInfo.getEmpId();
+        empId=vacation.getEmpId();
+        int selectedDays=Integer.parseInt(diffDays);
 
         String type = vacation.getVacType();
         String sabun = empInfo.getEmpSabun();
-        // 파일 이름
+        // 파일 이름=휴가타입+날짜 +uuid
         UUID uuid = UUID.randomUUID();
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
@@ -93,7 +97,6 @@ public class VacationController {
         // 저장될 경로
         String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
 
-        System.out.println(savePath);
         File destFile = new File(savePath);
         file.transferTo(destFile);
 
@@ -101,6 +104,7 @@ public class VacationController {
         vacation.setFileName(savedFileName);
 
         vacationService.insertAfterVacation(vacation);
+        vacationService.decreaseVacation(selectedDays,empId);
 
         return "redirect:/mypage/my-vac-list";
     }
@@ -122,8 +126,7 @@ public class VacationController {
 
         long diff = endDate.getTime() - startDate.getTime();
         int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
-        System.out.println(emp);
-        System.out.println(admin);
+
         model.addAttribute("vac",vac);
         model.addAttribute("emp",emp);
         model.addAttribute("admin",admin);
@@ -133,12 +136,12 @@ public class VacationController {
 
     //요청 휴가 디테일
     @RequestMapping("/request-vacation/{vacationId}")
-    public String requestedVacation(@PathVariable("vacationId") Long vacationId, Model model){
+    public String requestedVacation(@PathVariable("vacationId") Long vacationId, Model model,Authentication auth){
+        Emp empInfo= (Emp) auth.getPrincipal();
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         Vacation vac=vacationService.vacationDetail(vacationId);
-        System.out.println("어드민넘"+vac.getAdmId());
         //신청인 정보
         Emp emp=hrService.selectEmpInfo(vac.getEmpId());
         //관리자 정보
@@ -149,19 +152,22 @@ public class VacationController {
 
         long diff = endDate.getTime() - startDate.getTime();
         int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
-        //System.out.println(emp);
-        //System.out.println(admin);
+
         model.addAttribute("vac",vac);
-        model.addAttribute("emp",emp);
+        model.addAttribute("emp",empInfo);
+        model.addAttribute("req",emp);
         model.addAttribute("admin",admin);
         model.addAttribute("diff",daysDiff);
         return "/vacation/request-vacation";
     }
     //요청 휴가 목록
     @RequestMapping("/vacation-req-list")
-    public String requestedVacationList(Model model){
+    public String requestedVacationList(Authentication auth,Model model){
         List<VacationListDTO> list = vacationService.requestList();
+        Emp empInfo= (Emp) auth.getPrincipal();
+
         model.addAttribute("list",list);
+        model.addAttribute("emp",empInfo);
         return "/vacation/vacation-req-list";
     }
     @PostMapping(value ="/approveVacationRequest")
@@ -170,6 +176,7 @@ public class VacationController {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
         Long receiver = Long.parseLong(requestData.get("receiver").toString());
+
 
        vacationService.approveVacationRequest(vacId,vacStatus,receiver);
         return ResponseEntity.ok("성공");
@@ -185,8 +192,9 @@ public class VacationController {
         return ResponseEntity.ok("성공");
     }
     @GetMapping("/calendar")
-    public ResponseEntity<List<VacationListDTO>> calendar(Long empId) {
-        Emp emp=hrService.selectEmpInfo(empId);
+    public ResponseEntity<List<VacationListDTO>> calendar(Authentication auth) {
+        Emp empInfo = (Emp) auth.getPrincipal();
+        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
         if (emp != null) {
             String empDept = emp.getEmpDept();
             LocalDate today = LocalDate.now();
@@ -198,21 +206,23 @@ public class VacationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    @PostMapping("/alarm")
-    public ResponseEntity<List<AlarmDTO>> alarm(Long empId) {
-        Emp emp=hrService.selectEmpInfo(empId);
+    @GetMapping("/alarm")
+    public ResponseEntity<List<AlarmDTO>> alarm(Authentication auth) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
 
         if (emp != null) {
-            List<AlarmDTO> alarmList = vacationService.alarmListAll(empId);
+            List<AlarmDTO> alarmList = vacationService.alarmListAll(emp.getEmpId());
             return ResponseEntity.ok(alarmList);
         } else {
             // 로그인되지 않은 경우 처리
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    @PostMapping("/today")
-    public ResponseEntity<List<VacationListDTO>>todayVacation(Long empId) {
-        Emp emp=hrService.selectEmpInfo(empId);
+    @GetMapping("/today")
+    public ResponseEntity<List<VacationListDTO>>todayVacation(Authentication auth) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+        Emp emp=hrService.selectEmpInfo(empInfo.getEmpId());
         if (emp != null) {
             String empDept= emp.getEmpDept();
             List<VacationListDTO> alarmList = vacationService.todayVacation(empDept);

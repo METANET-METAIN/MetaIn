@@ -26,5 +26,5 @@ public class Emp  {
     private Date empFirstDt;
     private Date empLastDt;
     private int empVac;
-
+    private String empProfile;
 }

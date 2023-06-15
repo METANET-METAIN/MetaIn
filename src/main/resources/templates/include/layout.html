@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
 
 <th:block th:fragment="setContent( section )">
+
     <head>
         <!-- Basic Page Info -->
         <meta charset="utf-8" />
         <title>Meta人</title>
-
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+        <meta name="_csrf" th:content="${_csrf.token}">
         <!-- Site favicon -->
         <link
                 rel="apple-touch-icon"
@@ -119,9 +121,11 @@
         </style>
     </head>
     <body>
-    <script>
+    <script th:inline="javascript">
+
+        const empId = [[${emp.empId}]] ;
         document.addEventListener("DOMContentLoaded", function() {
-            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + [[${empId}]]);
+            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + empId);
             sse.addEventListener("subscribe", function(e) {
                 var receivedConnectData = e.data;
                 console.log("connect event data: ", e); // "connected!"
@@ -145,9 +149,11 @@
             });
 
             $(document).on("click", ".dropdown-toggle", function () {
+
+                console.log("EEEE"+[[${emp.empId}]])
                 $.ajax({
-                    type: "POST",
-                    url: "/vacation/today",
+                    type: "get",
+                    url: "/vacation/today?empId="+empId,
                     dataType: "JSON",
                     success: function (result) {
                         console.log("오늘 휴가 사용자 "+result);
@@ -158,7 +164,7 @@
                                 alarmItem += '<li >';
                                 alarmItem += '   <a href="#">';
                                 alarmItem += '       <img src="/vendors/images/bell.png" alt="" />';
-                                alarmItem += '       <h3> 오늘은 '+ alarmListElement + ' 님의 '+alarmListElement.vacType+' 휴가입니다. </h3>';
+                                alarmItem += '       <h3> 오늘은 '+ alarmListElement.empName + ' 님의 '+alarmListElement.vacType+' 휴가입니다. </h3>';
                                 alarmItem += '       <p>'+ alarmListElement.vacStartDate+' ~ '+alarmListElement.vacEndDate+'</p>';
                                 alarmItem += '   </a>';
                                 alarmItem += '</li>';
@@ -170,8 +176,8 @@
 
                         // 첫 번째 AJAX 요청
                         $.ajax({
-                            type: "POST",
-                            url: "/vacation/alarm",
+                            type: "get",
+                            url: "/vacation/alarm?empId="+empId,
                             dataType: "JSON",
                             success: function (result) {
                                 console.log(result);

@@ -63,16 +63,18 @@ public class MyPageController {
 
     @GetMapping("/my-vac")
     @ResponseBody
-    public List<MyVacDTO> selectMyVacList(@ModelAttribute MyVacDTO myVacDTO) {
-        myVacDTO.setEmpId(5L); //일단 시큐리티 구현전까지 하드코딩 나중에 삭제할거임
+    public List<MyVacDTO> selectMyVacList(Authentication auth,@ModelAttribute MyVacDTO myVacDTO) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+        myVacDTO.setEmpId(empInfo.getEmpId()); //일단 시큐리티 구현전까지 하드코딩 나중에 삭제할거임
         return myPageService.selectMyVacList(myVacDTO);
     }
 
     @GetMapping("/my-vac-list")
-    public String myVacList(Long empId, Model model) {
-        empId=5L;
-        List<MyVacDTO> myList=myPageService.myVacList(empId);
+    public String myVacList(Authentication auth, Model model) {
+        Emp empInfo= (Emp) auth.getPrincipal();
+        List<MyVacDTO> myList=myPageService.myVacList(empInfo.getEmpId());
         model.addAttribute("vacList",myList);
+        model.addAttribute("emp",empInfo);
         return "/mypage/my-vac-list";
     }
     @GetMapping("/my-vac-detail/{vacationId}")
@@ -105,7 +107,7 @@ public class MyPageController {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         Long empId = Long.parseLong(requestData.get("empId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
-
+        System.out.println(vacId+"dddd"+empId+"dddddd"+vacStatus);
         vacationService.cancelVacationRequest(vacId,empId,vacStatus);
         return ResponseEntity.ok("성공");
     }

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @MapperScan(value = {"com.metain.web.mapper"}) //mybatis mapper 경로
+
 public class WebConfig {
     //비밀번호 암호화
     @Bean
