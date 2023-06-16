@@ -72,9 +72,12 @@ public class HrController {
     @PostMapping("/confirm-new-emp")
     @ResponseBody
     public int confirmNewEmp(@RequestBody List<NewEmp> newEmpList, Emp emp, Model model, Authentication auth) {
-        emp = (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+        model.addAttribute("emp", empInfo);
         model.addAttribute("emp", emp);
-        return hrService.confirmNewEmp(newEmpList, emp);
+        return hrService.confirmNewEmp(newEmpList, empInfo);
 
     }
 

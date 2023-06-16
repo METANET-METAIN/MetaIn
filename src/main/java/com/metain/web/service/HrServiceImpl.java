@@ -60,6 +60,7 @@ public class HrServiceImpl implements HrService {
             for (NewEmp newEmp : newEmpList) {
                 if (newEmp.getNewBirth() != null && !newEmp.getNewBirth().isEmpty()) {
                     try {
+
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date empBirthInsert = dateFormat.parse(newEmp.getNewBirth());
 
@@ -67,7 +68,7 @@ public class HrServiceImpl implements HrService {
                         System.out.println("emp!!! " + emp);
 
                         // 생년월일을 empBirth에 할당
-                        emp.setEmpBirth((java.sql.Date) empBirthInsert);
+                        emp.setEmpBirth(empBirthInsert);
 
                         // 생년월일 암호화
                         String encodedBirth = generatePasswordFromBirth(empBirthInsert);
@@ -78,7 +79,7 @@ public class HrServiceImpl implements HrService {
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                         String encryptedPwd = passwordEncoder.encode(encodedBirth);
                         emp.setEmpPwd(encryptedPwd);
-
+                        emp.setEmpId(newEmp.getNewId());
                         emp.setEmpName(newEmp.getNewName());
                         emp.setEmpPhone(newEmp.getNewPhone());
                         emp.setEmpAddr(newEmp.getNewAddr());
@@ -86,20 +87,30 @@ public class HrServiceImpl implements HrService {
                         emp.setEmpDetailAddr(newEmp.getNewDetailAddr());
                         emp.setEmpEmail(newEmp.getNewEmail());
                         emp.setEmpDept(newEmp.getNewDept());
+                        emp.setEmpGrade(newEmp.getNewGrade());
+                        emp.setEmpStatus(newEmp.getNewStatus());
                         System.out.println("암호화 완료 " + encryptedPwd);
 
                         roleBasedOnGradeAndStatus(emp); //역할 할당
 
                         int cnt = hrMapper.confirmEmp(emp);
                         if (cnt >= 1) {
+                            successCount=0;
                             successCount++;
                         }
 
 
                         //역할 부여
-                        int findEmpNo = hrMapper.findEmpNo(emp.getEmpSabun());
-                        int findRoleNo = hrMapper.findRoleNo(emp.getRoleName());
-                        hrMapper.userRoleSave(findEmpNo, findRoleNo);
+//                        int findEmpNo = hrMapper.findEmpNo(emp.getEmpSabun());
+                        Long findRoleNo = hrMapper.findRoleNo(newEmp.getNewGrade());
+                        hrMapper.userRoleSave(emp.getEmpId(), findRoleNo);
+                        if(newEmp.getNewStatus().equals("ACTIVE")){
+                            findRoleNo = 7L;
+                        }else{
+                            findRoleNo = 8L;
+                        }
+
+                        hrMapper.userRoleSave(emp.getEmpId(),findRoleNo);
 
 
                     }   catch (ParseException e) {
@@ -115,7 +126,7 @@ public class HrServiceImpl implements HrService {
 
             }
 
-            if (successCount == newEmpList.size()) {
+            if (successCount>0) {
                 return hrMapper.deleteNewEmp(newEmpList);
             }
         }

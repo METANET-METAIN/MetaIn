@@ -44,16 +44,20 @@
             )
     </insert>
 
+    <select id="findrolename" parameterType="com.metain.web.domain.NewEmp" resultType="String">
+        select NEW_GRADE from TBL_NEW_EMPLOYEE where NEW_ID = #{newId};
+    </select>
+
         <select id="findEmpNo" resultType="Integer">
             SELECT EMP_ID
             FROM TBL_EMPLOYEE
             WHERE EMP_SABUN = #{emp_sabun};
         </select>
 
-        <select id="findRoleNo" resultType="Integer">
+        <select id="findRoleNo" resultType="Long">
             SELECT ROLE_ID
             FROM TBL_ROLE
-            WHERE ROLE_NAME = #{roleName};
+            WHERE ROLE_NAME = #{newGrade};
         </select>
 
 
@@ -62,13 +66,13 @@
 
     <!--  신규 사원 등록  -->
         <insert id="insertNewEmp" parameterType="com.metain.web.domain.NewEmp">
-            INSERT INTO TBL_NEW_EMPLOYEE (NEW_NAME, NEW_PHONE, NEW_ADDR, NEW_ZIPCODE, NEW_DETAIL_ADDR, NEW_EMAIL, NEW_DEPT, NEW_BIRTH)
-            VALUES (#{newName}, #{newPhone}, #{newAddr}, #{newZipcode}, #{newDetailAddr}, #{newEmail}, #{newDept}, #{newBirth})
+            INSERT INTO TBL_NEW_EMPLOYEE (NEW_NAME, NEW_PHONE, NEW_ADDR, NEW_ZIPCODE, NEW_DETAIL_ADDR, NEW_EMAIL, NEW_DEPT, NEW_BIRTH, NEW_GRADE, NEW_STATUS)
+            VALUES (#{newName}, #{newPhone}, #{newAddr}, #{newZipcode}, #{newDetailAddr}, #{newEmail}, #{newDept}, #{newBirth}, #{newGrade}, 'ACTIVE')
         </insert>
 
         <!--  신입 사원 전체 목록  -->
-        <select id="newEmpSelectAll" resultType="NewEmpDTO">
-            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT, TNE.NEW_BIRTH
+        <select id="newEmpSelectAll" resultType="NewEmp">
+            SELECT TNE.NEW_ID, TNE.NEW_NAME, TNE.NEW_PHONE, TNE.NEW_ADDR, TNE.NEW_EMAIL, TNE.NEW_DEPT, TNE.NEW_BIRTH, TNE.NEW_GRADE, TNE.NEW_STATUS
             FROM TBL_NEW_EMPLOYEE TNE
         </select>
 
@@ -97,14 +101,15 @@
 
     <insert id="confirmEmp" parameterType="com.metain.web.domain.Emp">
         INSERT INTO TBL_EMPLOYEE (
-            EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
-            EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH
+            EMP_ID, EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
+            EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH,
+            EMP_GRADE, EMP_STATUS
         )
         VALUES (
-                   #{empName}, #{empPhone}, #{empAddr}, #{empZipcode}, #{empDetailAddr},
+                   #{empId}, #{empName}, #{empPhone}, #{empAddr}, #{empZipcode}, #{empDetailAddr},
                    #{empEmail}, #{empDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
-                   CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
-                   #{empPwd}, #{empBirth}
+                   CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_SABUN), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
+                   #{empPwd}, #{empBirth}, #{empGrade}, #{empStatus}
                )
     </insert>
     <update id="updateEmp" parameterType="Emp">

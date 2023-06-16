@@ -80,7 +80,12 @@ public class HomeController {
 
 
     @GetMapping("/hr/{newEmp}")
-    public String goPageHr(@PathVariable String newEmp) {
+    public String goPageHr(@PathVariable String newEmp, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+        model.addAttribute("emp", empInfo);
+        System.out.println(empInfo);
         return "/hr/" + newEmp;
     }
 

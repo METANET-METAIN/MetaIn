@@ -31,6 +31,7 @@ public class Emp  {
     private Date empLastDt;
     private int empVac;
     private String RoleName;
+    private Long roleId;
     private List<GrantedAuthority> authorities;
     private String empProfile;
 }

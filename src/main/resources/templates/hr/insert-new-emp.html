@@ -8,6 +8,8 @@
     <section id="wrap">
     </section>
 </th:block>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 <div class="mobile-menu-overlay"></div>
     <div class="main-container" >
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -96,6 +98,19 @@
                                         <option value="개발 2팀">개발 2팀</option>
                                         <option value="개발 3팀">개발 2팀</option>
                                         <option value="인사팀">인사팀</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-12 col-md-2 col-form-label">직급</label>
+                                <div class="form-group col-md-4">
+                                    <select id="newGrade" th:name="newGrade" class="form-control">
+                                        <option selected value="EMPLOYEE">사원</option>
+                                        <option value="ASSISTANT">대리</option>
+                                        <option value="MANAGER">과장</option>
+                                        <option value="DEPUTY">차장</option>
+                                        <option value="HR">인사관리</option>
+                                        <option value="ADMIN">관리자</option>
                                     </select>
                                 </div>
                             </div>
