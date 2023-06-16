@@ -27,8 +27,8 @@ public class HrController {
     @GetMapping("/emp-list")
     public String selectAll(Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
-        Long EmpId = principalDetails.getEmpId();
-        Emp emp =  hrService.selectEmpInfo(EmpId);
+        Long empId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(empId);
         List<Emp> list=hrService.selectAll();
 
         model.addAttribute("emp",emp);
@@ -84,7 +84,6 @@ public class HrController {
     @PostMapping("/updateEmp")
     @ResponseBody
     public ResponseEntity<String> updateEmp(@RequestBody Map<String,Object> requestData) {
-        System.out.println("오/냐");
         String empStatus = (requestData.get("empStatus").toString());
         String empGrade=requestData.get("empGrade").toString();
         Long empId = Long.parseLong(requestData.get("updateEmpId").toString());

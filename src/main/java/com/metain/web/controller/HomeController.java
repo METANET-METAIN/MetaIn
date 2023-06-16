@@ -77,7 +77,15 @@ public class HomeController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+    @GetMapping("/vacation/{vacation}")
+    public String goPageVac(@PathVariable String vacation, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
 
+        model.addAttribute("emp", empInfo);
+        return "/vacation/" + vacation;
+    }
 
     @GetMapping("/hr/{newEmp}")
     public String goPageHr(@PathVariable String newEmp, Model model, Authentication auth) {
@@ -86,16 +94,29 @@ public class HomeController {
         Emp empInfo = hrService.selectEmpInfo(empId);
         model.addAttribute("emp", empInfo);
         System.out.println(empInfo);
+
+        model.addAttribute("emp", empInfo);
+
         return "/hr/" + newEmp;
     }
 
     @GetMapping("/mypage/{mypage}")
-    public String goPageMy(@PathVariable String mypage) {
+    public String goPageMy(@PathVariable String mypage, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+        System.out.println(mypage);
+        model.addAttribute("emp", empInfo);
         return "/mypage/" + mypage;
     }
 
     @GetMapping("/member/{member}")
-    public String goPageMem(@PathVariable String member) {
+    public String goPageMem(@PathVariable String member, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+
+        model.addAttribute("emp", empInfo);
         return "/member/" + member;
     }
 }

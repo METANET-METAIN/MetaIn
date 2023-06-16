@@ -8,5 +8,7 @@ import java.sql.Date;
 public class AlarmDTO {
     private Long empId;
     private String notiContent;
+    private String notiUrl;
     private Date notiDt;
+    private String notiType;
 }
