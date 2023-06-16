@@ -69,6 +69,8 @@ public class VacationServiceImpl implements VacationService{
 
             AlarmDTO alarmDTO=new AlarmDTO();
             alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 승인되었습니다!");
+            alarmDTO.setNotiUrl("/mypage/my-vac-list");
+            alarmDTO.setNotiType("휴가정보");
             alarmDTO.setEmpId(receiver);
             alarmMapper.insertAlarm(alarmDTO);
 
@@ -84,6 +86,8 @@ public class VacationServiceImpl implements VacationService{
             int result = vacMapper.rejectVacationRequest(vacId, vacStatus);
             AlarmDTO alarmDTO=new AlarmDTO();
             alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 반려되었습니다!");
+            alarmDTO.setNotiUrl("/mypage/my-vac-list");
+            alarmDTO.setNotiType("휴가정보");
             alarmDTO.setEmpId(receiver);
             alarmMapper.insertAlarm(alarmDTO);
 

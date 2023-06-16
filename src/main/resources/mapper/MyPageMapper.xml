@@ -82,4 +82,15 @@
         WHERE TE.EMP_ID = #{empId}
 
     </select>
+    <select id="alarmList" resultType="AlarmDTO" parameterType="Long">
+        SELECT
+            EMP_ID,
+            NOTI_CONTENT,
+            NOTI_URL,
+            NOTI_DT,
+            NOTI_TYPE
+        FROM TBL_NOTIFICATION
+        WHERE EMP_ID = #{empId}
+        ORDER BY NOTI_ID DESC
+    </select>
 </mapper>

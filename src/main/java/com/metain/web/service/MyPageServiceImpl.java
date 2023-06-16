@@ -3,6 +3,7 @@ package com.metain.web.service;
 import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
+import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.MyPageMapper;
@@ -61,5 +62,14 @@ public class MyPageServiceImpl implements MyPageService{
     public List<RetireCert> selectMyRetCert(RetireCert retireCert) {
         List<RetireCert> list = myPageMapper.selectMyRetCert();
         return list;
+    }
+
+    @Override
+    public List<AlarmDTO> alarmList(Long empId) {
+        List<AlarmDTO> list= myPageMapper.alarmList(empId);
+        if(list==null){
+            return null;
+        }else return list;
+
     }
 }

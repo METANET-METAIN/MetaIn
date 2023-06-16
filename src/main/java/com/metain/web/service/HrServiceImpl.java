@@ -3,7 +3,10 @@ package com.metain.web.service;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.domain.Role;
+import com.metain.web.dto.AlarmDTO;
+import com.metain.web.dto.AlarmResponse;
 import com.metain.web.dto.NewEmpDTO;
+import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.HrMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,6 +29,10 @@ public class HrServiceImpl implements HrService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private AlarmMapper alarmMapper;
+    @Autowired
+    private AlarmService alarmService;
 
     private void roleBasedOnGradeAndStatus(Emp emp) {
         String empGrade = emp.getEmpGrade();
@@ -174,11 +181,22 @@ public class HrServiceImpl implements HrService {
 
     @Override
     public void updateEmp(String empStatus, String empGrade, Long updateEmpId) {
+        //업데이트 할 emp 정보 저장
         Emp emp =hrMapper.selectEmpInfo(updateEmpId);
         emp.setEmpStatus(empStatus);
         emp.setEmpGrade(empGrade);
         emp.setEmpId(updateEmpId);
         logger.info("hrService의 updateEmp의 Emp", emp);
+        
+        //알람 발생
+        AlarmDTO alarmDTO=new AlarmDTO();
+        alarmDTO.setNotiContent(emp.getEmpName()+ "님의 인사정보가 변경되었습니다.");
+        alarmDTO.setNotiUrl("/mypage/update-mypage");
+        alarmDTO.setNotiType("인사 정보");
+        alarmDTO.setEmpId(updateEmpId);
+        alarmMapper.insertAlarm(alarmDTO);
+
+        alarmService.send(updateEmpId, AlarmResponse.comment(emp.getEmpName()+ "님의 인사정보가 변경되었습니다."));
         hrMapper.updateEmp(emp);
     }
 }
