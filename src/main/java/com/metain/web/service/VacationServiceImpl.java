@@ -103,7 +103,8 @@ public class VacationServiceImpl implements VacationService{
     @Override
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus) {
         if(vacStatus.equals("승인대기")) {
-            int result = vacMapper.cancelVacationRequest(vacId, empId);
+            vacMapper.cancelVacationRequest(vacId, empId);
+
         }
     }
 
@@ -169,6 +170,12 @@ public class VacationServiceImpl implements VacationService{
             return null;
         }
         return list;
+    }
+
+    @Override
+    public int increaseVacation(int selectedDays, Long empId) {
+        int re=vacMapper.increaseVacation(selectedDays, empId);
+        return re;
     }
 
 }

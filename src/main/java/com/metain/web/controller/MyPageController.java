@@ -121,8 +121,10 @@ public class MyPageController {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         Long empId = Long.parseLong(requestData.get("empId").toString());
         String vacStatus=requestData.get("vacStatus").toString();
+        int diff=Integer.parseInt(requestData.get("diff").toString());
 
         vacationService.cancelVacationRequest(vacId,empId,vacStatus);
+        vacationService.increaseVacation(diff,empId);
         return ResponseEntity.ok("성공");
     }
     @PostMapping("/updateMy")

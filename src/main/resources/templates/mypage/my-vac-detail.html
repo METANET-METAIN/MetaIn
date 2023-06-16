@@ -79,8 +79,7 @@
                             <div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
                                 <div class="col-sm-10 col-md-2">
                                     <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                                        <img src="/vendors/images/photo1.jpg"
-                                             style="width: 100px; height: 100px;"
+                                        <img th:src="@{'/vendors/user/' + ${emp.empProfile}}" style="width: 100px; height: 100px;"
                                         />
                                     </div>
                                     <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -88,17 +87,29 @@
                                         <span th:text="${emp.getEmpDept()}"></span>
                                     </p>
                                 </div>
-                                <div class="col-sm-5 col-md-3" style="display: flex">
+                                <div class="col-sm-5 col-md-7" style="display: flex;justify-content: center;" >
 
-                                    <img src="/vendors/images/001.jpg"
-                                         style="width: 180px;height: 130px"
-                                    />
+                                    <div th:if="${vac.vacStatus == '승인대기'}">
+                                        <img src="/vendors/images/wait.png" style="width: 100%; height: 160px;"
+                                        />
+                                    </div>
+                                    <div th:if="${vac.vacStatus == '승인완료'}">
+                                        <img src="/vendors/images/approve.png" style="width: 100%; height: 160px;"
+                                        />
+                                    </div>
+                                    <div th:if="${vac.vacStatus == '요청취소'}">
+                                        <img src="/vendors/images/cancel.png" style="width: 100%; height: 160px;"
+                                        />
+                                    </div>
+                                    <div th:if="${vac.vacStatus == '승인반려'}">
+                                        <img src="/vendors/images/reject.png" style="width: 100%; height: 160px;"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-10 col-md-2">
                                     <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                                        <img src="/vendors/images/photo1.jpg"
-                                             style="width: 100px; height: 100px;"
+                                        <img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
                                         />
                                     </div>
                                     <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -112,8 +123,8 @@
 <!--                            <button class="btn btn-primary" onclick="goBack()" style="width: 80%;">뒤로가기</button>-->
 <!--                        </div>-->
                         <div class="form-group row" style="display: flex; justify-content: space-evenly;align-items: center">
-                            <button class="btn btn-primary" onclick="cancelVacationRequest()" style="width: 30%;" >취소하기</button>
-                            <button class="btn btn-secondary" type="button" onclick="goBack()" style="width: 30%;background-color: #6c757d">뒤로가기</button>
+                            <button class="btn btn-primary" onclick="cancelVacationRequest()" style="width: 20%;" >취소하기</button>
+                            <button class="btn btn-secondary" type="button" onclick="goBack()" style="width: 20%;background-color: #6c757d">뒤로가기</button>
                         </div>
                         <div class="form-group row"></div>
                         <script th:inline="javascript">
@@ -136,14 +147,18 @@
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
     <script th:inline="javascript">
+
         var header = $("meta[name='_csrf_header']").attr('content');
         var token = $("meta[name='_csrf']").attr('content');
         const vacationId = [[ ${vac.vacId} ]];
         const vacStatus = [[ ${vac.vacStatus} ]];
+        const diff = [[ ${diff} ]];
+        console.log(diff)
         const requestData = {
             vacationId: vacationId,
             empId:empId, //수정
-            vacStatus:vacStatus
+            vacStatus:vacStatus,
+            diff:diff
     };
         $(document).ajaxSend(function(e,xht,op){
             xht.setRequestHeader(header ,token);
@@ -157,8 +172,9 @@
             dataType: 'text',
             contentType: 'application/json;charset=utf-8',
             success: function(response) {
-                console.log(response)
+
                 window.location.pathname = "/mypage/my-vac-list";
+
             },
             error: function(error) {
                 alert(JSON.stringify(error));

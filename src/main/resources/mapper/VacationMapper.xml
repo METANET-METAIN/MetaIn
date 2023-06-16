@@ -56,6 +56,11 @@
         SET EMP_VAC = EMP_VAC-#{selectedDays}
         WHERE EMP_ID=#{empId}
     </update>
+    <update id="increaseVacation" parameterType="map">
+        UPDATE TBL_EMPLOYEE
+        SET EMP_VAC = EMP_VAC+#{diff}
+        WHERE EMP_ID=#{empId}
+    </update>
     <select id="todayVacation" resultType="VacationListDTO">
         SELECT e.EMP_NAME, e.EMP_DEPT, e.EMP_GRADE, v.VAC_TYPE, v.VAC_START_DATE, v.VAC_END_DATE
         FROM TBL_EMPLOYEE e

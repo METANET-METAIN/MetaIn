@@ -116,16 +116,21 @@ public class VacationController {
     }
 
     @GetMapping("/vacation-detail/{vacationId}")
-    public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model) {
+    public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model,Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         Vacation vac=vacationService.vacationDetail(vacationId);
 
-        //신청인 정보
-        Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+        //로그인 유저 정보
+        Emp empInfo=hrService.selectEmpInfo(empId);
         //관리자 정보
         Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+        //신청인 정보
+        Emp req=hrService.selectEmpInfo(vac.getEmpId());
         //총 사용날짜 구하기
         java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
         java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
@@ -134,8 +139,9 @@ public class VacationController {
         int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
 
         model.addAttribute("vac",vac);
-        model.addAttribute("emp",emp);
-        model.addAttribute("admin",admin);
+        model.addAttribute("emp",empInfo);//로그인한 유저
+        model.addAttribute("admin",admin);//관리자
+        model.addAttribute("req",req);
         model.addAttribute("diff",daysDiff);
         return "/vacation/vacation-detail";
     }
@@ -143,12 +149,16 @@ public class VacationController {
     //요청 휴가 디테일
     @RequestMapping("/request-vacation/{vacationId}")
     public String requestedVacation(@PathVariable("vacationId") Long vacationId, Model model,Authentication auth){
-        Emp empInfo= (Emp) auth.getPrincipal();
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo=hrService.selectEmpInfo(empId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         Vacation vac=vacationService.vacationDetail(vacationId);
         //신청인 정보
+
+        //신청한 사람
         Emp emp=hrService.selectEmpInfo(vac.getEmpId());
         //관리자 정보
         Emp admin=hrService.selectEmpInfo(vac.getAdmId());
@@ -160,8 +170,8 @@ public class VacationController {
         int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
 
         model.addAttribute("vac",vac);
-        model.addAttribute("emp",empInfo);
-        model.addAttribute("req",emp);
+        model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
+        model.addAttribute("req",emp); //신청한 사람
         model.addAttribute("admin",admin);
         model.addAttribute("diff",daysDiff);
         return "/vacation/request-vacation";

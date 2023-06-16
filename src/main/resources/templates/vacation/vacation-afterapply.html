@@ -85,8 +85,7 @@
               <div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
                 <div class="col-sm-10 col-md-4">
                   <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                    <img src="/vendors/images/001.jpg"
-                         style="width: 100px; height: 100px;"
+                    <img th:src="@{'/vendors/user/' + ${emp.empProfile}}" style="width: 100px; height: 100px;"
                     />
                   </div>
                   <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -103,8 +102,7 @@
 
                 <div class="col-sm-12 col-md-4">
                   <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                    <img src="/vendors/images/photo1.jpg"
-                         style="width: 100px; height: 100px;"
+                    <img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
                     />
                   </div>
                   <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -170,6 +168,9 @@
       var timeDiff = endDate.getTime() - startDate.getTime();
       daysDiff = (Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1);
       console.log(count)
+    }
+    if(startDate > endDate){
+      alert("올바른 날짜를 입력해주세요");
     }
     if(daysDiff<=count){
       document.getElementById("diffDays").innerText = daysDiff;
