@@ -5,22 +5,14 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.dto.NewEmpDTO;
-import com.metain.web.dto.VacationListDTO;
 import com.metain.web.service.HrService;
-import com.metain.web.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +38,8 @@ public class HrController {
 
 
 
+
+
     //신입사원 등록
     @PostMapping("/insert-new-emp")
     public String insertNewEmp(NewEmp newEmp) {
@@ -55,10 +49,21 @@ public class HrController {
         return "redirect:/hr/new-emp-list";
     }
 
+
+    @GetMapping("/new-emp-list")
+    public String newEmpSelect(Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+        model.addAttribute("emp", empInfo);
+
+        return "/hr/new-emp-list";
+    }
+
     @GetMapping("/new-list")
     @ResponseBody
-    public List<NewEmpDTO> newEmpSelectAll(Authentication auth) {
-
+    public List<NewEmpDTO> newEmpSelectAll() {
+        System.out.println("newEmpSelectAll 안뜨니ㅣ");
         return hrService.newEmpSelectAll();
     }
 

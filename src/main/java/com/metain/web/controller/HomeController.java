@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,38 +30,8 @@ public class HomeController {
 
     @Autowired
     private HrService hrService;
-//   @RequestMapping("/index")
 
-//    public String home(Model model, Authentication auth) {
-//        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-//        Long empId = principalDetails.getEmpId();
-//        List<String> roleNames = new ArrayList<>();
-//        System.out.println(principalDetails);
-//        System.out.println(empId);
-//
-//        for (GrantedAuthority authority : principalDetails.getAuthorities()) {
-//            String roleName = authority.getAuthority();
-//            roleNames.add(roleName);
-//        }
-//
-//
-//        if (roleNames != null && !roleNames.isEmpty()) {
-//            System.out.println(principalDetails);
-//        model.addAttribute("emp", principalDetails);
-//        model.addAttribute("roleNames : " , roleNames);
-//            return "index";
-//        }
-//        return null;
-
-//     public String home( Model model, Authentication auth) {
-//         Emp emp = (Emp)auth.getPrincipal();
-//         model.addAttribute("emp",emp);
-//         return "index";
-
-
-
-    //}
-    @RequestMapping("/index")
+    @GetMapping("/index")
     public String home( Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
         Long EmpId = principalDetails.getEmpId();
@@ -70,7 +42,7 @@ public class HomeController {
             System.out.println("home : " + empList);
             return "index";
         }
-    return null;
+        return null;
     }
 // 유효하지 않은 경우에 대한 처리
 

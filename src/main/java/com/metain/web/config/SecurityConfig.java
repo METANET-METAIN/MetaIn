@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration//이 클래스를 통해 bean 등록이나 각종 설정을 하겠다는 표시
 @EnableWebSecurity// Spring Security 설정할 클래스라고 정의
@@ -41,6 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //URL 별 권한 설정, 로그인, 세션 등등 HTTP 보안 관련 설정
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf()
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
 //        http
 //                .csrf().disable();// //일반 사용자에 대해 Session을 저장하지 않으므로 csrf을 disable 처리함.
                 //인증, 인가가 필요한 URL 지정
@@ -105,6 +110,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                         // 페이지 이동
                         response.sendRedirect("/index"));
+
+//        http
+//                .sessionManagement()
+//                .maximumSessions(1) //같은 아이디로 1명만 로그인
+//                .maxSessionsPreventsLogin(true) //false :신규 로그인은 허용, 기존 사용자는 세션 아웃  true: 이미 로그인한 세션이있으면 로그인 불가
+//                .expiredUrl("/loginEmp"); //세션 아웃되면 이동할 url
 
 
 //        http
