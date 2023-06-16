@@ -196,6 +196,11 @@
                 header: '지원 직무',
                 name: 'newDept',
                 filter: 'select'
+            },
+            {
+                header: '직급',
+                name: 'newGrade',
+                filter: 'select'
             }
 
         ],
@@ -234,42 +239,51 @@
         })
 
 
-    var header = $("meta[name='_csrf_header']").attr('content');
-    var token = $("meta[name='_csrf']").attr('content');
-    $(document).ajaxSend(function(e,xht,op){
-        xht.setRequestHeader(header ,token);
-    });
+
+
+
+
 
 
     // 신규직원 승인하는 이벤트
     document.getElementById("confirmNewEmp").addEventListener('click',function(){
+        console.log("confirmNewEmp clicked")
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        $(document).ajaxSend(function(e,xht,options){
+            xht.setRequestHeader(header ,token);
+        });
+
         let newEmpChecked = grid.getCheckedRows(); // grid에서 체크시 체크한 항목 보여줌
+
+
         console.log(newEmpChecked);
+
         if(newEmpChecked.length == 0){
             alert('승인대상을 선택해주세요.');
             return false;
         }else{
             let result = confirm('승인하시겠습니까?'); //확인 true 취소 false
             if(result){
-                fetch('/hr/confirm-new-emp',{
-                    method : 'POST',
-                    headers : {
-                        'Content-Type': 'application/json'
-                    },
-                    body : JSON.stringify(newEmpChecked)
-                })
-                    .then(function(res){
-                        return res.json();
-                    })
-                    .then(function(confirmResult){
-                        if(confirmResult>=1){
+                $.ajax({
+                    type:'POST',
+                    url: '/hr/confirm-new-emp',
+                    dataType:'json',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify(newEmpChecked),
+                    success: function(confirmResult) {
+                        if (confirmResult >= 1) {
                             alert('승인을 완료하였습니다.');
                             location.reload();
-                        }else{
+                        } else {
                             alert('승인을 실패하였습니다.');
                         }
-                    });
-                return false; // 이벤트 핸들러 종료
+                    },
+                    error: function(error){
+                        alert(JSON.stringify(error));
+                    }
+                });
+                return false; // 이벤트 종료
             }
         }
     })

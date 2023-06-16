@@ -40,17 +40,17 @@ public enum Role implements GrantedAuthority {
     // 등급과 역할 매핑
     public static Role fromGrade(String grade) {
         switch (grade) {
-            case "관리자":
+            case "ADMIN":
                 return ADMIN;
-            case "사원":
+            case "EMPLOYEE":
                 return SW;
-            case "대리":
+            case "ASSISTANT":
                 return DR;
-            case "과장":
+            case "MANAGER":
                 return GJ;
-            case "차장":
+            case "DEPUTY":
                 return CJ;
-            case "인사관리":
+            case "HR":
                 return HR;
             default:
                 throw new IllegalArgumentException("Invalid grade: " + grade);
@@ -60,9 +60,9 @@ public enum Role implements GrantedAuthority {
     // 상태와 역할 매핑
     public static Role fromStatus(String status) {
         switch (status) {
-            case "재직":
+            case "ACTIVE":
                 return ACT;
-            case "퇴직":
+            case "RETIREE":
                 return RET;
             default:
                 throw new IllegalArgumentException("Invalid status: " + status);

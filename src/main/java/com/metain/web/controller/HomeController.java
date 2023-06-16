@@ -92,6 +92,8 @@ public class HomeController {
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
+        model.addAttribute("emp", empInfo);
+        System.out.println(empInfo);
 
         model.addAttribute("emp", empInfo);
 
