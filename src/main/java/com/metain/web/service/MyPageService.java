@@ -1,5 +1,6 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
@@ -26,4 +27,6 @@ public interface MyPageService {
     List<RetireCert> selectMyRetCert(RetireCert retireCert);
     //알림함
     List<AlarmDTO> alarmList(Long empId);
+
+    void updateMy(Emp dbemp);
 }

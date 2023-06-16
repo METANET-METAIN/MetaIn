@@ -6,6 +6,8 @@ import com.metain.web.dto.MyVacDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 import com.metain.web.service.VacationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +32,9 @@ public class MyPageController {
     @Autowired
     private HrService hrService;
 
-    @GetMapping("/update-mypage")
-    public String updateMyPage( Model model, Authentication auth) {
-        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-//        Emp emp = (Emp) auth.getPrincipal();
-        Emp emp = hrService.selectEmpInfo(principalDetails.getEmpId());
-        model.addAttribute("emp", emp);
-        System.out.println("updateMyPage : " + emp);
-        System.out.println("updateMyPage(model) : " + model);
-        System.out.println("updateMyPage(auth) : " + auth);
-        return "/mypage/update-mypage";
-    }
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
 
     //재직증명서 리스트
     @GetMapping("/my-empCert")
@@ -70,8 +64,9 @@ public class MyPageController {
     @GetMapping("/my-vac")
     @ResponseBody
     public List<MyVacDTO> selectMyVacList(Authentication auth,@ModelAttribute MyVacDTO myVacDTO) {
-        Emp empInfo= (Emp) auth.getPrincipal();
-        myVacDTO.setEmpId(empInfo.getEmpId()); //일단 시큐리티 구현전까지 하드코딩 나중에 삭제할거임
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId=principalDetails.getEmpId();
+        myVacDTO.setEmpId(empId);
         return myPageService.selectMyVacList(myVacDTO);
     }
     @GetMapping("/my-vac-list")
@@ -130,4 +125,17 @@ public class MyPageController {
         vacationService.cancelVacationRequest(vacId,empId,vacStatus);
         return ResponseEntity.ok("성공");
     }
+    @PostMapping("/updateMy")
+    public String  updateMy(Emp emp) {
+        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
+        dbemp.setEmpAddr(emp.getEmpAddr());
+        dbemp.setEmpPhone(emp.getEmpPhone()); //여기 비번두 추가, 맵퍼 쿼리문에도
+        dbemp.setEmpZipcode(emp.getEmpZipcode());
+        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+        myPageService.updateMy(dbemp);
+
+        return "redirect:/mypage/update-mypage";
+    }
+
+
 }

@@ -93,4 +93,10 @@
         WHERE EMP_ID = #{empId}
         ORDER BY NOTI_ID DESC
     </select>
+
+    <update id="updateMyPage" parameterType="Emp">
+        update TBL_EMPLOYEE
+        set EMP_PHONE = #{empPhone} , EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode}, EMP_DETAIL_ADDR=#{empDetailAddr}
+        where EMP_ID = #{empId}
+    </update>
 </mapper>

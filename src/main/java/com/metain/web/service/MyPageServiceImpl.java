@@ -1,5 +1,6 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
@@ -71,5 +72,10 @@ public class MyPageServiceImpl implements MyPageService{
             return null;
         }else return list;
 
+    }
+
+    @Override
+    public void updateMy(Emp dbemp) {
+        myPageMapper.updateMyPage(dbemp);
     }
 }
