@@ -1,5 +1,6 @@
 package com.metain.web.controller;
 
+import ch.qos.logback.classic.Logger;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.domain.PrincipalDetails;
@@ -75,12 +76,13 @@ public class HrController {
     @PostMapping("/updateEmp")
     @ResponseBody
     public ResponseEntity<String> updateEmp(@RequestBody Map<String,Object> requestData) {
+        System.out.println("오/냐");
         String empStatus = (requestData.get("empStatus").toString());
         String empGrade=requestData.get("empGrade").toString();
-        Long updateEmpId = Long.parseLong(requestData.get("updateEmpId").toString());
+        Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
 
 
-        hrService.updateEmp(empStatus,empGrade,updateEmpId);
+        hrService.updateEmp(empStatus,empGrade,empId);
         return ResponseEntity.ok("성공");
     }
 }

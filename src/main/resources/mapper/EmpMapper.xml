@@ -109,7 +109,7 @@
     </insert>
     <update id="updateEmp" parameterType="Emp">
         update TBL_EMPLOYEE
-        set EMP_STATUS = #{empStatus} AND EMP_GRADE= #{empGrade}
+        set EMP_STATUS = #{empStatus} , EMP_GRADE= #{empGrade}
         where EMP_ID = #{empId}
     </update>
 

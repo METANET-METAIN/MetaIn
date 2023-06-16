@@ -174,9 +174,9 @@ public class HrServiceImpl implements HrService {
 
     @Override
     public void updateEmp(String empStatus, String empGrade, Long updateEmpId) {
-        Emp emp = new Emp();
+        Emp emp =hrMapper.selectEmpInfo(updateEmpId);
         emp.setEmpStatus(empStatus);
-        //emp.setEmpGrade(empGrade);
+        emp.setEmpGrade(empGrade);
         emp.setEmpId(updateEmpId);
         logger.info("hrService의 updateEmp의 Emp", emp);
         hrMapper.updateEmp(emp);

@@ -220,28 +220,51 @@
         document.getElementById('empLastDt').value = row.empLastDt;
 
             myModal.show(myModal);
+
         const requestData={
+            empStatus:row.empStatus,
+            empGrade:row.empGrade,
+            updateEmpId:row.empId
+        }
+        console.log("empStatus"+requestData.empStatus)
+        console.log("empGrade"+requestData.empGrade)
+        console.log("updateEmpId"+requestData.updateEmpId)
 
-        }
-        function updateEmp() {
-            //업데이트 아작스
-            $.ajax({
-                type: "POST",
-                url: "/hr/updateEmp",
-                data:JSON.stringify(requestData),
-                dataType: 'text',
-                contentType: 'application/json;charset=utf-8',
-                success: function(response) {
-                    console.log(response)
-                },
-                error: function(error) {
-                    alert(JSON.stringify(error));
-                }
-            });//ajax
-        }
     })
+function updateEmp() {
 
-    //재직상태와 부서 변경
+    var header = $("meta[name='_csrf_header']").attr('content');
+    var token = $("meta[name='_csrf']").attr('content');
+    $(document).ajaxSend(function(e,xht,op){
+        xht.setRequestHeader(header ,token);
+    });
+        // requestData 변수 선언 및 초기화
+        const requestDat = {
+            empStatus: document.getElementById('empStatus').value,
+            empGrade: document.getElementById('empGrade').value,
+            updateEmpId: document.getElementById('empId').value
+        };
+    console.log("empStatus2"+requestDat.empStatus)
+    console.log("empGrade2"+requestDat.empGrade)
+    console.log("updateEmpId2"+requestDat.updateEmpId)
+
+        // 업데이트 아작스
+        $.ajax({
+            type: "POST",
+            url: "/hr/updateEmp",
+            data: JSON.stringify(requestDat),
+            dataType: 'text',
+            contentType: 'application/json;charset=utf-8',
+            success: function(response) {
+                console.log(response)
+                window.location.pathname = "/hr/emp-list";
+            },
+            error: function(error) {
+                alert(JSON.stringify(error));
+            }
+        });
+
+}
 
 </script>
 
