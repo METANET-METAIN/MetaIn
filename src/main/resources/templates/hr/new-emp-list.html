@@ -8,6 +8,8 @@
     <section id="wrap">
     </section>
 </th:block>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
@@ -143,20 +145,22 @@
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
 <script>
+
+
     //모달창 세팅
     // const modalToggle = document.getElementById('exampleModal');
     // const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 
 
     //신규직원 그리드 세팅 하는 변수
-    let newEmpList = []; //1. 변수 선언
+    const newEmpList = []; //1. 변수 선언
 
-    const newList = /*[[${newEmpList}]]*/ [];
-    console.log(newList);
+    // const newList = /*[[${newEmpList}]]*/ [];
+    console.log(newEmpList);
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        //data: newEmpList,
+        // data: newEmpList,
         scrollX: true,
         scrollY: true,
         rowHeaders: ['checkbox'],
@@ -193,16 +197,7 @@
                 name: 'newDept',
                 filter: 'select'
             }
-            // {
-            //     header: '제출 여부',
-            //     name: ' ',
-            //     filter: 'select'
-            // },
-            // {
-            //     header: '관리',
-            //     name: '',
-            //     filter: ''
-            // }
+
         ],
         pageOptions: {
             useClient: true,
@@ -237,6 +232,14 @@
         .then(function(newEmpData){
             grid.resetData(newEmpData); //값 넣고 grid reset한다.
         })
+
+
+    var header = $("meta[name='_csrf_header']").attr('content');
+    var token = $("meta[name='_csrf']").attr('content');
+    $(document).ajaxSend(function(e,xht,op){
+        xht.setRequestHeader(header ,token);
+    });
+
 
     // 신규직원 승인하는 이벤트
     document.getElementById("confirmNewEmp").addEventListener('click',function(){
