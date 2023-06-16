@@ -129,15 +129,24 @@ public class MyPageController {
     }
     @PostMapping("/updateMy")
     public String  updateMy(Emp emp) {
-        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
-        dbemp.setEmpAddr(emp.getEmpAddr());
-        dbemp.setEmpPhone(emp.getEmpPhone()); //여기 비번두 추가, 맵퍼 쿼리문에도
-        dbemp.setEmpZipcode(emp.getEmpZipcode());
-        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
-        myPageService.updateMy(dbemp);
+
+
+        myPageService.updateMy(emp);
 
         return "redirect:/mypage/update-mypage";
     }
+//    @PostMapping("/updateMy")
+//    public String  updateMy(Emp emp) {
+//        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
+//        dbemp.setEmpPwd(emp.getEmpPwd());
+//        dbemp.setEmpAddr(emp.getEmpAddr());
+//        dbemp.setEmpPhone(emp.getEmpPhone()); //여기 비번두 추가, 맵퍼 쿼리문에도
+//        dbemp.setEmpZipcode(emp.getEmpZipcode());
+//        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+//        myPageService.updateMy(dbemp);
+//
+//        return "redirect:/mypage/update-mypage";
+//    }
 
 
 }

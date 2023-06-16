@@ -108,7 +108,8 @@
         VALUES (
                    #{empId}, #{empName}, #{empPhone}, #{empAddr}, #{empZipcode}, #{empDetailAddr},
                    #{empEmail}, #{empDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
-                   CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_SABUN), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
+                   CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
+--                    CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(CAST(SUBSTR(EMP_SABUN, 5) AS UNSIGNED)), 0) + 1 FROM TBL_EMPLOYEE), 4, '0')),
                    #{empPwd}, #{empBirth}, #{empGrade}, #{empStatus}
                )
     </insert>

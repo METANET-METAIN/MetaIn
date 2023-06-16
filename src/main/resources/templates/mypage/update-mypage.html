@@ -49,7 +49,7 @@
         <div class="card-align">
           <div class="pd-20 card-box mb-30">
             <h4 class="h4 text-blue mb-10" > 내 정보 </h4>
-            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post" >
+            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post" onsubmit="return checkList()" >
               <input type="hidden" th:name="empId" th:value="${emp.empId}" />
 
               <div class="form-group row">
@@ -61,7 +61,7 @@
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label"> 비밀번호 </label>
                 <div class="col-sm-12 col-md-7">
-                  <input class="form-control" value="password" th:name="empPwd" readonly type="password" >
+                  <input class="form-control" id="realpwd" th:name="empPwd" readonly type="password" >
                 </div>
                 <div style="text-align : right">
                 <!-- Button trigger modal -->
@@ -76,6 +76,7 @@
 
                   <!-- Modal -->
                   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -84,7 +85,7 @@
                         </div>
                         <div class="modal-body" style="text-align: left">
                           <p><strong>비밀번호 변경</strong></p>
-                          <input class="form-control" type="password" value="empPwd" name="empPwd" id="empPwd">
+                          <input class="form-control" type="password" value="empPwd1" name="empPwd1" id="empPwd1">
                           <p><strong>비밀번호 확인</strong></p>
                           <input class="form-control" type="password" value="empPwd2" name="empPwd2" id="empPwd2">
                           <p id="checkPwdMessage"></p>
@@ -92,12 +93,14 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-primary" onclick="checkPwd()">수정</button>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                          <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">닫기</button>
                         </div>
                       </div>
                     </div>
+
                   </div>
-                </div>
+
+          </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
@@ -191,6 +194,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+
   <!-- 유효성검사 -->
   function checkList() {
     const empPhone = document.getElementById( "empPhone" ).value;
@@ -207,17 +211,28 @@
   }
 
   function openPasswordModal(){
-    document.getElementById('empPwd').value = "";
+    document.getElementById('empPwd1').value = "";
     document.getElementById('empPwd2').value = "";
     document.getElementById("checkPwdMessage").innerText = " "
   }
 function checkPwd(){
+  // event.preventDefault(); // 기본 동작 막기
 
-  const empPwd = document.getElementById( "empPwd" ).value;
+
+  const empPwd1 = document.getElementById( "empPwd1" ).value;
   const empPwd2 = document.getElementById( "empPwd2" ).value;
+  // 모달 닫기
+  // var modal = document.getElementById("staticBackdrop");
+  // const myModal = new bootstrap.Modal(modal);
 
-  if (empPwd === empPwd2) {
-    document.getElementById("checkPwdMessage").innerText = " "
+  if (empPwd1 === empPwd2) {
+    document.getElementById("checkPwdMessage").innerText = " ";
+    document.getElementById("realpwd").value = empPwd1;
+    // myModal.hide();
+    document.getElementById("close").click();
+
+
+
   } else{
     document.getElementById("checkPwdMessage").innerText = "비밀번호가 일치하지 않습니다"
   }

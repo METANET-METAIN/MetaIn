@@ -7,8 +7,10 @@ import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
+import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +20,13 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Autowired
     private MyPageMapper myPageMapper;
-//    @Override
-//    public List<MyCertDTO> selectIssueAll() {
-//        List<MyCertDTO> list = myPageMapper.selectIssueAll();
-//        if(list == null){
-//            return null;
-//        }
-//        return list;
-//
-//    }
+
+    @Autowired
+    private HrMapper hrMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
@@ -75,7 +75,17 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Override
-    public void updateMy(Emp dbemp) {
+    public void updateMy(Emp emp) {
+        Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
+        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
+        System.out.println(encryptedPwd);
+        dbemp.setEmpPwd(encryptedPwd);
+        System.out.println(encryptedPwd);
+        dbemp.setEmpAddr(emp.getEmpAddr());
+        dbemp.setEmpPhone(emp.getEmpPhone());
+        dbemp.setEmpZipcode(emp.getEmpZipcode());
+        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+
         myPageMapper.updateMyPage(dbemp);
     }
 }
