@@ -88,6 +88,11 @@
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
                 crossorigin="anonymous"
         ></script>
+
+        <!-- 화면캡쳐 CDN-->
+        <script type="text/javascript" src="/static/src/scripts/html2canvas.min.js"></script>
+        <script type="text/javascript" src="/static/src/scripts/html2canvas.js"></script>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag() {
@@ -116,7 +121,18 @@
                 position: absolute;
                 transform: translate(-27%, -55%);
             }
+            .img_absolute2 {
+                position: absolute;
+                z-index: 1000;
+                width: 1000px;
+                height: 1000px;
+                opacity: 0.5;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
         </style>
+
     </head>
     <body>
     <div class="pre-loader">

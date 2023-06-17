@@ -3,6 +3,7 @@ package com.metain.web.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 // TEST
@@ -23,7 +24,9 @@ public class Emp {
     private String empDept;
     private String empGrade;
     private String empStatus;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date empFirstDt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date empLastDt;
     private int empVac;
 
