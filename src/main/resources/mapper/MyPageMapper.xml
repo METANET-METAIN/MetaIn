@@ -25,7 +25,7 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_EMP_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
         WHERE
-            TE.EMP_ID = #{empId};
+            TE.EMP_ID = "4";
 
     </select>
 
@@ -37,7 +37,7 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_EXPERIENCE_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
         WHERE
-            TE.EMP_ID = #{empId};
+            TE.EMP_ID = "4";
 
     </select>
 
@@ -49,9 +49,38 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_RETIRE_CERT TRC ON TE.EMP_ID = TRC.EMP_ID
         WHERE
-            TE.EMP_ID = #{empId};
+            TE.EMP_ID = "4";
 
     </select>
+
+    <!-- 다운로드 증명서파일이름 가져오기-->
+    <select id="selectEmpCertFilename" resultType="String">
+        select cert_file_name from TBL_EMP_CERT where emp_cert_id = #{certId};
+    </select>
+
+    <select id="selectExperCertFilename" resultType="String">
+        select cert_file_name from TBL_EXPERIENCE_CERT where exper_cert_id = #{certId};
+    </select>
+
+    <select id="selectRetireCertFilename" resultType="String">
+        select cert_file_name from TBL_RETIRE_CERT where retire_cert_id = #{certId};
+    </select>
+
+    <!-- 다운로드 상태변경 -->
+    <update id="updateEmpIssueStatus" parameterType="long">
+        update TBL_EMP_CERT
+        set issue_status = 1 where emp_cert_id = #{certId};
+    </update>
+    <update id="updateExperIssueStatus" parameterType="long">
+        update TBL_EXPER_CERT
+        set issue_status = 1 where exper_cert_id = #{certId};
+    </update>
+    <update id="updateRetireIssueStatus" parameterType="long">
+        update TBL_RETIRE_CERT
+        set issue_status = 1 where retire_cert_id = #{certId};
+    </update>
+
+
 
     <select id="selectMyVacList" resultType="MyVacDTO">
         SELECT

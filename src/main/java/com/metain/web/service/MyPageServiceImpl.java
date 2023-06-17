@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +23,7 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Autowired
     private MyPageMapper myPageMapper;
+
 
     @Autowired
     private HrMapper hrMapper;
@@ -47,6 +51,10 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public List<EmpCert> selectMyEmpCert(EmpCert empCert) {
         List<EmpCert> list = myPageMapper.selectMyEmpCert();
+
+        // 리스트에 empCert 객체 추가
+        list.add(empCert);
+
         return list;
     }
 
@@ -64,6 +72,7 @@ public class MyPageServiceImpl implements MyPageService{
         List<RetireCert> list = myPageMapper.selectMyRetCert();
         return list;
     }
+
 
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
