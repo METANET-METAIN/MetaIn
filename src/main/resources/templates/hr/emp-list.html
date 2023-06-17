@@ -101,17 +101,43 @@
                         <label for="empEmail" class="col-form-label">이메일</label>
                         <input type="text" readonly class="form-control" id="empEmail">
                     </div>
-                    <div class="mb-3">
-                        <label for="empDept" class="col-form-label">부서</label>
-                        <input type="text" readonly class="form-control" id="empDept">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="empDept" class="col-form-label">부서</label>
+                                <div class="form-group col-md-4" >
+                                    <select id="empDept" th:name="empDept" class="form-control btn-lg" style="width: auto">
+                                        <option value="개발 1팀">개발 1팀</option>
+                                        <option value="개발 2팀">개발 2팀</option>
+                                        <option value="개발 3팀">개발 3팀</option>
+                                        <option value="인사팀">인사팀</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="empGrade" class="col-form-label">직급</label>
+                                <div class="form-group col-md-4" style="width: 40%">
+                                    <select id="empGrade" th:name="empGrade" class="form-control btn-lg" style="width: auto">
+                                        <option value="EMPLOYEE">사원</option>
+                                        <option value="ASSISTANT">대리</option>
+                                        <option value="MANAGER">과장</option>
+                                        <option value="DEPUTY">차장</option>
+                                        <option value="HR">인사관리</option>
+                                        <option value="ADMIN">관리자</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="empGrade" class="col-form-label">직급</label>
-                        <input type="text"  class="form-control" id="empGrade">
-                    </div>
+
                     <div class="mb-3">
                         <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <input type="text" class="form-control" id="empStatus">
+                        <select type="text" class="form-control" id="empStatus">
+                            <option value="ACTIVE">재직</option>
+                            <option value="RETIREE">퇴직</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="empFirstDt" class="col-form-label">입사 일자</label>
@@ -238,11 +264,13 @@
 
         const requestData={
             empStatus:row.empStatus,
+            empDept:row.empDept,
             empGrade:row.empGrade,
             updateEmpId:row.empId
         }
 
         console.log("empStatus"+requestData.empStatus)
+        console.log("empDept"+requestData.empDept)
         console.log("empGrade"+requestData.empGrade)
         console.log("updateEmpId"+requestData.updateEmpId)
 
@@ -270,11 +298,13 @@
             // requestData 변수 선언 및 초기화
             const requestDat = {
                 empStatus: document.getElementById('empStatus').value,
+                empDept: document.getElementById('empDept').value,
                 empGrade: document.getElementById('empGrade').value,
                 updateEmpId: document.getElementById('empId').value
             };
         console.log("empStatus2"+requestDat.empStatus)
         console.log("empGrade2"+requestDat.empGrade)
+        console.log("empDept2"+requestDat.empDept)
         console.log("updateEmpId2"+requestDat.updateEmpId)
 
             // 업데이트 아작스
