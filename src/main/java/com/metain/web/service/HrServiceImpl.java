@@ -136,7 +136,7 @@ public class HrServiceImpl implements HrService {
                         //역할 부여
                         Long findRoleNo = hrMapper.findRoleNo(String.valueOf(gradeRole));
                         hrMapper.userRoleSave(emp.getEmpId(), findRoleNo);
-                        if(newEmp.getNewStatus().equals("재직")){
+                        if(newEmp.getNewStatus().equals("ACTIVE")){
                             findRoleNo = 7L;
                         }else{
                             findRoleNo = 8L;

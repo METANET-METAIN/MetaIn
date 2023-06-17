@@ -115,7 +115,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="empFirstDt" class="col-form-label">입사 일자</label>
-                        <input type="text" readonly class="form-control" id="empFirstDt">
+                        <input type="text"  readonly class="form-control" id="empFirstDt">
                     </div>
                     <div class="mb-3">
                         <label for="empLastDt" class="col-form-label">퇴사 일자</label>
@@ -178,7 +178,7 @@
             },
             {
                 header: '입사 일자',
-                name: 'empFirstDt',align: 'center',
+                name: 'empFirstDt', align: 'center',
                 filter: {
                     showApplyBtn: true,
                     showClearBtn: true,
@@ -186,8 +186,21 @@
                     options: {
                         format: 'yyyy.MM.dd'
                     }
+                },
+                formatter: function (params) {
+                    // params.value 값을 "yyyy-MM-dd" 형식으로 변환하여 반환
+                    if (params.value) {
+                        const date = new Date(params.value);
+                        const year = date.getFullYear();
+                        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                        const day = ('0' + date.getDate()).slice(-2);
+                        return year + '-' + month + '-' + day;
+                    } else {
+                        return '';
+                    }
                 }
             },
+
             {
                 header: '재직 상태',
                 name: 'empStatus',align: 'center',
@@ -201,6 +214,8 @@
         }
     });
 
+
+
     //그리드 클릭 시 이벤트
     grid.on('click',function(ev){
         console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
@@ -208,7 +223,7 @@
         console.log(row);
         document.getElementById('empSabun').value = row.empSabun;
         document.getElementById('empId').value = row.empId;
-        document.getElementById('empBirth').value = row.empBirth;
+        document.getElementById('empBirth').value = formatDate(row.empBirth);
         document.getElementById('empName').value = row.empName;
         document.getElementById('empPhone').value = row.empPhone;
         document.getElementById('empAddr').value = row.empAddr;
@@ -216,8 +231,8 @@
         document.getElementById('empDept').value = row.empDept;
         document.getElementById('empGrade').value = row.empGrade;
         document.getElementById('empStatus').value = row.empStatus;
-        document.getElementById('empFirstDt').value = row.empFirstDt;
-        document.getElementById('empLastDt').value = row.empLastDt;
+        document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
+        document.getElementById('empLastDt').value = formatDate(row.empLastDt);
 
             myModal.show(myModal);
 
@@ -226,45 +241,59 @@
             empGrade:row.empGrade,
             updateEmpId:row.empId
         }
+
         console.log("empStatus"+requestData.empStatus)
         console.log("empGrade"+requestData.empGrade)
         console.log("updateEmpId"+requestData.updateEmpId)
 
-    })
-function updateEmp() {
-
-    var header = $("meta[name='_csrf_header']").attr('content');
-    var token = $("meta[name='_csrf']").attr('content');
-    $(document).ajaxSend(function(e,xht,op){
-        xht.setRequestHeader(header ,token);
     });
-        // requestData 변수 선언 및 초기화
-        const requestDat = {
-            empStatus: document.getElementById('empStatus').value,
-            empGrade: document.getElementById('empGrade').value,
-            updateEmpId: document.getElementById('empId').value
-        };
-    console.log("empStatus2"+requestDat.empStatus)
-    console.log("empGrade2"+requestDat.empGrade)
-    console.log("updateEmpId2"+requestDat.updateEmpId)
 
-        // 업데이트 아작스
-        $.ajax({
-            type: "POST",
-            url: "/hr/updateEmp",
-            data: JSON.stringify(requestDat),
-            dataType: 'text',
-            contentType: 'application/json;charset=utf-8',
-            success: function(response) {
-                console.log(response)
-                window.location.pathname = "/hr/emp-list";
-            },
-            error: function(error) {
-                alert(JSON.stringify(error));
-            }
+    // 날짜 "yyyy-MM-dd" 형식으로 변환
+    function formatDate(date) {
+        if (!date || date === null) {
+            return '';
+        }
+        var formattedDate = new Date(date);
+        formattedDate.setDate(formattedDate.getDate() + 1);
+        formattedDate = formattedDate.toISOString().substring(0,10);
+        return formattedDate;
+    };
+
+
+    function updateEmp() {
+
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        $(document).ajaxSend(function(e,xht,op){
+            xht.setRequestHeader(header ,token);
         });
+            // requestData 변수 선언 및 초기화
+            const requestDat = {
+                empStatus: document.getElementById('empStatus').value,
+                empGrade: document.getElementById('empGrade').value,
+                updateEmpId: document.getElementById('empId').value
+            };
+        console.log("empStatus2"+requestDat.empStatus)
+        console.log("empGrade2"+requestDat.empGrade)
+        console.log("updateEmpId2"+requestDat.updateEmpId)
 
-}
+            // 업데이트 아작스
+            $.ajax({
+                type: "POST",
+                url: "/hr/updateEmp",
+                data: JSON.stringify(requestDat),
+                dataType: 'text',
+                contentType: 'application/json;charset=utf-8',
+                success: function(response) {
+                    console.log(response)
+                    window.location.pathname = "/hr/emp-list";
+                },
+                error: function(error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+
+    }
 
 </script>
 
