@@ -1,6 +1,7 @@
 package com.metain.web.mapper;
 
 import com.metain.web.domain.*;
+import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -54,4 +55,6 @@ public interface MyPageMapper {
 
 
     List<MyVacDTO> myVacList(Long empId);
+
+    List<AlarmDTO> alarmList(Long empId);
 }

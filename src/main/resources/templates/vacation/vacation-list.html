@@ -5,6 +5,7 @@
 	<section id="wrap">
 	</section>
 </th:block>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
@@ -62,16 +63,6 @@
         </div>-->
 	</div>
 </div>
-<!-- welcome modal start -->
-
-<!-- welcome modal end -->
-<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
-
-
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
@@ -79,7 +70,23 @@
 
 	<script th:inline="javascript">
 		const itemList = /*[[${vacList}]]*/ [];
-		console.log(itemList);
+		//console.log(itemList);
+		for (let i = 0; i < itemList.length; i++) {
+			if (itemList[i].empGrade === 'ROLE_SW') {
+				itemList[i].empGrade = '사원';
+			} else if (itemList[i].empGrade === 'ROLE_DR') {
+				itemList[i].empGrade = '대리';
+			}
+			else if (itemList[i].empGrade === 'ROLE_GJ') {
+				itemList[i].empGrade = '과장';
+			}else if (itemList[i].empGrade === 'ROLE_CJ') {
+				itemList[i].empGrade = '차장';
+			}else if (itemList[i].empGrade === 'ROLE_ADMIN') {
+				itemList[i].empGrade = '관리자';
+			}else if (itemList[i].empGrade === 'ROLE_HR') {
+				itemList[i].empGrade = '인사';
+			}
+		}
 
 		const grid = new tui.Grid({
 			el: document.getElementById('grid'),
@@ -91,24 +98,26 @@
 					header: '이름',
 					name: 'empName',
 					editor:'text',
+					align: 'center',
 					filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
 				},
 				{
 					header: '부서',
-					name: 'empDept',editor:'text',
+					name: 'empDept',editor:'text',align: 'center',
 					filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
 				},
 				{
-					header: '직급',editor:'text',
+					header: '직급',editor:'text',align: 'center',
 					name: 'empGrade'
 				},
 				{
-					header: '휴가 유형',editor:'text',
+					header: '휴가 유형',editor:'text',align: 'center',
 					name: 'vacType'
 				},
 				{
 					header: '휴가 시작일',
 					name: 'vacStartDate',
+					align: 'center',
 					filter:{
 						showApplyBtn: true,
 						showClearBtn: true,
@@ -122,6 +131,7 @@
 				{
 					header: '휴가 종료일',
 					name: 'vacEndDate',
+					align: 'center',
 					editor: {
 						type: 'datePicker',
 						options: {
@@ -139,7 +149,12 @@
 				},
 				{
 					header: '신청 일자',
+					align: 'center',
 					name: 'vacRegDate'
+				},
+				{
+					header: '승인 상태',editor:'text',align: 'center',
+					name: 'vacStatus'
 				}
 			],
 			rowHeaders: ['rowNum'],
@@ -170,7 +185,6 @@
 			}
 		})
 	</script>
-
 <!— Google Tag Manager (noscript) —>
 <noscript
 ><iframe

@@ -1,6 +1,9 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.Emp;
+import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.VacationListDTO;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,8 +19,8 @@ public interface VacationService {
 
     List<VacationListDTO> requestList();
 
-    public void approveVacationRequest(Long vacId,String vacStatus);
-    public void rejectVacationRequest(Long vacId,String vacStatus);
+    public void approveVacationRequest(Long vacId,String vacStatus,Long receiver);
+    public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver);
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 
     public void insertVacation(Vacation vacation);
@@ -25,5 +28,12 @@ public interface VacationService {
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
 
-    public int decreaseVacation(int selectedDays);
+    public int decreaseVacation(int selectedDays,Long empId);
+
+    int annualUpdate(Emp empInfo);
+    List<AlarmDTO> alarmListAll(Long empId);
+
+    List<VacationListDTO> todayVacation(String empDept);
+
+    public int increaseVacation(int selectedDays,Long empId);
 }

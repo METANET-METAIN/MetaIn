@@ -11,8 +11,25 @@
 			<div class="xs-pd-20-10 pd-ltr-20">
 				<div class="title pb-20">
 					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
+					<!-- CSRF 토큰 삽입 -->
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 				</div>
 				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
+				<label class="col-sm-12 col-md-2 col-form-label">이름</label>
+
+<!--				<span th:utext="${empId}"></span>-->
+				<div class="col-sm-12 col-md-7">
+
+<!--					<span th:utext="${name}"></span>-->
+<!--					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
+
+
+<!--					<span th:object="${emp}" th:field="${emp.empId}"></span>-->
+<!--					<span th:utext="${auth}"></span>-->
+<!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
+				</div>
+			</div>
 				<div class="pd-ltr-12 xs-pd-20-10">
 					<div class="pd-20 card-box mb-30">
 						<div class="calendar-wrap">
@@ -160,34 +177,18 @@
 		<div class="col-lg-4 col-md-6 mb-20">
 			<div class="card-box height-100-p pd-20 min-height-200px">
 				<div class="d-flex justify-content-between">
-					<div class="h5 mb-0">결재 현황</div>
-					<div class="dropdown">
-						<a
-								class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-								data-color="#1b3133"
-								href="#"
-								role="button"
-								data-toggle="dropdown"
-						>
-							<i class="dw dw-more"></i>
-						</a>
-						<div
-								class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-						>
-							<a class="dropdown-item" href="#"
-							><i class="dw dw-eye"></i> View</a
-							>
-							<a class="dropdown-item" href="#"
-							><i class="dw dw-edit2"></i> Edit</a
-							>
-							<a class="dropdown-item" href="#"
-							><i class="dw dw-delete-3"></i> Delete</a
-							>
-						</div>
-					</div>
+					<div class="h5 mb-0">이달의 신규입사자</div>
 				</div>
-
-				<div id="diseases-chart"></div>
+				<div style="text-align: center;margin-bottom:10px;margin-top:10px;">
+				  <span>
+					<span style="display: inline-block;" > 🎉 메타인이 되신걸 환영합니다 🎉 </span>
+				  </span>
+				</div>
+				<div id="newcard" style="overflow-y: scroll; height: 400px; overflow-x: hidden;width: 500px;">
+				<!--카드 -->
+				<div class="col clearfix">
+				</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-4 col-md-12 mb-20">
@@ -213,10 +214,19 @@
 		<script src="src/plugins/fullcalendar/fullcalendar.min.js"></script>
 		<script src="vendors/scripts/calendar-setting.js"></script>
 		<script>
+
+			// CSRF 토큰 값 가져오기
+			const csrfToken = document.querySelector('input[name="_csrf"]').value;
+			console.log('토큰값이다!!!!' + csrfToken);
+			console.log('토큰값이다!!!!' + csrfToken.empName);
+			//console.log('토큰값이다!!!!' + emp);
+		</script>
+
+		<script th:inline="javascript">
 			document.addEventListener('DOMContentLoaded', function() {
 				//우리팀 휴가 목록 아작스
 				$.ajax({
-					url: '/fetchEvents',
+					url: '/fetchEvents?empId='+empId,
 					method: 'GET',
 					success: function(response) {
 						response.slice(0,5).forEach(function(item) {
@@ -248,10 +258,51 @@
 						$('.user-list').append(teamList);
 					}
 				});//아작스 끝
+				//신규입사자 카드
+				$.ajax({
+					url: '/newEmp',
+					method: 'GET',
+					success: function(response) {
+						console.log(response)
 
+						response.forEach(function(item) {
+							var empName = item.empName;
+							var empDept = item.empDept;
+							var empFirstDt = new Date(item.empFirstDt);
+							var empProfile=item.empProfile;
+
+							empFirstDt.setDate(empFirstDt.getDate()+1)
+							empFirstDt=empFirstDt.toISOString().substring(0,10)
+							console.log(empProfile)
+							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30">' +
+									'<div class="da-card" style="display: flex;width: 350px; height: 100px">' +
+									'<div class="da-card-photo">' +
+									'<img src="vendors/user/'+empProfile+' "style="width: 100px; height: 80px" />' +
+									'<div class="da-overlay">' +
+									'<div class="da-social">' +
+									'<ul class="clearfix"></ul>' +
+									'</div>' +
+									'</div>' +
+									'</div>' +
+									'<div class="da-card-content" style="padding-top: 10px; padding-bottom: 10px;">' +
+									'<h5 class="h5 mb-10">'+empName+' 님'+'</h5>' +
+									'<p class="mb-0"> 부서: '+empDept+'</p>' +
+									'<p class="mb-0">입사일 :'+empFirstDt + '</p>' +
+									'</div>' +
+									'</div>' +
+									'</div>');
+
+							$(".col.clearfix").append(newCard);
+						});
+					},
+					error: function(xhr, status, error) {/*
+						var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
+								"우리 팀에 예정된 휴가가 없어요 " +'</span>');
+						$('.user-list').append(teamList);*/
+					}
+				});//아작스 끝
 
 			});
-
 		</script>
 	<!-- Google Tag Manager (noscript) -->
 		<noscript
@@ -263,6 +314,6 @@
 		></iframe
 		></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-	</body>
+
 
 </html>

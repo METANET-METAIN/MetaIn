@@ -23,6 +23,9 @@ public interface VacationMapper {
      * 부서별 휴가 조회 - 메인에서 우리팀 휴가 목록
      * */
     public List<VacationListDTO> selectListByDept(@Param("empDept")String empDept, @Param("today")LocalDate today);
+    /**
+     * 부서별 휴가 조회 - 메인에서 우리팀 휴가 목록
+     * */
     public List<VacationListDTO> calendar(@Param("empDept")String empDept, @Param("today")LocalDate today);
 
 
@@ -66,6 +69,9 @@ public interface VacationMapper {
     /**
      * 연차차감
      * */
-    public int decreaseVacation(int selectedDays);
+    public int decreaseVacation(int selectedDays,Long empId);
 
+    List<VacationListDTO> todayVacation(String empDept);
+
+    int increaseVacation(int diff, Long empId);
 }

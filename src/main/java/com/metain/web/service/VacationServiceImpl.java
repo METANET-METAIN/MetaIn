@@ -1,10 +1,16 @@
 package com.metain.web.service;
 
+import com.metain.web.domain.Emp;
 import com.metain.web.domain.File;
+import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
+import com.metain.web.dto.AlarmDTO;
+import com.metain.web.dto.AlarmResponse;
 import com.metain.web.dto.FileDTO;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.FileMapper;
+import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.VacationMapper;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
@@ -23,6 +29,12 @@ public class VacationServiceImpl implements VacationService{
     private VacationMapper vacMapper;
     @Autowired
     private FileMapper fileMapper;
+    @Autowired
+    private HrMapper hrMapper;
+    @Autowired
+    private AlarmMapper alarmMapper;
+    @Autowired
+    private AlarmService alarmService;
 
     @Override
     public List<VacationListDTO> selectAllList() {
@@ -51,18 +63,37 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void approveVacationRequest(Long vacId,String vacStatus) {
+    public void approveVacationRequest(Long vacId,String vacStatus,Long receiver) {
         if(vacStatus.equals("승인대기")) {
             int result = vacMapper.approveVacationRequest(vacId, vacStatus);
+
+            AlarmDTO alarmDTO=new AlarmDTO();
+            alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 승인되었습니다!");
+            alarmDTO.setNotiUrl("/mypage/my-vac-list");
+            alarmDTO.setNotiType("휴가정보");
+            alarmDTO.setEmpId(receiver);
+            alarmMapper.insertAlarm(alarmDTO);
+
+            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 승인되었습니다!"));
             if (result == 0) {
                 new Exception("에러");
             }
         }
     }
     @Override
-    public void rejectVacationRequest(Long vacId,String vacStatus) {
+    public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver) {
         if(vacStatus.equals("승인대기")) {
             int result = vacMapper.rejectVacationRequest(vacId, vacStatus);
+            AlarmDTO alarmDTO=new AlarmDTO();
+            alarmDTO.setNotiContent("신청하신  "+ vacId + "번 휴가가 반려되었습니다!");
+            alarmDTO.setNotiUrl("/mypage/my-vac-list");
+            alarmDTO.setNotiType("휴가정보");
+            alarmDTO.setEmpId(receiver);
+            alarmMapper.insertAlarm(alarmDTO);
+
+            alarmService.send(receiver, AlarmResponse.comment("신청하신  "+ vacId + "번 휴가가 반려되었습니다!"));
+
+
             if (result == 0) {
                 new Exception("에러");
             }
@@ -72,7 +103,8 @@ public class VacationServiceImpl implements VacationService{
     @Override
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus) {
         if(vacStatus.equals("승인대기")) {
-            int result = vacMapper.cancelVacationRequest(vacId, empId);
+            vacMapper.cancelVacationRequest(vacId, empId);
+
         }
     }
 
@@ -111,9 +143,39 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public int decreaseVacation(int selectedDays) {
+    public int decreaseVacation(int selectedDays,Long empId) {
+        int re=vacMapper.decreaseVacation(selectedDays, empId);
+        return re;
+    }
 
-        return 0;
+    @Override
+    public int annualUpdate(Emp empInfo) {
+        System.out.println("서비스에서 "+empInfo);
+        return hrMapper.annualUpdate(empInfo);
+    }
+
+    @Override
+    public List<AlarmDTO> alarmListAll(Long empId) {
+        List<AlarmDTO>  alarmListAll=alarmMapper.alarmListAll(empId);
+        if(alarmListAll==null){
+            return null;
+        }
+        return alarmListAll;
+    }
+
+    @Override
+    public List<VacationListDTO> todayVacation(String empDept) {
+        List<VacationListDTO> list=vacMapper.todayVacation(empDept);
+        if(list==null) {
+            return null;
+        }
+        return list;
+    }
+
+    @Override
+    public int increaseVacation(int selectedDays, Long empId) {
+        int re=vacMapper.increaseVacation(selectedDays, empId);
+        return re;
     }
 
 }
