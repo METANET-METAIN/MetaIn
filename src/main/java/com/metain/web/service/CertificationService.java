@@ -1,9 +1,10 @@
 package com.metain.web.service;
 
 import com.metain.web.domain.*;
-import com.metain.web.dto.VacationListDTO;
+import com.metain.web.dto.CertInfoDTO;
+import com.metain.web.dto.ImageRequestData;
 
-import java.util.List;
+import java.io.IOException;
 
 public interface CertificationService {
 
@@ -14,24 +15,30 @@ public interface CertificationService {
 
 
     //재직증명서 신청 기능
-    public int applyEmpCert(CommonCert commonCert);
+    public EmpCert applyAndSelectEmpCert(CertInfoDTO certInfoDTO);
 
     //경력증명서 신청
-    public int applyExperCert(CommonCert commonCert);
+    public ExperienceCert applyAndSelectExperCert(CertInfoDTO certInfoDTO);
 
     //퇴직증명서 신청
-    public int applyRetireCert(CommonCert commonCert);
+    public RetireCert applyAndSelectRetireCert(CertInfoDTO certInfoDTO);
 
 
     //증명서 생성 기능
     //증명서 생성할때 필요한 증명서발급정보 list로 가져오기
-    public EmpCert getEmpCertList(Long empId);
+    public EmpCert getEmpCert(Long empCertId);
 
-//    public List<ExperienceCert> getExperCertList(Long empId);
-//
-//    public List<RetireCert> getRetireCertList(Long empId);
+    public ExperienceCert getExperCert(Long experCertId);
 
+    public RetireCert getRetireCert(Long RetireCertId);
 
+    public void makeCertPdf(ImageRequestData request)throws IOException;
+
+    public void signPdf(String filename) throws Exception;
+
+    //마이페이지서비스로
+//    //다운로드할 증명서 파일이름가져오기
+//    public String getCertFilename(Long certId, String certSort);
 
 
 

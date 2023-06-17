@@ -3,38 +3,52 @@
 <mapper namespace="com.metain.web.mapper.CertificationMapper">
 
     <!--재직증명서 신청 쿼리문-->
-    <insert id="insertEmpCert" parameterType="com.metain.web.domain.CommonCert">
+    <insert id="insertEmpCert" parameterType="com.metain.web.dto.CertInfoDTO" useGeneratedKeys="true" keyProperty="empCertId">
         INSERT INTO TBL_EMP_CERT (EMP_ID, USE_OF_CERT, CERT_FILE_NAME)
-        VALUES (#{empId}, #{useOfCert},CONCAT('재직증명서-', CURDATE()));
-    </insert>
+        VALUES (#{empId}, #{useOfCert},CONCAT('A01-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', #{adjustedId}));
+</insert>
 
     <!--경력증명서 신청 쿼리문-->
-    <insert id="insertExperCert" parameterType="com.metain.web.domain.CommonCert">
+    <insert id="insertExperCert" parameterType="com.metain.web.dto.CertInfoDTO" useGeneratedKeys="true" keyProperty="experCertId">
         INSERT INTO TBL_EXPERIENCE_CERT (EMP_ID, USE_OF_CERT, CERT_FILE_NAME)
-        VALUES (#{empId}, #{useOfCert},CONCAT('경력증명서-', CURDATE()));
+        VALUES (#{empId}, #{useOfCert},CONCAT('A02-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', #{adjustedId}));
     </insert>
 
     <!--퇴직증명서 신청 쿼리문-->
-    <insert id="insertRetireCert" parameterType="com.metain.web.domain.CommonCert">
+    <insert id="insertRetireCert" parameterType="com.metain.web.dto.CertInfoDTO" useGeneratedKeys="true" keyProperty="retireCertId">
         INSERT INTO TBL_RETIRE_CERT (EMP_ID, USE_OF_CERT, CERT_FILE_NAME)
-        VALUES (#{empId}, #{useOfCert},CONCAT('퇴직증명서-', CURDATE()));
+        VALUES (#{empId}, #{useOfCert},CONCAT('A03-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', #{adjustedId}));
     </insert>
+
+    <!--파일명 처리하기위해서 마지막으로 생성된 certId 가져오기-->
+    <select id="getLastEmpCertId" resultType="int">
+    SELECT MAX(emp_cert_id) From TBL_EMP_CERT
+    </select>
+
+    <select id="getLastExperCertId" resultType="int">
+        SELECT MAX(exper_cert_id) From TBL_EXPERIENCE_CERT
+        </select>
+
+    <select id="getLastRetireCertId" resultType="int">
+        SELECT MAX(retire_cert_id) From TBL_RETIRE_CERT
+    </select>
+
+
 
     <!--증명서 생성시 재직증명서 정보 가져오는 쿼리문-->
     <select id="selectEmpCert" resultType="EmpCert">
-        select * from TBL_EMP_CERT
+        select * from TBL_EMP_CERT where emp_cert_id = #{certId};
     </select>
 
     <!--경력증명서 정보 가져오기-->
     <select id="selectExperCert" resultType="ExperienceCert">
-        select * from TBL_EXPERIENCE_CERT
+        select * from TBL_EXPERIENCE_CERT where exper_cert_id = #{certId};
     </select>
 
     <!--퇴직증명서 정보 가져오기-->
     <select id="selectRetireCert" resultType="RetireCert">
-        select * from TBL_RETIRE_CERT
+        select * from TBL_RETIRE_CERT where retire_cert_id = #{certId};
     </select>
-
 
 
 </mapper>
