@@ -10,6 +10,28 @@ import java.util.List;
 @Mapper
 public interface HrMapper {
 
+    //로그인
+    public Emp login(String empSabun);
+
+    //비밀번호 업데이트
+    public int updatePwdEmp(Emp emp);
+
+    //role 확인하기
+    List<String> selectRoleName(String empSabun);
+
+    //권한 저장
+    public int userRoleSave(Long empId, Long roleId);
+
+    //    사원번호 알아내기
+    public int findEmpNo(String empsabun);
+
+    //    권한 알아내기
+    public Long findRoleNo(String roleName);
+
+    public String findrolename(Long newId);
+
+
+
     /**신규 입사자 등록*/
     public int insertNewEmp(NewEmp newEmp);
 
@@ -27,7 +49,7 @@ public interface HrMapper {
     public List<NewEmpDTO> newEmpSelectAll();
 
     /**신규 입사자 정식 등록*/
-    public int confirmEmp(List<NewEmp> newEmp);
+    public int confirmEmp(Emp emp);
 
     /**사원 전체보기*/
     public List<Emp> selectAll();
@@ -48,7 +70,8 @@ public interface HrMapper {
     /**인사 정보 수정(직급, 부서, 재직상태)*/
     public int updateEmp(Emp emp);
 
+    /**배치 스케쥴러 통한 연차 초기화*/
+    public int annualUpdate(Emp empInfo);
 
-
-
+    List<Emp> newEmp();
 }

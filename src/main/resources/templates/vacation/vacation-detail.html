@@ -4,23 +4,9 @@
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
 	<section id="wrap">
 	</section>
-		</th:block>
-<style>
-	.card-align {
-		position: absolute;
-		top: 75%;
-		left: 50%;
-		width: 700px;
-		transform: translate(-30%, -50%);
-	}
-/*	@media (max-width: 400px) {
-		.card-align {
-			width: 90%;
-			left: 50%;
-			transform: translateX(-50%);
-		}
-	}*/
-</style>
+</th:block>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
@@ -71,11 +57,11 @@
 							<div class="form-group row" style="margin-bottom: 25px;">
 								<label class="col-sm-12 col-md-2 col-form-label" >휴가 기간 </label>
 								<div class="col-sm-12 col-md-3">
-									<input class="form-control date-picker" th:value="${vac.getVacStartDate()}" readonly>
+									<input class="form-control" th:value="${vac.getVacStartDate()}" readonly>
 								</div>
 								<p>  ~  </p>
 								<div class="col-sm-12 col-md-3">
-									<input class="form-control date-picker"  th:value="${vac.getVacEndDate()}" readonly/>
+									<input class="form-control"  th:value="${vac.getVacEndDate()}" readonly/>
 								</div>
 								<div class="col-sm-12 col-md-3">
 									총 <b><span th:text="${diff}"/> 일</b> 선택<br>
@@ -92,28 +78,40 @@
 
 							<div class="form-group row" style="height: 150px;">
 								<label class="col-sm-12 col-md-2 col-form-label"> 결재라인 </label>
+								<div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
 								<div class="col-sm-10 col-md-2">
 									<div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-										<img src="/vendors/images/photo1.jpg"
-											 style="width: 100px; height: 100px;"
+										<img th:src="@{'/vendors/user/' + ${req.empProfile}}" style="width: 100px; height: 100px;"
 										/>
 									</div>
-									<div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
+									<div th:text="${req.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
 									<p class="text-center text-muted font-14" >
-										<span th:text="${emp.getEmpDept()}"></span>
+										<span th:text="${req.getEmpDept()}"></span>
 									</p>
 								</div>
-								<div class="col-sm-5 col-md-3" style="display: flex">
+								<div class="col-sm-5 col-md-7" style="display: flex;justify-content: center;" >
 
-									<img src="/vendors/images/001.jpg"
-										 style="width: 180px;"
-									/>
+									<div th:if="${vac.vacStatus == '승인대기'}">
+										<img src="/vendors/images/wait.png" style="width: 100%; height: 160px;"
+										/>
+									</div>
+									<div th:if="${vac.vacStatus == '승인완료'}">
+										<img src="/vendors/images/approve.png" style="width: 100%; height: 160px;"
+										/>
+									</div>
+									<div th:if="${vac.vacStatus == '요청취소'}">
+										<img src="/vendors/images/cancel.png" style="width: 100%; height: 160px;"
+										/>
+									</div>
+									<div th:if="${vac.vacStatus == '승인반려'}">
+										<img src="/vendors/images/reject.png" style="width: 100%; height: 160px;"
+										/>
+									</div>
 								</div>
 
 								<div class="col-sm-10 col-md-2">
 									<div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-										<img src="/vendors/images/photo1.jpg"
-											 style="width: 100px; height: 100px;"
+										<img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
 										/>
 									</div>
 									<div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -121,15 +119,18 @@
 										<span th:text="${admin.getEmpDept()}"></span>
 									</p>
 								</div>
+								</div>
 							</div>
-							<div class="form-group row" style="display: flex; justify-content: space-evenly; align-items: center;">
-								<button class="btn btn-primary" style="width: 80%;" onclick="goBack()">뒤로가기</button>
+
+							<div class="form-group row"></div>
+							<div class="form-group row" style="display: flex;">
+								<label class="col-sm-20
+								 col-md-2 col-form-label">  </label>
+								<button class="btn btn-primary" type="button" style="width: 60%;background-color:#1e3fa1" onclick="goBack()">뒤로가기</button>
 							</div>
 							<script th:inline="javascript">
 								function goBack() {
-									var url = '/vacation/vacation-list';
-									history.pushState({}, '', url);
-									window.location.href = url;
+									history.back(); // 이전 상태로 이동
 								}
 							</script>
 

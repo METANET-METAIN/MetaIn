@@ -14,4 +14,7 @@ public class NewEmp {
     private String newDetailAddr;
     private String newEmail;
     private String newDept;
+    private String newGrade;
+    private String newStatus;
+
 }

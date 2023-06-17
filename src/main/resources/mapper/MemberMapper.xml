@@ -2,20 +2,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.metain.web.mapper.MemberMapper">
 
+    <!--신규직원 승인(직원테이블에 정보 생성)-->
+<!--    <insert id="confirmEmp" parameterType="NewEmp">-->
+<!--        <foreach collection="newEmp" item="newEmpList" separator=";">-->
+<!--            INSERT INTO TBL_EMPLOYEE (-->
+<!--            EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,-->
+<!--            EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH-->
+<!--            )-->
+<!--            SELECT-->
+<!--            #{newEmpList.newName}, #{newEmpList.newPhone},-->
+<!--            #{newEmpList.newAddr}, #{newEmpList.newZipcode}, #{newEmpList.newDetailAddr},-->
+<!--            #{newEmpList.newEmail}, #{newEmpList.newDept}, DATE_FORMAT(NOW(), '%Y%m%d'),-->
+<!--            CONCAT(YEAR(NOW()),-->
+<!--            LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1-->
+<!--            FROM TBL_EMPLOYEE), 4, '0')),-->
+<!--            CONCAT(REPLACE(#{newEmpList.newBirth}, '-', '')),-->
+<!--            #{newEmpList.newBirth}-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
     <!--  로그인  -->
     <select id="login" resultType="Emp">
-        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE
+        SELECT EMP_ID, EMP_SABUN, EMP_PWD, EMP_NAME, EMP_DEPT, EMP_GRADE, EMP_BIRTH, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE,EMP_DETAIL_ADDR,EMP_EMAIL,EMP_STATUS,EMP_FIRST_DT,EMP_LAST_DT,EMP_VAC,EMP_PROFILE
         FROM TBL_EMPLOYEE
-        WHERE EMP_SABUN = #{empSabun} AND EMP_PWD = #{empPwd};
+        WHERE EMP_SABUN = #{empSabun};
     </select>
 
-    <!-- 유저 정보 -->
-<!--    <select id="findByUserId" resultType="Emp">-->
-<!--        SELECT -->
-<!--        FROM-->
-<!--        WHERE-->
+
+<!--    <select id="findEmpNo" resultType="Integer">-->
+<!--        SELECT EMP_SABUN-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_SABUN = #{emp_sabun};-->
 <!--    </select>-->
 
+<!--    <select id="findRole" resultType="Integer">-->
+<!--        SELECT EMP_GRADE-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_GRADE = #{emp_grade};-->
+<!--    </select>-->
+
+
+
+
+<!--    &lt;!&ndash; 유저 정보 &ndash;&gt;-->
+<!--    <select id="findEmpNo" resultType="Integer">-->
+<!--        SELECT EMP_EMPID-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_EMPSABUN = #{emp_empSabun}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 유저 정보 &ndash;&gt;-->
+<!--    <select id="findGradeNo" resultType="void">-->
+<!--        SELECT EMP_EMPGRADE-->
+<!--        FROM TBL_EMPLOYEE-->
+<!--        WHERE EMP_EMPGRADE = #{emp_empGrade}-->
+<!--    </select>-->
+
+
+
+    <select id="selectAdminInfo" resultType="Emp">
+    SELECT EMP_ID, EMP_SABUN, EMP_NAME, EMP_DEPT,EMP_GRADE,EMP_PROFILE
+    FROM TBL_EMPLOYEE
+    WHERE EMP_DEPT = #{empDept} AND EMP_GRADE = #{empGrade};
+    </select>
 
 
 </mapper>

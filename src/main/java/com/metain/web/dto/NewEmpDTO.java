@@ -10,5 +10,6 @@ public class NewEmpDTO {
     private String newAddr;
     private String newEmail;
     private String newDept;
+    private String newBirth;
 
 }

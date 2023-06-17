@@ -1,18 +1,19 @@
 package com.metain.web.controller;
 
 import com.metain.web.domain.*;
-import com.metain.web.dto.MyCertDTO;
+import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 import com.metain.web.service.VacationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.PathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import java.util.Map;
 @RequestMapping("/mypage")
 public class MyPageController {
 
+
     @Autowired
     private MyPageService myPageService;
     @Autowired
@@ -36,33 +38,31 @@ public class MyPageController {
     @Autowired
     private HrService hrService;
 
-    @GetMapping("/update-mypage")
-    public String updateMyPage() {
-        return "/mypage/update-mypage";
-    }
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     //재직증명서 리스트
     @GetMapping("/my-empCert")
     @ResponseBody
-    public List<EmpCert> selectMyEmpCert(EmpCert empCert) {
-        empCert.setEmpId(4L);
+
+    public List<EmpCert> selectMyEmpCert(EmpCert empCert){
         return myPageService.selectMyEmpCert(empCert);
     }
+
 
     //경력증명서 리스트
     @GetMapping("/my-experCert")
     @ResponseBody
-    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert) {
-        experienceCert.setEmpId(4L);
+    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert){
         return myPageService.selectMyExperCert(experienceCert);
     }
+
 
     //퇴직증명서 리스트
     @GetMapping("/my-retireCert")
     @ResponseBody
-    public List<RetireCert> selectMyRetCert(RetireCert retireCert) {
-        retireCert.setEmpId(4L);
+    public List<RetireCert> selectMyRetCert(RetireCert retireCert){
         return myPageService.selectMyRetCert(retireCert);
     }
 
@@ -109,17 +109,34 @@ public class MyPageController {
 
     @GetMapping("/my-vac")
     @ResponseBody
-    public List<MyVacDTO> selectMyVacList(@ModelAttribute MyVacDTO myVacDTO) {
-        myVacDTO.setEmpId(5L); //일단 시큐리티 구현전까지 하드코딩 나중에 삭제할거임
+    public List<MyVacDTO> selectMyVacList(Authentication auth,@ModelAttribute MyVacDTO myVacDTO) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId=principalDetails.getEmpId();
+        myVacDTO.setEmpId(empId);
         return myPageService.selectMyVacList(myVacDTO);
     }
-
     @GetMapping("/my-vac-list")
-    public String myVacList(Long empId, Model model) {
-        empId = 5L;
-        List<MyVacDTO> myList = myPageService.myVacList(empId);
-        model.addAttribute("vacList", myList);
+
+    public String myVacList(Authentication auth, Model model) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId=principalDetails.getEmpId();
+        Emp emp=hrService.selectEmpInfo(empId);
+        List<MyVacDTO> myList=myPageService.myVacList(empId);
+        model.addAttribute("vacList",myList);
+        model.addAttribute("emp",emp);
         return "/mypage/my-vac-list";
+    }
+
+    @GetMapping("/alarm")
+    public String alarmList(Authentication auth, Model model) {
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long empId = principalDetails.getEmpId();
+        Emp emp =  hrService.selectEmpInfo(empId);
+
+        List<AlarmDTO> alarmList=myPageService.alarmList(empId);
+        model.addAttribute("alarmList",alarmList);
+        model.addAttribute("emp",emp);
+        return "/mypage/alarm";
     }
 
     @GetMapping("/my-vac-detail/{vacationId}")
@@ -151,9 +168,34 @@ public class MyPageController {
     public ResponseEntity<String> cancelVacationRequest(@RequestBody Map<String, Object> requestData) {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         Long empId = Long.parseLong(requestData.get("empId").toString());
-        String vacStatus = requestData.get("vacStatus").toString();
 
-        vacationService.cancelVacationRequest(vacId, empId, vacStatus);
+        String vacStatus=requestData.get("vacStatus").toString();
+        int diff=Integer.parseInt(requestData.get("diff").toString());
+
+        vacationService.cancelVacationRequest(vacId,empId,vacStatus);
+        vacationService.increaseVacation(diff,empId);
         return ResponseEntity.ok("성공");
     }
+    @PostMapping("/updateMy")
+    public String  updateMy(Emp emp) {
+
+
+        myPageService.updateMy(emp);
+
+        return "redirect:/mypage/update-mypage";
+    }
+//    @PostMapping("/updateMy")
+//    public String  updateMy(Emp emp) {
+//        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
+//        dbemp.setEmpPwd(emp.getEmpPwd());
+//        dbemp.setEmpAddr(emp.getEmpAddr());
+//        dbemp.setEmpPhone(emp.getEmpPhone()); //여기 비번두 추가, 맵퍼 쿼리문에도
+//        dbemp.setEmpZipcode(emp.getEmpZipcode());
+//        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+//        myPageService.updateMy(dbemp);
+//
+//        return "redirect:/mypage/update-mypage";
+//    }
+
+
 }

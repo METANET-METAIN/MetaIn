@@ -14,4 +14,5 @@ public class Notification {
     private String notiContent;
     private String notiUrl;
     private Date notiDt;
+    private String notiType;
 }
