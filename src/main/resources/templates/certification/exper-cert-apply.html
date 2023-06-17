@@ -3,286 +3,258 @@
 
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
-  <section id="wrap">
-  </section>
+    <section id="wrap">
+    </section>
 </th:block>
 
 <div class="mobile-menu-overlay"></div>
 
 <div class="main-container">
-  <div class="pd-ltr-20 xs-pd-20-10">
-    <div class="min-height-150px">
-      <div class="page-header">
-        <div class="row">
-          <div class="col-md-6 col-sm-12">
-            <div class="title">
-              <h4>경력증명서</h4>
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-150px">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>경력증명서</h4>
+                        </div>
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html">경력증명서 발급</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    정보입력
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-6 col-sm-12 text-right">
+                    </div>
+                </div>
             </div>
-            <nav aria-label="breadcrumb" role="navigation">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a href="index.html">경력증명서 발급</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  정보입력
-                </li>
-              </ol>
-            </nav>
-          </div>
-          <div class="col-md-6 col-sm-12 text-right">
-            <!--            <div class="applybutton">-->
-            <!--              <a-->
-            <!--                      class="btn btn-primary apply"-->
-            <!--                      href="emp-cert-complete"-->
-            <!--                      role="button"-->
-            <!--              >-->
-            <!--                완료-->
-            <!--              </a>-->
-
-            <!--            </div>-->
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- seoyyy 입력폼 커스텀 horizontal Basic Forms Start -->
-    <div class="pd-20 card-box mb-30">
-      <div class="clearfix">
-        <div class="pull-left">
-          <h4 class="text-blue h4">필수입력 정보</h4>
-          <p class="mb-30">정보를 확인해주세요</p>
-        </div>
-        <!-- <div class="pull-right">
-            <a
-                href="#horizontal-basic-form1"
-                class="btn btn-primary btn-sm scroll-click"
-                rel="content-y"
-                data-toggle="collapse"
-                role="button"
-                ><i class="fa fa-code"></i> Source Code</a
-            >
-        </div> -->
-      </div>
-      <form th:if="${empInfoList != null}" th:action="@{/handleEmpCertInfo}" method="post">
-
-        <div class="form-group">
-          <label for="certSort">증명서 종류</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="certSortDisplay"
-                  name="certSortDisplay"
-                  value="경력증명서"
-                  readonly
-          />
-          <input
-                  class="form-control"
-                  type="hidden"
-                  id="certSort"
-                  name="certSort"
-                  value="A02"
-          />
-        </div>
-
-        <div class="form-group">
-          <input
-                  class="form-control"
-                  type="hidden"
-                  id="empId"
-                  name="empId"
-                  th:field="${empInfoList.empId}" />
-        </div>
-
-        <div class="form-group">
-          <label for="empName">이름</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="empName"
-                  name="empName"
-                  th:field="${empInfoList.empName}"
-                  readonly
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="empBirth">생년월일</label>
-            <input
-                  class="form-control"
-                  type="text"
-                  id="empBirth"
-                  name="empBirth"
-                  th:field="${empInfoList.empBirth}"
-                  readonly
-            />
-        </div>
-
-        <div class="form-group">
-          <label for="empAddr">주소</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="empAddr"
-                  name="empAddr"
-                  th:field="${empInfoList.empAddr}"
-                  readonly
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="empGrade">직위</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="empGrade"
-                  name="empGrade"
-                  th:field="${empInfoList.empGrade}"
-
-                  readonly
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="empDept">근무 부서</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="empDept"
-                  name="empDept"
-                  th:field="${empInfoList.empDept}"
-
-                  readonly
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="empFirstDt">입사일자</label>
-          <input
-                  class="form-control"
-                  type="text"
-                  id="empFirstDt"
-                  name="empFirstDt"
-                  th:field="${empInfoList.empFistDt}"
-
-                  readonly
-          />
         </div>
 
 
+        <!-- seoyyy 입력폼 커스텀 horizontal Basic Forms Start -->
+        <div class="pd-20 card-box mb-30">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <h4 class="text-blue h4">필수입력 정보</h4>
+                    <p class="mb-30">정보를 확인해주세요</p>
+                </div>
 
-        <div class="form-group">
-          <div class="row">
-            <div class="col-md-6 col-sm-12">
-              <label class="weight-600">사용 용도</label>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="useOfCert"
-                        id="financialUse"
-                        value="금융기관"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="financialUse"
-                >금융기관 제출</label
-                >
-              </div>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="useOfCert"
-                        id="govOffUse"
-                        value="관공서"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="govOffUse"
-                >관공서 제출</label
-                >
-              </div>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="useOfCert"
-                        id="enterpriseUse"
-                        value="기업"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="enterpriseUse"
-                >기업 제출</label
-                >
-              </div>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="useOfCert"
-                        id="etcUse"
-                        value="기타"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="etcUse"
-                >기타</label
-                >
-              </div>
-
-              <div class="col-md-6 col-sm-12">
-                <input
-                        type="hidden"
-                        id="selectedUseOfCert"
-                        name="selectedUseOfCert"
-                        value=""
-                />
-
-              </div>
-            <div class="col-md-6 col-sm-12">
             </div>
-          </div>
+            <form th:if="${empInfoList != null}" th:action="@{/certification/handleEmpCertInfo}" method="post">
+
+                <div class="form-group">
+                    <label for="certSort">증명서 종류</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="certSortDisplay"
+                            name="certSortDisplay"
+                            value="경력증명서"
+                            readonly
+                    />
+                    <input
+                            class="form-control"
+                            type="hidden"
+                            id="certSort"
+                            name="certSort"
+                            value="A02"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <input
+                            class="form-control"
+                            type="hidden"
+                            id="empId"
+                            name="empId"
+                            th:field="${empInfoList.empId}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="empName">이름</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empName"
+                            name="empName"
+                            th:field="${empInfoList.empName}"
+                            readonly
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="empBirth">생년월일</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empBirth"
+                            name="empBirth"
+                            th:field="${empInfoList.empBirth}"
+                            readonly
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="empAddr">주소</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empAddr"
+                            name="empAddr"
+                            th:field="${empInfoList.empAddr}"
+                            readonly
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="empGrade">직위</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empGrade"
+                            name="empGrade"
+                            th:field="${empInfoList.empGrade}"
+
+                            readonly
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="empDept">근무 부서</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empDept"
+                            name="empDept"
+                            th:field="${empInfoList.empDept}"
+
+                            readonly
+                    />
+                </div>
+
+
+                <div class="form-group">
+                    <input
+                            class="form-control"
+                            type="hidden"
+                            id="empStatus"
+                            name="empStatus"
+                            th:field="${empInfoList.empStatus}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="empFirstDt">입사일자</label>
+                    <input
+                            class="form-control"
+                            type="text"
+                            id="empFirstDt"
+                            name="empFirstDt"
+                            th:field="${empInfoList.empFirstDt}"
+
+                            readonly
+                    />
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <label class="weight-600">사용 용도</label>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="useOfCert"
+                                        id="financialUse"
+                                        value="금융기관"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="financialUse"
+                                >금융기관 제출</label
+                                >
+                            </div>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="useOfCert"
+                                        id="govOffUse"
+                                        value="관공서"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="govOffUse"
+                                >관공서 제출</label
+                                >
+                            </div>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="useOfCert"
+                                        id="enterpriseUse"
+                                        value="기업"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="enterpriseUse"
+                                >기업 제출</label
+                                >
+                            </div>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="useOfCert"
+                                        id="etcUse"
+                                        value="기타"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="etcUse"
+                                >기타</label
+                                >
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <input
+                                        type="hidden"
+                                        id="selectedUseOfCert"
+                                        name="selectedUseOfCert"
+                                        value=""
+                                />
+
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col text-center">
+
+
+                        <button type="submit" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
+                        >작성 완료
+                        </button>
+
+                    </div>
+                </div>
+            </form>
         </div>
-
-
-        <!-- <div class="form-group">
-            <label>Textarea</label>
-            <textarea class="form-control"></textarea>
-        </div> -->
-
-        <!--        <div class="col-12 text-center">-->
-        <!--          &lt;!&ndash; <a-->
-        <!--              href="#horizontal-basic-form1"-->
-        <!--              class="btn btn-primary btn-lg"-->
-        <!--              rel="content-y"-->
-        <!--              role="button"-->
-        <!--              >완료</a-->
-        <!--          > &ndash;&gt;-->
-        <!--        <div class="col text-center">-->
-        <!--          <input class="btn btn-primary btm-lg" type="button" value="작성완료" onclick="return NotNullChk(); location.href='emp-cert-complete'" >-->
-        <!--        </div>-->
-        <div class="col text-center">
-
-          <!--          <button type="button" class="btn btn-primary btm-lg" onclick="validateAndSubmit1()"-->
-          <!--          >작성 완료1 </button>-->
-
-          <button type="submit" class="btn btn-primary btm-lg" onclick="validateAndSubmit2()"
-          >작성 완료 </button>
-
-        </div>
-
-      </form>
     </div>
-  </div>
 </div>
 <!-- horizontal Basic Forms End -->
 
 
-
 </div>
 <div class="footer-wrap pd-20 mb-20 card-box">
-  메타인(주)
-  <a href="https://github.com/dropways" target="_blank"
-  >METAIN</a
-  >
+    메타인(주)
+    <a href="https://github.com/dropways" target="_blank"
+    >METAIN</a
+    >
 </div>
 </div>
 </div>
@@ -290,71 +262,45 @@
 <!-- js -->
 
 <script>
-  function NoMultiChk(chk) {
-    var obj = document.getElementsByName("useOfCert");
-    var selectedValue = "";
-    for (var i = 0; i < obj.length; i++) {
-      if (obj[i] != chk) {
-        obj[i].checked = false;
-      } else if (obj[i].checked) {
-        selectedValue = obj[i].value;
-      }
-    }
-    document.getElementById("selectedUseOfCert").value = selectedValue;
-  }
-
-  // function validateAndSubmit1() {
-  //   //체크된 체크박스 개수
-  //   var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
-  //
-  //   // 체크박스가 하나 이상인지 확인
-  //   if (checkedCount < 1) {
-  //     // 체크박스가 하나 이상이어야 한다는 경고창 표시
-  //     swal("경고", "사용용도를 선택해주세요", "warning")
-  //   } else {
-  //     //조건이 충족되었을 때 내발급내역페이지 이동
-  //     location.href = 'emp-cert-complete';
-  //   }}
-
-  function validateAndSubmit2() {
-    //체크된 체크박스 개수
-    var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
-
-    // 체크박스가 하나 이상인지 확인
-    if (checkedCount < 1) {
-      // 체크박스가 하나 이상이어야 한다는 경고창 표시
-      swal("경고", "사용용도를 선택해주세요", "warning")
-    } else {
-      swal(
-              {
-                title: '발급 완료!',
-                html: '발급이 완료되었습니다 <br> 나의 증명서 발급내역에서 확인가능합니다',
-                type: 'success',
-                confirmButtonClass: 'btn btn-success',
-                confirmButtonText: '내 증명서 발급내역'
-              }).then(value => {
-        if(value){
-          location.href='my-cert-list'
+    function NoMultiChk(chk) {
+        var obj = document.getElementsByName("useOfCert");
+        var selectedValue = "";
+        for (var i = 0; i < obj.length; i++) {
+            if (obj[i] != chk) {
+                obj[i].checked = false;
+            } else if (obj[i].checked) {
+                selectedValue = obj[i].value;
+            }
         }
-      })
+        document.getElementById("selectedUseOfCert").value = selectedValue;
     }
-  }
 
 
+    function validateAndSubmit2() {
+        //체크된 체크박스 개수
+        var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
-  // function NotNullChk(){
-  //   var arrSelect = document.getElementsByName("purposeOfUse");
-  //
-  //   for(var i=0; i< arrSelect.length; i++){
-  //
-  //     if(arrSelect[i].checked){
-  //       return true;
-  //     }
-  //   }
-  //
-  //   alert("사용용도를 선택하세요");
-  //   return false;
-  // }
+        // 체크박스가 하나 이상인지 확인
+        if (checkedCount < 1) {
+            // 체크박스가 하나 이상이어야 한다는 경고창 표시
+            swal("경고", "사용용도를 선택해주세요", "warning")
+        } else {
+            swal(
+                {
+                    title: '발급 완료!',
+                    html: '발급이 완료되었습니다 <br> 나의 증명서 발급내역에서 확인가능합니다',
+                    type: 'success',
+                    confirmButtonClass: 'btn btn-success',
+                    confirmButtonText: '내 증명서 발급내역'
+                }).then(value => {
+                if (value) {
+                    location.href = 'my-cert-list'
+                }
+            })
+        }
+    }
+
+
 </script>
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="../src/plugins/sweetalert2/sweet-alert.init.js"></script>
@@ -364,13 +310,15 @@
 <script src="vendors/scripts/layout-settings.js"></script>
 <!-- Google Tag Manager (noscript) -->
 <noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
+>
+    <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+            height="0"
+            width="0"
+            style="display: none; visibility: hidden"
+    ></iframe
+    >
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 </body>
 </html>
