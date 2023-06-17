@@ -25,8 +25,10 @@ public interface MyPageService {
 
     //경력증명서 발급 현황
     List<RetireCert> selectMyRetCert(RetireCert retireCert);
+
     //알림함
     List<AlarmDTO> alarmList(Long empId);
 
     void updateMy(Emp dbemp);
+
 }
