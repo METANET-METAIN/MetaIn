@@ -44,6 +44,27 @@ public class HrServiceImpl implements HrService {
         emp.setRoleName(String.valueOf(statusRole));
     }
 
+    private Role fromGrade(String grade) {
+        switch (grade) {
+            case "관리자":
+                return Role.ADMIN;
+            case "사원":
+                return Role.EMPLOYEE;
+            case "대리":
+                return Role.ASSISTANT;
+            case "과장":
+                return Role.MANAGER;
+            case "차장":
+                return Role.DEPUTY;
+            case "인사관리":
+                return Role.HR;
+            default:
+                throw new IllegalArgumentException("Invalid grade: " + grade);
+        }
+    }
+
+
+
 
 
     private static final Logger logger = LoggerFactory.getLogger(HrServiceImpl.class);
@@ -94,11 +115,16 @@ public class HrServiceImpl implements HrService {
                         emp.setEmpDetailAddr(newEmp.getNewDetailAddr());
                         emp.setEmpEmail(newEmp.getNewEmail());
                         emp.setEmpDept(newEmp.getNewDept());
-                        emp.setEmpGrade(newEmp.getNewGrade());
-                        emp.setEmpStatus(newEmp.getNewStatus());
+                        String empGrade = newEmp.getNewGrade();
+                        Role gradeRole = Role.fromGrade(empGrade);
+                        emp.setEmpGrade(String.valueOf(gradeRole));
+//                        emp.setEmpGrade(newEmp.getNewGrade());
+//                        emp.setEmpStatus(newEmp.getNewStatus());
+                        System.out.println("역할 제대로 들어갔니" + emp);
+                        System.out.println("역할 제대로 들어갔니" + newEmp);
                         System.out.println("암호화 완료 " + encryptedPwd);
 
-                        roleBasedOnGradeAndStatus(emp); //역할 할당
+//                        roleBasedOnGradeAndStatus(emp); //역할 할당
 
                         int cnt = hrMapper.confirmEmp(emp);
                         if (cnt >= 1) {
@@ -108,10 +134,9 @@ public class HrServiceImpl implements HrService {
 
 
                         //역할 부여
-//                        int findEmpNo = hrMapper.findEmpNo(emp.getEmpSabun());
-                        Long findRoleNo = hrMapper.findRoleNo(newEmp.getNewGrade());
+                        Long findRoleNo = hrMapper.findRoleNo(String.valueOf(gradeRole));
                         hrMapper.userRoleSave(emp.getEmpId(), findRoleNo);
-                        if(newEmp.getNewStatus().equals("ACTIVE")){
+                        if(newEmp.getNewStatus().equals("재직")){
                             findRoleNo = 7L;
                         }else{
                             findRoleNo = 8L;

@@ -158,6 +158,11 @@
     // const newList = /*[[${newEmpList}]]*/ [];
     console.log(newEmpList);
 
+    // 데이터 소스에 newAddrs 필드 추가
+    // newEmpList.forEach(function(item) {
+    //     item.newAddrs = item.newAddr + ', ' + item.newDetailAddr + ', ' + item.newZipcode;
+    // });
+
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
         // data: newEmpList,
@@ -167,48 +172,119 @@
         columns: [
             {
                 header: '신입사원 번호',
-                name: 'newId'
+                name: 'newId',
+                align: 'center'
             },
             {
                 header: '이름',
                 name: 'newName',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             },
             {
                 header: '전화 번호',
-                name: 'newPhone'
+                name: 'newPhone',
+                align: 'center'
             },
             {
                 header: '주소',
-                name: 'newAddr'
-            },
-            {
-                header: '이메일',
-                name: 'newEmail',
-                filter: 'select'
+                name: 'newAddr',
+                align: 'center'
             },
             {
                 header: '생년월일',
                 name: 'newBirth',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             },
             {
                 header: '지원 직무',
                 name: 'newDept',
-                filter: 'select'
+                filter: 'select',
+                align: 'center'
             },
             {
                 header: '직급',
                 name: 'newGrade',
-                filter: 'select'
+                filter: 'select',
+                align: 'center',
+                // formatter: (value) => {
+                //
+                //     let position = '';
+                //     switch (value) {
+                //         case 'EMPLOYEE':
+                //             position = '사원';
+                //             break;
+                //         case 'ASSISTANT':
+                //             position = '대리';
+                //             break;
+                //         case 'MANAGER':
+                //             position = '과장';
+                //             break;
+                //         case 'DEPUTY':
+                //             position = '차장';
+                //             break;
+                //         case 'HR':
+                //             position = '인사관리';
+                //             break;
+                //         case 'ADMIN':
+                //             position = '관리자';
+                //             break;
+                //         case '"EMPLOYEE"':
+                //             position = '공란';
+                //             break;
+                //         default:
+                //             position = '미정';
+                //     }
+                //     return position;
+                // }
             }
-
         ],
         pageOptions: {
             useClient: true,
             perPage: 10
         }
     });
+
+
+
+    fetch('/hr/new-list')
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(newEmpData){
+            //직급 변환하여 출력
+            const gradeData = newEmpData.map(item => {
+                let position = '';
+                switch (item.newGrade) {
+                    case 'EMPLOYEE':
+                        position = '사원';
+                        break;
+                    case 'ASSISTANT':
+                        position = '대리';
+                        break;
+                    case 'MANAGER':
+                        position = '과장';
+                        break;
+                    case 'DEPUTY':
+                        position = '차장';
+                        break;
+                    case 'HR':
+                        position = '인사관리';
+                        break;
+                    case 'ADMIN':
+                        position = '관리자';
+                        break;
+                    default:
+                        position = '미정';
+                }
+                return { ...item, newGrade: position };
+            })
+            grid.resetData(gradeData); //값 넣고 grid reset한다.
+        });
+
+
+
     //그리드 클릭 시 이벤트
     // grid.on('click',function(ev){
     //     console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
@@ -229,19 +305,26 @@
 
 
 
-    // 신규입사자 리스트 정보 불러오기
-    fetch('/hr/new-list')
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(newEmpData){
-            grid.resetData(newEmpData); //값 넣고 grid reset한다.
-        })
 
+    // window.onload = function() {
+    //     loadNewEmpList();
+    // };
 
-
-
-
+    // function updateNewEmpList() {
+    //     const grid = tui.Grid.getInstance(document.getElementById('grid'));
+    //
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/hr/new-emp-list',
+    //         dataType: 'json',
+    //         success: function (newEmpData) {
+    //             grid.resetData(newEmpData);
+    //         },
+    //         error: function (error) {
+    //             alert(JSON.stringify(error));
+    //         },
+    //     });
+    // }
 
 
 
@@ -274,7 +357,7 @@
                     success: function(confirmResult) {
                         if (confirmResult >= 1) {
                             alert('승인을 완료하였습니다.');
-                            location.reload();
+                            updateNewEmpList();
                         } else {
                             alert('승인을 실패하였습니다.');
                         }
@@ -286,7 +369,7 @@
                 return false; // 이벤트 종료
             }
         }
-    })
+    });
 
 </script>
 

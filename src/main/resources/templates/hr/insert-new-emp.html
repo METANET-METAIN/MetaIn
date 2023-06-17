@@ -50,14 +50,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">생년월일</label>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="" type="text" th:name="newBirth" id="newBirth" >
+                                    <input class="form-control" type="text" th:name="newBirth" id="newBirth" >
 <!--                                    <p id="checknewBirthMessage"></p>-->
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="" type="text" th:name="newPhone" id="newPhone">
+                                    <input class="form-control" type="text" th:name="newPhone" id="newPhone">
                                     <p id="checkPhoneMessage"></p>
                                 </div>
                             </div>
@@ -83,13 +83,13 @@
                                </div>
                               </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-12 col-md-2 col-form-label">이메일</label>
-                                <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" value="" type="email" th:name="newEmail" id="newEmail">
-                                    <p id="checkEmailMessage"></p>
-                                </div>
-                            </div>
+<!--                            <div class="form-group row">-->
+<!--                                <label class="col-sm-12 col-md-2 col-form-label">이메일</label>-->
+<!--                                <div class="col-sm-12 col-md-7">-->
+<!--                                    <input class="form-control" value="" type="email" th:name="newEmail" id="newEmail">-->
+<!--                                    <p id="checkEmailMessage"></p>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">지원 직무</label>
                                 <div class="form-group col-md-4">
@@ -163,15 +163,15 @@
         }
     })
 
-    document.getElementById("newEmail").addEventListener('input',function(){
-        let newEmail = document.getElementById("newEmail").value.length;
-        if (newEmail <= 0) {
-            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
-            return false;
-        } else {
-            document.getElementById("checkEmailMessage").innerText = " ";
-        }
-    })
+    // document.getElementById("newEmail").addEventListener('input',function(){
+    //     let newEmail = document.getElementById("newEmail").value.length;
+    //     if (newEmail <= 0) {
+    //         document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
+    //         return false;
+    //     } else {
+    //         document.getElementById("checkEmailMessage").innerText = " ";
+    //     }
+    // })
 
     document.getElementById("newAddr").addEventListener('input',function(){
         let newAddr = document.getElementById("newAddr").value.length;
@@ -200,10 +200,12 @@
 
         let newPhone = document.getElementById("newPhone").value;
         let newName = document.getElementById("newName").value;
-        let newEmail = document.getElementById("newEmail").value;
+        // let newEmail = document.getElementById("newEmail").value;
         let newAddr = document.getElementById("newAddr").value;
         let newZipcode = document.getElementById("newZipcode").value;
+        let newDetailAddr = document.getElementById("newDetailAddr").value;
 
+        document.getElementById("newDetailAddr").value = newDetailAddr;
 
         if (newName == null || newName.trim() == "") {
             document.getElementById("newName").focus();
@@ -244,13 +246,13 @@
         }
 
 
-        if (newEmail === null || newEmail.trim() === "") {
-            document.getElementById("newEmail").focus();
-            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
-            return false;
-        } else {
-            document.getElementById("checkEmailMessage").innerText = " ";
-        }
+        // if (newEmail === null || newEmail.trim() === "") {
+        //     document.getElementById("newEmail").focus();
+        //     document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
+        //     return false;
+        // } else {
+        //     document.getElementById("checkEmailMessage").innerText = " ";
+        // }
 
         // document.getElementById('insert-new-emp-form').submit();
     };
@@ -310,7 +312,9 @@
 
 
 
-
+    function goBack() {
+        history.back(); // 이전 상태로 이동
+    }
 
     //
     // <!--  modal  -->
