@@ -73,6 +73,37 @@ public class MyPageServiceImpl implements MyPageService{
         return list;
     }
 
+    //다운로드할 증명서 파일이름가져오기
+    @Override
+    public String getCertFilename(Long certId, String certSort){
+
+
+        String certFilename="";
+
+        if (certSort.equals("A01")) {
+            certFilename = myPageMapper.selectEmpCertFilename(certId);
+        }else if (certSort.equals("A02")){
+            certFilename = myPageMapper.selectExperCertFilename(certId);
+        }else if (certSort.equals("A03")){
+            certFilename = myPageMapper.selectRetireCertFilename(certId);
+        }
+        return certFilename;
+    }
+
+    public void updateIssueStatus(Long certId, String certSort){
+
+        if (certSort.equals("A01") ) {
+            myPageMapper.updateEmpIssueStatus(certId);
+        }else if (certSort.equals("A02")){
+            myPageMapper.updateExperIssueStatus(certId);
+        }else if (certSort.equals("A03")){
+            myPageMapper.updateRetireIssueStatus(certId);
+        }else {
+            System.out.println("Issue Status 업데이트할 정보 안들어옴 !");
+        }
+    }
+
+
 
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
