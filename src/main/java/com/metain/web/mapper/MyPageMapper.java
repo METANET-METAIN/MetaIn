@@ -36,6 +36,16 @@ public interface MyPageMapper {
     /**나의 퇴직 증명서 발급 내역 조회*/
     public List<RetireCert> selectMyRetCert();
 
+    /** 증명서 파일 다운로드 */
+    public  String selectEmpCertFilename(Long certId);
+    public String selectExperCertFilename(Long certId);
+    public String selectRetireCertFilename(Long certId);
+
+    /** 증명서 다운로드 시 다운로드상태 업데이트 */
+    public int updateEmpIssueStatus(Long certId);
+    public int updateExperIssueStatus(Long certId);
+    public int updateRetireIssueStatus(Long certId);
+
 //    /**증명서 다운로드*/ 보류
 //    public int certDownload(Long issueId);
 
