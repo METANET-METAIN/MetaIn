@@ -33,5 +33,6 @@ public interface HrService {
 
     List<Emp> newEmp();
 
-    void updateEmp(String empStatus, String empGrade, Long updateEmpId);
+    void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId);
+
 }

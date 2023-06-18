@@ -86,10 +86,11 @@ public class HrController {
     public ResponseEntity<String> updateEmp(@RequestBody Map<String,Object> requestData) {
         String empStatus = (requestData.get("empStatus").toString());
         String empGrade=requestData.get("empGrade").toString();
+        String empDept=requestData.get("empDept").toString();
         Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
 
 
-        hrService.updateEmp(empStatus,empGrade,empId);
+        hrService.updateEmp(empStatus,empGrade,empDept,empId);
         return ResponseEntity.ok("성공");
     }
 }

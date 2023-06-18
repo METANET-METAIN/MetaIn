@@ -92,7 +92,7 @@
                           <hr>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" onclick="checkPwd()">수정</button>
+                          <button type="button" class="btn btn-primary" onclick="checkPwd(event)">수정</button>
                           <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">닫기</button>
                         </div>
                       </div>
@@ -121,7 +121,7 @@
                     <input type="text" class="form-control" id="sample6_postcode" th:name="empZipcode" th:value="${emp.empZipcode}" readonly placeholder="우편번호">
                   </div>
                   <div style="text-align : right; margin-top: 4%;">
-                    <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                    <button type="button" class="btn btn-primary" onclick="findPostcode()">우편번호 찾기</button>
                   </div>
                   <div class="form-group col-md-9">
                     <label for="sample6_detailAddress">상세 주소</label>
@@ -238,8 +238,8 @@ function checkPwd(){
   }
 }
 
-
-  function sample6_execDaumPostcode() {
+  //sample6_execDaumPostcode
+  function findPostcode() {
     new daum.Postcode({
       oncomplete: function(data) {
         console.log(data);
@@ -248,23 +248,23 @@ function checkPwd(){
 
         // 우편번호와 주소 정보를 해당 필드에 넣는다.
         document.getElementById('sample6_postcode').value = data.zonecode;
-        document.getElementById("sample6_address").value = data.address;
+        document.getElementById('sample6_address').value = data.address;
         // 커서를 상세주소 필드로 이동한다.
-        document.getElementById("sample6_detailAddress").focus();
+        document.getElementById('sample6_detailAddress').focus();
       }
     }).open();
   }
 
 <!--  modal  -->
-  const modalToggle = document.getElementById('staticBackdrop');
-
-  const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-  const exampleModal2 = document.getElementById('exampleModal2');
-  exampleModal2.addEventListener('shown.bs.modal', function(event) { //shown, hidden 두개 구현 or shown만 구현할건지
-    document.getElementById('sample6_postcode').value = "";
-    document.getElementById('sample6_address').value = document.getElementById('empAddr').value;
-    document.getElementById('sample6_detailAddress').value = "";
-  })
+  // const modalToggle = document.getElementById('staticBackdrop');
+  //
+  // const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+  // const exampleModal2 = document.getElementById('exampleModal2');
+  // exampleModal2.addEventListener('shown.bs.modal', function(event) { //shown, hidden 두개 구현 or shown만 구현할건지
+  //   document.getElementById('sample6_postcode').value = "";
+  //   document.getElementById('sample6_address').value = document.getElementById('empAddr').value;
+  //   document.getElementById('sample6_detailAddress').value = "";
+  // })
 
   // <!-- modal js code -->
   // function openModalToPwd() {

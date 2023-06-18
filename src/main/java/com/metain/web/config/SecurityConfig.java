@@ -57,17 +57,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
                 .antMatchers("/", "/index").authenticated()
 //                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE")
-                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE", "재직")
 //                .antMatchers("/vacation/request-vacation").access("hasAnyAuthority('ADMIN') and hasAnyAuthority('ACT')")
-                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
-                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE", "재직")
                 .anyRequest().permitAll();
 //        http
 //                .authorizeRequests()[
