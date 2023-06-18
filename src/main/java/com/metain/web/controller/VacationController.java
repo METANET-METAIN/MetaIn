@@ -58,7 +58,7 @@ public class VacationController {
         Emp emp=hrService.selectEmpInfo(empId);
 
         String empDept=emp.getEmpDept();
-        Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
+        Emp admin=memberService.selectAdminInfo(empDept,"ADMIN");
 
             model.addAttribute("emp",emp);
             model.addAttribute("admin",admin);
@@ -80,7 +80,7 @@ public class VacationController {
         Emp emp=hrService.selectEmpInfo(empId);
 
         String empDept=emp.getEmpDept();
-        Emp admin=memberService.selectAdminInfo(empDept,"ROLE_ADMIN");
+        Emp admin=memberService.selectAdminInfo(empDept,"ADMIN");
         model.addAttribute("emp",emp);
         model.addAttribute("admin",admin);
     }

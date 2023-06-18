@@ -1,8 +1,6 @@
 package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
-import com.metain.web.domain.File;
-import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.AlarmResponse;
@@ -12,18 +10,17 @@ import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.VacationMapper;
-import lombok.extern.log4j.Log4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 @Service
 @Transactional
+@EnableScheduling
 public class VacationServiceImpl implements VacationService{
     @Autowired
     private VacationMapper vacMapper;
@@ -177,5 +174,28 @@ public class VacationServiceImpl implements VacationService{
         int re=vacMapper.increaseVacation(selectedDays, empId);
         return re;
     }
+
+
+    @Scheduled(cron = "0 0 0 1 1 ?") //60.61이 반려로 바껴야댐
+    //@Scheduled(cron = "*/20 * * * * ?") //20 초
+
+
+    public void autoReject() {
+        List<VacationListDTO> list = vacMapper.selectAllList();
+        LocalDate localDate = LocalDate.now();
+
+        for (VacationListDTO vacation : list) {
+            LocalDate vacStartDate = vacation.getVacStartDate().toLocalDate();
+            String vacStatus = vacation.getVacStatus();
+
+            if (vacStatus.equals("승인대기") && (localDate.isEqual(vacStartDate) || localDate.isAfter(vacStartDate))) {
+                // Reject the vacation request
+                int re = vacMapper.rejectVacationRequest(vacation.getVacId(), vacStatus);
+                System.out.println("자동 반려되었습니다. Vacation ID: " + vacation.getVacId());
+                // Handle the rejection result, if needed
+            }
+        }
+    }
+
 
 }

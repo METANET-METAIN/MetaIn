@@ -27,7 +27,7 @@
     </update>
     <update id="cancelVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '요청취소'
+        SET VAC_STATUS = '요청취소',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId}
     </update>
     <insert id="requestVacation" parameterType="Vacation">
