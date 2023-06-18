@@ -17,17 +17,17 @@
     </select>
     <update id="approveVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '승인완료'
+        SET VAC_STATUS = '승인완료',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
     <update id="rejectVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '승인반려'
+        SET VAC_STATUS = '승인반려',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
     <update id="cancelVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '요청취소'
+        SET VAC_STATUS = '요청취소',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId}
     </update>
     <insert id="requestVacation" parameterType="Vacation">
@@ -54,6 +54,11 @@
     <update id="decreaseVacation" parameterType="map">
         UPDATE TBL_EMPLOYEE
         SET EMP_VAC = EMP_VAC-#{selectedDays}
+        WHERE EMP_ID=#{empId}
+    </update>
+    <update id="increaseVacation" parameterType="map">
+        UPDATE TBL_EMPLOYEE
+        SET EMP_VAC = EMP_VAC+#{diff}
         WHERE EMP_ID=#{empId}
     </update>
     <select id="todayVacation" resultType="VacationListDTO">
