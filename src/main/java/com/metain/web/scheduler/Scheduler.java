@@ -52,7 +52,10 @@ public class Scheduler {
                     }else if((todayYear - startWorkDat)+1 >= 7 && (todayYear - startWorkDat)+1 <= 8) {
                         empInfo.setEmpId(empLists.get(i).getEmpId());
                         empInfo.setEmpVac(18);
-                    };
+                    }else if((todayYear - startWorkDat)+1 >= 9){
+                        empInfo.setEmpId(empLists.get(i).getEmpId());
+                        empInfo.setEmpVac(20);
+                    }
                     System.out.println("empvac 설정됐나 확인용 emp"+empInfo);
                     vacService.annualUpdate(empInfo);
                 }

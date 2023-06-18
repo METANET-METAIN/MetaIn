@@ -1,165 +1,158 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="zxx" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
-  <section id="wrap">
-  </section>
+    <section id="wrap">
+    </section>
 
 </th:block>
 
 <div class="mobile-menu-overlay"></div>
 <!--코드작성-->
 <div class="main-container">
-  <div class="pd-ltr-20 xs-pd-20-10">
-    <div class="min-height-200px">
-      <div class="page-header">
-        <div class="row">
-          <div class="col-md-6 col-sm-12">
-            <div class="title">
-              <h4>퇴직증명서</h4>
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>퇴직증명서</h4>
+                        </div>
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html">퇴직증명서 발급</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    양식
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-6 col-sm-12 text-right">
+                        <div class="dropdown">
+                            <button
+                                    class="btn btn-primary"
+                                    type="button"
+                                    onclick="agreementCheck2()"
+                            >
+                                신청하기
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <nav aria-label="breadcrumb" role="navigation">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a href="index.html">퇴직증명서 발급</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  양식
-                </li>
-              </ol>
-            </nav>
-          </div>
-          <div class="col-md-6 col-sm-12 text-right">
-            <div class="dropdown">
-              <button
-                      class="btn btn-primary"
-                      type="button"
-                      onclick="agreementCheck2()"
-              >
-                신청하기
-              </button>
+            <div class="invoice-wrap">
+                <div class="invoice-box">
+                    <div class="invoice-header">
+                        <div class="logo text-center">
+                            <div class="col font-12 text-left">제 A03-20230529-01 호</div>
+                            <div class="row pb-30"></div>
+                        </div>
+                    </div>
+                    <h4 class="text-center mb-30 weight-600">퇴직증명서</h4>
+                    <div class="row pb-30">
+                    </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="invoice-wrap">
-        <div class="invoice-box">
-          <div class="invoice-header">
-            <div class="logo text-center">
-              <div class="col font-12 text-left">제 A03-20230529-01 호</div>
-              <div class="row pb-30"></div>
-            </div>
-          </div>
-          <h4 class="text-center mb-30 weight-600">퇴직증명서</h4>
-          <div class="row pb-30">
-          </div>
+                    <div class="invoice-desc pb-30">
 
-          <div class="invoice-desc pb-30">
+                        <div class="invoice-desc-body">
 
-            <div class="invoice-desc-body">
+                            <table class="table table-bordered text-center">
+                                <tbody>
+                                <tr>
+                                    <td class="col-2 table-active">성명</td>
+                                    <td class="col-4">홍길동</td>
+                                    <td class="col-2 table-active">생년월일</td>
+                                    <td>1991년 07월 12일</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2 table-active">주소</td>
+                                    <td colspan="3">서울 금천구 호서벤치타워</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2 table-active">최종 근무부서</td>
+                                    <td class="col-4">개발 1팀</td>
+                                    <td class="col-2 table-active">최종 직위</td>
+                                    <td>대리</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2 table-active">입사일자</td>
+                                    <td colspan="3">2020-05-02</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2 table-active">퇴직일자</td>
+                                    <td colspan="3">2023-06-02</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2 table-active">사용용도</td>
+                                    <td colspan="3">금융기관 제출용</td>
+                                </tr>
+                                </tbody>
+                            </table>
 
-              <table class="table table-bordered text-center">
-                <tbody>
-                <tr>
-                  <td class="col-2 table-active">성명</td>
-                  <td class="col-4">홍길동</td>
-                  <td class="col-2 table-active">생년월일</td>
-                  <td>1991년 07월 12일</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">주소</td>
-                  <td colspan="3">서울 금천구 호서벤치타워</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">최종 근무부서</td>
-                  <td class="col-4">개발 1팀</td>
-                  <td class="col-2 table-active">최종 직위</td>
-                  <td>대리</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">입사일자</td>
-                  <td colspan="3">2020-05-02</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">퇴직일자</td>
-                  <td colspan="3">2023-06-02</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">퇴직사유</td>
-                  <td colspan="3">2023-06-02</td>
-                </tr>
-                <tr>
-                  <td class="col-2 table-active">사용용도</td>
-                  <td colspan="3">금융기관 제출용</td>
-                </tr>
-                </tbody>
-              </table>
+                            <div class="row pb-30" style="height: 60px;"></div>
+                            <div class="col-12 text-center"> 상기와 같이 퇴직을 증명합니다</div>
+                            <div class="row pb-30" style="height: 20px;"></div>
+                            <div class="col-12 text-center"> 2023년 05월 29일</div>
 
-              <div class="row pb-30" style="height: 60px;"></div>
-              <div class="col-12 text-center"> 상기와 같이 퇴직을 증명합니다 </div>
-              <div class="row pb-30" style="height: 20px;"></div>
-              <div class="col-12 text-center"> 2023년 05월 29일 </div>
-
-              <div class="row pb-30" style="height: 100px;"></div>
-
-              <!-- <div class="row">
-                  <div class="col-6 text-right"> 사용 용도:  </div>
-                  <div class="col-6 text-left"> 금융기관 제출</div>
-              </div> -->
+                            <div class="row pb-30" style="height: 100px;"></div>
 
 
-              <div class="row pb-30" style="height: 150px;"></div>
+                            <div class="row pb-30" style="height: 150px;"></div>
 
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-3 text-center"> 주소: </div>
-                <div class="col-6 text-left">  서울 금천구 호서대벤치타워 </div>
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-3 text-center"> 주소:</div>
+                                <div class="col-6 text-left"> 서울 금천구 호서대벤치타워</div>
 
-              </div>
-              <div class="row pb-30" style="height: 10px;"></div>
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-3 text-center"> 회사명: </div>
-                <div class="col-3 text-left">  메타인컴퍼니(주) </div>
-                <div class="col-3"></div>
-              </div>
-              <div class="row pb-30" style="height: 10px;"></div>
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-3 text-center"> 대표이사: </div>
-                <div class="col-3 text-left">  홍길동 </div>
-                <div class="relate">
-                  <div class="col-3 text-left" >(인)</div>
-                  <img class="img_absolute" src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120" >
+                            </div>
+                            <div class="row pb-30" style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-3 text-center"> 회사명:</div>
+                                <div class="col-3 text-left"> 메타인컴퍼니(주)</div>
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="row pb-30" style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-3 text-center"> 대표이사:</div>
+                                <div class="col-3 text-left"> 홍길동</div>
+                                <div class="relate">
+                                    <div class="col-3 text-left">(인)</div>
+                                    <img class="img_absolute" src="../vendors/images/metain-sign.png" alt="메타인 지장"
+                                         width="120" height="120">
+                                </div>
+
+                            </div>
+
+                            <div class="row pb-30" style="height: 80px;"></div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="invoice-desc-footer">
+                        <div class="invoice-desc-body">
+                        </div>
+                    </div>
                 </div>
 
-              </div>
-
-              <div class="row pb-30" style="height: 80px;"></div>
-
             </div>
 
+            <div class="row pb-30" style="height: 20px;"></div>
 
-          </div>
-
-          <div class="invoice-desc-footer">
-            <div class="invoice-desc-body">
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row pb-30" style="height: 20px;"></div>
-
-      <div class="card-box pd-20 mb-20">
-        <div class="container d-flex flex-column" style="padding-top:1rem;">
-          <h5 style="color:black;">> 개인정보 취급방침 동의</h5>
-          <span style="font-size:1rem; color:blue;">* 아래 약관을 읽은 후 이용가능합니다.</span>
-          <div class="flex-center" style="padding-top:1rem;">
-								<textarea id="privacy_scroll" style="resize:none; width:100%; height:20rem; padding:0.5rem;" readonly>제14조 (이용자의 개인정보보호)
+            <div class="card-box pd-20 mb-20">
+                <div class="container d-flex flex-column" style="padding-top:1rem;">
+                    <h5 style="color:black;">> 개인정보 취급방침 동의</h5>
+                    <span style="font-size:1rem; color:blue;">* 아래 약관을 읽은 후 이용가능합니다.</span>
+                    <div class="flex-center" style="padding-top:1rem;">
+								<textarea id="privacy_scroll"
+                                          style="resize:none; width:100%; height:20rem; padding:0.5rem;" readonly>제14조 (이용자의 개인정보보호)
 "재단"은 관련법령이 정하는 바에 따라서 "이용자"의 개인정보를 보호하기 위하여 노력합니다. "이용자"의 개인정보보호에 관한 사항은 관련법령 및 "재단"이 정하는 "개인정보처리방침"에 정한 바에 따릅니다.
 
 제6조 (이용자의 의무)
@@ -183,94 +176,97 @@
 	2) PC의 화면 또는 출력된 문서를 수정 또는 변조하여 사용하는 행위
 	3) 기타 전자적 방법에 의하여 해킹 등으로 문서를 위•변조하여 사용하는 행위
 								</textarea>
-          </div>
-          <form style="width:100%; text-align:center; margin:1rem 0;">
-            <p style="display:inline-block; margin-bottom:0;"><b>위 개인정보 수집에 대한 동의를 거부할 권리가 있으며, </b></p><p style="display:inline-block;"><b>&nbsp;동의 거부시에는 사용이 제한 됩니다.</b></p>
-            <div><b>개인정보 취급방침에 동의하십니까?</b>
+                    </div>
+                    <form style="width:100%; text-align:center; margin:1rem 0;">
+                        <p style="display:inline-block; margin-bottom:0;"><b>위 개인정보 수집에 대한 동의를 거부할 권리가 있으며, </b></p>
+                        <p style="display:inline-block;"><b>&nbsp;동의 거부시에는 사용이 제한 됩니다.</b></p>
+                        <div><b>개인정보 취급방침에 동의하십니까?</b>
 
-              <div class="row pb-30" style="height: 10px;"></div>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="termsOfUse"
-                        id="agreementCheckbox"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="agreementCheckbox"
-                >동의함</label
-                >
-              </div>
-              <div class="custom-control custom-checkbox mb-5">
-                <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        name="termsOfUse"
-                        id="disagreementCheckbox"
-                        onclick="NoMultiChk(this)"
-                />
-                <label class="custom-control-label" for="disagreementCheckbox"
-                >동의하지 않음</label
-                >
-              </div>
+                            <div class="row pb-30" style="height: 10px;"></div>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="termsOfUse"
+                                        id="agreementCheckbox"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="agreementCheckbox"
+                                >동의함</label
+                                >
+                            </div>
+                            <div class="custom-control custom-checkbox mb-5">
+                                <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        name="termsOfUse"
+                                        id="disagreementCheckbox"
+                                        onclick="NoMultiChk(this)"
+                                />
+                                <label class="custom-control-label" for="disagreementCheckbox"
+                                >동의하지 않음</label
+                                >
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </form>
-        </div>
-      </div>
 
+        </div>
     </div>
-  </div>
-  <div class="footer-wrap pd-20 mb-20 card-box">
-    메타인(주)
-    <a href="https://github.com/dropways" target="_blank"
-    >METAIN</a>
-  </div>
+    <div class="footer-wrap pd-20 mb-20 card-box">
+        메타인(주)
+        <a href="https://github.com/dropways" target="_blank"
+        >METAIN</a>
+    </div>
 </div>
 </div>
 
 <!-- js -->
 <script>
-  function NoMultiChk(chk){
-    var obj = document.getElementsByName("termsOfUse");
-    for(var i=0; i<obj.length; i++){
-      if(obj[i] != chk){
-        obj[i].checked = false;
-      }
+    function NoMultiChk(chk) {
+        var obj = document.getElementsByName("termsOfUse");
+        for (var i = 0; i < obj.length; i++) {
+            if (obj[i] != chk) {
+                obj[i].checked = false;
+            }
+        }
     }
-  }
-  function agreementCheck() {
-    //체크된 체크박스 개수
-    var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
-    // 체크박스가 하나 이상인지 확인
-    if (checkedCount < 1) {
-      // 체크박스가 하나 이상이어야 한다는 경고창 표시
-      swal("경고", "이용약관 동의를 해주세요", "warning")
-    } else {
-      //조건이 충족되었을 때 내발급내역페이지 이동
-      location.href = 'retire-cert-apply';
-    }}
+    function agreementCheck() {
+        //체크된 체크박스 개수
+        var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
-  function agreementCheck2() {
-    // 체크된 체크박스 개수
-    var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
-
-    // 체크박스가 하나 이상인지 확인
-    if (checkedCount < 1) {
-      // 체크박스가 하나 이상이어야 한다는 경고창 표시
-      swal("경고", "이용약관 동의를 해주세요", "warning");
-    } else {
-      // 체크박스의 값을 확인하여 동의 여부 검사
-      var agreed = document.getElementById("agreementCheckbox").checked;
-      if (!agreed) {
-        // 동의 체크박스가 선택되지 않은 경우 경고창 표시
-        swal("경고", "이용약관에 동의해야 증명서 발급이 가능합니다", "warning");
-      } else {
-        // 조건이 충족되었을 때 페이지 이동
-        location.href = 'retire-cert-apply';
-      }
+        // 체크박스가 하나 이상인지 확인
+        if (checkedCount < 1) {
+            // 체크박스가 하나 이상이어야 한다는 경고창 표시
+            swal("경고", "이용약관 동의를 해주세요", "warning")
+        } else {
+            //조건이 충족되었을 때 내발급내역페이지 이동
+            location.href = 'retire-cert-apply';
+        }
     }
-  }
+
+    function agreementCheck2() {
+        // 체크된 체크박스 개수
+        var checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+        // 체크박스가 하나 이상인지 확인
+        if (checkedCount < 1) {
+            // 체크박스가 하나 이상이어야 한다는 경고창 표시
+            swal("경고", "이용약관 동의를 해주세요", "warning");
+        } else {
+            // 체크박스의 값을 확인하여 동의 여부 검사
+            var agreed = document.getElementById("agreementCheckbox").checked;
+            if (!agreed) {
+                // 동의 체크박스가 선택되지 않은 경우 경고창 표시
+                swal("경고", "이용약관에 동의해야 증명서 발급이 가능합니다", "warning");
+            } else {
+                // 조건이 충족되었을 때 페이지 이동
+                location.href = 'retire-cert-apply';
+            }
+        }
+    }
 
 </script>
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
@@ -281,13 +277,15 @@
 <script src="vendors/scripts/layout-settings.js"></script>
 <!-- Google Tag Manager (noscript) -->
 <noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
+>
+    <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+            height="0"
+            width="0"
+            style="display: none; visibility: hidden"
+    ></iframe
+    >
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 </body>
 </html>

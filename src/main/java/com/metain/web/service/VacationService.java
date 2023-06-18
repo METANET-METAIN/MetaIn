@@ -35,5 +35,5 @@ public interface VacationService {
 
     List<VacationListDTO> todayVacation(String empDept);
 
-
+    public int increaseVacation(int selectedDays,Long empId);
 }
