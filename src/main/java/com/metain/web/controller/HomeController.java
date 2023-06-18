@@ -30,7 +30,19 @@ public class HomeController {
 
     @Autowired
     private HrService hrService;
+    @GetMapping("/")
+    public String index(Model model, Authentication auth){
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp empList =  hrService.selectEmpInfo(EmpId);
 
+        if (empList != null) {
+            model.addAttribute("emp", empList);
+            System.out.println("home : " + empList);
+            return "index";
+        }
+        return null;
+    }
     @GetMapping("/index")
     public String home( Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
