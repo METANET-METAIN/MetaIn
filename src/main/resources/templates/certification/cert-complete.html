@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="zxx">
 <!-- include/layout.html-->
 <th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+
     <section id="wrap">
     </section>
 </th:block>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 <div class="mobile-menu-overlay"></div>
 
@@ -116,31 +118,31 @@
                     <tbody>
                     <tr>
                         <td class="col-2 table-active">성명</td>
-                        <td class="col-4" th:text="${certInfoDTO.empName}">홍길동</td>
+                        <td class="col-4" th:text="${emp.empName}">홍길동</td>
                         <td class="col-2 table-active">생년월일</td>
-                        <td th:text="${#dates.format(certInfoDTO.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
+                        <td th:text="${#dates.format(emp.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
 
 
 
                     </tr>
                     <tr>
                         <td class="col-2 table-active">주소</td>
-                        <td colspan="3" th:text="${certInfoDTO.empAddr}">서울 금천구 호서벤치타워</td>
+                        <td colspan="3" th:text="${emp.empAddr}">서울 금천구 호서벤치타워</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">근무부서</td>
-                        <td class="col-4" th:text="${certInfoDTO.empDept}">개발 1팀</td>
+                        <td class="col-4" th:text="${emp.empDept}">개발 1팀</td>
                         <td class="col-2 table-active">직위</td>
-                        <td th:text="${certInfoDTO.empGrade}">대리</td>
+                        <td th:text="${emp.empGrade}">대리</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">입사일자</td>
 
-                        <td colspan="3" th:text="${#dates.format(certInfoDTO.empFirstDt,'yyyy-MM-dd')}">2020-05-02 - 2023-05-29</td>
+                        <td colspan="3" th:text="${#dates.format(emp.empFirstDt,'yyyy-MM-dd')}">2020-05-02 - 2023-05-29</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">사용용도</td>
-                        <td colspan="3" th:text="${certInfoDTO.useOfCert}">금융기관 제출용</td>
+                        <td colspan="3" th:text="${certList.useOfCert}">금융기관 제출용</td>
                     </tr>
                     </tbody>
                 </table>
@@ -216,29 +218,29 @@
                     <tbody>
                     <tr>
                         <td class="col-2 table-active">성명</td>
-                        <td class="col-4" th:text="${certInfoDTO.empName}">홍길동</td>
+                        <td class="col-4" th:text="${emp.empName}">홍길동</td>
                         <td class="col-2 table-active">생년월일</td>
-                        <td th:text="${#dates.format(certInfoDTO.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
+                        <td th:text="${#dates.format(emp.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">주소</td>
-                        <td colspan="3" th:text="${certInfoDTO.empAddr}">서울 금천구 호서벤치타워</td>
+                        <td colspan="3" th:text="${emp.empBirth}">서울 금천구 호서벤치타워</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">근무부서</td>
-                        <td class="col-4" th:text="${certInfoDTO.empDept}">개발 1팀</td>
+                        <td class="col-4" th:text="${emp.empDept}">개발 1팀</td>
                         <td class="col-2 table-active">직위</td>
-                        <td th:text="${certInfoDTO.empGrade}">대리</td>
+                        <td th:text="${emp.empGrade}">대리</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">경력사항</td>
 <!--                        <td colspan="3" th:text="${certInfoDTO.empFirstDt}">2020-05-02 - 2023-05-29</td>-->
-                        <td colspan="3" th:if="${certInfoDTO.empStatus == 'ACTIVE'}" th:text="${#dates.format(certInfoDTO.empFirstDt, 'yyyy-MM-dd') + ' - ' + #dates.format(#dates.createNow(), 'yyyy-MM-dd') +' 근무'}">2020-05-02 - 2023-05-29</td>
-                        <td colspan="3" th:if="${certInfoDTO.empStatus == 'RETIREE'}" th:text="${#dates.format(certInfoDTO.empFirstDt, 'yyyy-MM-dd') + ' - ' + #dates.format(certInfoDTO.empLastDt,'yyyy-MM-dd') + '근무'}" ></td>
+                        <td colspan="3" th:if="${emp.empStatus == 'ACTIVE'}" th:text="${#dates.format(emp.empFirstDt, 'yyyy-MM-dd') + ' - ' + #dates.format(#dates.createNow(), 'yyyy-MM-dd') +' 근무'}">2020-05-02 - 2023-05-29</td>
+                        <td colspan="3" th:if="${emp.empStatus == 'RETIREE'}" th:text="${#dates.format(emp.empFirstDt, 'yyyy-MM-dd') + ' - ' + #dates.format(emp.empLastDt,'yyyy-MM-dd') + '근무'}" ></td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">사용용도</td>
-                        <td colspan="3" th:text="${certInfoDTO.useOfCert}">금융기관 제출용</td>
+                        <td colspan="3" th:text="${certList.useOfCert}">금융기관 제출용</td>
                     </tr>
                     </tbody>
                 </table>
@@ -316,31 +318,31 @@
                     <tbody>
                     <tr>
                         <td class="col-2 table-active">성명</td>
-                        <td class="col-4" th:text="${certInfoDTO.empName}">홍길동</td>
+                        <td class="col-4" th:text="${emp.empName}">홍길동</td>
                         <td class="col-2 table-active">생년월일</td>
-                        <td th:text="${#dates.format(certInfoDTO.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
+                        <td th:text="${#dates.format(emp.empBirth,'yyyy년 MM월 dd일')}">1991년 07월 12일</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">주소</td>
-                        <td colspan="3" th:text="${certInfoDTO.empAddr}">서울 금천구 호서벤치타워</td>
+                        <td colspan="3" th:text="${emp.empAddr}">서울 금천구 호서벤치타워</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">최종 근무부서</td>
-                        <td class="col-4" th:text="${certInfoDTO.empDept}">개발 1팀</td>
+                        <td class="col-4" th:text="${emp.empDept}">개발 1팀</td>
                         <td class="col-2 table-active">최종 직위</td>
-                        <td th:text="${certInfoDTO.empGrade}">대리</td>
+                        <td th:text="${emp.empGrade}">대리</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">입사일자</td>
-                        <td colspan="3" th:text="${#dates.format(certInfoDTO.empFirstDt, 'yyyy-MM-dd')}">2020-05-02 </td>
+                        <td colspan="3" th:text="${#dates.format(emp.empFirstDt, 'yyyy-MM-dd')}">2020-05-02 </td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">퇴직일자</td>
-                        <td colspan="3" th:text="${#dates.format(certInfoDTO.empLastDt, 'yyyy-MM-dd')}">2023-06-02</td>
+                        <td colspan="3" th:text="${#dates.format(emp.empLastDt, 'yyyy-MM-dd')}">2023-06-02</td>
                     </tr>
                     <tr>
                         <td class="col-2 table-active">사용용도</td>
-                        <td colspan="3" th:text="${certInfoDTO.useOfCert}">금융기관 제출용</td>
+                        <td colspan="3" th:text="${certList.useOfCert}">금융기관 제출용</td>
                     </tr>
                     </tbody>
                 </table>
@@ -424,12 +426,21 @@
 
     // AJAX를 사용하여 이미지 데이터를 서버로 전송합니다.
     function sendImageToServer(imageData, imageWidth, imageHeight, certSort, certId) {
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/certification/convertToPdf', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         console.log('ajax 위한 함수 호출 성공!');
         console.log('certsort확인3' + certSort);
-        console.log('certId확인3' + certId)
+        console.log('certId확인3' + certId);
+
+
+        // CSRF 토큰을 포함한 헤더 설정
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        xhr.setRequestHeader(header, token);
+
+
 
 
         // 요청 데이터 설정

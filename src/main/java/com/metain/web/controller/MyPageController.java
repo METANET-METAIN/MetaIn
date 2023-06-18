@@ -50,24 +50,34 @@ public class MyPageController {
     @GetMapping("/my-empCert")
     @ResponseBody
 
-    public List<EmpCert> selectMyEmpCert(EmpCert empCert){
-        return myPageService.selectMyEmpCert(empCert);
+    public List<EmpCert> selectMyEmpCert(Authentication auth){
+
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+
+        return myPageService.selectMyEmpCert(empId);
     }
 
 
     //경력증명서 리스트
     @GetMapping("/my-experCert")
     @ResponseBody
-    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert){
-        return myPageService.selectMyExperCert(experienceCert);
+    public List<ExperienceCert> selectMyExperCert(Authentication auth){
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+
+        return myPageService.selectMyExperCert(empId);
     }
 
 
     //퇴직증명서 리스트
     @GetMapping("/my-retireCert")
     @ResponseBody
-    public List<RetireCert> selectMyRetCert(RetireCert retireCert){
-        return myPageService.selectMyRetCert(retireCert);
+    public List<RetireCert> selectMyRetCert(Authentication auth){
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+
+        return myPageService.selectMyRetCert(empId);
     }
 
 

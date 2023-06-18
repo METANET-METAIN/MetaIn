@@ -29,13 +29,13 @@ public interface MyPageMapper {
 //    public List<MyCertDTO> selectIssueAll();
 
     /**나의 재직 증명서 발급 내역 조회*/
-    public List<EmpCert> selectMyEmpCert();
+    public List<EmpCert> selectMyEmpCert(Long empId);
 
     /**나의 경력 증명서 발급 내역 조회*/
-    public List<ExperienceCert> selectMyExperCert();
+    public List<ExperienceCert> selectMyExperCert(Long empId);
 
     /**나의 퇴직 증명서 발급 내역 조회*/
-    public List<RetireCert> selectMyRetCert();
+    public List<RetireCert> selectMyRetCert(Long empId);
 
     /** 증명서 파일 다운로드 */
     public  String selectEmpCertFilename(Long certId);

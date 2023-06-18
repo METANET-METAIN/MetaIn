@@ -1,17 +1,16 @@
 package com.metain.web.controller;
 
 
-import com.metain.web.domain.Emp;
-import com.metain.web.domain.EmpCert;
-import com.metain.web.domain.ExperienceCert;
-import com.metain.web.domain.RetireCert;
+import com.metain.web.domain.*;
 import com.metain.web.dto.CertInfoDTO;
 import com.metain.web.dto.ImageRequestData;
 
 import com.metain.web.service.CertificationService;
+import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,34 +34,55 @@ public class CertificationController {
 
     @Autowired
     private MyPageService myPageService;
+    @Autowired
+    private HrService hrService;
+
 
     // 재직증명서 관련
-    @RequestMapping("/emp-cert-show")
-    public String empCertShow() {
-
-        return "/certification/emp-cert-show";
-    }
+//    @RequestMapping("/emp-cert-show")
+//    public String empCertShow(Model model, Authentication auth) {
+//        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+//        Long empId = principalDetails.getEmpId();
+//        Emp empInfo = hrService.selectEmpInfo(empId); //emp객체 빼오기
+//
+//        return "/certification/emp-cert-show";
+//    }
 
 
     //테스트apply 페이지 연결요청 및 데이터 보내기 테스트
     @RequestMapping(path = {"/emp-cert-apply", "/exper-cert-apply", "/retire-cert-apply"})
-    public String empCertApply(HttpServletRequest request, Model model) {
+    public String empCertApply(HttpServletRequest request, Model model, Authentication auth) {
+
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+        //Emp empInfo = hrService.selectEmpInfo(empId); //로그인해져있는 empId넣어서 emp객체 빼오기
+        Emp empInfo = certificationService.getEmpInfoList(empId);
+
 
         // 요청 URL 가져오기
         String requestUrl = request.getRequestURI();
 
 
         // 사원의 정보를 데이터베이스에서 조회해서 가져오는 로직
-        Long empId = 108L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
-        System.out.println("empInfoList 객체 생성 전");
-        Emp empInfoList = certificationService.getEmpInfoList(empId);
-        System.out.println("empInfoList 객체 생성 후 " + empInfoList);
+        //Long empId = 108L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
+//        System.out.println("empInfoList 객체 생성 전");
+//        Emp empInfoList = certificationService.getEmpInfoList(empId);
+//        System.out.println("empInfoList 객체 생성 후 " + empInfoList);
 
-        if (empInfoList == null) {
+//        if (empInfoList == null) {
+//            // 처리할 로직이 없는 경우
+//            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
+//        }
+//        model.addAttribute("empInfoList", empInfoList);
+
+        if (empInfo == null) {
             // 처리할 로직이 없는 경우
-            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
+            System.out.println("empInfo 못가져왔어 !");
+//            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
+        } else {
+            model.addAttribute("emp", empInfo);
+            System.out.println("empInfoList 객체 생성 후 " + empInfo);
         }
-        model.addAttribute("empInfoList", empInfoList);
 
 
         // 요청 URL에 따른 처리
@@ -81,7 +101,18 @@ public class CertificationController {
 
     //apply 정보입력 form에서 정보 넘겨받아서 각 cert테이블에 insert할 메소드
     @PostMapping("/handleEmpCertInfo")
-    public String handleEmpCertInfo(@ModelAttribute("certInfoDTO") CertInfoDTO certInfoDTO, @RequestParam("certSort") String certSort, @RequestParam("selectedUseOfCert") String selectedUseOfCert, Model model) throws Exception {
+    public String handleEmpCertInfo(@ModelAttribute("certInfoDTO") CertInfoDTO certInfoDTO, @RequestParam("certSort") String certSort, @RequestParam("selectedUseOfCert") String selectedUseOfCert, Model model, Authentication auth) throws Exception {
+
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+        Emp empInfo = certificationService.getEmpInfoList(empId);
+
+        if (empInfo == null) {
+            // 처리할 로직이 없는 경우
+            System.out.println("empInfo 못가져왔어 !");
+        } else {
+            model.addAttribute("emp", empInfo);
+        }
 
         System.out.println("certInfo 내용물  " + certInfoDTO);
         certInfoDTO.setUseOfCert(selectedUseOfCert);
@@ -92,7 +123,6 @@ public class CertificationController {
 
         // 전달된 데이터를 처리하는 로직 작성
         //certificationService.applyEmpCert(empInfoList);
-
         //각 증명서별로 분기
         if (certSort.equals("A01")) { //증명서종류가 재직증명서일 경우
             //EmpCert 테이블에 insert되도록
@@ -124,17 +154,28 @@ public class CertificationController {
     }
 
 
-    @RequestMapping("/cert-complete")
-    public String CertComplete(Model model, Long empId, @RequestParam("certSort") String certSort) {
-        return "/certification/cert-complete";
-    }
+
 
 
     //증명서HTML to PDF 변환 & 디지털 서명 추가
     @PostMapping("/convertToPdf")
     @ResponseBody
-    public void convertToPdf(@RequestBody ImageRequestData request) throws IOException {
+    public void convertToPdf(@RequestBody ImageRequestData request, Model model, Authentication auth) throws IOException {
 
+
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
+        Long empId = principalDetails.getEmpId();
+        Emp empInfo = certificationService.getEmpInfoList(empId);
+
+        if (empInfo == null) {
+            // 처리할 로직이 없는 경우
+            System.out.println("empInfo 못가져왔어 !");
+        } else {
+            model.addAttribute("emp", empInfo);
+        }
+        //시큐리티적용
+
+//        System.out.println(" convertToPdf 메소드 불렸나 확인  " + request);
         certificationService.makeCertPdf(request);
         //System.out.println("ImageRequestData확인 : ~~~ "+request);
 
@@ -157,26 +198,35 @@ public class CertificationController {
     }
 
 
-    @RequestMapping("/mypage/my-cert-list")
-    public String myCertList() {
-        return "/mypage/my-cert-list";
-    }
+
+    //HomeController로 빠진 페이지 리다이렉트
+
+    //    @RequestMapping("/cert-complete")
+//    public String CertComplete(Model model, Long empId, @RequestParam("certSort") String certSort) {
+//        return "/certification/cert-complete";
+//    }
 
 
-    //경력증명서 관련
-    @RequestMapping("/exper-cert-show")
-    public String experCertApply() {
-
-        return "/certification/exper-cert-show";
-    }
+//    @RequestMapping("/mypage/my-cert-list")
+//    public String myCertList() {
+//        return "/mypage/my-cert-list";
+//    }
 
 
-    //퇴직증명서 관련
-    @RequestMapping("/retire-cert-show")
-    public String retireCertApply() {
+//    //경력증명서 관련
+//    @RequestMapping("/exper-cert-show")
+//    public String experCertApply() {
+//
+//        return "/certification/exper-cert-show";
+//    }
 
-        return "/certification/retire-cert-show";
-    }
+
+//    //퇴직증명서 관련
+//    @RequestMapping("/retire-cert-show")
+//    public String retireCertApply() {
+//
+//        return "/certification/retire-cert-show";
+//    }
 
 
 }

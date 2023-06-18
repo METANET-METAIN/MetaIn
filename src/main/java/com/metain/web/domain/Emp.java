@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 // TEST
+
 @Component
 @Data
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class Emp  {
     private String empSabun;
     private String empName;
     private String empPwd;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date empBirth;
     private String empPhone;
     private String empAddr;
