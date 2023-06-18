@@ -189,12 +189,19 @@
             },
             {
                 header: '부서명',
-                name: 'empDept',align: 'center',
+                name: 'empDept',
+                align: 'center',
                 filter: 'select'
             },
             {
                 header: '직급',
                 name: 'empGrade',align: 'center',
+                formatter: function (grade) {
+                    return grade.value ? setGrade(grade.value) : '';
+                    // const grade = params.value;
+                    // const korGrade = setGrade(grade); // 영어 부서명을 한글로 변환하는 함수 호출
+                    // return korGrade;
+                },
                 filter: 'select'
             },
             {
@@ -230,6 +237,9 @@
             {
                 header: '재직 상태',
                 name: 'empStatus',align: 'center',
+                formatter: function (status) {
+                    return status.value ? setStatus(status.value) : '';
+                },
                 filter: 'select'
             }
          ],
@@ -239,6 +249,38 @@
             perPage: 10
         }
     });
+
+    // 직급명을 한글로 변환하는 함수
+    function setGrade(grade) {
+        // 영어 직급명에 따라 해당하는 한글 반환
+        switch (grade) {
+            case 'EMPLOYEE':
+                return '사원';
+            case 'ASSISTANT':
+                return '대리';
+            case 'MANAGER':
+                return '과장';
+            case 'DEPUTY':
+                return '차장';
+            case 'HR':
+                return '인사관리';
+            case 'ADMIN':
+                return '관리자';
+            default:
+                return grade; // 변환할 한글 부서명이 없는 경우 그대로 반환
+        }
+    }
+
+    // 직급상태를 한글로 변환하는 함수
+    function setStatus(status){
+
+        if (status === 'ACTIVE') {
+            return '재직';
+        } else if (status === 'RETIREE') {
+            return '퇴직';
+        }
+        return '';
+    }
 
 
 

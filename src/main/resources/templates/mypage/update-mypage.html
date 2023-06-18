@@ -49,8 +49,34 @@
         <div class="card-align">
           <div class="pd-20 card-box mb-30">
             <h4 class="h4 text-blue mb-10" > 내 정보 </h4>
-            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post" onsubmit="return checkList()" >
-              <input type="hidden" th:name="empId" th:value="${emp.empId}" />
+            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post"  enctype="multipart/form-data">
+              <input type="hidden" th:name="empId" th:value="${emp.empId}" />   <!-- onsubmit="return checkList()" -->
+              <div class="profile-photo">
+                <input type="file" th:name="empProfile">
+                <a  href="#" onclick="openImgPicker()" class="edit-avatar">
+                  <i class="fa fa-pencil"></i>
+                </a>
+<!--                <img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" th:value="${emp.getEmpProfile}" class="avatar-photo">-->
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-body pd-5">
+                      </div>
+                      <div class="modal-footer">
+                        <input type="submit" value="수정하기" class="btn btn-primary">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                          취소하기
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h5 class="text-center h5 mb-0">[[${emp.empName}]]</h5>
+              <p class="text-center text-muted font-14">
+                [[${emp.empDept}]]  [[${emp.empGrade}]]
+
+              </p>
 
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">이름</label>
@@ -86,13 +112,14 @@
                         <div class="modal-body" style="text-align: left">
                           <p><strong>비밀번호 변경</strong></p>
                           <input class="form-control" type="password" value="empPwd1" name="empPwd1" id="empPwd1">
+                          <p id="checkPwd1Message"></p>
                           <p><strong>비밀번호 확인</strong></p>
                           <input class="form-control" type="password" value="empPwd2" name="empPwd2" id="empPwd2">
-                          <p id="checkPwdMessage"></p>
+                          <p id="checkPwd2Message"></p>
                           <hr>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" onclick="checkPwd(event)">수정</button>
+                          <button type="button" class="btn btn-primary" onclick="checkPwd()">수정</button>
                           <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">닫기</button>
                         </div>
                       </div>
@@ -194,65 +221,171 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+  // function updatePro(file) {
+  //   var formData = new FormData();
+  //   formData.append('empProfile', file);
+  //
+  //   $.ajax({
+  //     url: 'mypage/updateMy',
+  //     type: 'POST',
+  //     data: formData,
+  //     processData: false,
+  //     contentType: false,
+  //     success: function (res) {
+  //
+  //       const empProfile = document.getElementById('empProfile');
+  //       empProfile.src = URL.createObjectURL(file);
+  //       console.log('프로필 이미지 업로드 완료');
+  //     },
+  //     error: function () {
+  //       console.error('프로필 이미지 업로드 실패');
+  //     },
+  //   })
+  // }
 
-  <!-- 유효성검사 -->
+// 프로필 이미지 출력
+  function openImgPicker() {
+    const imgInput = document.createElement('input');
+    imgInput.type = 'file';
+    imgInput.accept = 'image/*';
+    imgInput.addEventListener('change', handleFileSelection);
+    imgInput.click();
+  }
+
+  function handleFileSelection(event) {
+    const file = event.target.files[0];
+    const empProfile = document.getElementById('empProfile');
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      empProfile.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+
+
   function checkList() {
-    const empPhone = document.getElementById( "empPhone" ).value;
 
-    if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( empPhone ) ) {
-      document.getElementById( "checkPhoneMessage" ).innerText = " ";
-        return true;
+    //헨드폰 번호 유효성
+    const empPhone = document.getElementById("empPhone").value;
+
+    if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(empPhone)) {
+      document.getElementById("checkPhoneMessage").innerText = " ";
+      return true;
     } else {
-      document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
-        return false;
+      document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+      return false;
     }
 
 
+
+    // var formData = new FormData();
+    // formData.append('empProfile', file);
+    // console.log("formData" + formData);
+    //
+    // $.ajax({
+    //   url: '/mypage/updateMy',
+    //   type: 'POST',
+    //   data: formData,
+    //   processData: false,
+    //   contentType: false,
+    //   success: function (res) {
+    //     const empProfile = document.getElementById('empProfile');
+    //     empProfile.src = URL.createObjectURL(file);
+    //     console.log('프로필 이미지 업로드 완료');
+    //   },
+    //   error: function () {
+    //     console.error('프로필 이미지 업로드 실패');
+    //   },
+    // })
   }
 
-  function openPasswordModal(){
-    document.getElementById('empPwd1').value = "";
-    document.getElementById('empPwd2').value = "";
-    document.getElementById("checkPwdMessage").innerText = " "
-  }
-function checkPwd(){
-  // event.preventDefault(); // 기본 동작 막기
-
-
-  const empPwd1 = document.getElementById( "empPwd1" ).value;
-  const empPwd2 = document.getElementById( "empPwd2" ).value;
-  // 모달 닫기
-  // var modal = document.getElementById("staticBackdrop");
-  // const myModal = new bootstrap.Modal(modal);
-
-  if (empPwd1 === empPwd2) {
-    document.getElementById("checkPwdMessage").innerText = " ";
-    document.getElementById("realpwd").value = empPwd1;
-    // myModal.hide();
-    document.getElementById("close").click();
 
 
 
-  } else{
-    document.getElementById("checkPwdMessage").innerText = "비밀번호가 일치하지 않습니다"
-  }
-}
-
-  //sample6_execDaumPostcode
-  function findPostcode() {
-    new daum.Postcode({
-      oncomplete: function(data) {
-        console.log(data);
-        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 
-        // 우편번호와 주소 정보를 해당 필드에 넣는다.
-        document.getElementById('sample6_postcode').value = data.zonecode;
-        document.getElementById('sample6_address').value = data.address;
-        // 커서를 상세주소 필드로 이동한다.
-        document.getElementById('sample6_detailAddress').focus();
+    // swal('수정되었습니다.').then(function () {
+    //   window.location.href = '/index';
+    // });
+
+
+    // 핸드폰 번호 유효성검사
+    //   function checkPhone() {
+    //     const empPhone = document.getElementById("empPhone").value;
+    //
+    //     if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(empPhone)) {
+    //       document.getElementById("checkPhoneMessage").innerText = " ";
+    //       return true;
+    //     } else {
+    //       document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+    //       return false;
+    //     }
+    //   }
+
+
+//  비밀번호 유효성 검사
+    function checkPwd() {
+
+      const empPwd1 = document.getElementById("empPwd1").value;
+      const empPwd2 = document.getElementById("empPwd2").value;
+
+      // 비밀번호는 최소 8자 이상이어야 합니다.
+      if (empPwd1 === null || empPwd1 === '') {
+        document.getElementById("checkPwd1Message").innerText = "비밀번호를 입력해주세요";
+        return false;
+      } else if (empPwd1.length < 8) {
+        document.getElementById("checkPwd1Message").innerText = "비밀번호는 최소 8자 이상이어야 합니다";
+        return false;
+      } else if (empPwd1.length >= 8) {
+        document.getElementById("checkPwd1Message").innerText = " ";
       }
-    }).open();
+
+      // 비밀번호 확인 일치 여부 검사
+      if (empPwd2 === null || empPwd2 === '') {
+        document.getElementById("checkPwd2Message").innerText = "비밀번호를 입력해주세요";
+        return false;
+      } else if (empPwd2.length < 8) {
+        document.getElementById("checkPwd2Message").innerText = "비밀번호는 최소 8자 이상이어야 합니다";
+        return false;
+      } else if (empPwd1 === empPwd2) {
+        document.getElementById("checkPwd2Message").innerText = " ";
+        document.getElementById("realpwd").value = empPwd1;
+        document.getElementById("close").click();
+        return true;
+      } else {
+        document.getElementById("checkPwd2Message").innerText = "비밀번호가 일치하지 않습니다";
+        return false;
+      }
+
+    }
+
+
+    //모달창 출력 시 값 초기화
+    function openPasswordModal() {
+      console.log('empPwd1')
+      document.getElementById('empPwd1').value = "";
+      document.getElementById('empPwd2').value = "";
+      document.getElementById("checkPwd1Message").innerText = " "
+      document.getElementById("checkPwd2Message").innerText = " "
+    }
+
+    //sample6_execDaumPostcode
+    function findPostcode() {
+      new daum.Postcode({
+        oncomplete: function (data) {
+          console.log(data);
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('sample6_postcode').value = data.zonecode;
+          document.getElementById('sample6_address').value = data.address;
+          // 커서를 상세주소 필드로 이동한다.
+          document.getElementById('sample6_detailAddress').focus();
+        }
+      }).open();
+
   }
 
 <!--  modal  -->
@@ -283,14 +416,14 @@ function checkPwd(){
   // }
   function goBack() {
     window.history.back();
-  }
+  };
 
-  $('input[type="submit"]').on('click', function (event) {
-    event.preventDefault(); // 기본 제출 동작 방지
-    swal('휴가가 신청되었습니다.').then(function () {
-      window.location.href = 'vacation-list';
-    });
-  });
+  // $('input[type="submit"]').on('click', function (event) {
+  //   event.preventDefault(); // 기본 제출 동작 방지
+  //   swal('수정되었습니다.').then(function () {
+  //     window.location.href = '/index';
+  //   });
+  // });
 </script>
 
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
