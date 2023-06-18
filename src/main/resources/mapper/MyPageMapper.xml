@@ -96,7 +96,8 @@
 
     <update id="updateMyPage" parameterType="Emp">
         update TBL_EMPLOYEE
-        set EMP_PHONE = #{empPhone} , EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode}, EMP_DETAIL_ADDR=#{empDetailAddr}, EMP_PWD=#{empPwd}
+        set EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
+            EMP_DETAIL_ADDR=#{empDetailAddr}, EMP_PWD=#{empPwd}, EMP_PROFILE=#{empProfile}
         where EMP_ID = #{empId}
     </update>
 </mapper>

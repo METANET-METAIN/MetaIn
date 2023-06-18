@@ -15,8 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -126,10 +128,11 @@ public class MyPageController {
         return ResponseEntity.ok("성공");
     }
     @PostMapping("/updateMy")
-    public String  updateMy(Emp emp) {
+    public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file ) throws IOException {
+        System.out.println("updateMyController" + emp);
+        System.out.println(file);
 
-
-        myPageService.updateMy(emp);
+        myPageService.updateMy(emp, file);
 
         return "redirect:/mypage/update-mypage";
     }

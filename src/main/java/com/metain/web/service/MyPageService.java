@@ -7,7 +7,9 @@ import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MyPageService {
@@ -28,5 +30,6 @@ public interface MyPageService {
     //알림함
     List<AlarmDTO> alarmList(Long empId);
 
-    void updateMy(Emp dbemp);
+
+    void updateMy(Emp dbemp, MultipartFile file) throws IOException;
 }

@@ -53,21 +53,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
-                .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
                 .antMatchers("/", "/index").authenticated()
 //                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
 //                .antMatchers("/vacation/request-vacation").access("hasAnyAuthority('ADMIN') and hasAnyAuthority('ACT')")
-                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE", "재직")
-                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE", "재직")
+                .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE")
                 .anyRequest().permitAll();
 //        http
 //                .authorizeRequests()[
@@ -111,11 +110,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         // 페이지 이동
                         response.sendRedirect("/index"));
 
-//        http
-//                .sessionManagement()
-//                .maximumSessions(1) //같은 아이디로 1명만 로그인
-//                .maxSessionsPreventsLogin(true) //false :신규 로그인은 허용, 기존 사용자는 세션 아웃  true: 이미 로그인한 세션이있으면 로그인 불가
-//                .expiredUrl("/loginEmp"); //세션 아웃되면 이동할 url
+        http
+                .sessionManagement()
+                .maximumSessions(1) //같은 아이디로 1명만 로그인
+                .maxSessionsPreventsLogin(false) //false :신규 로그인은 허용, 기존 사용자는 세션 아웃  true: 이미 로그인한 세션이있으면 로그인 불가
+                .expiredUrl("/loginEmp"); //세션 아웃되면 이동할 url
 
 
 //        http

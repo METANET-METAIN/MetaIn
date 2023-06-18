@@ -5,15 +5,18 @@ import com.metain.web.domain.EmpCert;
 import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.AlarmDTO;
-import com.metain.web.dto.MyCertDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MyPageServiceImpl implements MyPageService{
@@ -74,17 +77,35 @@ public class MyPageServiceImpl implements MyPageService{
 
     }
 
+
+
     @Override
-    public void updateMy(Emp emp) {
+    public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
         String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
         System.out.println(encryptedPwd);
+        System.out.println("updateMy : " + dbemp);
+
         dbemp.setEmpPwd(encryptedPwd);
-        System.out.println(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+        String sabun = emp.getEmpSabun();
+        UUID uuid = UUID.randomUUID();
+
+        //여기서 오류남
+        String originalImgName = file.getOriginalFilename();
+        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
+
+        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+        String savePath = System.getProperty("user.dir") +
+                            "/src/main/resources/static/file/" + savedImgName;
+        System.out.println(savePath);
+        File destImg = new File(savePath);
+        file.transferTo(destImg);
+
+        dbemp.setEmpProfile(savedImgName);
 
         myPageMapper.updateMyPage(dbemp);
     }
