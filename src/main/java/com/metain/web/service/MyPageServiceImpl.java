@@ -49,11 +49,11 @@ public class MyPageServiceImpl implements MyPageService{
 
     //재직증명서 목록
     @Override
-    public List<EmpCert> selectMyEmpCert(EmpCert empCert) {
-        List<EmpCert> list = myPageMapper.selectMyEmpCert();
+    public List<EmpCert> selectMyEmpCert(Long empId) {
+        List<EmpCert> list = myPageMapper.selectMyEmpCert(empId);
 
         // 리스트에 empCert 객체 추가
-        list.add(empCert);
+        //list.add(empCert);
 
         return list;
     }
@@ -61,15 +61,15 @@ public class MyPageServiceImpl implements MyPageService{
 
     //경력증명서 목록
     @Override
-    public List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert) {
-        List<ExperienceCert> list = myPageMapper.selectMyExperCert();
+    public List<ExperienceCert> selectMyExperCert(Long empId) {
+        List<ExperienceCert> list = myPageMapper.selectMyExperCert(empId);
         return list;
     }
 
     //퇴직증명서 목록
     @Override
-    public List<RetireCert> selectMyRetCert(RetireCert retireCert) {
-        List<RetireCert> list = myPageMapper.selectMyRetCert();
+    public List<RetireCert> selectMyRetCert(Long empId) {
+        List<RetireCert> list = myPageMapper.selectMyRetCert(empId);
         return list;
     }
 

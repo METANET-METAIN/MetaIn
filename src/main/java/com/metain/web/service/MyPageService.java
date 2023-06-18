@@ -18,13 +18,13 @@ public interface MyPageService {
     List<MyVacDTO> myVacList(Long empId);
 
     //재직증명서 발급 현황
-    List<EmpCert> selectMyEmpCert(EmpCert empCert);
+    List<EmpCert> selectMyEmpCert(Long empId);
 
     //경력증명서 발급 현황
-    List<ExperienceCert> selectMyExperCert(ExperienceCert experienceCert);
+    List<ExperienceCert> selectMyExperCert(Long empId);
 
     //경력증명서 발급 현황
-    List<RetireCert> selectMyRetCert(RetireCert retireCert);
+    List<RetireCert> selectMyRetCert(Long empId);
 
     //다운로드할 증명서 파일이름가져오기
     public String getCertFilename(Long certId, String certSort);

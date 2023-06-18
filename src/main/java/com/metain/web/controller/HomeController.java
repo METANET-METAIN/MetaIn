@@ -131,4 +131,16 @@ public class HomeController {
         model.addAttribute("emp", empInfo);
         return "/member/" + member;
     }
+
+    @GetMapping("/certification/{cert}")
+    public String goPageCert(@PathVariable String cert, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+
+        model.addAttribute("emp", empInfo);
+        return "/certifiacion/" + cert;
+    }
+
+
 }
