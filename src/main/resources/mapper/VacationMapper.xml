@@ -17,12 +17,12 @@
     </select>
     <update id="approveVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '승인완료'
+        SET VAC_STATUS = '승인완료',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
     <update id="rejectVacationRequest" parameterType="map">
         UPDATE TBL_VACATION
-        SET VAC_STATUS = '승인반려'
+        SET VAC_STATUS = '승인반려',VAC_UPDAT= CURRENT_DATE
         WHERE VAC_ID = #{vacId} and VAC_STATUS=#{vacStatus}
     </update>
     <update id="cancelVacationRequest" parameterType="map">
