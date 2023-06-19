@@ -37,7 +37,7 @@ public interface MyPageService {
     //알림함
     List<AlarmDTO> alarmList(Long empId);
 
-    void updateMy(Emp dbemp);
+    void updateMy(Emp emp);
 
-    void updateMy(Emp emp, MultipartFile file) throws IOException;
+    void updateMy(Emp dbemp, MultipartFile empProfile) throws IOException;
 }

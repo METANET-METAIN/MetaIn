@@ -2,6 +2,7 @@ package com.metain.web.mapper;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
+import com.metain.web.domain.UserRole;
 import com.metain.web.dto.NewEmpDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -74,4 +75,9 @@ public interface HrMapper {
     public int annualUpdate(Emp empInfo);
 
     List<Emp> newEmp();
+
+    public void updateUserRole(UserRole userRole1);
+
+    public List<UserRole> selectUserRole(UserRole userRole);
+
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public interface MyPageMapper {
 
     /**개인정보 수정*/
-    public int updateMyPage(Emp emp);
+    public int updateMyPage(Emp dbemp);
 
     /**휴가 신청 현황 조회*/
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
