@@ -131,13 +131,9 @@ public class MyPageServiceImpl implements MyPageService{
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
-      
-        String sabun = emp.getEmpSabun();
-      
-        //랜덤 UUID 생성
+        String sabun = dbemp.getEmpSabun();
         UUID uuid = UUID.randomUUID();
 
-        //여기서 오류남
         String originalImgName = file.getOriginalFilename();
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
@@ -145,10 +141,8 @@ public class MyPageServiceImpl implements MyPageService{
         String savePath = System.getProperty("user.dir") +
                 "/src/main/resources/static/vendors/user/" + savedImgName;
         System.out.println(savePath);
-        File profileImg = new File(savePath);
-
-        //뷰에서 전달받은 파일을 파일객체로 변환
-        file.transferTo(profileImg);
+        File destImg = new File(savePath);
+        file.transferTo(destImg);
 
         dbemp.setEmpProfile(savedImgName);
 
