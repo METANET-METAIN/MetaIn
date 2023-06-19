@@ -2,6 +2,7 @@ package com.metain.web.service;
 
 
 import com.groupdocs.signature.Signature;
+import com.groupdocs.signature.domain.SignatureFont;
 import com.groupdocs.signature.exception.GroupDocsSignatureException;
 import com.groupdocs.signature.options.sign.DigitalSignOptions;
 import com.metain.web.domain.*;
@@ -285,7 +286,7 @@ public class CertificationServiceImpl implements CertificationService {
             options.setLeft(370);
             options.setTop(650);
             options.setPageNumber(1);
-            System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
+            //System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
             System.out.print(" 디지털서명함수 check 4 / ");
 
 
