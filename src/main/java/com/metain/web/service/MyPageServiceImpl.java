@@ -132,6 +132,8 @@ public class MyPageServiceImpl implements MyPageService{
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
         String sabun = emp.getEmpSabun();
+
+        //랜덤 UUID 생성
         UUID uuid = UUID.randomUUID();
 
         //여기서 오류남
@@ -142,8 +144,10 @@ public class MyPageServiceImpl implements MyPageService{
         String savePath = System.getProperty("user.dir") +
                 "/src/main/resources/static/file/" + savedImgName;
         System.out.println(savePath);
-        File destImg = new File(savePath);
-        file.transferTo(destImg);
+        File profileImg = new File(savePath);
+
+        //뷰에서 전달받은 파일을 파일객체로 변환
+        file.transferTo(profileImg);
 
         dbemp.setEmpProfile(savedImgName);
 

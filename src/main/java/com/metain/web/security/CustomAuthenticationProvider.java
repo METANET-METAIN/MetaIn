@@ -7,14 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,15 +55,33 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         logger.info("----authentication.getName() ::::: {}", authentication.getName());
         logger.info("---------------------------------");
 
+
         String empSabun = authentication.getName();
         System.out.println("authenticate ::::: empSabun : " + empSabun);
         String empPwd = (String) authentication.getCredentials();
 
-        PrincipalDetails principalDetails = (PrincipalDetails) principalService
-                .loadUserByUsername(empSabun);
+        if(StringUtils.isEmpty(empSabun) || StringUtils.isEmpty(empPwd)){
+            throw new BadCredentialsException("아이디와 비밀번호를 입력해주세요");
+
+        }
+
+        //사원 인증 로직 수행
+        PrincipalDetails principalDetails = (PrincipalDetails) principalService.loadUserByUsername(empSabun);
+
+        //아이디가 틀린 경우
+        if (principalDetails == null) {
+            throw new InternalAuthenticationServiceException("존재하지 않는 사원번호입니다");
+        }
+
+
+        String password = empPwd;//비밀번호
+        if(!bCryptPasswordEncoder.matches(password, principalDetails.getPassword())){
+            throw new BadCredentialsException("아이디 혹은 비밀번호를 다시 확인해주세요.");
+        }
 
         logger.info("----principalDetails.getUsername ::::: {}", principalDetails.getUsername());
         logger.info("----principalDetails.getPassword ::::: {}", principalDetails.getPassword());
+
 
 
 
@@ -67,10 +90,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         //UsernamePasswordAuthenticationToken는 Authentication의 자식객체
         //인증완료된 결과로 UsernamePasswordAuthenticationToken를 리턴한다.
 
-        String password = empPwd;//비밀번호
-            if(!bCryptPasswordEncoder.matches(password, principalDetails.getPassword())){
-                throw new BadCredentialsException("아이디 혹은 비밀번호를 다시 확인해주세요.");
-            }
+
 
 
             //여기가 문제야
@@ -87,97 +107,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         logger.info("----principalDetails.getAuthorities ::::: {}", principalDetails.getAuthorities());
             return new UsernamePasswordAuthenticationToken(principalDetails, principalDetails.getPassword(), principalDetails.getAuthorities());
 
-
-
-//
-//
-//        List<Emp> emp = hrMapper.login(empSabun);
-//        logger.info("----CustomAuthenticationProvider emp :::: ", emp);
-//
-//        if(emp==null){// ID가 없는경우
-//
-//            throw new RuntimeException("아이디 혹은 비밀번호를 다시 확인해주세요.");//spring exception
-//        }
-//
-//        String password = (String)authentication.getCredentials();//비밀번호
-//        if(!password.equals(emp.get(0).getEmpPwd())) {
-//            if(!bCryptPasswordEncoder.matches(password, emp.get(0).getEmpPwd())){
-//                throw new RuntimeException("아이디 혹은 비밀번호를 다시 확인해주세요.");
-//            }
-//        }
-//
-//        PrincipalDetails principalDetails = (PrincipalDetails) principalService
-//                .loadUserByUsername(authentication.getName());
-//
-//        logger.info("----principalDetails.getUsername ::::: {}", principalDetails.getUsername());
-//        logger.info("----principalDetails.getPassword ::::: {}", principalDetails.getPassword());
-//        logger.info("----principalDetails.getAuthorities ::::: {}", principalDetails.getAuthorities());
-//
-//
-//
-//        //db에서 가지고 온 권한을 GrantedAuthority 로 변환해야함.
-//
-//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-//        // 직급에 따른 권한 부여
-//        if (emp.getEmpGrade().equals("SW")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.SW.name()));
-//        } else if (emp.getEmpGrade().equals("DR")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.DR.name()));
-//        } else if (emp.getEmpGrade().equals("GJ")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.GJ.name()));
-//        } else if (emp.getEmpGrade().equals("CJ")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.CJ.name()));
-//        } else if (emp.getEmpGrade().equals("HR")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.HR.name()));
-//        } else if (emp.getEmpGrade().equals("ADMIN")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.ADMIN.name()));
-//        }
-
-//        // 재직 상태에 따른 추가 권한 부여
-//        if (emp.getEmpStatus().equals("재직")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.RET.name()));
-//        } else if (emp.getEmpStatus().equals("퇴직")) {
-//            authorities.add(new SimpleGrantedAuthority(Role.ACT.name()));
-//        }
-
-
-
-
-
-//        //db에서 가지고 온 권한을 GrantedAuthority 로 변환해야함.
-//        List<SimpleGrantedAuthority> authList = new ArrayList<SimpleGrantedAuthority>();
-//
-//        authList.add(new SimpleGrantedAuthority(emp.getEmpGrade().getAuthority()));
-
-        //UsernamePasswordAuthenticationToken(Object principal, Object credentials, authorities)
-        //UsernamePasswordAuthenticationToken는 Authentication의 자식객체
-        //인증완료된 결과로 UsernamePasswordAuthenticationToken를 리턴한다.
-
     }
+
+//    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+//        HttpSession session = request.getSession(false);
+//        if(session == null)
+//            return;
+//        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+//    }
 
     @Override
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-//    private Role getRoleFromGrade(String grade) {
-//        if (grade.equals("ADMIN")) {
-//            return Role.ADMIN;
-//        } else if (grade.equals("SW")) {
-//            return Role.SW;
-//        } else if (grade.equals("DR")) {
-//            return Role.DR;
-//        } else if (grade.equals("GJ")) {
-//            return Role.GJ;
-//        } else if (grade.equals("CJ")) {
-//            return Role.CJ;
-//        } else if (grade.equals("HR")) {
-//            return Role.HR;
-//        } else {
-//            throw new IllegalArgumentException("Invalid employee grade: " + grade);
-//        }
-//    }
 
 
 }

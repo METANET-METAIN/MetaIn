@@ -106,6 +106,12 @@
           <div class="login-title">
             <h2 class="text-center text-primary">Meta人 로그인하기 </h2>
           </div>
+          <!-- 에러 메시지가 존재하는 경우 표시 -->
+<!--          <div th:if="${param.error}">-->
+<!--            <p th:text="${param.error}"></p>-->
+<!--          </div>-->
+
+
           <h6 class="mb-20" style="text-align: center; color: darkgrey;" >사번과 비밀번호를 입력해주세요</h6>
 <!--          <form th:action="@{/loginEmp}" th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
           <form th:action="@{/loginEmp}"  method="post" role="form" id="loginForm">
@@ -130,6 +136,9 @@
                 </span>
             </div>
           </div>
+            <div th:if="${error}">
+              <p id="valid" class="alert alert-danger" th:text="${error}">{{error}}</p>
+            </div>
 
           <div class="row align-items-center" style="justify-content: space-around;">
             <div class="col-10">
