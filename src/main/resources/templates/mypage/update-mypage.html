@@ -58,7 +58,7 @@
               <div class="profile-photo">
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
-                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}?timestamp=<%= System.currentTimeMillis() %>" alt="" th:name="empProfile" class="avatar-photo">
               </div>
 
                 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
