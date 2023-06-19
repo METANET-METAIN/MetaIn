@@ -139,7 +139,7 @@ public class HomeController {
         Emp empInfo = hrService.selectEmpInfo(empId);
 
         model.addAttribute("emp", empInfo);
-        return "/certifiacion/" + cert;
+        return "/certification/" + cert;
     }
 
 
