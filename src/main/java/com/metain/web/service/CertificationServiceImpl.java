@@ -239,7 +239,12 @@ public class CertificationServiceImpl implements CertificationService {
             contentStream.close();
             System.out.println("2!! pdf생성단계 ");
 
-            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/certPdfFile/";
+            //local용 경로
+            //String filePath = "src/main/resources/static/certPdfFile/";
+
+            //배포용 경로
+            String filePath = "/usr/local/tomcat/certPdfFile/";
+
             String fileName = "converted.pdf";
             // PDF 파일 저장
             document.save(filePath + fileName);
