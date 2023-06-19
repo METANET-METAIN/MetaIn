@@ -239,36 +239,18 @@ public class MyPageController {
     }
 
     @PostMapping("/updateMy")
-    public String updateMy(Emp emp, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
-
+    public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file ) throws IOException {
+        System.out.println("updateMyController" + emp);
         System.out.println(file);
-        System.out.println(emp);
-        System.out.println(emp.getEmpProfile());
 
-        if(file != null && !file.isEmpty()) {
-            //파일 데이터를 읽어와서 처리
-            try {
-                byte[] fileBytes = file.getBytes();
-                //파일 데이터를 문자열로 변환
-                String fileData = new String(fileBytes);
+        myPageService.updateMy(emp, file);
 
-                emp.setEmpProfile(fileData);
-
-                System.out.println("updateMyController" + emp);
-                myPageService.updateMy(emp);
-
-                return "redirect:/mypage/update-mypage";
-
-            } catch (Exception e) {
-                return "Failed";
-            }
-        } else {
-                return "No file";
-        }
+        return "redirect:/index";
+    }
 
 
 //        return "redirect:/mypage/update-mypage";
-    }
+
 //    @PostMapping("/updateMy")
 //    public String  updateMy(Emp emp) {
 //        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
