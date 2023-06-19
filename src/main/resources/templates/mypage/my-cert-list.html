@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="zxx">
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -219,7 +219,7 @@
         }
     });
 
-    // 파일 다운로드 함수
+    // 파일 다운로드 함수  ==> 기준
     function downloadFile(response) {
         response.blob().then(function (blob) {
             // Blob을 파일로 변환
@@ -232,6 +232,8 @@
 
         });
     }
+
+
 
     // 다운로드할 파일명을 응답 헤더에서 추출하는 함수
     function getFileNameFromResponse(response) {
@@ -341,6 +343,12 @@
             const issueStatus = rowData.issueStatus;
             console.log("issueStatus 확인 : " + issueStatus);
 
+            if (parseInt(issueStatus) == 0) {
+            } else {
+                //버튼 비활성화
+                console.log(rowData.downloadBtn);
+                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
+            }
 
             // CSRF 토큰을 포함한 헤더 설정
             var header = $("meta[name='_csrf_header']").attr('content');
@@ -350,7 +358,10 @@
             //서버로 empCertId 전송
             fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
                 method: 'POST',
-                [header]: token
+                headers: {
+                    'Content-Type': 'application/json',
+                    [header]: token
+                }
             })
                 .then(function (res) {
                     //서버 응답 처리
@@ -470,6 +481,13 @@
             const issueStatus = rowData.issueStatus;
             console.log("issueStatus 확인 : " + issueStatus);
 
+            if (parseInt(issueStatus) == 0) {
+            } else {
+                //버튼 비활성화
+                console.log(rowData.downloadBtn);
+                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
+            }
+
             // CSRF 토큰을 포함한 헤더 설정
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
@@ -478,7 +496,11 @@
             //서버로 empCertId 전송
             fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
                 method: 'POST',
-                [header]: token
+                headers: {
+                    'Content-Type': 'application/json',
+                    [header]: token
+
+                }
             })
                 .then(function (res) {
                     //서버 응답 처리
