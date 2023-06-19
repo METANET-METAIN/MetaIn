@@ -20,11 +20,11 @@
     </properties>
     <repositories>
 
-<!--        <repository>-->
-<!--            <id>GroupDocsJavaAPI</id>-->
-<!--            <name>GroupDocs Java API</name>-->
-<!--            <url>http://repository.groupdocs.com/repo/</url>-->
-<!--        </repository>-->
+        <repository>
+            <id>GroupDocsJavaAPI</id>
+            <name>GroupDocs Java API</name>
+            <url>https://products.groupdocs.com/signature/java</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.groupdocs</groupId>
             <artifactId>groupdocs-signature</artifactId>
-            <version>18.4</version>
+            <version>20.9</version>
         </dependency>
 
 
