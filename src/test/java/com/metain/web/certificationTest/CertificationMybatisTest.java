@@ -1,11 +1,7 @@
-package com.metain.web;
+package com.metain.web.certificationTest;
 
-import com.metain.web.controller.VacationController;
-import com.metain.web.domain.Vacation;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.mapper.VacationMapper;
-import lombok.extern.java.Log;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,16 +12,10 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class VacationTest {
-    @Autowired
-    private VacationController vacController;
+public class CertificationMybatisTest {
     @Autowired
     private VacationMapper vacMapper;
-    @Test
-    public void list(){
-        //List<Vacation> vacationList =vacController.vacationList();
-        }
-    @Test
+   
     public void selectListByDept(){
         LocalDate today = LocalDate.now();
         String empDept="IT";

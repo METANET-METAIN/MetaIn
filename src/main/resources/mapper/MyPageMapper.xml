@@ -25,7 +25,7 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_EMP_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
         WHERE
-            TE.EMP_ID = 4;
+            TE.EMP_ID = #{empId};
 
     </select>
 

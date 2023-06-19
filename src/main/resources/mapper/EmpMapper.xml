@@ -110,14 +110,14 @@
         INSERT INTO TBL_EMPLOYEE (
             EMP_ID, EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
             EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN, EMP_PWD, EMP_BIRTH,
-            EMP_GRADE, EMP_STATUS, EMP_VAC
+            EMP_GRADE, EMP_STATUS, EMP_VAC,EMP_PROFILE
         )
         VALUES (
                    #{empId}, #{empName}, #{empPhone}, #{empAddr}, #{empZipcode}, #{empDetailAddr},
                    CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0'), '@metain.com'), #{empDept}, DATE_FORMAT(NOW(), '%Y%m%d'),
                    CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(EMP_ID), 0) + 1 FROM TBL_EMPLOYEE AS sb), 4, '0')),
 --                    CONCAT(YEAR(NOW()), LPAD((SELECT IFNULL(MAX(CAST(SUBSTR(EMP_SABUN, 5) AS UNSIGNED)), 0) + 1 FROM TBL_EMPLOYEE), 4, '0')),
-                   #{empPwd}, #{empBirth}, #{empGrade}, #{empStatus}, '0'
+                   #{empPwd}, #{empBirth}, #{empGrade}, #{empStatus}, '0','default.png'
                )
     </insert>
     <update id="updateEmp" parameterType="Emp">

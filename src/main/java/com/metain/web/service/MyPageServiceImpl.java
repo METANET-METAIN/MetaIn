@@ -131,8 +131,9 @@ public class MyPageServiceImpl implements MyPageService{
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+      
         String sabun = emp.getEmpSabun();
-
+      
         //랜덤 UUID 생성
         UUID uuid = UUID.randomUUID();
 
@@ -142,7 +143,7 @@ public class MyPageServiceImpl implements MyPageService{
 
         String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
         String savePath = System.getProperty("user.dir") +
-                "/src/main/resources/static/file/" + savedImgName;
+                "/src/main/resources/static/vendors/user/" + savedImgName;
         System.out.println(savePath);
         File profileImg = new File(savePath);
 
