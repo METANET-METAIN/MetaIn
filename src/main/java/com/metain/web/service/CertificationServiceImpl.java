@@ -243,7 +243,7 @@ public class CertificationServiceImpl implements CertificationService {
             //String filePath = "src/main/resources/static/certPdfFile/";
 
             //배포용 경로
-            String filePath = "/usr/local/tomcat/certPdfFile/";
+            String filePath = "/metainfiles/";
 
             String fileName = "converted.pdf";
             // PDF 파일 저장
