@@ -3,6 +3,7 @@ package com.metain.web.service;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.domain.Role;
+import com.metain.web.domain.UserRole;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.AlarmResponse;
 import com.metain.web.dto.NewEmpDTO;
@@ -224,7 +225,37 @@ public class HrServiceImpl implements HrService {
         emp.setEmpDept(empDept);
         emp.setEmpId(updateEmpId);
         logger.info("hrService의 updateEmp의 Emp", emp);
-        
+
+        UserRole userRole = new UserRole(0L,emp.getEmpId(),0L);
+
+        List<UserRole> userRoles = hrMapper.selectUserRole(userRole);
+
+        Long statusNum = userRoles.get(0).getUrId();
+        Long gradeNum = userRoles.get(1).getUrId();
+        Long roleId;
+        if(empStatus.equals("ACTIVE")){
+            roleId = 7L;
+        }else{
+            roleId = 8L;
+        }
+        UserRole userRole1 = new UserRole(statusNum,0L,roleId);
+        hrMapper.updateUserRole(userRole1);
+        if(empGrade.equals("EMPLOYEE")){
+            roleId = 1L;
+        }else if(empGrade.equals("ASSISTANT")){
+            roleId = 2L;
+        }else if(empGrade.equals("MANAGER")){
+            roleId = 3L;
+        }else if(empGrade.equals("DEPUTY")){
+            roleId = 4L;
+        }else if(empGrade.equals("HR")){
+            roleId = 5L;
+        }else{
+            roleId = 6L;
+        }
+        UserRole userRole2 = new UserRole(gradeNum,0L,roleId);
+        hrMapper.updateUserRole(userRole2);
+
         //알람 발생
         AlarmDTO alarmDTO=new AlarmDTO();
         alarmDTO.setNotiContent(emp.getEmpName()+ "님의 인사정보가 변경되었습니다.");

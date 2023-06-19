@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .formLogin()
-                .successHandler(authenticationSuccessHandler)
+//                .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .loginPage("/loginEmp")
                 .usernameParameter("empSabun")

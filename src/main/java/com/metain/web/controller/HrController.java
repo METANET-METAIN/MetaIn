@@ -84,8 +84,10 @@ public class HrController {
     @PostMapping("/updateEmp")
     @ResponseBody
     public ResponseEntity<String> updateEmp(@RequestBody Map<String,Object> requestData) {
+
         String empStatus = (requestData.get("empStatus").toString());
         String empGrade=requestData.get("empGrade").toString();
+
         String empDept=requestData.get("empDept").toString();
         Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
 

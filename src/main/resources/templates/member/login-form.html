@@ -172,6 +172,19 @@
 
 
 <script>
+  // 페이지 새로고침 후 특정 URL로 보내는 함수
+  function redirectToURL() {
+    // 원하는 URL로 변경
+    var targetURL = "http://localhost:9000/loginEmp";
+
+    // 페이지 새로고침 후 특정 URL로 리다이렉트
+    window.location.href = targetURL;
+  }
+
+  // 페이지 로드 완료 후 redirectToURL 함수 호출
+  window.onload = redirectToURL;
+
+
   // const empSabun = document.querySelector('#empSabun').value;
   // const empPwd = document.querySelector('#empPwd').value;
   // const requestData = {
