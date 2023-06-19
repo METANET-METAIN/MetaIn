@@ -48,7 +48,7 @@
         select NEW_GRADE from TBL_NEW_EMPLOYEE where NEW_ID = #{newId};
     </select>
 
-        <select id="findEmpNo" resultType="Integer">
+        <select id="findEmpNo" resultType="Long">
             SELECT EMP_ID
             FROM TBL_EMPLOYEE
             WHERE EMP_SABUN = #{emp_sabun};
@@ -134,6 +134,19 @@
 
     <select id="newEmp" resultType="Emp">
         select EMP_ID, EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN,EMP_VAC,EMP_PROFILE from TBL_EMPLOYEE WHERE MONTH(EMP_FIRST_DT) = MONTH(CURRENT_DATE()) AND YEAR(EMP_FIRST_DT) = YEAR(CURRENT_DATE()) order by EMP_FIRST_DT desc;
+    </select>
+
+    <update id="updateUserRole" parameterType="UserRole">
+        UPDATE TBL_USER_ROLE
+        SET ROLE_ID = #{roleId}
+        WHERE  UR_ID = #{urId}
+    </update>
+
+    <select id="selectUserRole" parameterType="UserRole" resultType="UserRole">
+    SELECT UR_ID, EMP_ID, ROLE_ID
+    FROM TBL_USER_ROLE
+    WHERE EMP_ID = #{empId}
+    ORDER BY ROLE_ID desc
     </select>
 
 </mapper>

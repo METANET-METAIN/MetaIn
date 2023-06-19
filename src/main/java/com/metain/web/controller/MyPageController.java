@@ -129,41 +129,41 @@ public class MyPageController {
 
 
 
-    //파일 다운로드 시도 ==> 이게더 빠름 이걸 기준으로 하기 !!
-    @ResponseBody
-    @Transactional
-    @PostMapping("/downloadCert/{certId}/{certSort}")
-    public ResponseEntity<Resource> downloadCert(@PathVariable("certId") Long certId, @PathVariable("certSort") String certSort) throws IOException {
-
-        System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
-
-        //받아온 certId를 이용해서 파일이름 을 얻어오기
-        String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
-
-        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
-        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
-
-        // 파일을 byte 배열로 읽어옴
-        byte[] fileData = Files.readAllBytes(fileResource.getFile().toPath());
-        ByteArrayResource byteArrayResource = new ByteArrayResource(fileData);
-
-
-        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
-        //myPageService.updateIssueStatus(certId,certSort);
-
-        if (byteArrayResource.exists()) {
-
-            return ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_PDF)
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-                    .body(byteArrayResource);
-        } else {
-            // 파일이 존재하지 않을 경우 에러 처리 로직
-            // 예를 들어 404 Not Found 응답을 반환하거나 다른 방식으로 처리 가능
-            return ResponseEntity.notFound().build();
-        }
-    }//downloadCert
+//    //파일 다운로드 시도 ==> 이게더 빠름 이걸 기준으로 하기 !!
+//    @ResponseBody
+//    @Transactional
+//    @PostMapping("/downloadCert/{certId}/{certSort}")
+//    public ResponseEntity<Resource> downloadCert(@PathVariable("certId") Long certId, @PathVariable("certSort") String certSort) throws IOException {
+//
+//        System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
+//
+//        //받아온 certId를 이용해서 파일이름 을 얻어오기
+//        String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
+//
+//        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
+//        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
+//
+//        // 파일을 byte 배열로 읽어옴
+//        byte[] fileData = Files.readAllBytes(fileResource.getFile().toPath());
+//        ByteArrayResource byteArrayResource = new ByteArrayResource(fileData);
+//
+//
+//        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
+//        //myPageService.updateIssueStatus(certId,certSort);
+//
+//        if (byteArrayResource.exists()) {
+//
+//            return ResponseEntity
+//                    .ok()
+//                    .contentType(MediaType.APPLICATION_PDF)
+//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+//                    .body(byteArrayResource);
+//        } else {
+//            // 파일이 존재하지 않을 경우 에러 처리 로직
+//            // 예를 들어 404 Not Found 응답을 반환하거나 다른 방식으로 처리 가능
+//            return ResponseEntity.notFound().build();
+//        }
+//    }//downloadCert
 
 
 
@@ -237,14 +237,37 @@ public class MyPageController {
         vacationService.increaseVacation(diff,empId);
         return ResponseEntity.ok("성공");
     }
+
     @PostMapping("/updateMy")
-    public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file ) throws IOException {
-        System.out.println("updateMyController" + emp);
+    public String updateMy(Emp emp, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+
         System.out.println(file);
+        System.out.println(emp);
+        System.out.println(emp.getEmpProfile());
 
-        myPageService.updateMy(emp, file);
+        if(file != null && !file.isEmpty()) {
+            //파일 데이터를 읽어와서 처리
+            try {
+                byte[] fileBytes = file.getBytes();
+                //파일 데이터를 문자열로 변환
+                String fileData = new String(fileBytes);
 
-        return "redirect:/mypage/update-mypage";
+                emp.setEmpProfile(fileData);
+
+                System.out.println("updateMyController" + emp);
+                myPageService.updateMy(emp);
+
+                return "redirect:/mypage/update-mypage";
+
+            } catch (Exception e) {
+                return "Failed";
+            }
+        } else {
+                return "No file";
+        }
+
+
+//        return "redirect:/mypage/update-mypage";
     }
 //    @PostMapping("/updateMy")
 //    public String  updateMy(Emp emp) {
