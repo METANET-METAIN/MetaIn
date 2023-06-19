@@ -23,7 +23,7 @@
         <repository>
             <id>GroupDocsJavaAPI</id>
             <name>GroupDocs Java API</name>
-            <url>https://releases.groupdocs.com/signature/java</url>
+            <url>https://releases.groupdocs.com/java/repo/com/groupdocs/groupdocs-signature/20.9/</url>
         </repository>
     </repositories>
 
