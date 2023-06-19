@@ -131,7 +131,7 @@ public class MyPageServiceImpl implements MyPageService{
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
-        String sabun = emp.getEmpSabun();
+        String sabun = dbemp.getEmpSabun();
         UUID uuid = UUID.randomUUID();
 
         //여기서 오류남
@@ -140,7 +140,7 @@ public class MyPageServiceImpl implements MyPageService{
 
         String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
         String savePath = System.getProperty("user.dir") +
-                "/src/main/resources/static/file/" + savedImgName;
+                "/src/main/resources/static/vendors/user/" + savedImgName;
         System.out.println(savePath);
         File destImg = new File(savePath);
         file.transferTo(destImg);
