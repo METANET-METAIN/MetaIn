@@ -16,10 +16,5 @@ private HrService empSer;
     void contextLoads() {
     }
 
-    @org.junit.Test
-    void t(){
-        List<Emp> empList=empSer.selectAll();
-        System.out.println(empList);
-    }
 
 }
