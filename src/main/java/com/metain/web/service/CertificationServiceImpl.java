@@ -262,7 +262,11 @@ public class CertificationServiceImpl implements CertificationService {
 
             System.out.print(" 디지털서명함수 check 1 /");
 
-            String filePath = "src/main/resources/static/certPdfFile/";
+            //로컬용 경로
+            //String filePath = "src/main/resources/static/certPdfFile/";
+
+            //배포용 경로
+            String filePath = "/metainfiles/";
 
             Signature signature = new Signature(filePath + "converted.pdf");
             System.out.print(" / 디지털서명함수 check 2" + signature);
