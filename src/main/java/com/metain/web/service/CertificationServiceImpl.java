@@ -282,11 +282,13 @@ public class CertificationServiceImpl implements CertificationService {
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
 
-            String resourcePath = getClass().getClassLoader().getResource("certPdfFile/metain-sign-Image.png").getPath();
-            String resourcePath1 = getClass().getClassLoader().getResource("/metainfiles/converted.pdf").getPath();
+            String resourcePath = getClass().getClassLoader().getResource("static/certPdfFile/metain-sign-Image.png").getPath();
+            String resourcePath1 = getClass().getClassLoader().getResource("static/certification/metain.pfx").getPath();
+            String resourcePath2 = getClass().getClassLoader().getResource("/metainfiles/converted.pdf").getPath();
 
             System.out.println("경로확인 1 :"+ resourcePath);
             System.out.println("경로확인 2 :"+ resourcePath1);
+            System.out.println("경로확인 3 :"+ resourcePath2);
 
             //배포용 인증서경로
             //String certPath = "src/main/resources/certification/"; - 로컬용
