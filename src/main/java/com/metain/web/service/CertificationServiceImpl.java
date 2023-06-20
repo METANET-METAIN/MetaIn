@@ -284,19 +284,17 @@ public class CertificationServiceImpl implements CertificationService {
 
             //배포용 인증서경로
             //String certPath = "src/main/resources/certification/"; - 로컬용
-            String certPath = "/certification/";  //-배포용
-
-
+            //String certPath = "/certification/";  //-배포용
 
             // 디지털 서명 옵션 정의
 
-            //DigitalSignOptions options = new DigitalSignOptions(certPath + "metainssl.der");
-            DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
+            DigitalSignOptions options = new DigitalSignOptions("src/main/resources/certification/metain.pfx");
+            //DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
 
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
             options.setVisible(true);
-            options.setImageFilePath( filePath + "metain-sign-Image.png");
+            options.setImageFilePath("src/main/resources/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
