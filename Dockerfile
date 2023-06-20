@@ -1,10 +1,10 @@
 #베이스이미지
 FROM tomcat:9.0.48-jdk11-openjdk
 
-# 폰트 설치 명령 추가
-RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
-    && apt-get update \
-    && apt-get install -y ttf-mscorefonts-installer
+## 폰트 설치 명령 추가
+#RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
+#    && apt-get update \
+#    && apt-get install -y ttf-mscorefonts-installer
 
 # 젠킨스 빌드로 생성된 war 파일을 도커 컨테이너에 추가
 ADD target/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
