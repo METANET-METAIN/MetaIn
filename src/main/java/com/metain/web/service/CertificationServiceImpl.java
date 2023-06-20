@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -272,20 +275,20 @@ public class CertificationServiceImpl implements CertificationService {
             //로컬용 경로
             //String filePath = "src/main/resources/static/certPdfFile/";
 
-            //배포용 경로
+            //배포용 파일 경로
             String filePath = "/metainfiles/";
 
             Signature signature = new Signature(filePath + "converted.pdf");
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
 
-
+            //배포용 인증서경로
             //String certPath = "src/main/resources/certification/"; - 로컬용
             String certPath = "/certification/";  //-배포용
 
 
 
-// 디지털 서명 옵션 정의
+            // 디지털 서명 옵션 정의
 
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "metainssl.der");
             DigitalSignOptions options = new DigitalSignOptions(certPath + "cert.pfx");
