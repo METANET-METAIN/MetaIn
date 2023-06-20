@@ -18,7 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.Base64;
 
 @Service
@@ -275,10 +279,34 @@ public class CertificationServiceImpl implements CertificationService {
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
 
-// 디지털 서명 옵션 정의
+
             //String certPath = "src/main/resources/certification/"; - 로컬용
             String certPath = "/certification/";  //-배포용
-            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
+
+            //리눅스에서 받은 인증서가져와서 java가 이해하는 der로 인코딩
+
+            // PEM 형식의 인증서 파일 로드
+            FileInputStream pemFileInputStream = new FileInputStream(certPath + "00.pem");
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            Certificate certificate = certificateFactory.generateCertificate(pemFileInputStream);
+
+            // DER 형식으로 변환
+            byte[] derCertificate = certificate.getEncoded();
+
+            // DER 형식의 인증서 파일 저장
+            FileOutputStream derFileOutputStream = new FileOutputStream("certificate.der");
+            derFileOutputStream.write(derCertificate);
+
+            // 리소스 해제
+            pemFileInputStream.close();
+            derFileOutputStream.close();
+
+            System.out.println("cert pem -> der Conversion completed.");
+            System.out.println(System.getProperty("user.dir"));
+
+// 디지털 서명 옵션 정의
+
+            DigitalSignOptions options = new DigitalSignOptions("certificate.der");
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
             options.setVisible(true);
