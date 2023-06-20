@@ -291,7 +291,7 @@ public class CertificationServiceImpl implements CertificationService {
             // 디지털 서명 옵션 정의
 
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "metainssl.der");
-            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
+            DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
 
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
