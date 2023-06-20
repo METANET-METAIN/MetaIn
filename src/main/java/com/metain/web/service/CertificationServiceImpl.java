@@ -283,30 +283,32 @@ public class CertificationServiceImpl implements CertificationService {
             //String certPath = "src/main/resources/certification/"; - 로컬용
             String certPath = "/certification/";  //-배포용
 
-            //리눅스에서 받은 인증서가져와서 java가 이해하는 der로 인코딩
-
-            // PEM 형식의 인증서 파일 로드
-            FileInputStream pemFileInputStream = new FileInputStream(certPath + "00.pem");
-            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-            Certificate certificate = certificateFactory.generateCertificate(pemFileInputStream);
-
-            // DER 형식으로 변환
-            byte[] derCertificate = certificate.getEncoded();
-
-            // DER 형식의 인증서 파일 저장
-            FileOutputStream derFileOutputStream = new FileOutputStream("certificate.der");
-            derFileOutputStream.write(derCertificate);
-
-            // 리소스 해제
-            pemFileInputStream.close();
-            derFileOutputStream.close();
-
-            System.out.println("cert pem -> der Conversion completed.");
-            System.out.println(System.getProperty("user.dir"));
+//            //리눅스에서 받은 인증서가져와서 java가 이해하는 der로 인코딩
+//
+//            // PEM 형식의 인증서 파일 로드
+//            FileInputStream pemFileInputStream = new FileInputStream(certPath + "metainssl.crt");
+//            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+//            Certificate certificate = certificateFactory.generateCertificate(pemFileInputStream);
+//
+//            // DER 형식으로 변환
+//            byte[] derCertificate = certificate.getEncoded();
+//
+//            // DER 형식의 인증서 파일 저장
+//            FileOutputStream derFileOutputStream = new FileOutputStream("certificate.der");
+//            derFileOutputStream.write(derCertificate);
+//
+//            // 리소스 해제
+//            pemFileInputStream.close();
+//            derFileOutputStream.close();
+//
+//            System.out.println("cert pem -> der Conversion completed.");
+//            System.out.println(System.getProperty("user.dir"));
 
 // 디지털 서명 옵션 정의
 
-            DigitalSignOptions options = new DigitalSignOptions("certificate.der");
+            DigitalSignOptions options = new DigitalSignOptions(certPath + "metainssl.der");
+            //DigitalSignOptions options = new DigitalSignOptions(certPath + "metainssl.pfx");
+
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
             options.setVisible(true);
@@ -317,12 +319,12 @@ public class CertificationServiceImpl implements CertificationService {
             options.setTop(650);
             options.setPageNumber(1);
             System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
-            System.out.print(" 디지털서명함수 check 4 / ");
-
+            System.out.print(" / 디지털서명함수 check 4" + options);
+            System.out.print(" 디지털서명함수 check 5 / ");
 
             // 파일에 문서 서명
             signature.sign(filePath + filename, options);
-            System.out.print(" 디지털서명함수 check 5 FINAL / ");
+            System.out.print(" 디지털서명함수 check 6 FINAL / ");
         } catch (Exception e) {
             System.out.print("에러기록 : " + e.toString());
             throw new GroupDocsSignatureException(e.toString());
