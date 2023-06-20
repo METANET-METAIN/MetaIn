@@ -141,8 +141,8 @@ public class MyPageController {
         String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
 
         System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
-        //Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);  //로컬용
-        Resource fileResource = new ClassPathResource("/metainfiles/" + filename);
+        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
+        //Resource fileResource = new ClassPathResource("/metainfiles/" + filename); 배포용
 
 
         // 파일을 byte 배열로 읽어옴

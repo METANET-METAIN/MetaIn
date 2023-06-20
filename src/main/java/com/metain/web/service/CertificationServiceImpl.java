@@ -240,11 +240,9 @@ public class CertificationServiceImpl implements CertificationService {
             contentStream.close();
             System.out.println("2!! pdf생성단계 ");
 
-            //local용 경로
-            //String filePath = "src/main/resources/static/certPdfFile/";
 
-            //배포용 경로
-            String filePath = "/metainfiles/";
+            String filePath = "src/main/resources/static/certPdfFile/";
+
 
             String fileName = "converted.pdf";
             // PDF 파일 저장
@@ -265,18 +263,15 @@ public class CertificationServiceImpl implements CertificationService {
             System.out.print(" 디지털서명함수 check 1 /");
 
             //로컬용 경로
-            //String filePath = "src/main/resources/static/certPdfFile/";
+            String filePath = "src/main/resources/static/certPdfFile/";
 
-            //배포용 경로
-            String filePath = "/metainfiles/";
 
             Signature signature = new Signature(filePath + "converted.pdf");
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
 
-// 디지털 서명 옵션 정의
-            //String certPath = "src/main/resources/certification/"; - 로컬용
-            String certPath = "/certification/";  //-배포용
+            // 디지털 서명 옵션 정의
+            String certPath = "src/main/resources/certification/";
             DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
