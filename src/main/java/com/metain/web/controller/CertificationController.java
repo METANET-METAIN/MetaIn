@@ -192,6 +192,7 @@ public class CertificationController {
             //return "success";
         } catch (Exception e) {
             System.out.println("디지털서명 실패 ");
+            System.out.print("디지털서명함수부르는데 실패 에러기록 : " + e.toString());
             //return "error";
         }
 
