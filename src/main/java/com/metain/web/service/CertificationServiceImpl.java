@@ -287,7 +287,7 @@ public class CertificationServiceImpl implements CertificationService {
             options.setLeft(370);
             options.setTop(650);
             options.setPageNumber(1);
-            //System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
+            System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
             System.out.print(" 디지털서명함수 check 4 / ");
 
 

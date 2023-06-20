@@ -185,14 +185,16 @@ public class CertificationController {
         String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
         System.out.println("디지털서명파일저장할 파일이름 확인 " + filename);
 
+
         //저장된 pdf파일에 전자서명 추가하기
         try {
+            System.out.println("catch문 탔나?????");
             certificationService.signPdf(filename);
             System.out.println("4!! 디지털서명 완료");
             //return "success";
         } catch (Exception e) {
             System.out.println("디지털서명 실패 ");
-            System.out.print("디지털서명함수부르는데 실패 에러기록 : " + e.toString());
+            e.printStackTrace();
             //return "error";
         }
 
