@@ -281,15 +281,15 @@ public class CertificationServiceImpl implements CertificationService {
             Signature signature = new Signature(filePath + "converted.pdf");
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
-
             //배포용 인증서경로
             //String certPath = "src/main/resources/certification/"; - 로컬용
             //String certPath = "/certification/";  //-배포용
 
             // 디지털 서명 옵션 정의
-
-            DigitalSignOptions options = new DigitalSignOptions("src/main/resources/certification/metain.pfx");
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
+
+            String certPath = "src/main/resources/certification/";
+            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
 
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
