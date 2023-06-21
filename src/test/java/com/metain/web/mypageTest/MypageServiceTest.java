@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MypageServiceTest {
-    @Autowired
-    private VacationService vacationService;
 
 //    @Test
 //    @DisplayName("")

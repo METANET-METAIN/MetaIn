@@ -22,9 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.metain.web.domain.Role.*;
-
 @Service
 @RequiredArgsConstructor
 public class HrServiceImpl implements HrService {
@@ -37,37 +34,6 @@ public class HrServiceImpl implements HrService {
     private AlarmMapper alarmMapper;
     @Autowired
     private AlarmService alarmService;
-
-    private void roleBasedOnGradeAndStatus(Emp emp) {
-        String empGrade = emp.getEmpGrade();
-        Role gradeRole = Role.fromGrade(empGrade);
-        emp.setRoleName(String.valueOf(gradeRole));
-
-        String empStatus = emp.getEmpStatus();
-        Role statusRole = Role.fromStatus(empStatus);
-        emp.setRoleName(String.valueOf(statusRole));
-    }
-
-    private Role fromGrade(Long roleId) {
-        if (roleId == 6L) {
-            return ADMIN;
-        } else if (roleId == 1L) {
-            return EMPLOYEE;
-        } else if (roleId == 2L) {
-            return ASSISTANT;
-        } else if (roleId == 3L) {
-            return MANAGER;
-        } else if (roleId == 4L) {
-            return DEPUTY;
-        } else if (roleId == 5L) {
-            return HR;
-        }
-        throw new IllegalArgumentException("Invalid grade: " + roleId);
-    }
-
-
-
-
 
     private static final Logger logger = LoggerFactory.getLogger(HrServiceImpl.class);
 
@@ -166,13 +132,6 @@ public class HrServiceImpl implements HrService {
         }
         return 0;
     }
-
-
-    @Override
-    public int updateEmp(Emp emp) {
-        return 0;
-    }
-
 
     @Override
     public List<Emp> selectAll() {

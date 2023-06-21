@@ -60,22 +60,8 @@ public class CertificationController {
         //Emp empInfo = hrService.selectEmpInfo(empId); //로그인해져있는 empId넣어서 emp객체 빼오기
         Emp empInfo = certificationService.getEmpInfoList(empId);
 
-
         // 요청 URL 가져오기
         String requestUrl = request.getRequestURI();
-
-
-        // 사원의 정보를 데이터베이스에서 조회해서 가져오는 로직
-        //Long empId = 108L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
-//        System.out.println("empInfoList 객체 생성 전");
-//        Emp empInfoList = certificationService.getEmpInfoList(empId);
-//        System.out.println("empInfoList 객체 생성 후 " + empInfoList);
-
-//        if (empInfoList == null) {
-//            // 처리할 로직이 없는 경우
-//            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
-//        }
-//        model.addAttribute("empInfoList", empInfoList);
 
         if (empInfo == null) {
             // 처리할 로직이 없는 경우
@@ -85,7 +71,6 @@ public class CertificationController {
             model.addAttribute("emp", empInfo);
             System.out.println("empInfoList 객체 생성 후 " + empInfo);
         }
-
 
         // 요청 URL에 따른 처리
         if (requestUrl.equals("/certification/emp-cert-apply")) {
