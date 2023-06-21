@@ -304,7 +304,7 @@ public class CertificationServiceImpl implements CertificationService {
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
             options.setVisible(true);
-            options.setImageFilePath("/static/certPdfFile/metain-sign-Image.png");
+            options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
