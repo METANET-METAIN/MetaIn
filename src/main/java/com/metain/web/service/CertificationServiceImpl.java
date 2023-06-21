@@ -19,8 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
-
+import javax.servlet.ServletContext;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +38,9 @@ public class CertificationServiceImpl implements CertificationService {
     private MyPageMapper myPageMapper;
 
     private final HrService hrService;
+
+    @Autowired
+    private ServletContext servletContext;
 
 
     @Autowired
@@ -276,8 +278,11 @@ public class CertificationServiceImpl implements CertificationService {
             //String filePath = "src/main/resources/static/certPdfFile/";
 
 
-            String certPath = "/certification/metain_old.pfx";
-            String pdffilePath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/test/converted.pdf";
+            String resourcePath = servletContext.getRealPath("/WEB-INF/classes/test/converted.pdf");
+            File resourceFile = new File( resourcePath );
+
+            String certPath = "certification/metain_old.pfx";
+            String pdffilePath = "test/converted.pdf";
             String mountPath = "/metainfiles/";
 
             Signature signature = new Signature(pdffilePath);
