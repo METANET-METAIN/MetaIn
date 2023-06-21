@@ -30,6 +30,7 @@ import java.util.Base64;
 @Service
 public class CertificationServiceImpl implements CertificationService {
 
+
     //Mapper인터페이스 의존성주입
     @Autowired
     private CertificationMapper certificationMapper;
@@ -300,9 +301,9 @@ public class CertificationServiceImpl implements CertificationService {
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "certificate.pfx");
             DigitalSignOptions options = new DigitalSignOptions(certPath);
-
             System.out.print(" / 디지털서명함수 check 3" + options);
-            options.setPassword("12345678900");
+
+            //options.setPassword("12345678900");
             options.setVisible(true);
             options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
