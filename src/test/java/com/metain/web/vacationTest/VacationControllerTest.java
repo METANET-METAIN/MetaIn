@@ -62,7 +62,6 @@ public class VacationControllerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(vacationController).build(); // HomeController를 MockMvc에 설정
-
     }
 
     @Test
@@ -73,10 +72,10 @@ public class VacationControllerTest {
         fakeEmp.setEmpId(152L);
 
         // hrMapper의 필요한 동작을 모킹합니다.
-        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
-        System.out.println(fakeEmp);
+//        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
+//        System.out.println(fakeEmp);
         List<String> auth = Arrays.asList("EMPLOYEE","ACTIVE");
-        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
+//        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
 
         List<VacationListDTO> list=new ArrayList<>();
         when(vacationService.selectAllList()).thenReturn(list);
@@ -115,10 +114,10 @@ public class VacationControllerTest {
         fakeVacation.setVacType("병가");
 
         // hrMapper의 필요한 동작을 모킹합니다.
-        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
-        System.out.println(fakeEmp);
+//        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
+//        System.out.println(fakeEmp);
         List<String> auth = Arrays.asList("EMPLOYEE", "ACTIVE");
-        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
+//        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
 
         doNothing().when(vacationService).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
 

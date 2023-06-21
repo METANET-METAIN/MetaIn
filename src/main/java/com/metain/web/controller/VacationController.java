@@ -104,11 +104,11 @@ public class VacationController {
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
 
-        String savedFileName = type + sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
+        String savedFileName =sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
 
         // 저장될 경로
-        String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
-
+        //String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
+        String savePath = "classpath:/static/"+ savedFileName;
         File destFile = new File(savePath);
         file.transferTo(destFile);
 
@@ -165,7 +165,7 @@ public class VacationController {
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
         System.out.println("휴가정보=====================" + vac);
         if(vac==null){
-            Vacation vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
+            VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
             //신청한 사람
             Emp emp=hrService.selectEmpInfo(vacWithoutFile.getEmpId());
             //관리자 정보
@@ -203,8 +203,6 @@ public class VacationController {
             model.addAttribute("filePath",filePath);
             return "/vacation/request-vacation";
         }
-
-
     }
     //요청 휴가 목록
     @RequestMapping("/vacation-req-list")

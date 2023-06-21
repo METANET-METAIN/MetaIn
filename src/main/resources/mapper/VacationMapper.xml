@@ -40,8 +40,10 @@
         FROM TBL_VACATION V JOIN TBL_FILE F ON V.FILE_ID = F.FILE_ID
         WHERE V.VAC_ID = #{vacId}
     </select>
-    <select id="vacationDetailWithoutFile" resultType="Vacation">
-        SELECT * FROM TBL_VACATION V
+    <select id="vacationDetailWithoutFile" resultType="VacationWithoutFileDTO">
+        SELECT V.VAC_ID, V.EMP_ID, V.VAC_TYPE, V.VAC_REG_DATE, V.VAC_START_DATE, V.VAC_END_DATE,
+               V.ADM_ID, V.VAC_RESN, V.VAC_STATUS, V.VAC_UPDAT
+        FROM TBL_VACATION V
         WHERE V.VAC_ID = #{vacId}
     </select>
 

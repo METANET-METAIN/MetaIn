@@ -52,18 +52,12 @@ public interface VacationMapper {
      * 휴가 취소 - user --0
      * */
     public int cancelVacationRequest(Long vacId, Long empId);
-    /**
-     * 휴가 알림
-     * */
-    public void alarmVacation(String vacStatus);
+
     /**
      * 휴가 디테일--0
      * */
     public VacationFileDTO vacDetail(Long vacId);
-    /**
-     * 연차별로 휴가(1일) 부여하는 기능
-     * */
-    public int totalVacation(Date empFistDt);
+
     /**
     * 요청된 휴가 목록--0
     * */
@@ -77,7 +71,6 @@ public interface VacationMapper {
 
     int increaseVacation(int diff, Long empId);
 
-    Vacation checkFile(Long vacId);
 
-    Vacation vacationDetailWithoutFile(Long vacationId);
+    VacationWithoutFileDTO vacationDetailWithoutFile(Long vacationId);
 }

@@ -14,8 +14,6 @@ import java.util.List;
 
 public interface MyPageService {
 
-//    List<MyCertDTO> selectIssueAll();
-
     List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
     List<MyVacDTO> myVacList(Long empId);
 
@@ -31,13 +29,9 @@ public interface MyPageService {
     //다운로드할 증명서 파일이름가져오기
     public String getCertFilename(Long certId, String certSort);
 
-    //증명서 다운로드시 발급상태 업데이트
-    public void updateIssueStatus(Long certId, String certSort);
-
     //알림함
     List<AlarmDTO> alarmList(Long empId);
 
-    void updateMy(Emp emp);
 
     void updateMy(Emp dbemp, MultipartFile empProfile) throws IOException;
 }

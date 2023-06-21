@@ -43,7 +43,7 @@ import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
 public class VacationServiceTest {

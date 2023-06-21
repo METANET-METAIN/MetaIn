@@ -185,8 +185,8 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public Vacation vacationDetailWithoutFile(Long vacationId) {
-        Vacation dto=vacMapper.vacationDetailWithoutFile(vacationId);
+    public VacationWithoutFileDTO vacationDetailWithoutFile(Long vacationId) {
+        VacationWithoutFileDTO dto=vacMapper.vacationDetailWithoutFile(vacationId);
 
         return dto;
     }

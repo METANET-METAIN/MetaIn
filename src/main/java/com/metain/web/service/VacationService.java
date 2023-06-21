@@ -39,5 +39,5 @@ public interface VacationService {
 
     public int increaseVacation(int selectedDays,Long empId);
 
-    Vacation vacationDetailWithoutFile(Long vacationId);
+    VacationWithoutFileDTO vacationDetailWithoutFile(Long vacationId);
 }

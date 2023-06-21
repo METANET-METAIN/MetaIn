@@ -4,6 +4,8 @@ import com.metain.web.domain.*;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.dto.VacationFileDTO;
+import com.metain.web.dto.VacationWithoutFileDTO;
+import com.metain.web.mapper.FileMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 import com.metain.web.service.VacationService;
@@ -41,7 +43,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/mypage")
 public class MyPageController {
-
+    @Autowired
+    private FileMapper fileMapper;
 
     @Autowired
     private MyPageService myPageService;
@@ -202,27 +205,56 @@ public class MyPageController {
     }
 
     @GetMapping("/my-vac-detail/{vacationId}")
-    public String myVacDetail(@PathVariable("vacationId") Long vacationId, Model model) {
+    public String myVacDetail(@PathVariable("vacationId") Long vacationId, Model model,Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo=hrService.selectEmpInfo(empId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
-        //신청인 정보
-        Emp emp = hrService.selectEmpInfo(vac.getEmpId());
-        //관리자 정보
-        Emp admin = hrService.selectEmpInfo(vac.getAdmId());
-        //총 사용날짜 구하기
-        java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
-        java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
+        System.out.println(vac);
 
-        long diff = endDate.getTime() - startDate.getTime();
-        int daysDiff = (int) (diff / (24 * 60 * 60 * 1000) + 1);
+        if(vac==null){
+            VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
+            System.out.println(vacWithoutFile);
+            //신청한 사람이자
+            Emp emp=hrService.selectEmpInfo(vacWithoutFile.getEmpId());
+            //관리자 정보
+            Emp admin=hrService.selectEmpInfo(vacWithoutFile.getAdmId());
+            //총 사용날짜 구하기
+            java.util.Date startDate = new java.util.Date(vacWithoutFile.getVacStartDate().getTime());
+            java.util.Date endDate = new java.util.Date(vacWithoutFile.getVacEndDate().getTime());
 
-        model.addAttribute("vac", vac);
-        model.addAttribute("emp", emp);
-        model.addAttribute("admin", admin);
-        model.addAttribute("diff", daysDiff);
-        return "/mypage/my-vac-detail";
+            long diff = endDate.getTime() - startDate.getTime();
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+            System.out.println(vacWithoutFile);
+            model.addAttribute("vac",vacWithoutFile);
+            model.addAttribute("emp",empInfo);
+            model.addAttribute("admin",admin);
+            model.addAttribute("diff",daysDiff);
+            model.addAttribute("req",emp); //신청한 사람
+            return "/mypage/my-vac-detail";
+        }else{
+            //신청한 사람
+            Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+            //관리자 정보
+            Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+            //총 사용날짜 구하기
+            java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
+            java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
+
+            long diff = endDate.getTime() - startDate.getTime();
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+            String filePath=fileMapper.getFilePath(vac.getFileId());
+            model.addAttribute("vac",vac);
+            model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
+            model.addAttribute("admin",admin);
+            model.addAttribute("diff",daysDiff);
+            model.addAttribute("file",filePath);
+            model.addAttribute("req",emp); //신청한 사람
+            return "/mypage/my-vac-detail";
+        }
     }
 
     @PostMapping(value = "/cancelVacationRequest")

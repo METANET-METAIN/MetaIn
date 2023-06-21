@@ -174,36 +174,6 @@ public class CertificationServiceImpl implements CertificationService {
         }
     }
 
-
-    //증명서 생성 기능
-    @Override
-    public EmpCert getEmpCert(Long empId) {
-        EmpCert list = certificationMapper.selectEmpCert(empId);
-        if (list == null) {
-            return null;
-        }
-        return list;
-    }
-
-    @Override
-    public ExperienceCert getExperCert(Long empId) {
-        ExperienceCert list = certificationMapper.selectExperCert(empId);
-        if (list == null) {
-            return null;
-        }
-        return list;
-    }
-
-    @Override
-    public RetireCert getRetireCert(Long empId) {
-        RetireCert list = certificationMapper.selectRetireCert(empId);
-        if (list == null) {
-            return null;
-        }
-        return list;
-    }
-
-
     @Override
     public void makeCertPdf(ImageRequestData request) throws IOException {
 

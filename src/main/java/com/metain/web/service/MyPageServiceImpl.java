@@ -89,33 +89,12 @@ public class MyPageServiceImpl implements MyPageService{
         }
         return certFilename;
     }
-
-    public void updateIssueStatus(Long certId, String certSort){
-
-        if (certSort.equals("A01") ) {
-            myPageMapper.updateEmpIssueStatus(certId);
-        }else if (certSort.equals("A02")){
-            myPageMapper.updateExperIssueStatus(certId);
-        }else if (certSort.equals("A03")){
-            myPageMapper.updateRetireIssueStatus(certId);
-        }else {
-            System.out.println("Issue Status 업데이트할 정보 안들어옴 !");
-        }
-    }
-
-
-
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
         List<AlarmDTO> list= myPageMapper.alarmList(empId);
         if(list==null){
             return null;
         }else return list;
-
-    }
-
-    @Override
-    public void updateMy(Emp dbemp) {
 
     }
 
