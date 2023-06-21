@@ -134,7 +134,6 @@ public class MyPageServiceImpl implements MyPageService{
         String sabun = dbemp.getEmpSabun();
         UUID uuid = UUID.randomUUID();
 
-        //여기서 오류남
         String originalImgName = file.getOriginalFilename();
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 

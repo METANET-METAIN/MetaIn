@@ -26,8 +26,15 @@ public class MemberController {
 
     //login 창
     @GetMapping("/loginEmp")
-    public String loginPage(Model model) {
+    public String loginPage(@RequestParam(value = "error", required = false)String error,
+//                            @RequestParam(value = "exception", required = false)String exception,
+                            Model model) {
+
+        model.addAttribute("error", error);
+//        model.addAttribute("exception", exception);
         model.addAttribute("loginRequest", new Emp());
+        System.out.println(error);
+//        System.out.println(exception);
         System.out.println(model);
 
         return "/member/login-form";

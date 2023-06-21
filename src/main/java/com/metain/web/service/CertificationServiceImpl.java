@@ -218,34 +218,34 @@ public class CertificationServiceImpl implements CertificationService {
         System.out.println("1!! pdf전환 컨트롤러에 요청 들어옴 , 이미지데이터 전달완료 :" + imageBytes);
 
         // PDF 생성
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-        // 이미지 크기 및 위치 설정
-        float targetWidth = 1100; // A4용지 가로 너비 595
-        float targetHeight = 1500; // A4용지 높이 842
-        float imageWidth = request.getImageWidth();
-        float imageHeight = request.getImageHeight();
+            // 이미지 크기 및 위치 설정
+            float targetWidth = 1100; // A4용지 가로 너비 595
+            float targetHeight = 1500; // A4용지 높이 842
+            float imageWidth = request.getImageWidth();
+            float imageHeight = request.getImageHeight();
 
-        System.out.println("이미지크기 : x - " + imageWidth + " , y - " + imageHeight);
-        float scale = Math.min(targetWidth / imageWidth, targetHeight / imageHeight);
-        float offsetX = (targetWidth - imageWidth * scale) / 2 - 240;
-        float offsetY = (targetHeight - imageHeight * scale) / 2 - 355;
+            System.out.println("이미지크기 : x - " + imageWidth + " , y - " + imageHeight);
+            float scale = Math.min(targetWidth / imageWidth, targetHeight / imageHeight);
+            float offsetX = (targetWidth - imageWidth * scale) / 2 - 240;
+            float offsetY = (targetHeight - imageHeight * scale) / 2 - 355;
 
 
-        contentStream.drawImage(PDImageXObject.createFromByteArray(document, imageBytes, ""), offsetX, offsetY, imageWidth * scale, imageHeight * scale);
-        contentStream.close();
-        System.out.println("2!! pdf생성단계 ");
+            contentStream.drawImage(PDImageXObject.createFromByteArray(document, imageBytes, ""), offsetX, offsetY, imageWidth * scale, imageHeight * scale);
+            contentStream.close();
+            System.out.println("2!! pdf생성단계 ");
 
-        String filePath = "src/main/resources/static/certPdfFile/";
-        String fileName = "converted.pdf";
-        // PDF 파일 저장
-        document.save(filePath + fileName);
-        document.close();
-        System.out.println("3!! PDF 전환 및 저장 완료");
-
+            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/certPdfFile/";
+            String fileName = "converted.pdf";
+            // PDF 파일 저장
+            document.save(filePath + fileName);
+            document.close();
+            System.out.println("3!! PDF 전환 및 저장 완료");
+        }
 
     }
 

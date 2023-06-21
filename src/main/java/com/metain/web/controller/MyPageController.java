@@ -11,11 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.nio.file.Files;
+
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -83,7 +89,48 @@ public class MyPageController {
     }
 
 
-    //파일 다운로드
+//    //파일 다운로드
+//    @ResponseBody
+//    @Transactional
+//    @PostMapping("/downloadCert/{certId}/{certSort}")
+//    public ResponseEntity<Resource> downloadCert(@PathVariable("certId") Long certId, @PathVariable("certSort") String certSort) throws IOException {
+//
+//        System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
+//
+//        //받아온 certId를 이용해서 파일이름 을 얻어오기
+//        String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
+//
+//        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
+//        //Path filepath = Paths.get("/src/main/resources/static/certPdfFile", filename); // PDF 파일의 경로
+//        //Resource fileResource = new PathResource(filepath);
+//        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
+//
+//        //둘중 뭐가 낫지? 뭔차이?
+//        // 디지털 서명이 포함된 PDF 파일을 PathResource로 생성
+//        //Resource fileResource = new FileSystemResource(filePath);
+//        //Resource fileResource = new PathResource(filePath);
+//
+//
+//        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
+//        //myPageService.updateIssueStatus(certId,certSort);
+//
+//        if (fileResource.exists()) {
+//
+//            return ResponseEntity
+//                    .ok()
+//                    .contentType(MediaType.APPLICATION_PDF)
+//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+//                    .body(fileResource);
+//        } else {
+//            // 파일이 존재하지 않을 경우 에러 처리 로직
+//            // 예를 들어 404 Not Found 응답을 반환하거나 다른 방식으로 처리 가능
+//            return ResponseEntity.notFound().build();
+//        }
+//    }//downloadCert
+
+
+
+    //파일 다운로드 시도 ==> 이게더 빠름 이걸 기준으로 하기 !!
     @ResponseBody
     @Transactional
     @PostMapping("/downloadCert/{certId}/{certSort}")
@@ -95,32 +142,31 @@ public class MyPageController {
         String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
 
         System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
-        //Path filepath = Paths.get("/src/main/resources/static/certPdfFile", filename); // PDF 파일의 경로
-        //Resource fileResource = new PathResource(filepath);
         Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
 
-        //둘중 뭐가 낫지? 뭔차이?
-        // 디지털 서명이 포함된 PDF 파일을 PathResource로 생성
-        //Resource fileResource = new FileSystemResource(filePath);
-        //Resource fileResource = new PathResource(filePath);
+        // 파일을 byte 배열로 읽어옴
+        byte[] fileData = Files.readAllBytes(fileResource.getFile().toPath());
+        ByteArrayResource byteArrayResource = new ByteArrayResource(fileData);
 
 
         //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
         //myPageService.updateIssueStatus(certId,certSort);
 
-        if (fileResource.exists()) {
+        if (byteArrayResource.exists()) {
 
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-                    .body(fileResource);
+                    .body(byteArrayResource);
         } else {
             // 파일이 존재하지 않을 경우 에러 처리 로직
             // 예를 들어 404 Not Found 응답을 반환하거나 다른 방식으로 처리 가능
             return ResponseEntity.notFound().build();
         }
     }//downloadCert
+
+
 
 
     @GetMapping("/my-vac")
@@ -192,6 +238,7 @@ public class MyPageController {
         vacationService.increaseVacation(diff,empId);
         return ResponseEntity.ok("성공");
     }
+
     @PostMapping("/updateMy")
     public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file ) throws IOException {
         System.out.println("updateMyController" + emp);
@@ -199,8 +246,12 @@ public class MyPageController {
 
         myPageService.updateMy(emp, file);
 
-        return "redirect:/mypage/update-mypage";
+        return "redirect:/index";
     }
+
+
+//        return "redirect:/mypage/update-mypage";
+
 //    @PostMapping("/updateMy")
 //    public String  updateMy(Emp emp) {
 //        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
