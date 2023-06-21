@@ -7,12 +7,12 @@ RUN apt-get update && apt-get install -y \
     build-essential
 
 # Ghostscript 다운로드 및 설치
-RUN wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3.tar.gz && \
-    tar -zxvf ghostscript-9.53.3.tar.gz && \
-    cd ghostscript-9.53.3 && \
-    ./configure && \
-    make && \
-    make install
+#RUN wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3.tar.gz && \
+#    tar -zxvf ghostscript-9.53.3.tar.gz && \
+#    cd ghostscript-9.53.3 && \
+#    ./configure && \
+#    make && \
+#    make install
 
 # 필요한 경우 Ghostscript 실행 파일의 경로를 환경 변수에 추가
 ENV PATH="/usr/local/bin:${PATH}"
