@@ -281,8 +281,8 @@ public class CertificationServiceImpl implements CertificationService {
 //            String resourcePath = servletContext.getRealPath("/WEB-INF/classes/test/converted.pdf");
 //            File resourceFile = new File( resourcePath );
 
-            String certPath = "certification/metain_old.pfx";
-            String pdffilePath = "test/converted.pdf";
+            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/metain_old.pfx";
+            String pdffilePath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/test/converted.pdf";
             String mountPath = "/metainfiles/";
 
             Signature signature = new Signature(pdffilePath);
