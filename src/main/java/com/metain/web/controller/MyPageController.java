@@ -3,6 +3,7 @@ package com.metain.web.controller;
 import com.metain.web.domain.*;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
+import com.metain.web.dto.VacationFileDTO;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 import com.metain.web.service.VacationService;
@@ -159,7 +160,7 @@ public class MyPageController {
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
-        Vacation vac = vacationService.vacationDetail(vacationId);
+        VacationFileDTO vac = vacationService.vacationDetail(vacationId);
         //신청인 정보
         Emp emp = hrService.selectEmpInfo(vac.getEmpId());
         //관리자 정보

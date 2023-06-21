@@ -6,11 +6,47 @@
             FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
             ON e.EMP_ID=v.EMP_ID;
         </select>
-    <select id="vacDetail" resultType="Vacation">
-        SELECT * FROM TBL_VACATION WHERE VAC_ID=#{vacId};
+    <resultMap id="VacationFile" type="com.metain.web.dto.VacationFileDTO">
+        <id property="vacId" column="VAC_ID" />
+        <result property="empId" column="EMP_ID" />
+        <result property="vacType" column="VAC_TYPE" />
+        <result property="vacRegDate" column="VAC_REG_DATE" />
+        <result property="vacStartDate" column="VAC_START_DATE" />
+        <result property="vacEndDate" column="VAC_END_DATE" />
+        <result property="fileId" column="FILE_ID" />
+        <result property="admId" column="ADM_ID" />
+        <result property="vacResn" column="VAC_RESN" />
+        <result property="vacStatus" column="VAC_STATUS" />
+        <result property="vacUpdat" column="VAC_UPDAT" />
+        <result property="fileName" column="FILE_NAME" />
+        <result property="fileRegDate" column="FILE_REG_DATE" />
+    </resultMap>
+
+    <resultMap id="VacationWithoutFile" type="com.metain.web.dto.VacationWithoutFileDTO">
+        <id property="vacId" column="VAC_ID" />
+        <result property="empId" column="EMP_ID" />
+        <result property="vacType" column="VAC_TYPE" />
+        <result property="vacRegDate" column="VAC_REG_DATE" />
+        <result property="vacStartDate" column="VAC_START_DATE" />
+        <result property="vacEndDate" column="VAC_END_DATE" />
+        <result property="admId" column="ADM_ID" />
+        <result property="vacResn" column="VAC_RESN" />
+        <result property="vacStatus" column="VAC_STATUS" />
+        <result property="vacUpdat" column="VAC_UPDAT" />
+    </resultMap>
+    <select id="vacDetail" resultType="VacationFileDTO">
+        SELECT V.VAC_ID, V.EMP_ID, V.VAC_TYPE, V.VAC_REG_DATE, V.VAC_START_DATE, V.VAC_END_DATE,
+        F.FILE_ID, V.ADM_ID, V.VAC_RESN, V.VAC_STATUS, V.VAC_UPDAT, F.FILE_NAME, F.FILE_REG_DATE
+        FROM TBL_VACATION V JOIN TBL_FILE F ON V.FILE_ID = F.FILE_ID
+        WHERE V.VAC_ID = #{vacId}
     </select>
+    <select id="vacationDetailWithoutFile" resultType="Vacation">
+        SELECT * FROM TBL_VACATION V
+        WHERE V.VAC_ID = #{vacId}
+    </select>
+
     <select id="requestList" resultType="VacationListDTO">
-        SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE
+        SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE,v.VAC_STATUS
         FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
         ON e.EMP_ID=v.EMP_ID
         WHERE vac_status='승인대기';

@@ -14,7 +14,9 @@ import org.apache.ibatis.annotations.Mapper;
          * 파일table의 pk가져오기 (시퀀스값)
          * */
         public int getFileId();
+
         /**
-         * 파일 삭제 -스케쥴러사용 (30일 이후 null)
+         *
          * */
+        public String getFilePath(Long fileId);
 }

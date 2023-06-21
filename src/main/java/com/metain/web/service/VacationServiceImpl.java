@@ -2,10 +2,7 @@ package com.metain.web.service;
 
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.Vacation;
-import com.metain.web.dto.AlarmDTO;
-import com.metain.web.dto.AlarmResponse;
-import com.metain.web.dto.FileDTO;
-import com.metain.web.dto.VacationListDTO;
+import com.metain.web.dto.*;
 import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.HrMapper;
@@ -43,8 +40,8 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public Vacation vacationDetail(Long vacationId) {
-        Vacation dbVacation=vacMapper.vacDetail(vacationId);
+    public VacationFileDTO vacationDetail(Long vacationId) {
+        VacationFileDTO dbVacation=vacMapper.vacDetail(vacationId);
         if (dbVacation==null){
             return null;
         }
@@ -106,8 +103,20 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void insertVacation(Vacation vacation) {
+    public void insertVacation(Vacation vacation,int diffDays,Long empId) {
         vacMapper.requestVacation(vacation);
+        vacMapper.decreaseVacation(diffDays,empId);
+
+        System.out.println("vacation = 1111111111111111111111" + vacation);
+        AlarmDTO alarmDTO=new AlarmDTO();
+        alarmDTO.setNotiContent("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!");
+        alarmDTO.setNotiUrl("/mypage/my-vac-list");
+        alarmDTO.setNotiType("휴가정보");
+        alarmDTO.setEmpId(empId); //ㄱre?
+        alarmMapper.insertAlarm(alarmDTO);
+
+        alarmService.send(empId, AlarmResponse.comment("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!"));
+
     }
 
     @Override
@@ -175,11 +184,16 @@ public class VacationServiceImpl implements VacationService{
         return re;
     }
 
+    @Override
+    public Vacation vacationDetailWithoutFile(Long vacationId) {
+        Vacation dto=vacMapper.vacationDetailWithoutFile(vacationId);
 
-    @Scheduled(cron = "0 0 0 1 1 ?") //60.61이 반려로 바껴야댐
+        return dto;
+    }
+
+
+    @Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
     //@Scheduled(cron = "*/20 * * * * ?") //20 초
-
-
     public void autoReject() {
         List<VacationListDTO> list = vacMapper.selectAllList();
         LocalDate localDate = LocalDate.now();

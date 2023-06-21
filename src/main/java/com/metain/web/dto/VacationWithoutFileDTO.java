@@ -2,22 +2,23 @@ package com.metain.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-@Getter
+
 @Data
-@Setter
 @AllArgsConstructor
-public class VacationListDTO {
+@NoArgsConstructor
+
+public class VacationWithoutFileDTO {
     private Long vacId;
-    private String empName;
-    private String empDept;
-    private String empGrade;
+    private Long empId;
     private String vacType;
+    private Date vacRegDate;
     private Date vacStartDate;
     private Date vacEndDate;
-    private Date vacRegDate;
+    private Long admId;
+    private String vacResn;
     private String vacStatus;
+    private Date vacUpdat;
 }

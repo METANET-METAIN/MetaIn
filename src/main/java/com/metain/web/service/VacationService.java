@@ -4,7 +4,9 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.Notification;
 import com.metain.web.domain.Vacation;
 import com.metain.web.dto.AlarmDTO;
+import com.metain.web.dto.VacationFileDTO;
 import com.metain.web.dto.VacationListDTO;
+import com.metain.web.dto.VacationWithoutFileDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ public interface VacationService {
     * */
     List<VacationListDTO> selectAllList();
 
-    Vacation vacationDetail(Long vacationId);
+    VacationFileDTO vacationDetail(Long vacationId);
 
     List<VacationListDTO> requestList();
 
@@ -23,7 +25,7 @@ public interface VacationService {
     public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver);
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 
-    public void insertVacation(Vacation vacation);
+    public void insertVacation(Vacation vacation,int diffDays,Long empId);
     public void insertAfterVacation(Vacation vacation);
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
@@ -36,4 +38,6 @@ public interface VacationService {
     List<VacationListDTO> todayVacation(String empDept);
 
     public int increaseVacation(int selectedDays,Long empId);
+
+    Vacation vacationDetailWithoutFile(Long vacationId);
 }
