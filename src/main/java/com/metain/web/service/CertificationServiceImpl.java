@@ -282,7 +282,7 @@ public class CertificationServiceImpl implements CertificationService {
 //            String resourcePath = servletContext.getRealPath("/WEB-INF/classes/test/converted.pdf");
 //            File resourceFile = new File( resourcePath );
 
-            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/metaincert.pfx";
+            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/metain.pfx";
             String pdffilePath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/test/converted.pdf";
             String mountPath = "/metainfiles/";
 
@@ -310,7 +310,7 @@ public class CertificationServiceImpl implements CertificationService {
             options.setHeight(80);
             options.setLeft(100);
             options.setTop(100);
-            //options.setPageNumber(1);
+            options.setPageNumber(1);
             System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() +"페이ㅣ지: "+ options.getPageNumber() + "페이지정보:"+ options.getAllPages());
             System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : "+ options.getSignatureType());
             System.out.println(" / 디지털서명함수 check 4" + options);
