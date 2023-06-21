@@ -275,7 +275,11 @@ public class CertificationServiceImpl implements CertificationService {
             //로컬용 경로
             //String filePath = "src/main/resources/static/certPdfFile/";
 
-            //배포용 파일 경로
+
+            //배포용 파일 경로 - 리눅스로컬이랑 마운트 한거
+            //String filePath = "/metainfiles/";
+
+            String certPath = "certification/";
             String filePath = "/metainfiles/";
 
             Signature signature = new Signature(filePath + "converted.pdf");
@@ -289,13 +293,13 @@ public class CertificationServiceImpl implements CertificationService {
             // 디지털 서명 옵션 정의
             //DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
 
-            String certPath = "src/main/resources/certification/";
-            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
+            //String certPath = "/resources/certification/";
+            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain_old.pfx");
 
             System.out.print(" / 디지털서명함수 check 3" + options);
             options.setPassword("12345678900");
             options.setVisible(true);
-            options.setImageFilePath("src/main/resources/certPdfFile/metain-sign-Image.png");
+            options.setImageFilePath("static/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
