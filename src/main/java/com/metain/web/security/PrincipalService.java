@@ -5,6 +5,7 @@ import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.mapper.HrMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,19 +21,10 @@ import java.util.List;
 public class PrincipalService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final HrMapper hrMapper;
+    @Autowired
+    private HrMapper hrMapper;
 
 
-    public PrincipalService(HrMapper hrMapper) {
-        this.hrMapper = hrMapper;
-    }
-
-//    public Emp findEmpNo(String empSabun){
-//        int empId = hrMapper.findEmpNo(empSabun);
-//        Emp emp =
-//        return new PrincipalDetails(emp);
-//
-//    }
 
     /***
      * 사용자의 상세 정보를 조회하고
@@ -74,35 +66,8 @@ public class PrincipalService implements UserDetailsService {
 
         }
 
-        return null;
+        throw new UsernameNotFoundException("사용자 권한 정보를 찾을 수 없습니다.");
     }
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String empSabun) throws UsernameNotFoundException {
-//
-//        logger.info("-----[PrincipalService] empSabun ::::: {}", empSabun);
-//
-//
-//        //로그인 및 사원 정보 조회 로직
-//        ArrayList<Emp> empAuthes = hrMapper.login(empSabun);
-//
-//        if(empAuthes.size() == 0) {
-//            throw new UsernameNotFoundException("Emp" + empSabun + "Not Found");
-//        } return new PrincipalDetails(empAuthes);
-
-//        if (emp != null) {
-//            List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
-//            List<String> roles= new ArrayList<>();
-//            for(int i = 0 ; i<emp.size();i++){
-//                roles.add(emp.get(i).getRoleName());
-//            }
-//
-//            for (String role : roles) {
-//                authorityList.add(new SimpleGrantedAuthority(role));
-//            }
-//            return new PrincipalDetails(empAuthes);
-//        }
 
 
 }

@@ -14,7 +14,7 @@
                 rel="apple-touch-icon"
                 sizes="180x180"
 
-                href="/vendors/images/apple-touch-icon.png"
+                href="/vendors/user/favicon.png"
 
         />
         <link
@@ -22,7 +22,7 @@
                 type="image/png"
                 sizes="32x32"
 
-                href="/vendors/images/favicon-32x32.png"
+                href="/vendors/user/favicon.png"
 
         />
         <link
@@ -30,7 +30,7 @@
                 type="image/png"
                 sizes="16x16"
 
-                href="/vendors/images/favicon-16x16.png"
+                href="/vendors/user/favicon.png"
 
         />
 
@@ -137,6 +137,19 @@
 
     </head>
     <body>
+    <body>
+    <div class="pre-loader">
+        <div class="pre-loader-box">
+            <div class="loader-logo">
+                <img src="/vendors/images/logo.png" alt="" />
+            </div>
+            <div class="loader-progress" id="progress_div">
+                <div class="bar" id="bar1"></div>
+            </div>
+            <div class="percent" id="percent1">0%</div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
     <script th:inline="javascript">
 
         const empId = [[${emp.empId}]] ;
@@ -289,7 +302,7 @@
                     >
 								<span class="user-icon">
 
-									<img th:src="@{'/vendors/user/' + ${emp.empProfile}}" style="width: 50px; height: 50px;"
+									<img th:src="@{'/user/' + ${emp.empProfile}}" style="width: 50px; height: 50px;"
                                     />
 
 								</span>
@@ -573,6 +586,7 @@
                 </div>
             </div>
         </div>
+
     <!-- welcome modal start -->
     <!-- welcome modal end -->
     <!-- js -->
@@ -610,5 +624,6 @@
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
     </body>
+
 </th:block>
 </html>
