@@ -20,4 +20,7 @@ public class VacationListDTO {
     private Date vacEndDate;
     private Date vacRegDate;
     private String vacStatus;
+
+    public VacationListDTO(long l, String 김사원, String s, String employee, String s1, Date date, Date date1, Date date2, String 요청취소) {
+    }
 }

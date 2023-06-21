@@ -58,7 +58,11 @@
               <div class="profile-photo">
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
-                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}?timestamp=<%= System.currentTimeMillis() %>" alt="" th:name="empProfile" class="avatar-photo">
+<!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
+                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img  th:src="@{'/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img  th:src="@{'./user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                <img th:src="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/'+${fileName}}">
               </div>
 
                 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
@@ -118,10 +122,10 @@
                         </div>
                         <div class="modal-body" style="text-align: left">
                           <p><strong>비밀번호 변경</strong></p>
-                          <input class="form-control" type="password" value="empPwd1" name="empPwd1" id="empPwd1">
+                          <input class="form-control" type="password"  name="empPwd1" id="empPwd1">
                           <p id="checkPwd1Message"></p>
                           <p><strong>비밀번호 확인</strong></p>
-                          <input class="form-control" type="password" value="empPwd2" name="empPwd2" id="empPwd2">
+                          <input class="form-control" type="password"  name="empPwd2" id="empPwd2">
                           <p id="checkPwd2Message"></p>
                           <hr>
                         </div>

@@ -11,6 +11,7 @@ import com.metain.web.mapper.MyPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,6 +22,9 @@ import java.util.UUID;
 @Service
 public class MyPageServiceImpl implements MyPageService{
 
+
+    @Autowired
+   private AwsS3Service awsS3Service;
     @Autowired
     private MyPageMapper myPageMapper;
 
@@ -89,6 +93,22 @@ public class MyPageServiceImpl implements MyPageService{
         }
         return certFilename;
     }
+
+    public void updateIssueStatus(Long certId, String certSort){
+
+        if (certSort.equals("A01") ) {
+            myPageMapper.updateEmpIssueStatus(certId);
+        }else if (certSort.equals("A02")){
+            myPageMapper.updateExperIssueStatus(certId);
+        }else if (certSort.equals("A03")){
+            myPageMapper.updateRetireIssueStatus(certId);
+        }else {
+            System.out.println("Issue Status 업데이트할 정보 안들어옴 !");
+        }
+    }
+
+
+
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
         List<AlarmDTO> list= myPageMapper.alarmList(empId);
@@ -97,6 +117,7 @@ public class MyPageServiceImpl implements MyPageService{
         }else return list;
 
     }
+
 
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
@@ -113,15 +134,19 @@ public class MyPageServiceImpl implements MyPageService{
         String sabun = dbemp.getEmpSabun();
         UUID uuid = UUID.randomUUID();
 
+        File files = new File(file.getOriginalFilename());
+        FileCopyUtils.copy(file.getBytes(), files);
+
         String originalImgName = file.getOriginalFilename();
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
         String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-        String savePath = System.getProperty("user.dir") +
-                "/src/main/resources/static/vendors/user/" + savedImgName;
-        System.out.println(savePath);
-        File destImg = new File(savePath);
-        file.transferTo(destImg);
+
+
+
+        awsS3Service.uploadS3File(file);
+
+
 
         dbemp.setEmpProfile(savedImgName);
 

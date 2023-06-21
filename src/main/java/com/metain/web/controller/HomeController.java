@@ -54,7 +54,7 @@ public class HomeController {
             //System.out.println("home : " + empList);
             return "index";
         }
-        return null;
+        return "error/404";
     }
 // 유효하지 않은 경우에 대한 처리
 
@@ -141,6 +141,17 @@ public class HomeController {
         model.addAttribute("emp", empInfo);
         return "/certification/" + cert;
     }
+    @GetMapping("/include/{include}")
+    public String goInclude(@PathVariable String include, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+
+        model.addAttribute("emp", empInfo);
+        return "/include/" + include;
+    }
+
+
 
 
 }
