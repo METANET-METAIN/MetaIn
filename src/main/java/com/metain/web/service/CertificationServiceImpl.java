@@ -309,10 +309,11 @@ public class CertificationServiceImpl implements CertificationService {
             options.setHeight(80);
             options.setLeft(100);
             options.setTop(100);
-            options.setPageNumber(1);
-            System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
-            System.out.print(" / 디지털서명함수 check 4" + options);
-            System.out.print(" 디지털서명함수 check 5 / ");
+            //options.setPageNumber(1);
+            System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() +"페이ㅣ지: "+ options.getPageNumber() + "페이지정보:"+ options.getAllPages());
+            System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : "+ options.getSignatureType());
+            System.out.println(" / 디지털서명함수 check 4" + options);
+            System.out.println(" 디지털서명함수 check 5 / ");
 
             // 파일에 문서 서명
             //signature.sign(filePath + filename, options);
