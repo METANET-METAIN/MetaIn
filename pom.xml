@@ -20,15 +20,29 @@
     </properties>
     <repositories>
 
-        <repository>
+<!--         <repository>
+
             <id>GroupDocsJavaAPI</id>
             <name>GroupDocs Java API</name>
             <url>https://repository.groupdocs.com/repo/</url>
-        </repository>
+        </repository> -->
+
+                <id>GroupDocs Artifact Repository</id>
+                <name>GroupDocs Artifact Repository</name>
+                <url>https://releases.groupdocs.com/java/repo/</url>
+            </repository>
+
+
     </repositories>
 
     <dependencies>
 
+
+<!--        <dependency>-->
+<!--            <groupId>com.groupdocs</groupId>-->
+<!--            <artifactId>groupdocs-signature</artifactId>-->
+<!--            <version>20.9</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.groupdocs</groupId>
@@ -37,12 +51,22 @@
         </dependency>
 
 
+
         <!-- AWS S3 설정 -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>2.15.9</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.groupdocs</groupId>-->
+<!--            <artifactId>groupdocs-signature</artifactId>-->
+<!--            <version>20.9</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+
+
 
 
         <dependency>
