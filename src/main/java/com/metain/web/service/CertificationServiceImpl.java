@@ -282,7 +282,7 @@ public class CertificationServiceImpl implements CertificationService {
 //            String resourcePath = servletContext.getRealPath("/WEB-INF/classes/test/converted.pdf");
 //            File resourceFile = new File( resourcePath );
 
-            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/certificate.pfx";
+            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/metaincert.pfx";
             String pdffilePath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/test/converted.pdf";
             String mountPath = "/metainfiles/";
 
@@ -303,7 +303,7 @@ public class CertificationServiceImpl implements CertificationService {
             DigitalSignOptions options = new DigitalSignOptions(certPath);
             System.out.print(" / 디지털서명함수 check 3" + options);
 
-            //options.setPassword("12345678900");
+            options.setPassword("12345678900");
             options.setVisible(true);
             options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
