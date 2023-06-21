@@ -35,6 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final PrincipalService principalService;
