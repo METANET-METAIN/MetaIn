@@ -138,10 +138,12 @@ public class MyPageController {
         System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
 
         //받아온 certId를 이용해서 파일이름 을 얻어오기
-        String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
+        //String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
+        String filename = "converted.pdf";
+        //System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
+        //Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);  //로컬용
+        Resource fileResource = new ClassPathResource("/metainfiles/converted.pdf");
 
-        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
-        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
 
         // 파일을 byte 배열로 읽어옴
         byte[] fileData = Files.readAllBytes(fileResource.getFile().toPath());

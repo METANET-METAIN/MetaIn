@@ -2,6 +2,7 @@ package com.metain.web.service;
 
 
 import com.groupdocs.signature.Signature;
+import com.groupdocs.signature.domain.SignatureFont;
 import com.groupdocs.signature.exception.GroupDocsSignatureException;
 import com.groupdocs.signature.options.sign.DigitalSignOptions;
 import com.metain.web.domain.*;
@@ -17,11 +18,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import javax.servlet.ServletContext;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.Base64;
 
 @Service
 public class CertificationServiceImpl implements CertificationService {
+
 
     //Mapper인터페이스 의존성주입
     @Autowired
@@ -31,6 +39,9 @@ public class CertificationServiceImpl implements CertificationService {
     private MyPageMapper myPageMapper;
 
     private final HrService hrService;
+
+    @Autowired
+    private ServletContext servletContext;
 
 
     @Autowired
@@ -239,13 +250,19 @@ public class CertificationServiceImpl implements CertificationService {
             contentStream.close();
             System.out.println("2!! pdf생성단계 ");
 
-            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/certPdfFile/";
+            //local용 경로
+            //String filePath = "src/main/resources/static/certPdfFile/";
+
+            //배포용 경로
+            String filePath = "/metainfiles/";
+
             String fileName = "converted.pdf";
             // PDF 파일 저장
             document.save(filePath + fileName);
             document.close();
             System.out.println("3!! PDF 전환 및 저장 완료");
         }
+
 
     }
 
@@ -255,33 +272,54 @@ public class CertificationServiceImpl implements CertificationService {
 
         try {
 
-            System.out.print(" 디지털서명함수 check 1 /");
+            System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?"+filename +" /");
 
-            String filePath = "src/main/resources/static/certPdfFile/";
 
-            Signature signature = new Signature(filePath + "converted.pdf");
+            //로컬용 경로
+            //String filePath = "src/main/resources/static/certPdfFile/";
+
+
+//            String resourcePath = servletContext.getRealPath("/WEB-INF/classes/test/converted.pdf");
+//            File resourceFile = new File( resourcePath );
+
+            String certPath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/certification/newcert.pfx";
+            String pdffilePath = "/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/test/converted.pdf";
+            String mountPath = "/metainfiles/";
+
+            Signature signature = new Signature(pdffilePath);
             System.out.print(" / 디지털서명함수 check 2" + signature);
 
 
-// 디지털 서명 옵션 정의
-            String certPath = "src/main/resources/certification/";
-            DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
+            //배포용 인증서경로
+            //String certPath = "src/main/resources/certification/";
+            //String certPath = "/certification/";  //-배포용
+
+            // 디지털 서명 옵션 정의
+            //DigitalSignOptions options = new DigitalSignOptions(certPath + "metacert.pfx");
+
+            //String certPath = "/resources/certification/";
+            //DigitalSignOptions options = new DigitalSignOptions(certPath + "metain.pfx");
+            //DigitalSignOptions options = new DigitalSignOptions(certPath + "certificate.pfx");
+            DigitalSignOptions options = new DigitalSignOptions(certPath);
             System.out.print(" / 디지털서명함수 check 3" + options);
+
             options.setPassword("12345678900");
             options.setVisible(true);
-            options.setImageFilePath(filePath + "metain-sign-Image.png");
+            options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
             options.setWidth(80);
             options.setHeight(80);
-            options.setLeft(370);
-            options.setTop(650);
+            options.setLeft(100);
+            options.setTop(100);
             options.setPageNumber(1);
-            System.out.print("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth());
-            System.out.print(" 디지털서명함수 check 4 / ");
-
+            System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() +"페이ㅣ지: "+ options.getPageNumber() + "페이지정보:"+ options.getAllPages());
+            System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : "+ options.getSignatureType());
+            System.out.println(" / 디지털서명함수 check 4" + options);
+            System.out.println(" 디지털서명함수 check 5 / ");
 
             // 파일에 문서 서명
-            signature.sign(filePath + filename, options);
-            System.out.print(" 디지털서명함수 check 5 FINAL / ");
+            //signature.sign(filePath + filename, options);
+            signature.sign(mountPath + filename, options); //저장경로, 사인옵션 파라미터
+            System.out.print(" 디지털서명함수 check 6 FINAL / ");
         } catch (Exception e) {
             System.out.print("에러기록 : " + e.toString());
             throw new GroupDocsSignatureException(e.toString());
