@@ -48,7 +48,7 @@ public class AmazonS3Controller {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        String uploadedUrl = awsS3Service.uploadS3File(file);
+        String uploadedUrl = awsS3Service.uploadS3File(file, file.getName());
         return ResponseEntity.ok(uploadedUrl);
     }
 }

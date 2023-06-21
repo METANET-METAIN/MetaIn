@@ -117,8 +117,6 @@ public class MyPageServiceImpl implements MyPageService{
         }else return list;
 
     }
-
-
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
@@ -144,7 +142,8 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
-        awsS3Service.uploadS3File(file);
+        awsS3Service.uploadS3File(file, savedImgName);
+
 
 
 
@@ -152,4 +151,6 @@ public class MyPageServiceImpl implements MyPageService{
 
         myPageMapper.updateMyPage(dbemp);
     }
+
+
 }
