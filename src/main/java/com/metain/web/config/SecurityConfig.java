@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -18,10 +19,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity// Spring Security 설정할 클래스라고 정의
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//
 
     @Autowired
     public SecuritySuccessHandler authenticationSuccessHandler;

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <title>File Upload</title>
+</head>
+<body>
+<h2>File Upload</h2>
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+  <input type="file" name="file" id="fileInput" />
+  <button type="submit">Upload</button>
+</form>
+
+<h2>File Update</h2>
+<form id="updateForm" method="post" enctype="multipart/form-data">
+  <input type="file" name="file" id="updateFileInput" />
+  <input type="hidden" name="url" id="updateUrlInput" />
+  <button type="submit">Update</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // 파일 업로드 요청
+
+  var header = $("meta[name='_csrf_header']").attr('content');
+  var token = $("meta[name='_csrf']").attr('content');
+
+  $(document).ajaxSend(function(e,xht,op){
+    xht.setRequestHeader(header ,token);
+  });
+  $(document).on('submit', '#uploadForm', function (e) {
+    e.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+    $.ajax({
+      url: '/include/upload',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log('Upload success:', response);
+        // 업로드 성공 시 추가 작업 수행
+        // ...
+      },
+      error: function (xhr, status, error) {
+        console.error('Upload error:', error);
+        // 업로드 실패 시 처리 방법
+        // ...
+      }
+    });
+  });
+
+  // 파일 업데이트 요청
+  $(document).on('submit', '#updateForm', function (e) {
+    e.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+    $.ajax({
+      url: '/include/update',
+      type: 'PUT',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log('Update success:', response);
+        // 업데이트 성공 시 추가 작업 수행
+        var updatedUrl = response;
+        $('#updatedUrl').text('Updated URL: ' + updatedUrl);
+      },
+      error: function (xhr, status, error) {
+        console.error('Update error:', error);
+        // 업데이트 실패 시 처리 방법
+        var errorMessage = xhr.responseText;
+        $('#updateError').text('Update failed: ' + errorMessage);
+      }
+    });
+  });
+</script>
+</body>
+</html>
