@@ -36,19 +36,6 @@ public class PrincipalDetails implements UserDetails {
     }
 
 
-
-
-//    private ArrayList<Emp> emp;
-//
-//    // 생성자 만들기
-//    public PrincipalDetails(ArrayList<Emp> empAuthes) {
-//        if (empAuthes == null || empAuthes.size() == 0) {
-//            throw new IllegalArgumentException("Emp: null or empty");
-//        }
-//        this.emp = empAuthes;
-//    }
-
-
     /***
      * getAuthorities()
      * 사용자가 가진 권한을 설정하는 역할
@@ -68,18 +55,6 @@ public class PrincipalDetails implements UserDetails {
         return authorities;
     }
 
-
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//
-//        for(int x=0; x<emp.size(); x++) {
-//            authorities.add(new SimpleGrantedAuthority(emp.get(x).getRoleName()));
-//        }
-//
-//        return authorities;
-//    }
 
 
     /***

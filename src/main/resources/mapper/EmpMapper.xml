@@ -8,13 +8,8 @@
                TBL.EMP_GRADE, TBL.EMP_BIRTH, TBL.EMP_PHONE, TBL.EMP_ADDR,
                TBL.EMP_ZIPCODE, TBL.EMP_DETAIL_ADDR, TBL.EMP_EMAIL, TBL.EMP_STATUS,
                TBL.EMP_FIRST_DT, TBL.EMP_LAST_DT, TBL.EMP_VAC
---                ,
---                TR.ROLE_NAME
         FROM TBL_EMPLOYEE TBL
---         INNER JOIN TBL_USER_ROLE TUR
---         ON TBL.EMP_ID = TUR.EMP_ID
---         INNER JOIN TBL_ROLE TR
---         ON TUR.ROLE_ID = TR.ROLE_ID
+
         WHERE EMP_SABUN = #{empSabun};
     </select>
 
@@ -122,7 +117,7 @@
     </insert>
     <update id="updateEmp" parameterType="Emp">
         update TBL_EMPLOYEE
-        set EMP_STATUS = #{empStatus} , EMP_GRADE= #{empGrade}, EMP_DEPT= #{empDept}, EMP_PROFILE = #{empProfile}
+        set EMP_STATUS = #{empStatus} , EMP_GRADE= #{empGrade}, EMP_DEPT= #{empDept}
         where EMP_ID = #{empId}
     </update>
 

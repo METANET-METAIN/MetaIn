@@ -22,6 +22,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static com.metain.web.domain.Role.*;
+
 @Service
 @RequiredArgsConstructor
 public class HrServiceImpl implements HrService {
@@ -45,23 +48,21 @@ public class HrServiceImpl implements HrService {
         emp.setRoleName(String.valueOf(statusRole));
     }
 
-    private Role fromGrade(String grade) {
-        switch (grade) {
-            case "관리자":
-                return Role.ADMIN;
-            case "사원":
-                return Role.EMPLOYEE;
-            case "대리":
-                return Role.ASSISTANT;
-            case "과장":
-                return Role.MANAGER;
-            case "차장":
-                return Role.DEPUTY;
-            case "인사관리":
-                return Role.HR;
-            default:
-                throw new IllegalArgumentException("Invalid grade: " + grade);
+    private Role fromGrade(Long roleId) {
+        if (roleId == 6L) {
+            return ADMIN;
+        } else if (roleId == 1L) {
+            return EMPLOYEE;
+        } else if (roleId == 2L) {
+            return ASSISTANT;
+        } else if (roleId == 3L) {
+            return MANAGER;
+        } else if (roleId == 4L) {
+            return DEPUTY;
+        } else if (roleId == 5L) {
+            return HR;
         }
+        throw new IllegalArgumentException("Invalid grade: " + roleId);
     }
 
 
