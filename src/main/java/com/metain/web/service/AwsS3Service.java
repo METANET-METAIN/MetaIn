@@ -40,8 +40,8 @@ public class AwsS3Service {
 
         // 파일 업로드
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucket+ "/" + path )
-                .key(fileName)
+                .bucket(bucket)
+                .key(path + "/" + fileName)
                 .build();
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(s3File.getBytes()));
 

@@ -137,19 +137,18 @@
 
     </head>
     <body>
-    <body>
-    <div class="pre-loader">
-        <div class="pre-loader-box">
-            <div class="loader-logo">
-                <img src="/vendors/images/logo.png" alt="" />
-            </div>
-            <div class="loader-progress" id="progress_div">
-                <div class="bar" id="bar1"></div>
-            </div>
-            <div class="percent" id="percent1">0%</div>
-            <div class="loading-text">Loading...</div>
-        </div>
-    </div>
+<!--    <div class="pre-loader">-->
+<!--        <div class="pre-loader-box">-->
+<!--            <div class="loader-logo">-->
+<!--                <img src="/vendors/images/logo.png" alt="" />-->
+<!--            </div>-->
+<!--            <div class="loader-progress" id="progress_div">-->
+<!--                <div class="bar" id="bar1"></div>-->
+<!--            </div>-->
+<!--            <div class="percent" id="percent1">0%</div>-->
+<!--            <div class="loading-text">Loading...</div>-->
+<!--        </div>-->
+<!--    </div>-->
     <script th:inline="javascript">
 
         const empId = [[${emp.empId}]] ;
@@ -522,7 +521,7 @@
         </div>
         <div class="menu-block customscroll">
             <div class="sidebar-menu">
-                <ul id="accordion-menu">
+                <li id="accordion-menu">
                     <li >
 
                         <a href="/index" class="dropdown-toggle no-arrow active">
@@ -532,10 +531,12 @@
                         </a>
                     </li>
                     <li class="dropdown">
+                        <li th:if="${emp.empGrade == 'ADMIN'}">
                         <a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-textarea-resize"></span
                                     ><span class="mtext">휴가관리</span>
                         </a>
+                        </li>
                         <ul class="submenu">
                             <li><a href="/vacation/vacation-list"> 전체 목록</a></li>
                             <li><a id="apply-html-alert"> 신청하기
@@ -565,13 +566,13 @@
                             <li><a href="/mypage/alarm"> 알림함 </a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li th:if="${emp.empGrade == 'ADMIN'}">
                         <a href="/vacation/vacation-req-list" class="dropdown-toggle no-arrow">
 									<span class="micon bi bi-calendar4-week"></span
                                     ><span class="mtext">요청된 휴가 목록</span>
                         </a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" th:if="${emp.empGrade == 'HR'}">
                         <a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-textarea-resize"></span
                                     ><span class="mtext">인사관리</span>
@@ -582,7 +583,7 @@
                             <li><a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
                             <li><a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
                         </ul>
-                    </ul>
+                    </li>
                 </div>
             </div>
         </div>
