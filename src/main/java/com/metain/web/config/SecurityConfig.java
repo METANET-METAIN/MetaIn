@@ -97,13 +97,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
-
-                //접근이 거부된 경우 이동할 페이지 설정
+                //접근이 거부된 경우 이동할 페이지  설 정
         http
                 .exceptionHandling()
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                         // 페이지 이동
-                        response.sendRedirect("error/404"));
+                        response.sendRedirect("error/access-denied"));
 
         http
                 .sessionManagement()

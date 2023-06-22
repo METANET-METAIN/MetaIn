@@ -30,8 +30,15 @@ public class ExceptionController implements ErrorController {
             // 500 오류 페이지를 반환
             return "error/500";
         }
+//        else if (statusCode == HttpStatus.)
 
         // 기본 오류 페이지를 반환
         return "error/500";
     }
+
+    @RequestMapping("/access-denied")
+    public String handleAccessDeniedError() {
+        return "error/404"; // 접근 거부 페이지로 이동
+    }
+
 }
