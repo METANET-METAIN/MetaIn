@@ -240,16 +240,16 @@ public class CertificationServiceImpl implements CertificationService {
         //s3가져오는 방식
         String pfxObjectKey = "ProfMoriarty.pfx";
         String pdfObjectKey = "certification/converted.pdf";
-        String signObjectKey = "certification/metain-sign-Image.png";
+        //String signObjectKey = "certification/metain-sign-Image.png";
 
-        //String mountPath = "/metainfiles/";- 배포할때
+        String mountPath = "/metainfiles/metain-sign-Image.png";
 
         try {
             InputStream pfxInputStream = awsS3Service.getFileInputStreamFromS3(pfxObjectKey);
 
             InputStream pdfInputStream = awsS3Service.getFileInputStreamFromS3(pdfObjectKey);
 
-            InputStream signInputStream = awsS3Service.getFileInputStreamFromS3(signObjectKey);
+            //InputStream signInputStream = awsS3Service.getFileInputStreamFromS3(signObjectKey);
 
 
             // 서명된 파일을 저장할 OutputStream 생성
@@ -267,7 +267,8 @@ public class CertificationServiceImpl implements CertificationService {
             options.setPassword("1234567890");
             options.setVisible(true);
             //options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
-            options.setImageStream(signInputStream);
+            options.setImageFilePath(mountPath);
+            //options.setImageStream(signInputStream);
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
