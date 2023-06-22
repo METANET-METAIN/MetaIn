@@ -58,7 +58,9 @@
               <div class="profile-photo">
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
-                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}?timestamp=<%= System.currentTimeMillis() %>" alt="" th:name="empProfile" class="avatar-photo">
+<!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
+                </a><img id="empProfile" th:src="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+<!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
               </div>
 
                 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
@@ -118,10 +120,10 @@
                         </div>
                         <div class="modal-body" style="text-align: left">
                           <p><strong>비밀번호 변경</strong></p>
-                          <input class="form-control" type="password" value="empPwd1" name="empPwd1" id="empPwd1">
+                          <input class="form-control" type="password"  name="empPwd1" id="empPwd1">
                           <p id="checkPwd1Message"></p>
                           <p><strong>비밀번호 확인</strong></p>
-                          <input class="form-control" type="password" value="empPwd2" name="empPwd2" id="empPwd2">
+                          <input class="form-control" type="password"  name="empPwd2" id="empPwd2">
                           <p id="checkPwd2Message"></p>
                           <hr>
                         </div>
@@ -228,6 +230,50 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+  function updateMyPage() {
+    var empId = document.getElementById('empId').value;
+    var empPwd = document.getElementById('empPwd').value;
+    var empAddr = document.getElementById('empAddr').value;
+    var empPhone = document.getElementById('empPhone').value;
+    var empZipcode = document.getElementById('empZipcode').value;
+    var empDetailAddr = document.getElementById('empDetailAddr').value;
+    var empProfile = document.getElementById('empProfile').files[0];
+
+    if(!empId || !empPwd || !empAddr || !empPhone || !empZipcode || !empDetailAddr || !empProfile) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    var allowedExtensions = ['.jpg', '.jpeg', '.png'];
+    var fileExtension = empProfile.name.substring(empProfile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert('올바른 이미지 파일을 선택해주세요.');
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append('empId', empId);
+    formData.append('empPwd', empPwd);
+    formData.append('empAddr', empAddr);
+    formData.append('empPhone', empPhone);
+    formData.append('empZipcode', empZipcode);
+    formData.append('empDetailAddr', empDetailAddr);
+    formData.append('empProfile', empProfile);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/updateMy', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          alert('업데이트가 완료되었습니다.');
+          // 추가적인 동작 수행
+        } else {
+          alert('업데이트 실패: ' + xhr.responseText);
+        }
+      }
+    };
+    xhr.send(formData);
+  }
   // function updatePro(file) {
   //   var formData = new FormData();
   //   formData.append('empProfile', file);
@@ -257,16 +303,16 @@
   }
 
 
-  function handleFileSelection(event) {
-    const file = event.target.files[0];
-    const empProfile = document.getElementById('empProfile');
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      empProfile.src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-  }
+  // function handleFileSelection(event) {
+  //   const file = event.target.files[0];
+  //   const empProfile = document.getElementById('empProfile');
+  //   const reader = new FileReader();
+  //
+  //   reader.onload = function(e) {
+  //     empProfile.src = e.target.result;
+  //   }
+  //   reader.readAsDataURL(file);
+  // }
 
 
   $(document).on("change", "#sign-up-add-image2", function(){ //주황색

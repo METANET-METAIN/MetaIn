@@ -5,7 +5,28 @@
 		<section id="wrap">
 		</section>
 	</th:block>
+	<style>
+		#newcard::-webkit-scrollbar {
+			width: 8px;
+			background-color: transparent;
+		}
 
+		#newcard::-webkit-scrollbar-thumb {
+			background-color: transparent;
+		}
+	</style>
+	<div class="pre-loader">
+		<div class="pre-loader-box">
+			<div class="loader-logo">
+				<img src="/vendors/images/logo.png" alt="" />
+			</div>
+			<div class="loader-progress" id="progress_div">
+				<div class="bar" id="bar1"></div>
+			</div>
+			<div class="percent" id="percent1">0%</div>
+			<div class="loading-text">Loading...</div>
+		</div>
+	</div>
 	<div class="mobile-menu-overlay"></div>
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
@@ -15,8 +36,6 @@
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 				</div>
-				<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
-				<label class="col-sm-12 col-md-2 col-form-label">이름</label>
 
 <!--				<span th:utext="${empId}"></span>-->
 				<div class="col-sm-12 col-md-7">
@@ -30,6 +49,7 @@
 <!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
 				</div>
 			</div>
+			<div>
 				<div class="pd-ltr-12 xs-pd-20-10">
 					<div class="pd-20 card-box mb-30">
 						<div class="calendar-wrap">
@@ -210,6 +230,10 @@
 		</div>
 	</div>
 </div>
+	<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+		<section id="footer">
+		</section>
+	</th:block>
 		<script src="vendors/scripts/dashboard3.js"></script>
 		<script src="src/plugins/fullcalendar/fullcalendar.min.js"></script>
 		<script src="vendors/scripts/calendar-setting.js"></script>
@@ -217,9 +241,6 @@
 
 			// CSRF 토큰 값 가져오기
 			const csrfToken = document.querySelector('input[name="_csrf"]').value;
-			console.log('토큰값이다!!!!' + csrfToken);
-			console.log('토큰값이다!!!!' + csrfToken.empName);
-			//console.log('토큰값이다!!!!' + emp);
 		</script>
 
 		<script th:inline="javascript">
@@ -295,10 +316,10 @@
 							$(".col.clearfix").append(newCard);
 						});
 					},
-					error: function(xhr, status, error) {/*
+					error: function(xhr, status, error) {
 						var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
 								"우리 팀에 예정된 휴가가 없어요 " +'</span>');
-						$('.user-list').append(teamList);*/
+						$('.user-list').append(teamList);
 					}
 				});//아작스 끝
 

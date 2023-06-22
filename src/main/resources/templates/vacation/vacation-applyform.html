@@ -117,7 +117,7 @@
 
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
-<script>
+<script th:inline="javascript">
   // 유효성 검사
   $('input[type="submit"]').on('click', function (event) {
     var vacType = $('#vacType').val(); // 유형
@@ -160,23 +160,8 @@
         confirmButtonColor: 'grey',
         confirmButtonText: '확인'
       });
-    }else {
-      event.preventDefault();
-      Swal.fire({
-        title: '신청 완료 !',
-        text: '휴가가 신청되었습니다.',
-        icon: 'success',
-        confirmButtonColor: 'green',
-        confirmButtonText: '확인'
-      }).then(function () {
-        event.preventDefault();
-        window.location.href = 'vacation-list';
-      });
     }
   });
-</script>
-
-<script th:inline="javascript">
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
   console.log(count)
   $('input[type="date"]').on('change', function (event) {

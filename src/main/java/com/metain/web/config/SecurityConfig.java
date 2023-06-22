@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -18,10 +19,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity// Spring Security 설정할 클래스라고 정의
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//
 
     @Autowired
     public SecuritySuccessHandler authenticationSuccessHandler;
@@ -49,19 +54,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
-                .antMatchers("/", "/index").authenticated()
+                .antMatchers("/", "/index").hasAnyAuthority("ACTIVE", "RETIREE")
 //                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE")
-                .antMatchers("/certification/**").hasAnyAuthority("ACTIVE")
+
+                .antMatchers("/mypage/update-mypage", "/mypage/alarm").hasAnyAuthority("ACTIVE")
+                .antMatchers("/mypage/my-cert-list", "/mypage/my-cert-list/*").hasAnyAuthority("ACTIVE", "RETIREE")
+                .antMatchers("/mypage/my-vac-list", "/mypage/my-vac-list/*").hasAnyAuthority("ACTIVE")
+
+                .antMatchers("/certification/emp-cert-apply", "/certification/emp-cert-show").hasAnyAuthority("ACTIVE")
+                .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE")
+                .antMatchers("/certification/retire-cert-apply", "/certification/retire-cert-show").hasAnyAuthority("RETIREE")
+
+//                .antMatchers("/vacation/vacation-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+//                .antMatchers("/vacation/vacation-detail").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/emp-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").hasAnyAuthority("ACTIVE")
+
                 .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
-//                .antMatchers("/vacation/request-vacation").access("hasAnyAuthority('ADMIN') and hasAnyAuthority('ACT')")
+//                .antMatchers("/vacation/vacation-req-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
-                .antMatchers("/hr/**").hasAnyAuthority("ACTIVE")
+
+
+//                .antMatchers("/hr/emp-list").access("hasAnyAuthority('HR', 'ADMIN', 'DEPUTY') and hasAuthority('ACTIVE')")
+//                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").access("hasAuthority('HR') and hasAuthority('ACTIVE')")
                 .anyRequest().permitAll();
 
         http
@@ -89,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                         // 페이지 이동
-                        response.sendRedirect("/index"));
+                        response.sendRedirect("/error/404"));
 
         http
                 .sessionManagement()
@@ -114,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //파일을 접근 가능하게 처리하는 소스 입력
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/**/favicon.ico");
     }
 
     @Bean

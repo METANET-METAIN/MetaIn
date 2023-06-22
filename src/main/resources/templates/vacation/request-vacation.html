@@ -56,11 +56,11 @@
                         <div class="form-group row" style="margin-bottom: 25px;">
                             <label class="col-sm-12 col-md-2 col-form-label" >휴가 기간 </label>
                             <div class="col-sm-12 col-md-3">
-                                <input class="form-control date-picker" th:value="${vac.getVacStartDate()}" readonly>
+                                <input class="form-control" th:value="${vac.getVacStartDate()}" readonly>
                             </div>
                             <p> ~ </p>
                             <div class="col-sm-12 col-md-3">
-                                <input class="form-control date-picker" th:value="${vac.getVacEndDate()}" readonly>
+                                <input class="form-control" th:value="${vac.getVacEndDate()}" readonly>
                             </div>
                             <div class="col-sm-12 col-md-3">
                                 총 <b><span th:text="${diff}"/> 일</b> 선택<br>
@@ -73,7 +73,14 @@
                                 <input class="form-control" th:value="${vac.getVacResn()}" readonly type="text">
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-7" th:if="${vac.fileName != null and vac.fileName != '0'}">
 
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-md-2 col-form-label"> 첨부파일 </label>
+                                <a th:href="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/' + ${vac.fileName}}">클릭시 다운로드</a>
+                            </div>
+
+                        </div>
 
                         <div class="form-group row" style="height: 150px;">
                             <label class="col-sm-12 col-md-2 col-form-label"> 결재라인 </label>
@@ -148,41 +155,48 @@
         xht.setRequestHeader(header ,token);
     });
     function approveVacationRequest() {
-        //승인 아작스
-        $.ajax({
+        if (confirm("승인 하시겠습니까? ")) {
 
-            type: "POST",
-            url: "/vacation/approveVacationRequest",
-            data:JSON.stringify(requestData),
-            dataType: 'text',
-            contentType: 'application/json;charset=utf-8',
-            success: function(response) {
-                console.log(response)
-                window.location.pathname = "/vacation/vacation-req-list";
-                document.querySelector(".btn-primary").disabled = true;
+            //승인 아작스
+            $.ajax({
+
+                type: "POST",
+                url: "/vacation/approveVacationRequest",
+                data: JSON.stringify(requestData),
+                dataType: 'text',
+                contentType: 'application/json;charset=utf-8',
+                success: function (response) {
+                    console.log(response)
+                    alert("승인되었습니다.!")
+                    window.location.pathname = "/vacation/vacation-req-list";
+                    document.querySelector(".btn-primary").disabled = true;
                 },
-            error: function(error) {
-                console.log(JSON.stringify(error));
-            }
-        });//ajax
+                error: function (error) {
+                    console.log(JSON.stringify(error));
+                }
+            });//ajax
+        }
     }
     function rejectVacationRequest() {
-        //거절버튼 아작스
-        $.ajax({
-            type: "POST",
-            url: "/vacation/rejectVacationRequest",
-            data:JSON.stringify(requestData),
-            dataType: 'text',
-            contentType: 'application/json;charset=utf-8',
-            success: function(response) {
-                window.location.pathname = "/vacation/vacation-req-list";
-                document.querySelector(".btn-primary").disabled = true;
+        if (confirm("반려 하시겠습니까? ")) {
+            //거절버튼 아작스
+            $.ajax({
+                type: "POST",
+                url: "/vacation/rejectVacationRequest",
+                data: JSON.stringify(requestData),
+                dataType: 'text',
+                contentType: 'application/json;charset=utf-8',
+                success: function (response) {
+                    alert("반려 되었습니다!")
+                    window.location.pathname = "/vacation/vacation-req-list";
+                    document.querySelector(".btn-primary").disabled = true;
 
-            },
-            error: function(error) {
-                console.log(JSON.stringify(error));
-            }
-        });
+                },
+                error: function (error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+        }
     }
 
 </script>

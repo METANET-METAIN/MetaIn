@@ -32,6 +32,8 @@ public class CertificationController {
     private CertificationService certificationService;
 
 
+
+
     @Autowired
     private MyPageService myPageService;
     @Autowired
@@ -48,7 +50,6 @@ public class CertificationController {
 //        return "/certification/emp-cert-show";
 //    }
 
-
     //테스트apply 페이지 연결요청 및 데이터 보내기 테스트
     @RequestMapping(path = {"/emp-cert-apply", "/exper-cert-apply", "/retire-cert-apply"})
     public String empCertApply(HttpServletRequest request, Model model, Authentication auth) {
@@ -58,22 +59,8 @@ public class CertificationController {
         //Emp empInfo = hrService.selectEmpInfo(empId); //로그인해져있는 empId넣어서 emp객체 빼오기
         Emp empInfo = certificationService.getEmpInfoList(empId);
 
-
         // 요청 URL 가져오기
         String requestUrl = request.getRequestURI();
-
-
-        // 사원의 정보를 데이터베이스에서 조회해서 가져오는 로직
-        //Long empId = 108L; //테스트 empId값 (로그인기능완료후 세션값에서 받아오도록 수정하기)
-//        System.out.println("empInfoList 객체 생성 전");
-//        Emp empInfoList = certificationService.getEmpInfoList(empId);
-//        System.out.println("empInfoList 객체 생성 후 " + empInfoList);
-
-//        if (empInfoList == null) {
-//            // 처리할 로직이 없는 경우
-//            return "index"; // 에러 페이지로 이동하거나 다른 처리를 수행
-//        }
-//        model.addAttribute("empInfoList", empInfoList);
 
         if (empInfo == null) {
             // 처리할 로직이 없는 경우
@@ -83,7 +70,6 @@ public class CertificationController {
             model.addAttribute("emp", empInfo);
             System.out.println("empInfoList 객체 생성 후 " + empInfo);
         }
-
 
         // 요청 URL에 따른 처리
         if (requestUrl.equals("/certification/emp-cert-apply")) {
@@ -189,11 +175,13 @@ public class CertificationController {
         //저장된 pdf파일에 전자서명 추가하기
         try {
             System.out.println("catch문 탔나?????");
+            System.out.println("filename도 넘어왔나??"+ filename);
             certificationService.signPdf(filename);
             System.out.println("4!! 디지털서명 완료");
             //return "success";
         } catch (Exception e) {
             System.out.println("디지털서명 실패 ");
+            System.out.print("에러기록 : " + e.toString());
             e.printStackTrace();
             //return "error";
         }

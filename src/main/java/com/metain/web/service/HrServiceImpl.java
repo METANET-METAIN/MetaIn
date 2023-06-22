@@ -35,39 +35,6 @@ public class HrServiceImpl implements HrService {
     @Autowired
     private AlarmService alarmService;
 
-    private void roleBasedOnGradeAndStatus(Emp emp) {
-        String empGrade = emp.getEmpGrade();
-        Role gradeRole = Role.fromGrade(empGrade);
-        emp.setRoleName(String.valueOf(gradeRole));
-
-        String empStatus = emp.getEmpStatus();
-        Role statusRole = Role.fromStatus(empStatus);
-        emp.setRoleName(String.valueOf(statusRole));
-    }
-
-    private Role fromGrade(String grade) {
-        switch (grade) {
-            case "관리자":
-                return Role.ADMIN;
-            case "사원":
-                return Role.EMPLOYEE;
-            case "대리":
-                return Role.ASSISTANT;
-            case "과장":
-                return Role.MANAGER;
-            case "차장":
-                return Role.DEPUTY;
-            case "인사관리":
-                return Role.HR;
-            default:
-                throw new IllegalArgumentException("Invalid grade: " + grade);
-        }
-    }
-
-
-
-
-
     private static final Logger logger = LoggerFactory.getLogger(HrServiceImpl.class);
 
     // 생년월일을 사용하여 비밀번호 생성
@@ -165,13 +132,6 @@ public class HrServiceImpl implements HrService {
         }
         return 0;
     }
-
-
-    @Override
-    public int updateEmp(Emp emp) {
-        return 0;
-    }
-
 
     @Override
     public List<Emp> selectAll() {

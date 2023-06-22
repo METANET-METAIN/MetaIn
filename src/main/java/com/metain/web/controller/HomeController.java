@@ -38,7 +38,7 @@ public class HomeController {
 
         if (empList != null) {
             model.addAttribute("emp", empList);
-            System.out.println("home : " + empList);
+            //System.out.println("home : " + empList);
             return "index";
         }
         return null;
@@ -48,13 +48,13 @@ public class HomeController {
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
         Long EmpId = principalDetails.getEmpId();
         Emp empList =  hrService.selectEmpInfo(EmpId);
-
+        //System.out.println(empList);
         if (empList != null) {
             model.addAttribute("emp", empList);
-            System.out.println("home : " + empList);
+            //System.out.println("home : " + empList);
             return "index";
         }
-        return null;
+        return "error/404";
     }
 // 유효하지 않은 경우에 대한 처리
 
@@ -105,7 +105,7 @@ public class HomeController {
         Long empId= principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
         model.addAttribute("emp", empInfo);
-        System.out.println(empInfo);
+        //System.out.println(empInfo);
 
         model.addAttribute("emp", empInfo);
 
@@ -117,7 +117,7 @@ public class HomeController {
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
-        System.out.println(mypage);
+        //System.out.println(mypage);
         model.addAttribute("emp", empInfo);
         return "/mypage/" + mypage;
     }
@@ -141,6 +141,17 @@ public class HomeController {
         model.addAttribute("emp", empInfo);
         return "/certification/" + cert;
     }
+    @GetMapping("/include/{include}")
+    public String goInclude(@PathVariable String include, Model model, Authentication auth) {
+        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+        Long empId= principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+
+        model.addAttribute("emp", empInfo);
+        return "/include/" + include;
+    }
+
+
 
 
 }

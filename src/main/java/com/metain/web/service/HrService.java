@@ -8,11 +8,6 @@ import java.util.List;
 
 public interface HrService {
 
-
-
-    //public Emp login(Emp emp);
-
-
     //신입사원 등록
     public int insertNewEmp(NewEmp newEmp);
 
@@ -22,13 +17,9 @@ public interface HrService {
 
     public List<Emp> selectAll();
 
-    public int updateEmp(Emp emp);
 
     public Emp selectEmpInfo(Long empId);
-
-    //    //신입사원 승인
-//    public int confirmNewEmp(List<NewEmp> newEmp, Emp emp);
-    //신입사원 승인
+   //신입사원 승인
     public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp);
 
     List<Emp> newEmp();

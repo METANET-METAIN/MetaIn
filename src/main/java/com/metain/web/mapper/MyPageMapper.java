@@ -17,16 +17,6 @@ public interface MyPageMapper {
     /**휴가 신청 현황 조회*/
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
 
-    /**휴가 신청 현황 상세 조회*/
-    public Vacation myVacDetail(Long vacId);
-
-    /**휴가 신청 수정*/
-    public List<MyVacDTO> updateMyVac(MyVacDTO myVacDTO);
-
-
-    /**증명서 발급 내역 조회*/
-
-//    public List<MyCertDTO> selectIssueAll();
 
     /**나의 재직 증명서 발급 내역 조회*/
     public List<EmpCert> selectMyEmpCert(Long empId);
@@ -46,13 +36,6 @@ public interface MyPageMapper {
     public int updateEmpIssueStatus(Long certId);
     public int updateExperIssueStatus(Long certId);
     public int updateRetireIssueStatus(Long certId);
-
-//    /**증명서 다운로드*/ 보류
-//    public int certDownload(Long issueId);
-
-    /**알람 리스트 확인*/
-    public List<Notification> selectListNoti(Long notiId);
-
 
     List<MyVacDTO> myVacList(Long empId);
 
