@@ -50,7 +50,6 @@ public class CertificationController {
 //        return "/certification/emp-cert-show";
 //    }
 
-
     //테스트apply 페이지 연결요청 및 데이터 보내기 테스트
     @RequestMapping(path = {"/emp-cert-apply", "/exper-cert-apply", "/retire-cert-apply"})
     public String empCertApply(HttpServletRequest request, Model model, Authentication auth) {

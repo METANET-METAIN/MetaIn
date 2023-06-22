@@ -65,17 +65,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE")
                 .antMatchers("/certification/retire-cert-apply", "/certification/retire-cert-show").hasAnyAuthority("RETIREE")
 
-                .antMatchers("/vacation/vacation-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-                .antMatchers("/vacation/vacation-detail").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+//                .antMatchers("/vacation/vacation-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+//                .antMatchers("/vacation/vacation-detail").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+                .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
+                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/emp-list").hasAnyAuthority("ACTIVE")
+                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").hasAnyAuthority("ACTIVE")
+
                 .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-req-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+//                .antMatchers("/vacation/vacation-req-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
 
 
-                .antMatchers("/hr/emp-list").access("hasAnyAuthority('HR', 'ADMIN', 'DEPUTY') and hasAuthority('ACTIVE')")
-                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").access("hasAuthority('HR') and hasAuthority('ACTIVE')")
+//                .antMatchers("/hr/emp-list").access("hasAnyAuthority('HR', 'ADMIN', 'DEPUTY') and hasAuthority('ACTIVE')")
+//                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").access("hasAuthority('HR') and hasAuthority('ACTIVE')")
                 .anyRequest().permitAll();
 
         http

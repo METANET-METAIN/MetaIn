@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
@@ -16,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.UUID;
 
@@ -27,6 +29,96 @@ public class AwsS3Service {
 //    @Value("${cloud.aws.s3.bucket}")
 //    private String bucket;
     private final String bucket = "metains3";
+
+    private final String bucketName = "metains3";
+    public InputStream getFileInputStreamFromS3(String objectKey) throws IOException {
+        try {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(objectKey)
+                    .build();
+
+            ResponseInputStream<?> responseInputStream = s3Client.getObject(getObjectRequest);
+            return responseInputStream;
+
+//            ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(getObjectRequest);
+//            byte[] objectBytes = responseBytes.asByteArray();
+//
+//            return new ByteArrayInputStream(objectBytes);
+
+        } catch (S3Exception e) {
+            // S3 예외 처리
+            throw new IOException("Failed to get file from S3.", e);
+        }
+    }
+
+    public void updateFileInS3(byte[] fileBytes, String objectKey) {
+
+        // 기존 객체 삭제
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+        s3Client.deleteObject(deleteRequest);
+
+        // 새로운 객체 업로드
+        PutObjectRequest putRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+        PutObjectResponse response = s3Client.putObject(putRequest, RequestBody.fromBytes(fileBytes));
+
+        // 업로드 결과 확인
+        System.out.println("Object updated. ETag: " + response.eTag());
+    }
+
+
+
+    public void uploadPDFToS3(byte[] fileContent, String objectKey) {
+
+        deleteFile("https://metains3.s3.ap-northeast-2.amazonaws.com/certification/converted.pdf");
+
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+
+        PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileContent));
+
+        System.out.println("File uploaded. ETag: " + putObjectResponse.eTag());
+    }
+    public void uploadCertToS3(byte[] fileContent, String filename) {
+
+        String objectKey = "certification";
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey + "/"+ filename)
+                .build();
+
+        PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileContent));
+
+        System.out.println("File uploaded. ETag: " + putObjectResponse.eTag());
+    }
+
+
+//    public String getCertFileUrl(String fileName) {
+//        try {
+//            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+//                    .bucket(bucketName)
+//                    .key(fileName)
+//                    .build();
+//
+//            ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(getObjectRequest);
+//            S3Object object = responseBytes.asResponse().asS3Object();
+//
+//            // Return the URL of the S3 object
+//            return object.presignedUrl(Instant.now().plus(Duration.ofMinutes(5))).toString();
+//        } catch (S3Exception e) {
+//            // Handle any exceptions thrown by the S3 client
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     /**
      * 파일을 Amazon S3에 업로드

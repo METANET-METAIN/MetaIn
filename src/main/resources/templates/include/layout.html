@@ -238,14 +238,14 @@
                                 $(".bell").append(alarmList);
                             },
                             error: function (request, status, error) {
-                                alert("ajax 실행 실패");
-                                alert("code:" + request.status + "\n" + "error :" + error);
+                               // alert("ajax 실행 실패");
+                                //alert("code:" + request.status + "\n" + "error :" + error);
                             }
                         });
                     },
                     error: function (request, status, error) {
-                        alert("ajax 실행 실패");
-                        alert("code:" + request.status + "\n" + "error :" + error);
+                        //lert("ajax 실행 실패");
+                        //alert("code:" + request.status + "\n" + "error :" + error);
                     }
                 });
             });
@@ -261,16 +261,8 @@
         <div class="header-left">
             <div class="menu-icon bi bi-list"></div>
 
-            <div class="header-search">
-                <form>
-
-                </form>
-            </div>
         </div>
         <div class="header-right">
-            <div class="dashboard-setting user-notification">
-
-            </div>
             <div class="user-notification">
                 <div class="dropdown">
                     <a
@@ -299,15 +291,15 @@
                             role="button"
                             data-toggle="dropdown"
                     >
-								<span class="user-icon">
+                        <span style="width:130px;margin-right: 25px;">
+								안녕하세요 <b><span th:text="${emp.empName}"/></b> 님
+						</span>
 
+						<span class="user-icon" style="margin-right: 20px;">
 									<img th:src="@{'/user/' + ${emp.empProfile}}" style="width: 50px; height: 50px;"
                                     />
-
-								</span>
+						</span>
                     </a>
-
-
                     <!-- 로그아웃  -->
                     <form id="logoutForm" th:action="@{/logout}" method="post">
                         <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}"/>
@@ -317,11 +309,6 @@
                             </a>
                         </div>
                     </form>
-
-
-
-
-
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                         <a class="dropdown-item">
                             <i class="dw dw-logout"></i>
@@ -333,172 +320,20 @@
         </div>
     </div>
 
-    <div class="right-sidebar">
-        <div class="sidebar-title">
-            <h3 class="weight-600 font-16 text-blue">
-                Layout Settings
-                <span class="btn-block font-weight-400 font-12"
-                >User Interface Settings</span
+<div class="right-sidebar">
+    <div class="sidebar-title">
+
+    </div>
+    <div class="right-sidebar-body customscroll">
+        <div class="right-sidebar-body-content"> <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
+            <div class="sidebar-btn-group pb-30 mb-10">
+                <a
+                        href="javascript:void(0);"
+                        class="btn btn-outline-primary sidebar-light active"
+                >White</a
                 >
-            </h3>
-            <div class="close-sidebar" data-toggle="right-sidebar-close">
-                <i class="icon-copy ion-close-round"></i>
             </div>
-        </div>
-        <div class="right-sidebar-body customscroll">
-            <div class="right-sidebar-body-content">
-                <h4 class="weight-600 font-18 pb-10">Header Background</h4>
-                <div class="sidebar-btn-group pb-30 mb-10">
-                    <a
-                            href="javascript:void(0);"
-                            class="btn btn-outline-primary header-white active"
-                    >White</a
-                    >
-                    <a
-                            href="javascript:void(0);"
-                            class="btn btn-outline-primary header-dark"
-                    >Dark</a
-                    >
-                </div>
 
-                <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
-                <div class="sidebar-btn-group pb-30 mb-10">
-                    <a
-                            href="javascript:void(0);"
-                            class="btn btn-outline-primary sidebar-light"
-                    >White</a
-                    >
-                    <a
-                            href="javascript:void(0);"
-                            class="btn btn-outline-primary sidebar-dark active"
-                    >Dark</a
-                    >
-                </div>
-
-                <h4 class="weight-600 font-18 pb-10">Menu Dropdown Icon</h4>
-                <div class="sidebar-radio-group pb-10 mb-10">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebaricon-1"
-                                name="menu-dropdown-icon"
-                                class="custom-control-input"
-                                value="icon-style-1"
-                                checked=""
-                        />
-                        <label class="custom-control-label" for="sidebaricon-1"
-                        ><i class="fa fa-angle-down"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebaricon-2"
-                                name="menu-dropdown-icon"
-                                class="custom-control-input"
-                                value="icon-style-2"
-                        />
-                        <label class="custom-control-label" for="sidebaricon-2"
-                        ><i class="ion-plus-round"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebaricon-3"
-                                name="menu-dropdown-icon"
-                                class="custom-control-input"
-                                value="icon-style-3"
-                        />
-                        <label class="custom-control-label" for="sidebaricon-3"
-                        ><i class="fa fa-angle-double-right"></i
-                        ></label>
-                    </div>
-                </div>
-
-                <h4 class="weight-600 font-18 pb-10">Menu List Icon</h4>
-                <div class="sidebar-radio-group pb-30 mb-10">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-1"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-1"
-                                checked=""
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-1"
-                        ><i class="ion-minus-round"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-2"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-2"
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-2"
-                        ><i class="fa fa-circle-o" aria-hidden="true"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-3"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-3"
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-3"
-                        ><i class="dw dw-check"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-4"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-4"
-                                checked=""
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-4"
-                        ><i class="icon-copy dw dw-next-2"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-5"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-5"
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-5"
-                        ><i class="dw dw-fast-forward-1"></i
-                        ></label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input
-                                type="radio"
-                                id="sidebariconlist-6"
-                                name="menu-list-icon"
-                                class="custom-control-input"
-                                value="icon-list-style-6"
-                        />
-                        <label class="custom-control-label" for="sidebariconlist-6"
-                        ><i class="dw dw-next"></i
-                        ></label>
-                    </div>
-                </div>
-
-                <div class="reset-options pt-30 text-center">
-                    <button class="btn btn-danger" id="reset-settings">
-                        Reset Settings
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -508,20 +343,15 @@
 
             <a href="/index">
                 <img src="/vendors/images/logo.png" alt="" class="dark-logo" />
-                <img
-                        src="/vendors/images/deskapp-logo-white.svg"
 
-                        alt=""
-                        class="light-logo"
-                />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
             </div>
         </div>
-        <div class="menu-block customscroll">
+        <div class="menu-block ">
             <div class="sidebar-menu">
-                <li id="accordion-menu">
+                <ul id="accordion-menu">
                     <li >
 
                         <a href="/index" class="dropdown-toggle no-arrow active">
@@ -531,12 +361,10 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <li th:if="${emp.empGrade == 'ADMIN'}">
                         <a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-textarea-resize"></span
                                     ><span class="mtext">휴가관리</span>
                         </a>
-                        </li>
                         <ul class="submenu">
                             <li><a href="/vacation/vacation-list"> 전체 목록</a></li>
                             <li><a id="apply-html-alert"> 신청하기
@@ -566,27 +394,27 @@
                             <li><a href="/mypage/alarm"> 알림함 </a></li>
                         </ul>
                     </li>
-                    <li th:if="${emp.empGrade == 'ADMIN'}">
+                    <li th:if="${emp.empGrade} == 'ADMIN'">
                         <a href="/vacation/vacation-req-list" class="dropdown-toggle no-arrow">
 									<span class="micon bi bi-calendar4-week"></span
                                     ><span class="mtext">요청된 휴가 목록</span>
                         </a>
                     </li>
-                    <li class="dropdown" th:if="${emp.empGrade == 'HR'}">
+                    <li class="dropdown" th:if="${emp.empGrade} == 'HR'">
                         <a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-textarea-resize"></span
                                     ><span class="mtext">인사관리</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/hr/emp-list"> 사원 전체 조회</a></li>
-<!--                            <li><a href=""> 인사 정보 수정 </a></li>-->
+                            <!--                            <li><a href=""> 인사 정보 수정 </a></li>-->
                             <li><a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
                             <li><a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
                         </ul>
-                    </li>
-                </div>
+                </ul>
             </div>
         </div>
+    </div>
 
     <!-- welcome modal start -->
     <!-- welcome modal end -->
@@ -624,6 +452,7 @@
     ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
+
     </body>
 
 </th:block>

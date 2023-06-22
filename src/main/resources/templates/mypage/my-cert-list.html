@@ -83,10 +83,10 @@
 
 <!-- welcome modal end -->
 <!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
+      <script src="vendors/scripts/core.js"></script>
+      <script src="vendors/scripts/script.min.js"></script>
+      <script src="vendors/scripts/process.js"></script>
+      <script src="vendors/scripts/layout-settings.js"></script>-->
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css"/>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css"/>
@@ -144,7 +144,7 @@
                     console.log(value.row.empCertId)
 
 
-                    return '<button type="button" id="downbtn" class="grid-button"> 버튼 </button>';
+                    return '<button type="button" id="downbtn" class="grid-button"> 발급 </button>';
                 },
                 align: 'center' // 가운데 정렬
             }
@@ -166,9 +166,6 @@
         const certSort = "A01"; //재직증명서아이디랑 함께보낼 증명서 종류
         console.log(ev.columnIndex);
 
-
-
-
         // 셀에 대해 모두 click 이벤트가 발생해서 헤더에 대한 if 처리로 ev.targetType == "cell",
         //     셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
@@ -181,56 +178,74 @@
             console.log("issueStatus 확인 : " + issueStatus);
 
             if (parseInt(issueStatus) == 0) {
-            } else {
-                //버튼 비활성화
-                console.log(rowData.downloadBtn);
-                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
-            }
 
-            // CSRF 토큰을 포함한 헤더 설정
-            var header = $("meta[name='_csrf_header']").attr('content');
-            var token = $("meta[name='_csrf']").attr('content');
 
-            //서버로 empCertId 전송
-            fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    [header]: token
+                // CSRF 토큰을 포함한 헤더 설정
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
 
-                }
-            })
-                .then(function (res) {
-                    //서버 응답 처리
-                    if (res.ok) {
-                        console.log('다운로드할 empCertId 보내짐!');
-                        // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
-                        // 파일 다운로드 함수 호출
-                        downloadFile(res);
-                    } else {
-                        console.log('다운로드 실패');
-
+                //서버로 empCertId 전송
+                fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [header]: token
                     }
                 })
-                .catch(function (error) {
-                    console.log('Error', error);
-                });//f 끝
+                    .then(function (res) {
+                        //서버 응답 처리
+                        return res.text(); // JSON 형태로 변환하여 응답 데이터 추출
+                    })
+                    .then(function (data) {
+                        //서버 응답 처리
+                        if (data) {
+                            console.log('다운로드할 empCertId 보내짐!');
+                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
 
+                            /////////
+
+                            // 파일 다운로드 함수 호출
+                            downloadS3URL(data);
+                        } else {
+                            console.log('다운로드 실패');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('Error', error);
+                    });//fetch끝
+
+
+            } else {
+                //버튼 비활성화
+                console.log("버튼 값"+rowData.downloadBtn);
+                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
+
+            }//swal끝
         }
     });
 
-    // 파일 다운로드 함수  ==> 기준
-    function downloadFile(response) {
-        response.blob().then(function (blob) {
-            // Blob을 파일로 변환
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = getFileNameFromResponse(response); // 다운로드할 파일명 설정
-            a.click();
-            window.URL.revokeObjectURL(url);
 
-        });
+    // // 파일 다운로드 함수  ==> 기준
+    // function downloadFile(response) {
+    //     response.blob().then(function (blob) {
+    //         // Blob을 파일로 변환
+    //         const url = window.URL.createObjectURL(blob);
+    //         const a = document.createElement('a');
+    //         a.href = url;
+    //         a.download = getFileNameFromResponse(response); // 다운로드할 파일명 설정
+    //         a.click();
+    //         window.URL.revokeObjectURL(url);
+    //
+    //     });
+    // }
+
+    //S3 url로 다운로드 함수
+    function downloadS3URL(url) {
+        console.log(url)
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = true;
+        link.click();
     }
 
 
@@ -310,7 +325,7 @@
                     console.log(row)
                     console.log(value.row.empCertId)
 
-                    return '<button type="button" id="" class="grid-button"> 버튼 </button>';
+                    return '<button type="button" id="" class="grid-button"> 발급 </button>';
                 },
                 align: 'center' // 가운데 정렬
             }
@@ -344,40 +359,49 @@
             console.log("issueStatus 확인 : " + issueStatus);
 
             if (parseInt(issueStatus) == 0) {
-            } else {
-                //버튼 비활성화
-                console.log(rowData.downloadBtn);
-                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
-            }
 
-            // CSRF 토큰을 포함한 헤더 설정
-            var header = $("meta[name='_csrf_header']").attr('content');
-            var token = $("meta[name='_csrf']").attr('content');
+                // CSRF 토큰을 포함한 헤더 설정
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
 
 
-            //서버로 empCertId 전송
-            fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    [header]: token
-                }
-            })
-                .then(function (res) {
-                    //서버 응답 처리
-                    if (res.ok) {
-                        console.log('다운로드할 experCertId 보내짐!');
-                        // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
-                        // 파일 다운로드 함수 호출
-                        downloadFile(res);
-                    } else {
-                        console.log('다운로드 실패');
-
+                //서버로 empCertId 전송
+                fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [header]: token
                     }
                 })
-                .catch(function (error) {
-                    console.log('Error', error);
-                });//f 끝
+
+                    .then(function (res) {
+                        //서버 응답 처리
+                        return res.text(); // JSON 형태로 변환하여 응답 데이터 추출
+                    })
+                    .then(function (data) {
+                        //서버 응답 처리
+                        if (data) {
+                            console.log('다운로드할 expCertId 보내짐!');
+                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
+
+                            /////////
+
+                            // 파일 다운로드 함수 호출
+                            downloadS3URL(data);
+                        } else {
+                            console.log('다운로드 실패');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('Error', error);
+                    });//fetch끝
+
+            } else {
+                //버튼 비활성화
+                console.log("버튼 값"+rowData.downloadBtn);
+                swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
+
+            }//swal끝
 
         }
 
@@ -436,7 +460,7 @@
                     console.log(row)
                     console.log(value.row.empCertId)
 
-                    return '<button type="button" id="" class="grid-button"> 버튼 </button>';
+                    return '<button type="button" id="" class="grid-button"> 발급 </button>';
                 },
                 align: 'center' // 가운데 정렬
             }
@@ -482,41 +506,49 @@
             console.log("issueStatus 확인 : " + issueStatus);
 
             if (parseInt(issueStatus) == 0) {
+
+                // CSRF 토큰을 포함한 헤더 설정
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
+
+
+                //서버로 empCertId 전송
+                fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [header]: token
+
+                    }
+                })
+
+                    .then(function (res) {
+                        //서버 응답 처리
+                        return res.text(); // JSON 형태로 변환하여 응답 데이터 추출
+                    })
+                    .then(function (data) {
+                        //서버 응답 처리
+                        if (data) {
+                            console.log('다운로드할 retireCertId 보내짐!');
+                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
+
+                            /////////
+
+                            // 파일 다운로드 함수 호출
+                            downloadS3URL(data);
+                        } else {
+                            console.log('다운로드 실패');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('Error', error);
+                    });//fetch끝
+
             } else {
                 //버튼 비활성화
                 console.log(rowData.downloadBtn);
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
             }
-
-            // CSRF 토큰을 포함한 헤더 설정
-            var header = $("meta[name='_csrf_header']").attr('content');
-            var token = $("meta[name='_csrf']").attr('content');
-
-
-            //서버로 empCertId 전송
-            fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    [header]: token
-
-                }
-            })
-                .then(function (res) {
-                    //서버 응답 처리
-                    if (res.ok) {
-                        console.log('다운로드할 empCertId 보내짐!');
-                        // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
-                        // 파일 다운로드 함수 호출
-                        downloadFile(res);
-                    } else {
-                        console.log('다운로드 실패');
-
-                    }
-                })
-                .catch(function (error) {
-                    console.log('Error', error);
-                });//f 끝
 
         }
     });
