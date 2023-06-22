@@ -134,7 +134,8 @@
 
                     <div class="mb-3">
                         <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">
+                        <select type="text" class="form-control" id="empStatus" >
+<!--                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">-->
                             <option value="ACTIVE">재직</option>
                             <option value="RETIREE">퇴직</option>
                         </select>
@@ -339,11 +340,11 @@
     //         empRetirementDateInput.setAttribute("disabled", "disabled");
     //     }
     // };
-
-document.querySelector('#handleEmpStatusChange').addEventListener('change',
-    function(){
-        console.log('변경됐나 확인')
-    })
+//
+// document.querySelector('#handleEmpStatusChange').addEventListener('change',
+//     function(){
+//         console.log('변경됐나 확인')
+//     })
 
 
     function updateEmp() {
