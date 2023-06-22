@@ -59,7 +59,7 @@
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
 <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
-                </a><img id="empProfile" th:src="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img id="empProfile" th:src="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
 <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
               </div>
 
@@ -303,16 +303,16 @@
   }
 
 
-  function handleFileSelection(event) {
-    const file = event.target.files[0];
-    const empProfile = document.getElementById('empProfile');
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      empProfile.src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-  }
+  // function handleFileSelection(event) {
+  //   const file = event.target.files[0];
+  //   const empProfile = document.getElementById('empProfile');
+  //   const reader = new FileReader();
+  //
+  //   reader.onload = function(e) {
+  //     empProfile.src = e.target.result;
+  //   }
+  //   reader.readAsDataURL(file);
+  // }
 
 
   $(document).on("change", "#sign-up-add-image2", function(){ //주황색

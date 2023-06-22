@@ -34,19 +34,19 @@ public class AwsS3Service {
      * @param s3File 업로드할 파일
      * @return 업로드된 파일의 URL
      */
-    public String uploadS3File(MultipartFile s3File, String fileName) throws IOException {
+    public String uploadS3File(MultipartFile s3File, String fileName, String path) throws IOException {
         // 파일명 생성
 //        String s3FileName = UUID.randomUUID() + "-" + s3File.getOriginalFilename();
 
         // 파일 업로드
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucket)
+                .bucket(bucket+ "/" + path )
                 .key(fileName)
                 .build();
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(s3File.getBytes()));
 
         // 업로드된 파일의 URL 반환
-        return getS3FileUrl(fileName);
+        return getS3FileUrl(path + "/" + fileName);
     }
 //
 //    public FileDTO upload(File multipartFile, String dirName, String fileName) throws IOException {

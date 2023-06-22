@@ -54,9 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //접속 허락
                 .antMatchers("/loginEmp").permitAll()
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
-                .antMatchers("/", "/index").authenticated()
+                .antMatchers("/", "/index").hasAnyAuthority("ACTIVE", "RETIREE")
 //                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-                .antMatchers("/mypage/**").hasAnyAuthority("ACTIVE")
+                .antMatchers("/mypage/update-mypage", "/mypage/alarm").hasAnyAuthority("ACTIVE")
+                .antMatchers("/mypage/my-cert-list").hasAnyAuthority("ACTIVE", "RETIREE")
                 .antMatchers("/certification/**").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
@@ -119,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //파일을 접근 가능하게 처리하는 소스 입력
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/**/favicon.ico");
     }
 
     @Bean
