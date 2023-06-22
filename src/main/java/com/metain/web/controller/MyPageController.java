@@ -60,13 +60,11 @@ public class MyPageController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-
-
     //재직증명서 리스트
     @GetMapping("/my-empCert")
     @ResponseBody
 
-    public List<EmpCert> selectMyEmpCert(Authentication auth){
+    public List<EmpCert> selectMyEmpCert(Authentication auth) {
 
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
         Long empId = principalDetails.getEmpId();
@@ -78,7 +76,7 @@ public class MyPageController {
     //경력증명서 리스트
     @GetMapping("/my-experCert")
     @ResponseBody
-    public List<ExperienceCert> selectMyExperCert(Authentication auth){
+    public List<ExperienceCert> selectMyExperCert(Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
         Long empId = principalDetails.getEmpId();
 
@@ -89,14 +87,12 @@ public class MyPageController {
     //퇴직증명서 리스트
     @GetMapping("/my-retireCert")
     @ResponseBody
-    public List<RetireCert> selectMyRetCert(Authentication auth){
+    public List<RetireCert> selectMyRetCert(Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal(); //로그인해져있는 토큰가져오기
         Long empId = principalDetails.getEmpId();
 
         return myPageService.selectMyRetCert(empId);
     }
-
-
 
 
 //    //파일 다운로드 시도 ==> 이게더 빠름 이걸 기준으로 하기 !!
@@ -151,100 +147,99 @@ public class MyPageController {
 
         System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
 
-        //        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
-        myPageService.updateIssueStatus(certId,certSort);
+        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
+        myPageService.updateIssueStatus(certId, certSort);
 
         //해당객체 S3 url 생성 -> 뷰단에 넘길 url
-        String signedCertURL = "https://metains3.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
+        String signedCertURL = "https://metain2.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
         System.out.println(signedCertURL);
 
-        return  ResponseEntity.ok(signedCertURL);
+        return ResponseEntity.ok(signedCertURL);
     }//downloadCert
-
-
 
 
     @GetMapping("/my-vac")
     @ResponseBody
-    public List<MyVacDTO> selectMyVacList(Authentication auth,@ModelAttribute MyVacDTO myVacDTO) {
-        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
-        Long empId=principalDetails.getEmpId();
+    public List<MyVacDTO> selectMyVacList(Authentication auth, @ModelAttribute MyVacDTO myVacDTO) {
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+        Long empId = principalDetails.getEmpId();
         myVacDTO.setEmpId(empId);
         return myPageService.selectMyVacList(myVacDTO);
     }
+
     @GetMapping("/my-vac-list")
 
     public String myVacList(Authentication auth, Model model) {
-        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
-        Long empId=principalDetails.getEmpId();
-        Emp emp=hrService.selectEmpInfo(empId);
-        List<MyVacDTO> myList=myPageService.myVacList(empId);
-        model.addAttribute("vacList",myList);
-        model.addAttribute("emp",emp);
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+        Long empId = principalDetails.getEmpId();
+        Emp emp = hrService.selectEmpInfo(empId);
+        List<MyVacDTO> myList = myPageService.myVacList(empId);
+        model.addAttribute("vacList", myList);
+        model.addAttribute("emp", emp);
         return "/mypage/my-vac-list";
     }
 
     @GetMapping("/alarm")
     public String alarmList(Authentication auth, Model model) {
-        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
         Long empId = principalDetails.getEmpId();
-        Emp emp =  hrService.selectEmpInfo(empId);
+        Emp emp = hrService.selectEmpInfo(empId);
 
-        List<AlarmDTO> alarmList=myPageService.alarmList(empId);
-        model.addAttribute("alarmList",alarmList);
-        model.addAttribute("emp",emp);
+        List<AlarmDTO> alarmList = myPageService.alarmList(empId);
+        model.addAttribute("alarmList", alarmList);
+        model.addAttribute("emp", emp);
         return "/mypage/alarm";
     }
 
     @GetMapping("/my-vac-detail/{vacationId}")
-    public String myVacDetail(@PathVariable("vacationId") Long vacationId, Model model,Authentication auth) {
-        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
-        Long empId= principalDetails.getEmpId();
-        Emp empInfo=hrService.selectEmpInfo(empId);
+    public String myVacDetail(@PathVariable("vacationId") Long vacationId, Model model, Authentication auth) {
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+        Long empId = principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
         System.out.println(vac);
 
-        if(vac==null){
+        if (vac == null) {
             VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
             System.out.println(vacWithoutFile);
             //신청한 사람이자
-            Emp emp=hrService.selectEmpInfo(vacWithoutFile.getEmpId());
+            Emp emp = hrService.selectEmpInfo(vacWithoutFile.getEmpId());
             //관리자 정보
-            Emp admin=hrService.selectEmpInfo(vacWithoutFile.getAdmId());
+            Emp admin = hrService.selectEmpInfo(vacWithoutFile.getAdmId());
             //총 사용날짜 구하기
             java.util.Date startDate = new java.util.Date(vacWithoutFile.getVacStartDate().getTime());
             java.util.Date endDate = new java.util.Date(vacWithoutFile.getVacEndDate().getTime());
 
             long diff = endDate.getTime() - startDate.getTime();
-            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000) + 1);
             System.out.println(vacWithoutFile);
-            model.addAttribute("vac",vacWithoutFile);
-            model.addAttribute("emp",empInfo);
-            model.addAttribute("admin",admin);
-            model.addAttribute("diff",daysDiff);
-            model.addAttribute("req",emp); //신청한 사람
+            model.addAttribute("vac", vacWithoutFile);
+            model.addAttribute("emp", empInfo);
+            model.addAttribute("admin", admin);
+            model.addAttribute("diff", daysDiff);
+            model.addAttribute("req", emp); //신청한 사람
             return "/mypage/my-vac-detail";
-        }else{
+        } else {
             //신청한 사람
-            Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+            Emp emp = hrService.selectEmpInfo(vac.getEmpId());
             //관리자 정보
-            Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+            Emp admin = hrService.selectEmpInfo(vac.getAdmId());
             //총 사용날짜 구하기
             java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
             java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
 
             long diff = endDate.getTime() - startDate.getTime();
-            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
-            String filePath=fileMapper.getFilePath(vac.getFileId());
-            model.addAttribute("vac",vac);
-            model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
-            model.addAttribute("admin",admin);
-            model.addAttribute("diff",daysDiff);
-            model.addAttribute("file",filePath);
-            model.addAttribute("req",emp); //신청한 사람
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000) + 1);
+            String filePath = fileMapper.getFilePath(vac.getFileId());
+            model.addAttribute("vac", vac);
+            model.addAttribute("emp", empInfo); //관리자로 로그인한 유저
+            model.addAttribute("admin", admin);
+            model.addAttribute("diff", daysDiff);
+            model.addAttribute("file", filePath);
+            model.addAttribute("req", emp); //신청한 사람
             return "/mypage/my-vac-detail";
         }
     }
@@ -255,16 +250,16 @@ public class MyPageController {
         Long vacId = Long.parseLong(requestData.get("vacationId").toString());
         Long empId = Long.parseLong(requestData.get("empId").toString());
 
-        String vacStatus=requestData.get("vacStatus").toString();
-        int diff=Integer.parseInt(requestData.get("diff").toString());
+        String vacStatus = requestData.get("vacStatus").toString();
+        int diff = Integer.parseInt(requestData.get("diff").toString());
 
-        vacationService.cancelVacationRequest(vacId,empId,vacStatus);
-        vacationService.increaseVacation(diff,empId);
+        vacationService.cancelVacationRequest(vacId, empId, vacStatus);
+        vacationService.increaseVacation(diff, empId);
         return ResponseEntity.ok("성공");
     }
 
     @PostMapping("/updateMy")
-    public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file ) throws IOException {
+    public String updateMy(Emp emp, @RequestParam(value = "file") MultipartFile file) throws IOException {
         System.out.println("updateMyController" + emp);
         System.out.println(file);
 
