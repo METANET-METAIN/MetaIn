@@ -238,7 +238,7 @@ public class CertificationServiceImpl implements CertificationService {
         System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
 
         //s3가져오는 방식
-        String pfxObjectKey = "metain.pfx";
+        String pfxObjectKey = "certificate.pfx";
         String pdfObjectKey = "certification/converted.pdf";
         String signObjectKey = "certification/metain-sign-Image.png";
 
