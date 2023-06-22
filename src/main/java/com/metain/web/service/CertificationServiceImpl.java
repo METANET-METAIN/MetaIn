@@ -242,7 +242,7 @@ public class CertificationServiceImpl implements CertificationService {
         String pdfObjectKey = "certification/converted.pdf";
         //String signObjectKey = "certification/metain-sign-Image.png";
 
-        String mountPath = "/metainfiles/metain-sign-Image.png";
+        //String mountPath = "/metainfiles/metain-sign-Image.png";
 
         try {
             InputStream pfxInputStream = awsS3Service.getFileInputStreamFromS3(pfxObjectKey);
@@ -266,8 +266,8 @@ public class CertificationServiceImpl implements CertificationService {
 
             options.setPassword("1234567890");
             options.setVisible(true);
-            //options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
-            options.setImageFilePath(mountPath);
+            options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
+            //options.setImageFilePath(mountPath);
             //options.setImageStream(signInputStream);
             options.setWidth(80);
             options.setHeight(80);
