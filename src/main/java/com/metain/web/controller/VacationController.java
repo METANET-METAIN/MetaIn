@@ -97,25 +97,7 @@ public class VacationController {
         empId=vacation.getEmpId();
         int selectedDays=Integer.parseInt(diffDays);
 
-        String type = vacation.getVacType();
-        String sabun = empInfo.getEmpSabun();
-        // 파일 이름=휴가타입+날짜 +uuid
-        UUID uuid = UUID.randomUUID();
-        String originalFileName = file.getOriginalFilename();
-        String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
-
-        String savedFileName =sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
-
-        // 저장될 경로
-        //String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
-        String savePath = "classpath:/static/"+ savedFileName;
-        File destFile = new File(savePath);
-        file.transferTo(destFile);
-
-        // 파일 이름을 DB의 file_name 컬럼에 저장
-        vacation.setFileName(savedFileName);
-
-        vacationService.insertAfterVacation(vacation);
+        vacationService.insertAfterVacation(vacation,file);
         vacationService.decreaseVacation(selectedDays,empId);
 
         return "redirect:/mypage/my-vac-list";
@@ -194,13 +176,11 @@ public class VacationController {
 
             long diff = endDate.getTime() - startDate.getTime();
             int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
-            String filePath=fileMapper.getFilePath(vac.getFileId());
             model.addAttribute("vac",vac);
             model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
             model.addAttribute("req",emp); //신청한 사람
             model.addAttribute("admin",admin);
             model.addAttribute("diff",daysDiff);
-            model.addAttribute("filePath",filePath);
             return "/vacation/request-vacation";
         }
     }

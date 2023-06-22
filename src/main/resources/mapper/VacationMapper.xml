@@ -42,7 +42,11 @@
     </select>
     <select id="vacationDetailWithoutFile" resultType="VacationWithoutFileDTO">
         SELECT V.VAC_ID, V.EMP_ID, V.VAC_TYPE, V.VAC_REG_DATE, V.VAC_START_DATE, V.VAC_END_DATE,
-               V.ADM_ID, V.VAC_RESN, V.VAC_STATUS, V.VAC_UPDAT
+               V.ADM_ID, V.VAC_RESN, V.VAC_STATUS, V.VAC_UPDAT,
+               CASE
+                   WHEN V.FILE_NAME IS NULL THEN '0'
+                   ELSE V.FILE_NAME
+                   END AS FILE_NAME
         FROM TBL_VACATION V
         WHERE V.VAC_ID = #{vacId}
     </select>

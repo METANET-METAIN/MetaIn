@@ -141,10 +141,11 @@ public class MyPageServiceImpl implements MyPageService{
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
         String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+        String path = "user";
 
 
+        awsS3Service.uploadS3File(file, savedImgName, path);
 
-        awsS3Service.uploadS3File(file);
 
 
 
@@ -152,4 +153,5 @@ public class MyPageServiceImpl implements MyPageService{
 
         myPageMapper.updateMyPage(dbemp);
     }
+
 }
