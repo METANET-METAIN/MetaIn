@@ -117,8 +117,6 @@ public class MyPageServiceImpl implements MyPageService{
         }else return list;
 
     }
-
-
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
@@ -153,5 +151,6 @@ public class MyPageServiceImpl implements MyPageService{
 
         myPageMapper.updateMyPage(dbemp);
     }
+
 
 }
