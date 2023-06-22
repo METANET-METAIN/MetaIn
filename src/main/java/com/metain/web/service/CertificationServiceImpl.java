@@ -238,7 +238,7 @@ public class CertificationServiceImpl implements CertificationService {
         System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
 
         //s3가져오는 방식
-        String pfxObjectKey = "certificate.pfx";
+        String pfxObjectKey = "ProfMoriarty.pfx";
         String pdfObjectKey = "certification/converted.pdf";
         String signObjectKey = "certification/metain-sign-Image.png";
 
@@ -264,7 +264,7 @@ public class CertificationServiceImpl implements CertificationService {
             DigitalSignOptions options = new DigitalSignOptions(pfxInputStream);
             System.out.print(" / 디지털서명함수 check 3" + options);
 
-            options.setPassword("12345678900");
+            options.setPassword("1234567890");
             options.setVisible(true);
             //options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
             options.setImageStream(signInputStream);
