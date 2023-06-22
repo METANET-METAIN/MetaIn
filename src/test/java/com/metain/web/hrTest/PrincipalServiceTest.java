@@ -58,6 +58,7 @@ public class PrincipalServiceTest {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Mock
     private HrMapper hrMapper;
 
@@ -66,7 +67,7 @@ public class PrincipalServiceTest {
 
     @MockBean
     private MockHttpSession mockSession;
-//
+    //
 //
 //    private final String EMP_ID = "214";
 //    private final String EMP_SABUN = "20230214";
@@ -83,7 +84,6 @@ public class PrincipalServiceTest {
 //
 //
 //
-
 
 
 //    @BeforeEach
@@ -167,7 +167,6 @@ public class PrincipalServiceTest {
     }
 
 
-
     @BeforeEach
     public void beforeEach() {
 //        Emp emp = new Emp();
@@ -180,98 +179,5 @@ public class PrincipalServiceTest {
 //        hrMapper.login(emp.getEmpSabun());
     }
 
-
-
-
-
-//    @Test
-//    @DisplayName("사용자 상세 정보 조회 성공")
-//    @WithMockUser
-//    void loadUserByUsername_Success() throws Exception {
-//
-//        when(hrMapper.login(anyString())).thenReturn(new Emp());
-//
-////        mvc.perform(get("/loginEmp")
-////                        .param("username", "20230081")
-////                        .param("password", "19970921")
-////                        .with(csrf()))
-////                .andExpect(status().isOk());
-////
-//
-//        mvc.perform(post("/loginEmp")
-//                        .param("username", "20230081")
-//                        .param("password", "19970921")
-//                        .with(csrf()))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/index"))
-//                .andExpect(authenticated().withUsername("20230081"));
-//    }
-
-
-
-//        // Mock 데이터 생성
-//        String empSabun = "20230081";
-//        Emp emp = new Emp();
-//        emp.setEmpSabun(empSabun);
-//        emp.setEmpPwd("19970921");
-
-
-
-//        // Mock 동작 설정 when
-//        when(hrMapper.login(EMP_SABUN)).thenReturn(emp);
-//        when(hrMapper.selectRoleName(EMP_SABUN)).thenReturn(empRoles);
-
-        // 테스트 실행
-//        PrincipalDetails userDetails = (PrincipalDetails) principalService.(EMP_SABUN);
-
-        // 결과 확인
-//        assertNotNull(userDetails);
-//        assertEquals(EMP_SABUN, userDetails.getUsername());
-//        assertEquals(EMP_PWD, userDetails.getPassword());
-
-//        List<GrantedAuthority> authorities = (List<GrantedAuthority>) userDetails.getAuthorities();
-//        assertEquals(2, authorities.size());
-//        assertEquals("ROLE_USER", authorities.get(0).getAuthority());
-//        assertEquals("ROLE_ADMIN", authorities.get(1).getAuthority());
-//    }
-//
-//    @Test
-//    @DisplayName("사용자 상세 정보 조회 실패 - 사용자 없음")
-//    void loadUserByUsername_UserNotFound() {
-//        // Mock 데이터 생성
-//        String empSabun = "20230209";
-//
-//        // Mock 동작 설정
-//        when(hrMapper.login(empSabun)).thenReturn(null);
-//
-//        // 테스트 실행 및 예외 확인
-//        assertThrows(UsernameNotFoundException.class, () -> {
-//            principalService.loadUserByUsername(empSabun);
-//        });
-//    }
-
-//    @Test
-//    @DisplayName("사용자 상세 정보 조회 실패 - 역할 정보 없음")
-//    void loadUserByUsername_RolesNotFound() {
-//        // Mock 데이터 생성
-//        String empSabun = "20230209";
-//        Emp emp = new Emp();
-//        emp.setEmpSabun(empSabun);
-//        emp.setEmpPwd("password");
-//
-//        // Mock 동작 설정
-//        when(hrMapper.login(empSabun)).thenReturn(emp);
-//        when(hrMapper.selectRoleName(empSabun)).thenReturn(null);
-//
-//        // 테스트 실행
-//        PrincipalDetails userDetails = (PrincipalDetails) principalService.loadUserByUsername(empSabun);
-//
-//        // 결과 확인
-//        assertNotNull(userDetails);
-//        assertEquals(empSabun, userDetails.getUsername());
-//        assertEquals(emp.getEmpPwd(), userDetails.getPassword());
-//
-//        List<GrantedAuthority> authorities = (List<GrantedAuthority>) userDetails.getAuthorities();
-//        assertEquals(0, authorities.size());
-//    }
 }
+

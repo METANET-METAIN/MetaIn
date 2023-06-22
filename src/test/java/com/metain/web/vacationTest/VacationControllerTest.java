@@ -1,123 +1,224 @@
-//package com.metain.web.vacationTest;
-//
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//
-//import com.groupdocs.signature.internal.c.a.i.internal.gJ.F;
-//import com.metain.web.controller.VacationController;
-//import com.metain.web.domain.Emp;
-//import com.metain.web.domain.PrincipalDetails;
-//import com.metain.web.dto.VacationListDTO;
-//import com.metain.web.service.HrService;
-//import com.metain.web.service.VacationService;
-//import org.junit.Test;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.runner.RunWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.test.context.web.WebAppConfiguration;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import org.springframework.ui.Model;
-//import org.springframework.web.context.WebApplicationContext;
-//
-//import java.sql.Date;
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import java.util.List;
-//
-//import static com.metain.web.domain.Role.EMPLOYEE;
-//import static org.mockito.Mockito.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@SpringBootTest
-//@RunWith(SpringRunner.class)
-//@AutoConfigureMockMvc
-//public class VacationControllerTest {
-//    private MockMvc mockMvc;
-//    @Autowired
-//    private WebApplicationContext context;
-//    @Mock
-//    private VacationService vacationService;
-//    @Mock
-//    private HrService hrService;
-//
-//
-//    @InjectMocks
-//    private VacationController vacationController;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//        mockMvc = MockMvcBuilders
-//                .webAppContextSetup(context)
-//                .apply(springSecurity())
-//                .build();
-//
-//    }
-//
-//
+package com.metain.web.vacationTest;
+
+import com.metain.web.controller.VacationController;
+import com.metain.web.domain.Emp;
+import com.metain.web.domain.PrincipalDetails;
+import com.metain.web.domain.Vacation;
+import com.metain.web.dto.AlarmDTO;
+import com.metain.web.dto.VacationListDTO;
+import com.metain.web.mapper.AlarmMapper;
+import com.metain.web.mapper.HrMapper;
+import com.metain.web.service.HrService;
+import com.metain.web.service.MemberService;
+import com.metain.web.service.VacationService;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class VacationControllerTest {
+    @Mock
+    private HrMapper hrMapper;
+    @Mock
+    private HrService hrService;
+    @Mock
+    private VacationService vacationService;
+    @Mock
+    private AlarmMapper alarmMapper;
+    @InjectMocks
+    private VacationController vacationController;
+    @Autowired
+    private MockMvc mockMvc; // MockMvc 선언
+    @Mock
+    private MemberService memberService;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(vacationController).build(); // HomeController를 MockMvc에 설정
+    }
+
+    @Test
+    public void vacationList() {
+        // Given
+        String expectedViewName = "/vacation/vacation-list";
+        Emp fakeEmp = new Emp();
+        fakeEmp.setEmpId(152L);
+
+        // hrMapper의 필요한 동작을 모킹합니다.
+//        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
+//        System.out.println(fakeEmp);
+        List<String> auth = Arrays.asList("EMPLOYEE","ACTIVE");
+//        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
+
+        List<VacationListDTO> list=new ArrayList<>();
+        when(vacationService.selectAllList()).thenReturn(list);
+
+        List<GrantedAuthority> authorities = auth.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        fakeEmp.setAuthorities(authorities);
+        fakeEmp.setRoleName(authorities.toString());
+        fakeEmp.setRoleId(1L);
+        fakeEmp.setRoleId(7L); //
+        PrincipalDetails principalDetails = new PrincipalDetails(fakeEmp, authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, authorities);
+
+        Model model = mock(Model.class); // Mock으로 Model 객체 생성
+        model.addAttribute("emp", fakeEmp);
+        // When
+        List<VacationListDTO> result= vacationService.selectAllList();
+        System.out.println(result);
+        // Then
+        assertEquals(expectedViewName, "/vacation/vacation-list");
+        assertEquals(list,result);
+        verify(vacationService, times(1)).selectAllList();
+        //verify(hrMapper, times(1)).selectRoleName(fakeEmp.getEmpSabun());
+    }
+
+    @Test
+    public void insertVacation() {
+        // Given
+        String expectedViewName = "redirect:/mypage/my-vac-list";
+        Emp fakeEmp = new Emp();
+        fakeEmp.setEmpId(152L);
+        int diffDays = 2;
+        Vacation fakeVacation = new Vacation();
+        fakeVacation.setVacType("병가");
+
+        // hrMapper의 필요한 동작을 모킹합니다.
+//        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
+//        System.out.println(fakeEmp);
+        List<String> auth = Arrays.asList("EMPLOYEE", "ACTIVE");
+//        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
+
+        doNothing().when(vacationService).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+
+        List<GrantedAuthority> authorities = auth.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        fakeEmp.setAuthorities(authorities);
+        fakeEmp.setRoleName(authorities.toString());
+        fakeEmp.setRoleId(1L);
+        fakeEmp.setRoleId(7L); //
+        PrincipalDetails principalDetails = new PrincipalDetails(fakeEmp, authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, authorities);
+
+        Model model = mock(Model.class); // Mock으로 Model 객체 생성
+        model.addAttribute("emp", fakeEmp);
+        // When
+        vacationService.insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+        // Then
+        assertEquals(expectedViewName, "redirect:/mypage/my-vac-list");
+        verify(vacationService, times(1)).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+    }
+
 //    @Test
-//    public void vacationListTest() throws Exception {
-//        // 가짜 데이터
-//        List<VacationListDTO> fakeList = new ArrayList<>();
-//        VacationListDTO fakeDTO = new VacationListDTO(30L,"김사원","개발 1팀","EMPLOYEE","일반(연차)",new Date(2023-05-30),new Date(2023-05-30),new Date(2023-05-30),"요청취소");
-//
-//        fakeList.add(fakeDTO);
-//        // ... 필요한 가짜 데이터 추가
-//
+//    public void vacationDetail() {
+//        // Given
+//        String expectedViewName = "/vacation/vacation-detail";
 //        Emp fakeEmp = new Emp();
-//        fakeEmp.setEmpId(152L);
-//        fakeEmp.setEmpDetailAddr("호서");
-//        fakeEmp.setEmpZipcode("1322");
-//        fakeEmp.setEmpVac(10);
-//        fakeEmp.setEmpStatus("ACTIVE");
-//        fakeEmp.setEmpAddr("호서");
-//        fakeEmp.setEmpBirth(new java.util.Date(19980915));
-//        fakeEmp.setEmpSabun("11111");
-//        fakeEmp.setEmpName("아무개");
-//        fakeEmp.setEmpPwd("123");
-//        fakeEmp.setEmpEmail("@@.com");
-//        fakeEmp.setEmpDept("개발 1팀");
-//        fakeEmp.setEmpGrade("EMPLOYEE");
-//        fakeEmp.setEmpFirstDt(new java.util.Date(19980915));
-//        fakeEmp.setEmpLastDt(new java.util.Date(19980915));
+//        fakeEmp.setEmpId(152L); //emp
 //
+//        Vacation fakeVacation = new Vacation();
+//        fakeVacation.setVacId(80L);
+//        fakeVacation.setVacType("병가");
+//        fakeVacation.setAdmId(5L);
 //
-//        // ... 필요한 가짜 데이터 추가
+//        Emp fakeAdminEmp = new Emp();
+//        fakeAdminEmp.setEmpId(fakeVacation.getAdmId()); //admin
 //
-//        // Mock 객체에 대한 동작 지정
-//        when(vacationService.selectAllList()).thenReturn(fakeList);
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority("EMPLOYEE"));
+//        // hrMapper의 필요한 동작을 모킹합니다.
+//        when(hrService.selectEmpInfo(fakeEmp.getEmpId())).thenReturn(fakeEmp);
+//        System.out.println(fakeEmp);
+//        List<String> auth = Arrays.asList("EMPLOYEE", "ACTIVE");
+//        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
+//
+//        when(hrService.selectEmpInfo(fakeVacation.getAdmId())).thenReturn(fakeAdminEmp);
+//        when(vacationService.vacationDetail(fakeVacation.getVacId())).thenReturn(fakeVacation);
+//
+//        List<GrantedAuthority> authorities = auth.stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+//
+//        fakeEmp.setAuthorities(authorities);
+//        fakeEmp.setRoleName(authorities.toString());
+//        fakeEmp.setRoleId(1L);
+//        fakeEmp.setRoleId(7L); //
 //        PrincipalDetails principalDetails = new PrincipalDetails(fakeEmp, authorities);
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, authorities);
 //
-//        // ... PrincipalDetails에 필요한 가짜 데이터 설정
+//        Model model = mock(Model.class); // Mock으로 Model 객체 생성
+//        model.addAttribute("emp", fakeEmp);
+//        // When
+//        vacationService.vacationDetail(fakeVacation.getVacId());
+//        // Then
+//        assertEquals(expectedViewName, "/vacation/vacation-detail");
+//        verify(vacationService, times(1)).vacationDetail(fakeVacation.getVacId());
 //
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        when(hrService.selectEmpInfo(152L)).thenReturn(fakeEmp);
-//
-//        // 테스트할 메서드 실행
-//        mockMvc.perform(get("/vacation/list").principal(authentication))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("/vacation/vacation-list"))
-//                .andExpect(model().attribute("vacList", fakeList))
-//                .andExpect(model().attribute("emp", fakeEmp));
-//
-//        // 결과 확인
-//        verify(vacationService, times(1)).selectAllList();
-//        verify(hrService, times(1)).selectEmpInfo(152L);
 //    }
-//}
+    @Test
+    public void testApproveVacationRequest() {
+        // Arrange
+        Map<String, Object> requestData = new HashMap<>();
+        AlarmDTO alarmDTO = new AlarmDTO();
+
+        Long vacationId = 80L;
+        String vacStatus = "승인대기";
+        Long receiver = 5L;
+        requestData.put("vacationId", vacationId);
+        requestData.put("vacStatus", vacStatus);
+        requestData.put("receiver", receiver);
+
+        alarmDTO.setNotiContent("신청하신  " + vacationId + "번 휴가가 승인되었습니다!");
+        alarmDTO.setNotiUrl("/mypage/my-vac-list");
+        alarmDTO.setNotiType("휴가정보");
+        alarmDTO.setEmpId(receiver);
+
+        // Mocking !!
+        doNothing().when(vacationService).approveVacationRequest(vacationId, vacStatus, receiver);
+        //when(alarmMapper.insertAlarm(alarmDTO)).thenReturn(1); // Mocking the insertAlarm() method
+
+        // Act
+        ResponseEntity<String> response = vacationController.approveVacationRequest(requestData);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("성공", response.getBody());
+
+        verify(vacationService, times(1)).approveVacationRequest((Long) requestData.get("vacationId"), requestData.get("vacStatus").toString(), (Long) requestData.get("receiver"));
+    }
+
+}
+
+
+
+

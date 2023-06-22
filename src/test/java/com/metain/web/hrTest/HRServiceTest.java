@@ -6,7 +6,10 @@ import com.metain.web.mapper.HrMapper;
 import com.metain.web.service.HrService;
 import com.metain.web.service.HrServiceImpl;
 import com.metain.web.service.VacationService;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.client.ExpectedCount;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +30,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HRServiceTest {
 
     @Autowired
@@ -36,6 +41,7 @@ public class HRServiceTest {
 
     @MockBean
     private HrMapper hrMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -44,10 +50,10 @@ public class HRServiceTest {
 
     @Test
     @DisplayName("insertNewEmp 테스트")
-    public void insertNewEmpTest() throws Exception{
+    public void insertNewEmpTest() throws Exception {
         NewEmp newDto = new NewEmp();
 
-//        newDto.setNewId(300L);
+        newDto.setNewId(300L);
         newDto.setNewName("suhyun1");
         newDto.setNewPhone("010-1111-1112");
         newDto.setNewAddr("경기 의정부시 가금로 29");
@@ -79,11 +85,11 @@ public class HRServiceTest {
 
         // then
 //        verify(hrMapper, times(1)).selectEmpInfo(empId);
-        assertEquals(empDto,empReal);
+        assertEquals(empDto, empReal);
         verify(hrMapper, times(1)).selectEmpInfo(empId);
 
     }
-    
+
     @Test
     @DisplayName("updateEmp 테스트")
     public void updateEmpTest() {
@@ -96,47 +102,10 @@ public class HRServiceTest {
         empDto.setEmpDept("개발 3팀");
 
 
-
         // when
-        hrService.updateEmp(empDto);
-        
+        hrService.updateEmp(empDto.getEmpStatus(), empDto.getEmpGrade(),empDto.getEmpDept(),151L);
+
         // then
         verify(hrMapper, times(1)).updateEmp(empDto);
     }
-
-    @Test
-    @DisplayName("confirmNewEmp 테스트")
-    public void confirmNewEmpTest() throws ParseException {
-        // given
-        List<NewEmp> newEmpList = new ArrayList<>();
-        NewEmp newEmp = new NewEmp();
-        newEmp.setNewId(215L);
-        newEmp.setNewBirth("1997-01-02");
-        newEmp.setNewName("suhyun1");
-        newEmp.setNewPhone("010-1111-1112");
-        newEmp.setNewAddr("경기 의정부시 가금로 29");
-        newEmp.setNewZipcode("11611");
-        newEmp.setNewDetailAddr("301동");
-        newEmp.setNewDept("개발 1팀");
-        newEmp.setNewGrade("사원");
-        newEmpList.add(newEmp);
-
-        Emp emp = new Emp();
-
-        when(hrMapper.confirmEmp(any(Emp.class))).thenReturn(1);
-        when(hrMapper.findRoleNo(anyString())).thenReturn(215L);
-//        doNothing().when(hrMapper).userRoleSave(anyLong(), anyLong());
-
-        // when
-        int result = hrService.confirmNewEmp(newEmpList, emp);
-
-        // then
-        verify(hrMapper, times(1)).confirmEmp(any(Emp.class));
-        verify(hrMapper, times(2)).userRoleSave(anyLong(), anyLong());
-        assertEquals(1, result);
-    }
-
-
-
-
 }

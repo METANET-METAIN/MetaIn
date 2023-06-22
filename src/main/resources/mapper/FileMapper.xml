@@ -8,4 +8,10 @@
     <select id="getFileId" resultType="int">
         SELECT LAST_INSERT_ID()
     </select>
+
+    <select id="getFilePath" resultType="String">
+        SELECT FILE_NAME
+        FROM TBL_FILE
+        WHERE FILE_ID=#{fileId}
+    </select>
 </mapper>
