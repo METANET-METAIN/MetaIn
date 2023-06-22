@@ -167,7 +167,7 @@
         console.log(ev.columnIndex);
 
         // 셀에 대해 모두 click 이벤트가 발생해서 헤더에 대한 if 처리로 ev.targetType == "cell",
-        //     셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
+        // 셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridEmp.getRow(ev.rowKey);
             console.log(rowData);
@@ -177,6 +177,7 @@
             const issueStatus = rowData.issueStatus;
             console.log("issueStatus 확인 : " + issueStatus);
 
+            //한번발급 받은 증명서는 다운로드되지 않도록하는 조건
             if (parseInt(issueStatus) == 0) {
 
 
@@ -200,11 +201,8 @@
                         //서버 응답 처리
                         if (data) {
                             console.log('다운로드할 empCertId 보내짐!');
-                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
 
-                            /////////
-
-                            // 파일 다운로드 함수 호출
+                            //서버에서 받은 S3URL 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
                             console.log('다운로드 실패');
@@ -216,7 +214,7 @@
 
 
             } else {
-                //버튼 비활성화
+                //한번 발급받은 증명서 버튼 비활성화
                 console.log("버튼 값"+rowData.downloadBtn);
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
 
@@ -225,21 +223,7 @@
     });
 
 
-    // // 파일 다운로드 함수  ==> 기준
-    // function downloadFile(response) {
-    //     response.blob().then(function (blob) {
-    //         // Blob을 파일로 변환
-    //         const url = window.URL.createObjectURL(blob);
-    //         const a = document.createElement('a');
-    //         a.href = url;
-    //         a.download = getFileNameFromResponse(response); // 다운로드할 파일명 설정
-    //         a.click();
-    //         window.URL.revokeObjectURL(url);
-    //
-    //     });
-    // }
-
-    //S3 url로 다운로드 함수
+    //S3 url로 증명서 다운로드
     function downloadS3URL(url) {
         console.log(url)
         var link = document.createElement('a');
@@ -247,7 +231,6 @@
         link.download = true;
         link.click();
     }
-
 
 
     // 다운로드할 파일명을 응답 헤더에서 추출하는 함수
@@ -346,8 +329,6 @@
         console.log(ev);
         const certSort = "A02"; //경력증명서아이디랑 함께보낼 증명서 종류
         console.log(ev.columnIndex);
-        // 셀에 대해 모두 click 이벤트가 발생해서 헤더에 대한 if 처리로 ev.targetType == "cell",
-        //     셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
 
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridExp.getRow(ev.rowKey);
@@ -382,11 +363,7 @@
                         //서버 응답 처리
                         if (data) {
                             console.log('다운로드할 expCertId 보내짐!');
-                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
-
-                            /////////
-
-                            // 파일 다운로드 함수 호출
+                            // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
                             console.log('다운로드 실패');
@@ -404,8 +381,6 @@
             }//swal끝
 
         }
-
-
     });
 
 
@@ -493,8 +468,6 @@
         console.log(ev);
         const certSort = "A03"; //재직증명서아이디랑 함께보낼 증명서 종류
         console.log(ev.columnIndex);
-        // 셀에 대해 모두 click 이벤트가 발생해서 헤더에 대한 if 처리로 ev.targetType == "cell",
-        //     셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
 
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridRet.getRow(ev.rowKey);
@@ -530,11 +503,7 @@
                         //서버 응답 처리
                         if (data) {
                             console.log('다운로드할 retireCertId 보내짐!');
-                            // 서버에서 보낸 파일 받아서 다운로드 하도록 하는 함수 작성
-
-                            /////////
-
-                            // 파일 다운로드 함수 호출
+                            // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
                             console.log('다운로드 실패');

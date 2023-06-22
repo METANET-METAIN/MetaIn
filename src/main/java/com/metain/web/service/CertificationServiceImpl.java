@@ -30,7 +30,6 @@ import java.util.Base64;
 public class CertificationServiceImpl implements CertificationService {
 
 
-    //Mapper인터페이스 의존성주입
     @Autowired
     private CertificationMapper certificationMapper;
 
@@ -62,7 +61,6 @@ public class CertificationServiceImpl implements CertificationService {
         if (empInfolist == null) {
             return null;
         } else {
-
             String empGrade = empInfolist.getEmpGrade();
             if ("employee".equals(empGrade)) {
                 empGrade = "사원";
@@ -75,16 +73,16 @@ public class CertificationServiceImpl implements CertificationService {
             } else {
                 empGrade = "인사팀/관리자";
             }
-
             empInfolist.setEmpGrade(empGrade);
-        }
+        }//if
+
         return empInfolist;
-    }
+    }//getEmpInfoList
 
 
     //재직증명서 발급신청 - 정보입력
     //재직증명서 신청시 입력정보 추가
-    //재직증명서신청시 발급내역 추가
+    //재직증명서 신청시 발급내역 추가
     @Override
     @Transactional
     public EmpCert applyAndSelectEmpCert(CertInfoDTO certInfoDTO) { //insert와 그 해당 insert한 행 가져오는 select 트랜젝션처리하기
@@ -106,7 +104,7 @@ public class CertificationServiceImpl implements CertificationService {
         Long certId = certInfoDTO.getEmpCertId();
 
         EmpCert certlist = certificationMapper.selectEmpCert(certId);
-//        certificationMapper.insertIssue(empCert);
+        //certificationMapper.insertIssue(empCert);
 
         // SELECT 결과 처리
         if (certlist == null) {
@@ -117,8 +115,9 @@ public class CertificationServiceImpl implements CertificationService {
             // 필요한 작업 수행
             System.out.println("트랜잭션처리한 함수 확인 : " + certlist);
             return certlist;
-        }
-    }
+        }//if
+
+    }//applyAndSelectEmpCert
 
     @Transactional
     public ExperienceCert applyAndSelectExperCert(CertInfoDTO certInfoDTO) {
@@ -149,10 +148,9 @@ public class CertificationServiceImpl implements CertificationService {
             // 필요한 작업 수행
             System.out.println("certList확인 : " + certlist);
             return certlist;
-        }
+        }//if
 
-
-    }
+    }//applyAndSelectExperCert
 
 
     @Transactional
@@ -184,9 +182,8 @@ public class CertificationServiceImpl implements CertificationService {
         } else {
             // 필요한 작업 수행
             return certlist;
-        }
-    }
-
+        }//if
+    }//applyAndSelectRetireCert
 
 
     @Override
@@ -195,10 +192,6 @@ public class CertificationServiceImpl implements CertificationService {
 
         // 이미지 데이터를 Base64로 디코드하여 PDF로 변환
         byte[] imageBytes = Base64.getDecoder().decode(request.getImageData().split(",")[1]);
-
-//        // 이미지 데이터를 BufferedImage로 변환
-//        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-//        BufferedImage bufferedImage = ImageIO.read(bis);
 
         System.out.println("1!! pdf전환 컨트롤러에 요청 들어옴 , 이미지데이터 전달완료 :" + imageBytes);
 
@@ -233,40 +226,25 @@ public class CertificationServiceImpl implements CertificationService {
             String objectKey = "certification/converted.pdf";
             awsS3Service.updateFileInS3(pdfBytes, objectKey);
 
+            //local용 경로
+            //String filePath = "src/main/resources/static/certPdfFile/";
 
-//            //local용 경로
-//            String filePath = "src/main/resources/static/certPdfFile/";
-//
-//            //배포용 경로
-//            //String filePath = "/metainfiles/";
-
-//            String fileName = "converted.pdf";
-//            // PDF 파일 저장
-//            document.save(filePath + fileName);
-//            document.close();
-//            System.out.println("3!! PDF 전환 및 저장 완료");
-
-
-        }
-    }
+        }//try
+    }//makeCertPdf
 
     @Override
     public void signPdf(String filename) throws Exception {
 
-        System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?"+filename +" /");
+        System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
 
-        //s3가져오는 방식1
-
+        //s3가져오는 방식
         String pfxObjectKey = "metain.pfx";
         String pdfObjectKey = "certification/converted.pdf";
         String signObjectKey = "certification/metain-sign-Image.png";
 
         //String mountPath = "/metainfiles/";- 배포할때
 
-
         try {
-
-
             InputStream pfxInputStream = awsS3Service.getFileInputStreamFromS3(pfxObjectKey);
 
             InputStream pdfInputStream = awsS3Service.getFileInputStreamFromS3(pdfObjectKey);
@@ -295,24 +273,26 @@ public class CertificationServiceImpl implements CertificationService {
             options.setLeft(370);
             options.setTop(650);
             options.setPageNumber(1);
-            System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() +"페이ㅣ지: "+ options.getPageNumber() + "페이지정보:"+ options.getAllPages());
-            System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : "+ options.getSignatureType());
+            System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() + "페이ㅣ지: " + options.getPageNumber() + "페이지정보:" + options.getAllPages());
+            System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : " + options.getSignatureType());
             System.out.println(" / 디지털서명함수 check 4" + options);
             System.out.println(" 디지털서명함수 check 5 / ");
 
-            // 파일에 문서 서명  // 파일에 문서 서명 및 결과를 outputStream에 저장
+            // 파일에 문서 서명
             //signature.sign(filePath + filename, options);
-            signature.sign(outputStream, options); //저장경로, 사인옵션 파라미터
+
+            // 파일에 문서 서명 및 결과를 outputStream에 저장
+            signature.sign(outputStream, options); //저장할파일객체, 사인옵션 파라미터
 
             //디지털서명된 cert를 s3에 업로드하는 메소드 호출
             byte[] signedBytes = outputStream.toByteArray();
-            awsS3Service.uploadCertToS3( signedBytes ,filename);
+            awsS3Service.uploadCertToS3(signedBytes, filename);
 
             System.out.print(" 디지털서명함수 check 6 FINAL / ");
         } catch (Exception e) {
             System.out.print("에러기록 : " + e.toString());
             throw new GroupDocsSignatureException(e.toString());
-        }
+        }//try
 
 
     }//signPdf
