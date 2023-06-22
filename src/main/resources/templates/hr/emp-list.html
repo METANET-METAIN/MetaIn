@@ -134,7 +134,7 @@
 
                     <div class="mb-3">
                         <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <select type="text" class="form-control" id="empStatus">
+                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">
                             <option value="ACTIVE">재직</option>
                             <option value="RETIREE">퇴직</option>
                         </select>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="empLastDt" class="col-form-label">퇴사 일자</label>
-                        <input type="text" readonly class="form-control" id="empLastDt">
+                        <input type="date" class="form-control" id="empLastDt" disabled>
                     </div>
                 </form>
             </div>
@@ -328,6 +328,22 @@
         formattedDate = formattedDate.toISOString().substring(0,10);
         return formattedDate;
     };
+
+    // function handleEmpStatusChange() {
+    //     var empStatus = document.getElementById("empStatus").value;
+    //     var empRetirementDateInput = document.getElementById("empRetirementDate");
+    //
+    //     if (empStatus === "RETIREE") {
+    //         empRetirementDateInput.removeAttribute("disabled");
+    //     } else {
+    //         empRetirementDateInput.setAttribute("disabled", "disabled");
+    //     }
+    // };
+
+document.querySelector('#handleEmpStatusChange').addEventListener('change',
+    function(){
+        console.log('변경됐나 확인')
+    })
 
 
     function updateEmp() {
