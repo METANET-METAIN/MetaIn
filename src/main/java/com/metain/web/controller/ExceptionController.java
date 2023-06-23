@@ -1,3 +1,4 @@
+
 package com.metain.web.controller;
 
 
@@ -30,8 +31,15 @@ public class ExceptionController implements ErrorController {
             // 500 오류 페이지를 반환
             return "error/500";
         }
+        else if (statusCode == HttpStatus.FORBIDDEN.value()){
+            // 403 오류 페이지를 반환
+            return "error/403";
+        }
 
         // 기본 오류 페이지를 반환
         return "error/500";
     }
+
+
+
 }

@@ -29,6 +29,7 @@ public class AwsS3Service {
     //    @Value("${cloud.aws.s3.bucket}")
 //    private String bucket;
     private final String bucket = "metain2";
+
     private final String bucketName = "metain2";
 
 
@@ -121,6 +122,7 @@ public class AwsS3Service {
 //            return null;
 //        }
 //    }
+
 
     /**
      * 파일을 Amazon S3에 업로드
