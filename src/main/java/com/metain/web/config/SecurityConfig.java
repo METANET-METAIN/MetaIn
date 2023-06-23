@@ -108,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                         // 페이지 이동
-                        response.sendRedirect("error/access-denied"));
+                        response.sendRedirect("/error/access-denied"));
 
         http
                 .sessionManagement()
