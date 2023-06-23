@@ -230,10 +230,10 @@ public class VacationServiceImpl implements VacationService{
             String vacStatus = vacation.getVacStatus();
 
             if (vacStatus.equals("승인대기") && (localDate.isEqual(vacStartDate) || localDate.isAfter(vacStartDate))) {
-                // Reject the vacation request
+                // 반려하기
                 int re = vacMapper.rejectVacationRequest(vacation.getVacId(), vacStatus);
                 System.out.println("자동 반려되었습니다. Vacation ID: " + vacation.getVacId());
-                // Handle the rejection result, if needed
+
             }
         }
     }
