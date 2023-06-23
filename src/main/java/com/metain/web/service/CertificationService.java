@@ -11,7 +11,6 @@ public interface CertificationService {
     //필요한 emp 정보 list로 가져오기
     public Emp getEmpInfoList(Long empId);
 
-
     //재직증명서 신청 기능
     public EmpCert applyAndSelectEmpCert(CertInfoDTO certInfoDTO);
 
