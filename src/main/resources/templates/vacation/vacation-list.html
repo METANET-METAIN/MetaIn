@@ -63,6 +63,18 @@
         </div>-->
 	</div>
 </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+	<section id="footer">
+	</section>
+</th:block>
+<!-- buttons for Export datatable -->
+<script src="/src/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="/src/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="/src/plugins/datatables/js/vfs_fonts.js"></script>
+
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>

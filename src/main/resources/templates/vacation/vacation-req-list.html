@@ -46,23 +46,20 @@
 						</p>
 					</div>
 				</div>
-				<!--<div class="footer-wrap pd-20 mb-20 card-box">
-					DeskApp - Bootstrap 4 Admin Template By
-					<a href="https://github.com/dropways" target="_blank"
-						>Ankit Hingarajiya</a
-					>
-				</div>-->
+
 			</div>
 		</div>
-		<!-- welcome modal start -->
-
-		<!-- welcome modal end -->
-		<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
-
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+	<section id="footer">
+	</section>
+</th:block>
+<!-- buttons for Export datatable -->
+<script src="/src/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="/src/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="/src/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="/src/plugins/datatables/js/vfs_fonts.js"></script>
 
 		<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
