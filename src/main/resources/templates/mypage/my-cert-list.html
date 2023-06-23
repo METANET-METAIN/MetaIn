@@ -139,10 +139,6 @@
                 header: '다운로드',
                 name: 'downloadBtn',
                 formatter: function (value, row) {
-                    console.log(value)
-                    console.log(row)
-                    console.log(value.row.empCertId)
-
 
                     return '<button type="button" id="downbtn" class="grid-button"> 발급 </button>';
                 },
@@ -162,24 +158,17 @@
 
     // 그리드 클릭 시 이벤트
     gridEmp.on('click', function (ev) {
-        console.log(ev);
         const certSort = "A01"; //재직증명서아이디랑 함께보낼 증명서 종류
-        console.log(ev.columnIndex);
 
         // 셀에 대해 모두 click 이벤트가 발생해서 헤더에 대한 if 처리로 ev.targetType == "cell",
         // 셀 중에 다운로드 버튼인지 ev.columnName == "downloadBtn" 로 다운로드 버튼인지 알수 있다
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridEmp.getRow(ev.rowKey);
-            console.log(rowData);
             const certId = rowData.empCertId;
-            console.log("empCertId확인 : " + certId);
-
             const issueStatus = rowData.issueStatus;
-            console.log("issueStatus 확인 : " + issueStatus);
 
             //한번발급 받은 증명서는 다운로드되지 않도록하는 조건
             if (parseInt(issueStatus) == 0) {
-
 
                 // CSRF 토큰을 포함한 헤더 설정
                 var header = $("meta[name='_csrf_header']").attr('content');
@@ -200,8 +189,6 @@
                     .then(function (data) {
                         //서버 응답 처리
                         if (data) {
-                            console.log('다운로드할 empCertId 보내짐!');
-
                             //서버에서 받은 S3URL 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
@@ -209,13 +196,12 @@
                         }
                     })
                     .catch(function (error) {
-                        console.log('Error', error);
+                        console.log('Error');
                     });//fetch끝
 
 
             } else {
                 //한번 발급받은 증명서 버튼 비활성화
-                console.log("버튼 값"+rowData.downloadBtn);
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
 
             }//swal끝
@@ -225,7 +211,6 @@
 
     //S3 url로 증명서 다운로드
     function downloadS3URL(url) {
-        console.log(url)
         var link = document.createElement('a');
         link.href = url;
         link.download = true;
@@ -264,6 +249,11 @@
 
             // empData의 날짜 형식을 변경하여 그리드에 바인딩
             empData.forEach(function (emp) {
+                if(emp.issueStatus===0){
+                    emp.issueStatus="다운로드 가능";
+                }else{
+                    emp.issueStatus="다운로드 불가";
+                }
                 emp.certRegDate = formatDate(new Date(emp.certRegDate));
             });
 
@@ -304,9 +294,6 @@
                 header: '다운로드',
                 name: 'downloadBtn',
                 formatter: function (value, row) {
-                    console.log(value)
-                    console.log(row)
-                    console.log(value.row.empCertId)
 
                     return '<button type="button" id="" class="grid-button"> 발급 </button>';
                 },
@@ -326,18 +313,13 @@
 
     // 그리드 클릭 시 이벤트
     gridExp.on('click', function (ev) {
-        console.log(ev);
         const certSort = "A02"; //경력증명서아이디랑 함께보낼 증명서 종류
-        console.log(ev.columnIndex);
 
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridExp.getRow(ev.rowKey);
-            console.log(rowData);
             const certId = rowData.experCertId;
-            console.log("empCertId확인 : " + certId);
 
             const issueStatus = rowData.issueStatus;
-            console.log("issueStatus 확인 : " + issueStatus);
 
             if (parseInt(issueStatus) == 0) {
 
@@ -362,7 +344,6 @@
                     .then(function (data) {
                         //서버 응답 처리
                         if (data) {
-                            console.log('다운로드할 expCertId 보내짐!');
                             // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
@@ -370,12 +351,11 @@
                         }
                     })
                     .catch(function (error) {
-                        console.log('Error', error);
+                        console.log('Error');
                     });//fetch끝
 
             } else {
                 //버튼 비활성화
-                console.log("버튼 값"+rowData.downloadBtn);
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
 
             }//swal끝
@@ -392,6 +372,11 @@
         .then(function (expData) {
             // empData의 날짜 형식을 변경하여 그리드에 바인딩
             expData.forEach(function (exper) {
+                if(exper.issueStatus===0){
+                    exper.issueStatus="다운로드 가능";
+                }else{
+                    exper.issueStatus="다운로드 불가";
+                }
                 exper.certRegDate = formatDate(new Date(exper.certRegDate));
             });
             gridExp.resetData(expData);
@@ -431,9 +416,6 @@
                 header: '다운로드',
                 name: 'downloadBtn',
                 formatter: function (value, row) {
-                    console.log(value)
-                    console.log(row)
-                    console.log(value.row.empCertId)
 
                     return '<button type="button" id="" class="grid-button"> 발급 </button>';
                 },
@@ -452,31 +434,24 @@
 
     // 그리드 클릭 시 이벤트
     gridRet.on('click', function (ev) {
-        console.log(ev);
         const column = ev.data
         // const row = grid.getRow(ev.rowKey);
         if (column == '다운로드') {
             const rowKey = ev.rowKey;
             const row = gridRet.getRow(rowKey);
-            console.log(row);
         }
 
     });
 
     // 그리드 클릭 시 이벤트
     gridRet.on('click', function (ev) {
-        console.log(ev);
         const certSort = "A03"; //재직증명서아이디랑 함께보낼 증명서 종류
-        console.log(ev.columnIndex);
 
         if (ev.targetType == "cell" && ev.columnName == "downloadBtn") {
             const rowData = gridRet.getRow(ev.rowKey);
-            console.log(rowData);
             const certId = rowData.retireCertId;
-            console.log("retireCertId확인 : " + certId);
 
             const issueStatus = rowData.issueStatus;
-            console.log("issueStatus 확인 : " + issueStatus);
 
             if (parseInt(issueStatus) == 0) {
 
@@ -502,7 +477,6 @@
                     .then(function (data) {
                         //서버 응답 처리
                         if (data) {
-                            console.log('다운로드할 retireCertId 보내짐!');
                             // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
                         } else {
@@ -510,12 +484,11 @@
                         }
                     })
                     .catch(function (error) {
-                        console.log('Error', error);
+                        console.log('Error');
                     });//fetch끝
 
             } else {
                 //버튼 비활성화
-                console.log(rowData.downloadBtn);
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
             }
 
@@ -531,6 +504,13 @@
         .then(function (retData) {
             // empData의 날짜 형식을 변경하여 그리드에 바인딩
             retData.forEach(function (retire) {
+                // //여기에
+                // var statusCh=retire.issueStatus;
+                if(retire.issueStatus===0){
+                    retire.issueStatus="다운로드 가능";
+                }else{
+                    retire.issueStatus="다운로드 불가";
+                }
                 retire.certRegDate = formatDate(new Date(retire.certRegDate));
             });
             gridRet.resetData(retData);
