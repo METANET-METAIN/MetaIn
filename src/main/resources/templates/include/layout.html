@@ -137,18 +137,18 @@
 
     </head>
     <body>
-<!--    <div class="pre-loader">-->
-<!--        <div class="pre-loader-box">-->
-<!--            <div class="loader-logo">-->
-<!--                <img src="/vendors/images/logo.png" alt="" />-->
-<!--            </div>-->
-<!--            <div class="loader-progress" id="progress_div">-->
-<!--                <div class="bar" id="bar1"></div>-->
-<!--            </div>-->
-<!--            <div class="percent" id="percent1">0%</div>-->
-<!--            <div class="loading-text">Loading...</div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="pre-loader">-->
+    <!--        <div class="pre-loader-box">-->
+    <!--            <div class="loader-logo">-->
+    <!--                <img src="/vendors/images/logo.png" alt="" />-->
+    <!--            </div>-->
+    <!--            <div class="loader-progress" id="progress_div">-->
+    <!--                <div class="bar" id="bar1"></div>-->
+    <!--            </div>-->
+    <!--            <div class="percent" id="percent1">0%</div>-->
+    <!--            <div class="loading-text">Loading...</div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <script th:inline="javascript">
 
         const empId = [[${emp.empId}]] ;
@@ -238,7 +238,9 @@
                                 $(".bell").append(alarmList);
                             },
                             error: function (request, status, error) {
-                               // alert("ajax 실행 실패");
+
+                                // alert("ajax 실행 실패");
+
                                 //alert("code:" + request.status + "\n" + "error :" + error);
                             }
                         });
@@ -263,7 +265,9 @@
 
         </div>
         <div class="header-right">
-            <div class="user-notification">
+
+            <div class="user-notification" th:if="${emp.empStatus} == 'ACTIVE'">
+
                 <div class="dropdown">
                     <a
                             class="dropdown-toggle no-arrow"
@@ -292,6 +296,7 @@
                             data-toggle="dropdown"
                     >
                         <span style="width:130px;margin-right: 25px;">
+
 								안녕하세요 <b><span th:text="${emp.empName}"/></b> 님
 						</span>
 
@@ -299,6 +304,7 @@
 
                             <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" style="width: 50px; height: 50px;"/>
 						</span>
+
                     </a>
                     <!-- 로그아웃  -->
                     <form id="logoutForm" th:action="@{/logout}" method="post">
@@ -320,6 +326,21 @@
         </div>
     </div>
 
+
+<!--     <div class="right-sidebar">
+        <div class="sidebar-title">
+
+        </div>
+        <div class="right-sidebar-body customscroll">
+            <div class="right-sidebar-body-content"> <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
+                <div class="sidebar-btn-group pb-30 mb-10">
+                    <a
+                            href="javascript:void(0);"
+                            class="btn btn-outline-primary sidebar-light active"
+                    >White</a
+                    >
+                </div> -->
+
 <div class="right-sidebar">
     <div class="sidebar-title">
 
@@ -333,6 +354,7 @@
                 >White</a
                 >
             </div>
+
 
             </div>
         </div>
@@ -356,14 +378,16 @@
 
                         <a href="/index" class="dropdown-toggle no-arrow active">
 
-									<span class="micon bi bi-chat-right-dots"></span
-                                    ><span class="mtext">Home</span>
+                           <span class="micon bi bi-chat-right-dots"></span>
+                            <span class="mtext">Home</span>
                         </a>
                     </li>
-                    <li class="dropdown">
+
+                    <li class="dropdown" th:if="${emp.empStatus} == 'ACTIVE'">
+
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">휴가관리</span>
+                           <span class="micon bi bi-textarea-resize"></span>
+                            <span class="mtext">휴가관리</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/vacation/vacation-list"> 전체 목록</a></li>
@@ -373,43 +397,56 @@
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">증명서 발급</span>
+                           <span class="micon bi bi-textarea-resize"></span
+                           ><span class="mtext">증명서 발급</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="/certification/emp-cert-show"> 재직증명서</a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/certification/emp-cert-show"> 재직증명서</a></li>
                             <li><a href="/certification/exper-cert-show"> 경력증명서</a></li>
-                            <li><a href="/certification/retire-cert-show"> 퇴직증명서</a></li>
+                            <li th:if="${emp.empStatus} == 'RETIREE'">
+                                <a href="/certification/retire-cert-show"> 퇴직증명서</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">마이 페이지</span>
+                           <span class="micon bi bi-textarea-resize"></span
+                           ><span class="mtext">마이 페이지</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/mypage/my-cert-list"> 증명서 발급내역</a></li>
-                            <li><a href="/mypage/my-vac-list"> 휴가 신청 조회 </a></li>
-                            <li><a href="/mypage/update-mypage"> 내 정보 수정 </a></li>
-                            <li><a href="/mypage/alarm"> 알림함 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/my-vac-list"> 휴가 신청 조회 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/update-mypage"> 내 정보 수정 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/alarm"> 알림함 </a></li>
                         </ul>
                     </li>
-                    <li th:if="${emp.empGrade} == 'ADMIN'">
+
+                    <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+
                         <a href="/vacation/vacation-req-list" class="dropdown-toggle no-arrow">
-									<span class="micon bi bi-calendar4-week"></span
-                                    ><span class="mtext">요청된 휴가 목록</span>
+                           <span class="micon bi bi-calendar4-week"></span>
+                            <span class="mtext">요청된 휴가 목록</span>
                         </a>
                     </li>
-                    <li class="dropdown" th:if="${emp.empGrade} == 'HR'">
+
+                    <li class="dropdown" th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
+
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">인사관리</span>
+                           <span class="micon bi bi-textarea-resize"></span>
+                            <span class="mtext">사원 관리</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="/hr/emp-list"> 사원 전체 조회</a></li>
-                            <!--                            <li><a href=""> 인사 정보 수정 </a></li>-->
-                            <li><a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
-                            <li><a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
+
+                            <li th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
+                                <a href="/hr/emp-list"> 사원 전체 조회</a></li>
+                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                                <a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
+                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                                <a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
+
                         </ul>
                 </ul>
             </div>
@@ -434,10 +471,10 @@
     <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
     <script>
 
-       function logout() {
-           document.getElementById('logoutForm').submit(); // 폼 제출
-           console.log('로그아웃 된다');
-       }
+        function logout() {
+            document.getElementById('logoutForm').submit(); // 폼 제출
+            console.log('로그아웃 된다');
+        }
 
     </script>
 
