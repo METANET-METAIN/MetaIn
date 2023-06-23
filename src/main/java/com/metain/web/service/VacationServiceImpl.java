@@ -12,9 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 @Service
 @Transactional
 @EnableScheduling
@@ -29,6 +35,8 @@ public class VacationServiceImpl implements VacationService{
     private AlarmMapper alarmMapper;
     @Autowired
     private AlarmService alarmService;
+    @Autowired
+    private AwsS3Service awsS3Service;
 
     @Override
     public List<VacationListDTO> selectAllList() {
@@ -120,13 +128,32 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void insertAfterVacation(Vacation vacation) {
-        String fn = vacation.getFileName();
+    public void insertAfterVacation(Vacation vacation, MultipartFile file) throws IOException {
+        Long empId = vacation.getEmpId();
+        Emp emp=hrMapper.selectEmpInfo(empId);
+        String sabun = emp.getEmpSabun();
+        UUID uuid = UUID.randomUUID();
+
+        File files = new File(file.getOriginalFilename());
+        FileCopyUtils.copy(file.getBytes(), files);
+
+        String originalImgName = file.getOriginalFilename();
+        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
+
+        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+        String path="/file";
+        awsS3Service.uploadS3File(file,savedImgName,path);
+        vacation.setFileName(savedImgName);
+
+        System.out.println(savedImgName);
+
         // 파일 정보 삽입
         FileDTO fileDTO = new FileDTO();
-        fileDTO.setFileName(fn);
-        fileDTO.setEmpId(5L);
+        fileDTO.setFileName(savedImgName);
+        fileDTO.setEmpId(vacation.getEmpId());
         fileMapper.insertFile(fileDTO);
+        System.out.println(fileDTO);
+
         //인서트 되면 AUTOINCREAMENT 값 가져 와서 VAC에 넣기 
         int fileId = fileMapper.getFileId();
         vacation.setFileId((long) fileId);

@@ -55,10 +55,6 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public List<EmpCert> selectMyEmpCert(Long empId) {
         List<EmpCert> list = myPageMapper.selectMyEmpCert(empId);
-
-        // 리스트에 empCert 객체 추가
-        //list.add(empCert);
-
         return list;
     }
 

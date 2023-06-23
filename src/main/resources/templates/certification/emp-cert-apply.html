@@ -45,23 +45,9 @@
                     <h4 class="text-blue h4">필수입력 정보</h4>
                     <p class="mb-30">정보를 확인해주세요</p>
                 </div>
-                <!-- <div class="pull-right">
-                    <a
-                        href="#horizontal-basic-form1"
-                        class="btn btn-primary btn-sm scroll-click"
-                        rel="content-y"
-                        data-toggle="collapse"
-                        role="button"
-                        ><i class="fa fa-code"></i> Source Code</a
-                    >
-                </div> -->
-
-
-                <!--   th:object="${Emp}" -->
             </div>
             <form th:if="${emp != null}" th:action="@{/certification/handleEmpCertInfo}" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!--        <div th:each="emp : ${empInfoList}"> </div>-->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="form-group">
                     <label for="certSort">증명서 종류</label>
                     <input
@@ -257,10 +243,10 @@
                     </div>
                 </div>
             </form>
-            <!-- emp객체 데이터 잘 넘어오나 확인 코드 -->
-            <div th:unless="${emp != null}">
-                <span> 데이터가 없습니다.</span>
-            </div>
+            <!--            &lt;!&ndash; emp객체 데이터 잘 넘어오나 확인 코드 &ndash;&gt;-->
+            <!--            <div th:unless="${emp != null}">-->
+            <!--                <span> 데이터가 없습니다.</span>-->
+            <!--            </div>-->
 
         </div>
     </div>
@@ -304,7 +290,9 @@
         // 체크박스가 하나 이상인지 확인
         if (checkedCount < 1) {
             // 체크박스가 하나 이상이어야 한다는 경고창 표시
-            swal("경고", "사용용도를 선택해주세요", "warning")
+            // swal("경고", "사용용도를 선택해주세요", "warning")
+            alert("사용 용도를 선택해주세요");
+            return;
         } else {
             swal(
                 {

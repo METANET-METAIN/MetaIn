@@ -97,25 +97,7 @@ public class VacationController {
         empId=vacation.getEmpId();
         int selectedDays=Integer.parseInt(diffDays);
 
-        String type = vacation.getVacType();
-        String sabun = empInfo.getEmpSabun();
-        // 파일 이름=휴가타입+날짜 +uuid
-        UUID uuid = UUID.randomUUID();
-        String originalFileName = file.getOriginalFilename();
-        String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 확장자
-
-        String savedFileName =sabun + uuid.toString().substring(0, 4) + extension; // 유형사번uuid
-
-        // 저장될 경로
-        //String savePath = System.getProperty("user.dir") + "/src/main/resources/static/file/" + savedFileName;
-        String savePath = "classpath:/static/"+ savedFileName;
-        File destFile = new File(savePath);
-        file.transferTo(destFile);
-
-        // 파일 이름을 DB의 file_name 컬럼에 저장
-        vacation.setFileName(savedFileName);
-
-        vacationService.insertAfterVacation(vacation);
+        vacationService.insertAfterVacation(vacation,file);
         vacationService.decreaseVacation(selectedDays,empId);
 
         return "redirect:/mypage/my-vac-list";
@@ -123,33 +105,53 @@ public class VacationController {
 
     @GetMapping("/vacation-detail/{vacationId}")
     public String vacationDetail(@PathVariable("vacationId") Long vacationId,Model model,Authentication auth) {
-        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
-        Long empId= principalDetails.getEmpId();
-
+        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
+        Long empId = principalDetails.getEmpId();
+        Emp empInfo = hrService.selectEmpInfo(empId);
+        System.out.println("휴가번호=====================" + vacationId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
-        VacationFileDTO vac=vacationService.vacationDetail(vacationId);
+        VacationFileDTO vac = vacationService.vacationDetail(vacationId);
+        System.out.println("휴가정보=====================" + vac);
+        if (vac == null) {
+            VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
+            //신청한 사람
+            Emp emp = hrService.selectEmpInfo(vacWithoutFile.getEmpId());
+            //관리자 정보
+            Emp admin = hrService.selectEmpInfo(vacWithoutFile.getAdmId());
+            //총 사용날짜 구하기
+            java.util.Date startDate = new java.util.Date(vacWithoutFile.getVacStartDate().getTime());
+            java.util.Date endDate = new java.util.Date(vacWithoutFile.getVacEndDate().getTime());
 
-        //로그인 유저 정보
-        Emp empInfo=hrService.selectEmpInfo(empId);
-        //관리자 정보
-        Emp admin=hrService.selectEmpInfo(vac.getAdmId());
-        //신청인 정보
-        Emp req=hrService.selectEmpInfo(vac.getEmpId());
-        //총 사용날짜 구하기
-        java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
-        java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
+            long diff = endDate.getTime() - startDate.getTime();
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000) + 1);
 
-        long diff = endDate.getTime() - startDate.getTime();
-        int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+            model.addAttribute("vac", vacWithoutFile);
+            model.addAttribute("emp", empInfo); //관리자로 로그인한 유저
+            model.addAttribute("req", emp); //신청한 사람
+            model.addAttribute("admin", admin);
+            model.addAttribute("diff", daysDiff);
 
-        model.addAttribute("vac",vac);
-        model.addAttribute("emp",empInfo);//로그인한 유저
-        model.addAttribute("admin",admin);//관리자
-        model.addAttribute("req",req);
-        model.addAttribute("diff",daysDiff);
-        return "/vacation/vacation-detail";
+            return "/vacation/vacation-detail";
+        }else{
+            //신청한 사람
+            Emp emp=hrService.selectEmpInfo(vac.getEmpId());
+            //관리자 정보
+            Emp admin=hrService.selectEmpInfo(vac.getAdmId());
+            //총 사용날짜 구하기
+            java.util.Date startDate = new java.util.Date(vac.getVacStartDate().getTime());
+            java.util.Date endDate = new java.util.Date(vac.getVacEndDate().getTime());
+
+            long diff = endDate.getTime() - startDate.getTime();
+            int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
+            model.addAttribute("vac",vac);
+            model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
+            model.addAttribute("req",emp); //신청한 사람
+            model.addAttribute("admin",admin);
+            model.addAttribute("diff",daysDiff);
+            return "/vacation/vacation-detail";
+        }
     }
 
     //요청 휴가 디테일
@@ -194,13 +196,11 @@ public class VacationController {
 
             long diff = endDate.getTime() - startDate.getTime();
             int daysDiff = (int) (diff / (24 * 60 * 60 * 1000)+1);
-            String filePath=fileMapper.getFilePath(vac.getFileId());
             model.addAttribute("vac",vac);
             model.addAttribute("emp",empInfo); //관리자로 로그인한 유저
             model.addAttribute("req",emp); //신청한 사람
             model.addAttribute("admin",admin);
             model.addAttribute("diff",daysDiff);
-            model.addAttribute("filePath",filePath);
             return "/vacation/request-vacation";
         }
     }

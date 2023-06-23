@@ -8,7 +8,9 @@ import com.metain.web.dto.VacationFileDTO;
 import com.metain.web.dto.VacationListDTO;
 import com.metain.web.dto.VacationWithoutFileDTO;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public interface VacationService {
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 
     public void insertVacation(Vacation vacation,int diffDays,Long empId);
-    public void insertAfterVacation(Vacation vacation);
+    public void insertAfterVacation(Vacation vacation, MultipartFile file) throws IOException;
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
 

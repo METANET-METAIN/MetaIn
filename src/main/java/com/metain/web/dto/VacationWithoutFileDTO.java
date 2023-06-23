@@ -21,4 +21,5 @@ public class VacationWithoutFileDTO {
     private String vacResn;
     private String vacStatus;
     private Date vacUpdat;
+    private String fileName;
 }
