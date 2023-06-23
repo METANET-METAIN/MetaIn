@@ -7,6 +7,8 @@ import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.FileMapper;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.VacationMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,6 +39,7 @@ public class VacationServiceImpl implements VacationService{
     private AlarmService alarmService;
     @Autowired
     private AwsS3Service awsS3Service;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<VacationListDTO> selectAllList() {
@@ -114,13 +117,13 @@ public class VacationServiceImpl implements VacationService{
     public void insertVacation(Vacation vacation,int diffDays,Long empId) {
         vacMapper.requestVacation(vacation);
         vacMapper.decreaseVacation(diffDays,empId);
+        logger.info("VacService/insertVacation-vacation",vacation);
 
-        System.out.println("vacation = 1111111111111111111111" + vacation);
         AlarmDTO alarmDTO=new AlarmDTO();
         alarmDTO.setNotiContent("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!");
         alarmDTO.setNotiUrl("/mypage/my-vac-list");
         alarmDTO.setNotiType("휴가정보");
-        alarmDTO.setEmpId(empId); //ㄱre?
+        alarmDTO.setEmpId(empId);
         alarmMapper.insertAlarm(alarmDTO);
 
         alarmService.send(empId, AlarmResponse.comment("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!"));
@@ -141,18 +144,18 @@ public class VacationServiceImpl implements VacationService{
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
         String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-        String path="/file";
+        String path="file";
         awsS3Service.uploadS3File(file,savedImgName,path);
         vacation.setFileName(savedImgName);
 
-        System.out.println(savedImgName);
+        logger.info("VacService/insertAfterVacation의 savedImgName",savedImgName);
 
         // 파일 정보 삽입
         FileDTO fileDTO = new FileDTO();
         fileDTO.setFileName(savedImgName);
         fileDTO.setEmpId(vacation.getEmpId());
         fileMapper.insertFile(fileDTO);
-        System.out.println(fileDTO);
+        logger.info("VacService/insertAfterVacation의 fileDTO",fileDTO);
 
         //인서트 되면 AUTOINCREAMENT 값 가져 와서 VAC에 넣기 
         int fileId = fileMapper.getFileId();
@@ -183,7 +186,7 @@ public class VacationServiceImpl implements VacationService{
 
     @Override
     public int annualUpdate(Emp empInfo) {
-        System.out.println("서비스에서 "+empInfo);
+        logger.info("VacService/annualUpdate 의 fileDTO",empInfo);
         return hrMapper.annualUpdate(empInfo);
     }
 
@@ -232,7 +235,7 @@ public class VacationServiceImpl implements VacationService{
             if (vacStatus.equals("승인대기") && (localDate.isEqual(vacStartDate) || localDate.isAfter(vacStartDate))) {
                 // 반려하기
                 int re = vacMapper.rejectVacationRequest(vacation.getVacId(), vacStatus);
-                System.out.println("자동 반려되었습니다. Vacation ID: " + vacation.getVacId());
+                logger.info("스케쥴러에의해 자동반려된 vacId ",vacation.getVacId());
 
             }
         }

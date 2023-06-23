@@ -3,6 +3,8 @@ package com.metain.web.service;
 import com.metain.web.domain.Emp;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MemberMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     public HrMapper hrMapper;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @Override

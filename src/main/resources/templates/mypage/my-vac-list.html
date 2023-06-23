@@ -137,7 +137,7 @@
 <script th:inline="javascript">
     const vacList= /*[[${vacList}]]*/ [];
     grid.on('click',function(ev) {
-        console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+        //console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
         const indexOfRow=grid.getIndexOfRow(ev.rowKey); //인덱스
         //클릭한 인덱스의 vacId
         const vacationId=vacList[indexOfRow].vacId;

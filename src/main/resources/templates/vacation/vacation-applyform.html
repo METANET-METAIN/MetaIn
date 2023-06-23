@@ -164,16 +164,16 @@
     }//elseif 끝
   });
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
-  console.log(count)
+
   $('input[type="date"]').on('change', function (event) {
     let startDate = new Date($('#vacStartDate').val());
     let endDate = new Date($('#vacEndDate').val());
-    console.log(count);
+
     let daysDiff = 0;
     if (startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
       daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-      console.log("daysDiff" + daysDiff);
+
     }
     if (startDate > endDate) {
       swal.fire({

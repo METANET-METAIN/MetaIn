@@ -8,6 +8,8 @@ import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ public class MyPageServiceImpl implements MyPageService{
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
@@ -99,7 +102,7 @@ public class MyPageServiceImpl implements MyPageService{
         }else if (certSort.equals("A03")){
             myPageMapper.updateRetireIssueStatus(certId);
         }else {
-            System.out.println("Issue Status 업데이트할 정보 안들어옴 !");
+            logger.info("Issue Status 업데이트할 정보 [[없음]]");
         }
     }
 
@@ -117,8 +120,11 @@ public class MyPageServiceImpl implements MyPageService{
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
         String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
-        System.out.println(encryptedPwd);
-        System.out.println("updateMy : " + dbemp);
+
+        logger.info("MypageSer/updateMy encryptedPwd=",encryptedPwd);
+        logger.info("MypageSer/updateMy dbemp=",dbemp);
+
+
 
         dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());

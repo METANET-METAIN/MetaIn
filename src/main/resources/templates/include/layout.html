@@ -156,7 +156,7 @@
             var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + empId);
             sse.addEventListener("subscribe", function(e) {
                 var receivedConnectData = e.data;
-                console.log("connect event data: ", e); // "connected!"
+                //console.log("connect event data: ", e); // "connected!"이면 연결완료
             });
 
             sse.addEventListener("alarm", function(e) {
@@ -178,13 +178,11 @@
 
             $(document).on("click", ".dropdown-toggle", function () {
 
-                console.log("EEEE"+[[${emp.empId}]])
                 $.ajax({
                     type: "get",
                     url: "/vacation/today?empId="+empId,
                     dataType: "JSON",
                     success: function (result) {
-                        console.log("오늘 휴가 사용자 "+result);
                         let alarmList = "";
                         for (let alarmListElement of result) {
                             if (alarmListElement != null) {
@@ -208,7 +206,6 @@
                             url: "/vacation/alarm?empId="+empId,
                             dataType: "JSON",
                             success: function (result) {
-                                console.log(result);
                                 let alarmList = "";
                                 if (result.length === 0) {
                                     let alarmItem = "";
@@ -473,7 +470,6 @@
 
         function logout() {
             document.getElementById('logoutForm').submit(); // 폼 제출
-            console.log('로그아웃 된다');
         }
 
     </script>

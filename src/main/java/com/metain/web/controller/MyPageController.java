@@ -94,66 +94,26 @@ public class MyPageController {
         return myPageService.selectMyRetCert(empId);
     }
 
-
-//    //파일 다운로드 시도 ==> 이게더 빠름 이걸 기준으로 하기 !!
-//    @ResponseBody
-//    @Transactional
-//    @PostMapping("/downloadCert/{certId}/{certSort}")
-//    public ResponseEntity<Resource> downloadCert(@PathVariable("certId") Long certId, @PathVariable("certSort") String certSort) throws IOException {
-//
-//        System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
-//
-//        //받아온 certId를 이용해서 파일이름 을 얻어오기
-//        String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
-//
-//        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
-//        Resource fileResource = new ClassPathResource("static/certPdfFile/" + filename);
-//
-//
-//
-//        // 파일을 byte 배열로 읽어옴
-//        byte[] fileData = Files.readAllBytes(fileResource.getFile().toPath());
-//        ByteArrayResource byteArrayResource = new ByteArrayResource(fileData);
-//
-//
-//        //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
-//        //myPageService.updateIssueStatus(certId,certSort);
-//
-//        if (byteArrayResource.exists()) {
-//
-//            return ResponseEntity
-//                    .ok()
-//                    .contentType(MediaType.APPLICATION_PDF)
-//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-//                    .body(byteArrayResource);
-//        } else {
-//            // 파일이 존재하지 않을 경우 에러 처리 로직
-//            // 예를 들어 404 Not Found 응답을 반환하거나 다른 방식으로 처리 가능
-//            return ResponseEntity.notFound().build();
-//        }
-//    }//downloadCert
-
-
     //파일 다운로드 S3적용 시도
     @ResponseBody
     @Transactional
     @PostMapping("/downloadCert/{certId}/{certSort}")
     public ResponseEntity<String> downloadCert(@PathVariable("certId") Long certId, @PathVariable("certSort") String certSort) throws IOException {
 
-        System.out.println("뷰단에서 값잘받아왔나 확인 :  certid랑 certsort " + certId + " , " + certSort);
-
+        logger.info("MyPgaeCon/ downloadCert/ certid= ",certId);
+        logger.info("MyPgaeCon/ downloadCert/ certSort= ",certSort);
         //받아온 certId를 이용해서 파일이름 을 얻어오기
         String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
 
-        System.out.println("증명서파일이름 가져왔나 확인 : " + filename);
+        logger.info("MyPgaeCon/ downloadCert의 filename= ",filename);
 
         //다운로드한번 받으면 issueStatus 값 1로 업데이트 서비스메소드
         myPageService.updateIssueStatus(certId, certSort);
 
         //해당객체 S3 url 생성 -> 뷰단에 넘길 url
         String signedCertURL = "https://metain2.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
-        System.out.println(signedCertURL);
-
+        logger.info("MyPgaeCon/ downloadCert의 signedCertURL= ",signedCertURL);
+        
         return ResponseEntity.ok(signedCertURL);
     }//downloadCert
 
@@ -174,6 +134,7 @@ public class MyPageController {
         Long empId = principalDetails.getEmpId();
         Emp emp = hrService.selectEmpInfo(empId);
         List<MyVacDTO> myList = myPageService.myVacList(empId);
+        logger.info("MypageCon의 myVacList의 myList= ",myList);
         model.addAttribute("vacList", myList);
         model.addAttribute("emp", emp);
         return "/mypage/my-vac-list";
@@ -200,11 +161,11 @@ public class MyPageController {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
-        System.out.println(vac);
+        logger.info("MyPgaeCon의 myVacDetail의 vac= ",vac);
 
         if (vac == null) {
             VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
-            System.out.println(vacWithoutFile);
+            logger.info("MyPgaeCon의 myVacDetail의 vacWithoutFile= ",vacWithoutFile);
             //신청한 사람이자
             Emp emp = hrService.selectEmpInfo(vacWithoutFile.getEmpId());
             //관리자 정보
@@ -215,7 +176,8 @@ public class MyPageController {
 
             long diff = endDate.getTime() - startDate.getTime();
             int daysDiff = (int) (diff / (24 * 60 * 60 * 1000) + 1);
-            System.out.println(vacWithoutFile);
+            logger.info("MyPgaeCon의 myVacDetail의 vacWithoutFile2= ",vacWithoutFile);
+
             model.addAttribute("vac", vacWithoutFile);
             model.addAttribute("emp", empInfo);
             model.addAttribute("admin", admin);
@@ -260,29 +222,12 @@ public class MyPageController {
 
     @PostMapping("/updateMy")
     public String updateMy(Emp emp, @RequestParam(value = "file") MultipartFile file) throws IOException {
-        System.out.println("updateMyController" + emp);
-        System.out.println(file);
+
+        logger.info("MyPgaeCon의 updateMy emp= ",emp);
+        logger.info("MyPgaeCon의 updateMy file= ",file);
 
         myPageService.updateMy(emp, file);
 
         return "redirect:/index";
     }
-
-
-//        return "redirect:/mypage/update-mypage";
-
-//    @PostMapping("/updateMy")
-//    public String  updateMy(Emp emp) {
-//        Emp dbemp = hrService.selectEmpInfo(emp.getEmpId());
-//        dbemp.setEmpPwd(emp.getEmpPwd());
-//        dbemp.setEmpAddr(emp.getEmpAddr());
-//        dbemp.setEmpPhone(emp.getEmpPhone()); //여기 비번두 추가, 맵퍼 쿼리문에도
-//        dbemp.setEmpZipcode(emp.getEmpZipcode());
-//        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
-//        myPageService.updateMy(dbemp);
-//
-//        return "redirect:/mypage/update-mypage";
-//    }
-
-
 }

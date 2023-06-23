@@ -24,8 +24,6 @@ public class PrincipalService implements UserDetailsService {
     @Autowired
     private HrMapper hrMapper;
 
-
-
     /***
      * 사용자의 상세 정보를 조회하고
      * Custom한 Userdetails 클래스를 리턴
@@ -44,18 +42,18 @@ public class PrincipalService implements UserDetailsService {
 
         List<String> empRoles = hrMapper.selectRoleName(empSabun);
 
+        logger.info("-----[PrincipalService] empRoles ::::: {}", empRoles);
 
-        System.out.println("empRoles" + empRoles);
 
         if (empRoles != null) {
-            System.out.println("오냐?");
+            logger.info("PrincipalService/loadUserByUsername if문 진입 확인로그");
             List<GrantedAuthority> authorities = new ArrayList<>();
 //            String roles[] = emp.getRoleName().split(",");
 
             for (int i = 0; i < empRoles.size(); i++) {
-                System.out.println("들어오는지");
+                logger.info("PrincipalService/loadUserByUsername for문 진입 확인로그");
                 authorities.add(new SimpleGrantedAuthority(empRoles.get(i)));
-                System.out.println(empRoles.get(i));
+                logger.info("PrincipalService/loadUserByUsername empRoles",empRoles.get(i));
             }
             //SecurityContext의 Authertication에 등록되어 인증정보를 가짐
             emp.setAuthorities(authorities);

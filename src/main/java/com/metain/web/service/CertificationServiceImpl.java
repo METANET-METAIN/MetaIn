@@ -14,6 +14,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,20 +38,12 @@ public class CertificationServiceImpl implements CertificationService {
     @Autowired
     private AwsS3Service awsS3Service;
 
-    @Autowired
-    private MyPageMapper myPageMapper;
-
     private final HrService hrService;
-
-    @Autowired
-    private ServletContext servletContext;
-
-
     @Autowired
     public CertificationServiceImpl(HrService hrService) {
         this.hrService = hrService;
     }
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     //로그인한 사원 인사정보 조회
     @Override
@@ -95,12 +89,12 @@ public class CertificationServiceImpl implements CertificationService {
 
         // certInfoDTO 객체에 adjustedId 설정
         certInfoDTO.setAdjustedId(adjustedId);
+        logger.info("CertSer/applyAndSelectEmpCert_insert 할 certInfoDTO=",certInfoDTO);
 
-        System.out.println("insert할 내용 확인 : " + certInfoDTO);
         certificationMapper.insertEmpCert(certInfoDTO);
 
         // 자동 생성된 키 값을 id 프로퍼티로 가져와서 CertId가지고 해당증명서내역 select하기
-        System.out.println("generated id 확인 : " + certInfoDTO.getEmpCertId());
+        logger.info("CertSer/applyAndSelectEmpCert 의 generated id 확인=", certInfoDTO.getEmpCertId());
         Long certId = certInfoDTO.getEmpCertId();
 
         EmpCert certlist = certificationMapper.selectEmpCert(certId);
@@ -109,11 +103,12 @@ public class CertificationServiceImpl implements CertificationService {
         // SELECT 결과 처리
         if (certlist == null) {
             // 결과가 없는 경우 처리
-            System.out.println("해당하는 EmpCert정보가 없습니다.");
+            logger.info("해당하는 EmpCert정보가 없습니다.");
+
             return null;
         } else {
             // 필요한 작업 수행
-            System.out.println("트랜잭션처리한 함수 확인 : " + certlist);
+            logger.info("트랜잭션처리한 함수 확인 로그",certlist);
             return certlist;
         }//if
 
@@ -134,7 +129,7 @@ public class CertificationServiceImpl implements CertificationService {
 
         certificationMapper.insertExperCert(certInfoDTO);
 
-        System.out.println("generated id 확인 : " + certInfoDTO.getExperCertId());
+        logger.info("CertSer/applyAndSelectEmpCert 의 generated id 확인=", certInfoDTO.getEmpCertId());
         Long certid = certInfoDTO.getExperCertId();
 
         ExperienceCert certlist = certificationMapper.selectExperCert(certid);
@@ -142,11 +137,11 @@ public class CertificationServiceImpl implements CertificationService {
         // SELECT 결과 처리
         if (certlist == null) {
             // 결과가 없는 경우 처리
-            System.out.println("해당하는 ExperienceCert정보가 없습니다.");
+            logger.info("해당하는 ExperienceCert 정보가 없습니다.");
             return null;
         } else {
             // 필요한 작업 수행
-            System.out.println("certList확인 : " + certlist);
+            logger.info("트랜잭션처리한 함수 확인 로그",certlist);
             return certlist;
         }//if
 
@@ -168,7 +163,7 @@ public class CertificationServiceImpl implements CertificationService {
 
         certificationMapper.insertRetireCert(certInfoDTO);
 
-        System.out.println("generated id 확인 : " + certInfoDTO.getRetireCertId());
+        logger.info("CertSer/applyAndSelectEmpCert 의 generated id 확인=", certInfoDTO.getEmpCertId());
         Long certId = certInfoDTO.getRetireCertId();
 
         RetireCert certlist = certificationMapper.selectRetireCert(certId);
@@ -177,7 +172,7 @@ public class CertificationServiceImpl implements CertificationService {
         // SELECT 결과 처리
         if (certlist == null) {
             // 결과가 없는 경우 처리
-            System.out.println("해당하는 RetireCert정보가 없습니다.");
+            logger.info("해당하는 RetireCert 정보가 없습니다.");
             return null;
         } else {
             // 필요한 작업 수행
@@ -192,8 +187,7 @@ public class CertificationServiceImpl implements CertificationService {
 
         // 이미지 데이터를 Base64로 디코드하여 PDF로 변환
         byte[] imageBytes = Base64.getDecoder().decode(request.getImageData().split(",")[1]);
-
-        System.out.println("1!! pdf전환 컨트롤러에 요청 들어옴 , 이미지데이터 전달완료 :" + imageBytes);
+        logger.info("CertSer/makeCertPdf 의 pdf전환 컨트롤러에 요청 들어옴, 이미지데이터 전달 완료 로그=",imageBytes);
 
         // PDF 생성
         try (PDDocument document = new PDDocument()) {
@@ -206,8 +200,9 @@ public class CertificationServiceImpl implements CertificationService {
             float targetHeight = 1500; // A4용지 높이 842
             float imageWidth = request.getImageWidth();
             float imageHeight = request.getImageHeight();
+            logger.info("CertSer/makeCertPdf 의 이미지크기 x=",imageWidth);
+            logger.info("CertSer/makeCertPdf 의 이미지크기 y=",imageHeight);
 
-            System.out.println("이미지크기 : x - " + imageWidth + " , y - " + imageHeight);
             float scale = Math.min(targetWidth / imageWidth, targetHeight / imageHeight);
             float offsetX = (targetWidth - imageWidth * scale) / 2 - 240;
             float offsetY = (targetHeight - imageHeight * scale) / 2 - 355;
@@ -215,7 +210,7 @@ public class CertificationServiceImpl implements CertificationService {
 
             contentStream.drawImage(PDImageXObject.createFromByteArray(document, imageBytes, ""), offsetX, offsetY, imageWidth * scale, imageHeight * scale);
             contentStream.close();
-            System.out.println("2!! pdf생성단계 ");
+            logger.info("CertSer/makeCertPdf  2.pdf 생성 진입");
 
             // PDF 파일을 바이트 배열로 변환
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -234,8 +229,9 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public void signPdf(String filename) throws Exception {
+        logger.info("CertSer/signPdf  디지털서명함수 check 1.filename 확인=",filename+" /");
 
-        System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
+        //System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
 
         //s3가져오는 방식
         String pfxObjectKey = "ProfMoriarty.pfx";
@@ -257,12 +253,11 @@ public class CertificationServiceImpl implements CertificationService {
 
             // 입력 스트림을 사용하여 작업 수행
             Signature signature = new Signature(pdfInputStream);
-
-            System.out.print(" / 디지털서명함수 check 2" + signature);
+            logger.info("CertSer/signPdf  디지털서명함수 check 2.signature 확인=",signature);
 
             // InputStream을 사용하여 작업 수행
             DigitalSignOptions options = new DigitalSignOptions(pfxInputStream);
-            System.out.print(" / 디지털서명함수 check 3" + options);
+            logger.info("CertSer/signPdf  디지털서명함수 check 3.options 확인=",options);
 
             options.setPassword("1234567890");
             options.setVisible(true);
@@ -274,10 +269,13 @@ public class CertificationServiceImpl implements CertificationService {
             options.setLeft(370);
             options.setTop(650);
             options.setPageNumber(1);
-            System.out.println("지장크기확인 : 높이 :" + options.getHeight() + " , 넓이 : " + options.getWidth() + "페이ㅣ지: " + options.getPageNumber() + "페이지정보:" + options.getAllPages());
-            System.out.println("사인 확장자확인" + options.getExtensions() + "/ 시그니처타입 : " + options.getSignatureType());
-            System.out.println(" / 디지털서명함수 check 4" + options);
-            System.out.println(" 디지털서명함수 check 5 / ");
+            logger.info("options 지장 크기 확인 높이=",options.getHeight());
+            logger.info("options 지장 크기 확인 넓이=",options.getWidth());
+            logger.info("options 지장 크기 확인 페이지=",options.getPageNumber());
+            logger.info("options 지장 크기 확인 사인 확장자확인=",options.getExtensions());
+            logger.info("options 지장 크기 확인 시그니처타입=",options.getSignatureType());
+            logger.info("CertSer/signPdf  디지털서명함수 check 4.options 확인2=",options);
+            logger.info("CertSer/signPdf  디지털서명함수 check 5.");
 
             // 파일에 문서 서명
             //signature.sign(filePath + filename, options);
@@ -289,14 +287,10 @@ public class CertificationServiceImpl implements CertificationService {
             byte[] signedBytes = outputStream.toByteArray();
             awsS3Service.uploadCertToS3(signedBytes, filename);
 
-            System.out.print(" 디지털서명함수 check 6 FINAL / ");
+            logger.info("CertSer/signPdf  디지털서명함수 check 6.FINAL");
         } catch (Exception e) {
-            System.out.print("에러기록 : " + e.toString());
+            logger.info("에러기록");
             throw new GroupDocsSignatureException(e.toString());
         }//try
-
-
     }//signPdf
-
-
 }

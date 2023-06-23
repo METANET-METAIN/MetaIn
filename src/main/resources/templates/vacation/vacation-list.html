@@ -70,7 +70,6 @@
 
 	<script th:inline="javascript">
 		const itemList = /*[[${vacList}]]*/ [];
-		//console.log(itemList);
 		for (let i = 0; i < itemList.length; i++) {
 			if (itemList[i].empGrade === 'ROLE_SW') {
 				itemList[i].empGrade = '사원';
@@ -168,17 +167,11 @@
 	</script>
 	<script>
 		grid.on('click',function(ev) {
-			console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+			//console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
 			const indexOfRow=grid.getIndexOfRow(ev.rowKey); //인덱스
-			//const vacationObj = grid.getFocusedCell(ev.vacId);
-			//const vacationId=(vacationObj.rowKey)+1 //0부터시작이라 +1 함
-
-			//console.log(vacationObj); //vacId
-			//console.log(vacationId); //123
 
 			//클릭한 인덱스의 vacId
 			const vacationId=itemList[indexOfRow].vacId;
-			console.log('아이템 리스트',itemList[indexOfRow].vacId)
 
 			if(vacationId){
 				window.location.href= 'vacation-detail/'+vacationId;
