@@ -318,9 +318,11 @@ public class CertificationServiceImpl implements CertificationService {
         String pdfObjectKey = "certification/converted.pdf";
         String signObjectKey = "certification/metain-sign-Image.png";
 
+
         String mountPath = "/metainfiles/metain-sign-Image.png";
         //String signImagePath = "src/main/resources/static/certPdfFile/metain-sign-Image.png";// 로컬용
         //String signImagePath = "/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png";
+
 
 
 
@@ -352,7 +354,9 @@ public class CertificationServiceImpl implements CertificationService {
             options.setPassword("1234567890");
             options.setVisible(true);
             //options.setImageStream(signInputStream);
+
             options.setImageFilePath(mountPath);
+
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
