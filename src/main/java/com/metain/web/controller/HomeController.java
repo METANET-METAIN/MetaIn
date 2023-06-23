@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +46,19 @@ public class HomeController {
         return null;
     }
     @GetMapping("/index")
-    public String home( Model model, Authentication auth) {
+    public String home( Model model, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
         Long EmpId = principalDetails.getEmpId();
         Emp empList =  hrService.selectEmpInfo(EmpId);
         //System.out.println(empList);
+
         if (empList != null) {
             model.addAttribute("emp", empList);
             //System.out.println("home : " + empList);
+            // 세션에 데이터 저장
+            HttpSession session = request.getSession();
+            session.setAttribute("emp", empList);
             return "index";
         }
         return "error/404";
@@ -111,6 +118,16 @@ public class HomeController {
 
         return "/hr/" + newEmp;
     }
+
+//    @GetMapping("/mypage/{mypage}")
+//    public String goPageMy(@PathVariable String mypage, Model model, Authentication auth) {
+//        PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
+//        Long empId= principalDetails.getEmpId();
+//        Emp empInfo = hrService.selectEmpInfo(empId);
+//        //System.out.println(mypage);
+//        model.addAttribute("emp", empInfo);
+//        return "/mypage/" + mypage;
+//    }
 
     @GetMapping("/mypage/{mypage}")
     public String goPageMy(@PathVariable String mypage, Model model, Authentication auth) {

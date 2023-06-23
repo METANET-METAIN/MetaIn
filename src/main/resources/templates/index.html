@@ -6,8 +6,8 @@
 		</section>
 	</th:block>
 
-	<div class="mobile-menu-overlay"></div>
-		<div class="main-container">
+	<div class="mobile-menu-overlay" ></div>
+		<div class="main-container" th:if="${emp.empStatus} == 'ACTIVE'">
 			<div class="xs-pd-20-10 pd-ltr-20">
 				<div class="title pb-20">
 					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
@@ -137,8 +137,8 @@
 					</div>
 				</div>
 		</div>
-	<div class="row">
-		<div class="col-lg-4 col-md-6 mb-20">
+	<div class="row" th:if="${emp.empStatus} == 'ACTIVE'">
+		<div class="col-lg-4 col-md-6 mb-20" th:if="${emp.empStatus} == 'ACTIVE'">
 			<div class="card-box height-100-p pd-20 min-height-200px">
 				<div class="d-flex justify-content-between pb-10">
 					<div class="h5 mb-0">우리팀 휴가 목록</div>
@@ -174,7 +174,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-6 mb-20">
+		<div class="col-lg-4 col-md-6 mb-20" th:if="${emp.empStatus} == 'ACTIVE'">
 			<div class="card-box height-100-p pd-20 min-height-200px">
 				<div class="d-flex justify-content-between">
 					<div class="h5 mb-0">이달의 신규입사자</div>
@@ -191,7 +191,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-12 mb-20">
+		<div class="col-lg-4 col-md-12 mb-20" >
 			<div class="card-box height-100-p pd-20 min-height-200px">
 				<div class="max-width-300 mx-auto">
 					<img src="vendors/images/upgrade.svg" alt="" />
@@ -205,6 +205,37 @@
 						각종 증명서를 간편하게 다운로드 하세요 !
 					</div>
 					<a href="#" class="btn btn-primary btn-lg">발급하기 </a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" th:if="${emp.empStatus} == 'RETIREE'">
+		<div class="col-lg-5 col-md-10 mb-20" style="padding-top: 120px;">
+			<div class="card-box height-100-p pd-20 min-height-200px">
+				<div class="max-width-300 mx-auto" style="text-align: center; margin: 10px;">
+					<img src="vendors/images/cert.png" style="height: 250px;"/>
+
+				</div>
+				<div class="text-center">
+					<div class="h5 mb-1">증명서 신청가기</div>
+					<div class="font-14 weight-500 max-width-200 mx-auto pb-20" data-color="#a6a6a7">
+						각종 증명서를 간편하게 다운로드 하세요!
+					</div>
+					<a href="/certification/retire-cert-show" class="btn btn-primary btn-lg">발급하기</a>
+				</div>
+			</div>
+		</div>
+	<div class="col-lg-5 col-md-10 mb-20" style="padding-top: 120px;">
+			<div class="card-box height-100-p pd-20 min-height-200px">
+				<div class="max-width-300 mx-auto" style="text-align: center; margin: 10px;">
+					<img src="vendors/images/download.png" style="height: 250px;" />
+				</div>
+				<div class="text-center">
+					<div class="h5 mb-1">마이페이지</div>
+					<div class="font-14 weight-500 max-width-200 mx-auto pb-20" data-color="#a6a6a7">
+						발급받은 신청서를 다운로드 하세요!
+					</div>
+					<a href="/mypage/my-cert-list" class="btn btn-primary btn-lg">다운받기</a>
 				</div>
 			</div>
 		</div>

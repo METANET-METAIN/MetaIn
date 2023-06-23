@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mypage/my-vac-list", "/mypage/my-vac-list/*").hasAnyAuthority("ACTIVE")
 
                 .antMatchers("/certification/emp-cert-apply", "/certification/emp-cert-show").hasAnyAuthority("ACTIVE")
-                .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE")
+                .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE", "RETIREE")
                 .antMatchers("/certification/retire-cert-apply", "/certification/retire-cert-show").hasAnyAuthority("RETIREE")
 
                 .antMatchers("/vacation/vacation-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginEmp")
                 .usernameParameter("empSabun")
                 .passwordParameter("empPwd")
-                .defaultSuccessUrl("/index")
+                .defaultSuccessUrl("/")
 //                .failureUrl("/loginEmp")
                 .permitAll(); // 로그인 페이지에는 모두 접근 가능하도록 설정
 
