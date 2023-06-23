@@ -149,7 +149,8 @@
     }
 
 
-    if(vacType !== "유형 선택" && vacResn !== "") {
+
+    if(vacType !== "유형 선택" && vacResn !== "" && fileUpload!= "") {
       swal('휴가가 신청되었습니다.').then(function () {
         window.location.href = 'vacation-list';
       });
@@ -157,67 +158,70 @@
   });
 </script>
 
-<script th:inline="javascript">
-  let count = /*[[${emp.getEmpVac()}]]*/ 0;
-  console.log(count)
-  $('input[type="date"]').on('change', function (event) {
-    let startDate=new Date($('#vacStartDate').val())
-    let endDate=new Date($('#vacEndDate').val())
-    console.log(count)
-    let daysDiff =0;
-    if (startDate && endDate && startDate <= endDate) {
-      var timeDiff = endDate.getTime() - startDate.getTime();
-      daysDiff = (Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1);
-      console.log(count)
-    }
-    if(startDate > endDate){
-      alert("올바른 날짜를 입력해주세요");
-    }
-    if(daysDiff<=count){
-      document.getElementById("diffDays").innerText = daysDiff;
-      document.getElementById("selectedDays").value = daysDiff;
-    }else {
-      event.preventDefault();
-      console.log(count)
-      alert("잔여 연차보다 선택한 연차가 더 많습니다.")
-      event.preventDefault()
-
-    }
-
-  });
-</script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script src="/src/plugins/jquery-steps/jquery.steps.js"></script>
 <script src="/vendors/scripts/steps-setting.js"></script>
 <script th:inline="javascript">
+
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
   console.log(count)
   $('input[type="date"]').on('change', function (event) {
-    let startDate=new Date($('#vacStartDate').val())
-    let endDate=new Date($('#vacEndDate').val())
-    console.log(count)
-    let daysDiff =0;
+    let startDate = new Date($('#vacStartDate').val());
+    let endDate = new Date($('#vacEndDate').val());
+    console.log(count);
+    let daysDiff = 0;
+
     if (startDate && endDate && startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
-      daysDiff = (Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1);
-      console.log(count)
+      daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+      console.log(count);
     }
-    if(daysDiff<=count){
+
+
+    if (daysDiff <= count) {
       document.getElementById("diffDays").innerText = daysDiff;
-    }else {
+    } else {
       event.preventDefault();
-      console.log(count)
-      alert("잔여 연차보다 선택한 연차가 더 많습니다.")
-      event.preventDefault()
-
+      console.log(count);
+      alert("잔여 연차보다 선택한 연차가 더 많습니다.");
+      event.preventDefault();
     }
 
+    var selectedOption = $('select#vacType').val();
+    var maxDays = 0;
+
+    if (selectedOption === '조사-배우자') {
+      maxDays = 5;
+    } else if (selectedOption === '조사-부모님') {
+      maxDays = 5;
+    } else if (selectedOption === '조사-형제') {
+      maxDays = 3;
+    } else if (selectedOption === '예비군') {
+      maxDays = 1;
+    }
+
+    if (startDate > endDate) {
+      alert('올바른 날짜를 입력해주세요.');
+    } else if (daysDiff > maxDays) {
+      alert('선택한 휴가 유형에 해당하는 최대 휴가 일수는 ' + maxDays + '일 입니다.');
+      document.getElementById("vacEndDate").value = "";
+
+      document.getElementById('diffDays').innerText = "0";
+
+    }else{
+    event.preventDefault();
+
+      document.getElementById('diffDays').innerText = daysDiff;
+     document.getElementById('selectedDays').value = daysDiff;
+    event.preventDefault();
+    }
   });
 </script>
 
 
-<noscript
+
+    <noscript
 ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
         height="0"

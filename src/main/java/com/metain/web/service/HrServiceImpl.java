@@ -46,6 +46,7 @@ public class HrServiceImpl implements HrService {
         return birthPassword;
     }
 
+
     // 신입사원 승인
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public int confirmNewEmp(List<NewEmp> newEmpList, Emp emp) {
@@ -81,7 +82,6 @@ public class HrServiceImpl implements HrService {
                         emp.setEmpAddr(newEmp.getNewAddr());
                         emp.setEmpZipcode(newEmp.getNewZipcode());
                         emp.setEmpDetailAddr(newEmp.getNewDetailAddr());
-                        emp.setEmpEmail(newEmp.getNewEmail());
                         emp.setEmpDept(newEmp.getNewDept());
                         String empGrade = newEmp.getNewGrade();
                         Role gradeRole = Role.fromGrade(empGrade);
@@ -132,6 +132,7 @@ public class HrServiceImpl implements HrService {
         }
         return 0;
     }
+
 
     @Override
     public List<Emp> selectAll() {

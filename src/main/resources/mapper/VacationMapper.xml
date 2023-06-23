@@ -4,7 +4,8 @@
         <select id="selectAllList" resultType="VacationListDTO">
             SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE,v.VAC_STATUS
             FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
-            ON e.EMP_ID=v.EMP_ID;
+            ON e.EMP_ID=v.EMP_ID
+            ORDER BY v.VAC_ID DESC;
         </select>
     <resultMap id="VacationFile" type="com.metain.web.dto.VacationFileDTO">
         <id property="vacId" column="VAC_ID" />
@@ -55,7 +56,9 @@
         SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE,v.VAC_STATUS
         FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
         ON e.EMP_ID=v.EMP_ID
-        WHERE vac_status='승인대기';
+        WHERE vac_status='승인대기'
+        ORDER BY v.VAC_ID DESC;
+
     </select>
     <update id="approveVacationRequest" parameterType="map">
         UPDATE TBL_VACATION

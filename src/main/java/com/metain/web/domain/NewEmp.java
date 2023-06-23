@@ -12,7 +12,6 @@ public class NewEmp {
     private String newAddr;
     private String newZipcode;
     private String newDetailAddr;
-    private String newEmail;
     private String newDept;
     private String newGrade;
     private String newStatus;

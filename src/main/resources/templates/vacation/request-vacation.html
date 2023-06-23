@@ -73,11 +73,11 @@
                                 <input class="form-control" th:value="${vac.getVacResn()}" readonly type="text">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-7" th:if="${vac.fileName != null and vac.fileName != '0'}">
+                        <div class="form-group row" th:if="${vac.fileName != null and vac.fileName != '0'}">
 
-                        <div class="form-group row">
                             <label class="col-sm-12 col-md-2 col-form-label"> 첨부파일 </label>
-                                <a th:href="@{'https://metains3.s3.ap-northeast-2.amazonaws.com/' + ${vac.fileName}}">클릭시 다운로드</a>
+                            <div class="col-sm-12 col-md-7">
+                                <a th:href="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/file/' + ${vac.fileName}}">클릭시 다운로드</a>
                             </div>
 
                         </div>
@@ -87,7 +87,7 @@
                             <div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
                             <div class="col-sm-10 col-md-2">
                                 <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                                    <img th:src="@{'/vendors/user/' + ${req.empProfile}}" style="width: 100px; height: 100px;"
+                                    <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${req.empProfile}}" style="width: 100px; height: 100px;"
                                     />
                                 </div>
                                 <div th:text="${req.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -102,7 +102,7 @@
 
                             <div class="col-sm-12 col-md-2">
                                 <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                                    <img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
+                                    <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${admin.empProfile}}" style="width: 100px; height: 100px;"
                                     />
                                 </div>
                                 <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>

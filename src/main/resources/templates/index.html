@@ -295,10 +295,12 @@
 							empFirstDt.setDate(empFirstDt.getDate()+1)
 							empFirstDt=empFirstDt.toISOString().substring(0,10)
 							console.log(empProfile)
-							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30">' +
-									'<div class="da-card" style="display: flex;width: 350px; height: 100px">' +
+							var imgSrc = 'https://metain2.s3.ap-northeast-2.amazonaws.com/user/' + empProfile;
+
+							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30" style="width: 100%;">' +
+									'<div class="da-card" style="display: flex; height: 100px">' +
 									'<div class="da-card-photo">' +
-									'<img src="vendors/user/'+empProfile+' "style="width: 100px; height: 80px" />' +
+									'<img src="' + imgSrc + '" style="width: 100px; height: 80px" />' +
 									'<div class="da-overlay">' +
 									'<div class="da-social">' +
 									'<ul class="clearfix"></ul>' +
