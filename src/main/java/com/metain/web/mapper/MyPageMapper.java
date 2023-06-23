@@ -14,6 +14,11 @@ public interface MyPageMapper {
     /**개인정보 수정*/
     public int updateMyPage(Emp dbemp);
 
+    /**
+     * 비밀번호 변경
+     */
+    public int updatePwd(Emp dbemp);
+
     /**휴가 신청 현황 조회*/
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
 

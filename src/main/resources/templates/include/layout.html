@@ -351,6 +351,20 @@
         </div>
         <div class="menu-block ">
             <div class="sidebar-menu">
+                <div class="profile-photo" style="margin-top: 20px;">
+                    <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
+                    </a><img id="empProfile" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                    <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
+                </div>
+
+
+
+                <h5 class="text-center h5 mb-0">[[${emp.empName}]]</h5>
+                <p class="text-center text-muted font-14">
+                    [[${emp.empDept}]]  [[${emp.empGrade}]]
+                <p class="text-center text-muted font-14">
+                </p>
+                </p>
                 <ul id="accordion-menu">
                     <li >
 
@@ -391,6 +405,7 @@
                             <li><a href="/mypage/my-cert-list"> 증명서 발급내역</a></li>
                             <li><a href="/mypage/my-vac-list"> 휴가 신청 조회 </a></li>
                             <li><a href="/mypage/update-mypage"> 내 정보 수정 </a></li>
+                            <li><a href="/mypage/update-pwd"> 비밀번호 변경 </a></li>
                             <li><a href="/mypage/alarm"> 알림함 </a></li>
                         </ul>
                     </li>

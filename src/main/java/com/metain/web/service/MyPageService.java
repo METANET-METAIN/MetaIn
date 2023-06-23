@@ -35,5 +35,7 @@ public interface MyPageService {
 
     void updateMy(Emp dbemp, MultipartFile empProfile) throws IOException;
 
+    void updatePwd(Emp dbemp);
+
     void updateIssueStatus(Long certId, String certSort);
 }

@@ -2,21 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.metain.web.mapper.MyPageMapper">
 
-<!--    <select id="selectIssueAll" resultType="MyCertListDTO">-->
-<!--        SELECT TEC.EMP_CERT_ID, TEC.CERT_REG_DATE, TEC.USE_OF_CERT-->
-<!--        FROM TBL_EMP_CERT TEC-->
-<!--            JOIN TBL_EMPLOYEE TE ON TEC.EMP_ID = TE.EMP_ID-->
-<!--        WHERE TE.EMP_ID = #{empId};-->
-<!--    </select>-->
-
-
-<!--    <select id="selectIssueAll" resultType="MyCertListDTO">-->
-<!--        SELECT i.ISSUE_ID, CERT_SORT, CREATE_GET_DATE-->
-<!--        FROM TBL_EMPLOYEE e JOIN TBL_CERT_ISSUE i-->
-<!--                                 ON e.EMP_ID=i.EMP_ID;-->
-<!--    </select>-->
-
-
     <!--  나의 재직 증명서 발급 내역 조회   -->
     <select id="selectMyEmpCert" resultType="EmpCert">
         SELECT
@@ -127,6 +112,13 @@
         update TBL_EMPLOYEE
         set EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
             EMP_DETAIL_ADDR=#{empDetailAddr}, EMP_PWD=#{empPwd}, EMP_PROFILE=#{empProfile}
+        where EMP_ID = #{empId}
+    </update>
+
+
+    <update id="updatePwd" parameterType="Emp">
+        update TBL_EMPLOYEE
+        set  EMP_PWD=#{empPwd}
         where EMP_ID = #{empId}
     </update>
 </mapper>
