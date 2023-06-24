@@ -134,7 +134,8 @@
 
                     <div class="mb-3">
                         <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <select type="text" class="form-control" id="empStatus">
+                        <select type="text" class="form-control" id="empStatus" onchange="statusChange()">
+<!--                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">-->
                             <option value="ACTIVE">재직</option>
                             <option value="RETIREE">퇴직</option>
                         </select>
@@ -145,7 +146,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="empLastDt" class="col-form-label">퇴사 일자</label>
-                        <input type="text" class="form-control" id="empLastDt">
+                        <input type="text" class="form-control" id="empLastDt" disabled>
                     </div>
                 </form>
             </div>
@@ -176,7 +177,7 @@
 <script th:inline="javascript">
 
 
-//모달창 세팅
+    //모달창 세팅
     const modalToggle = document.getElementById('exampleModal');
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
     const itemList = /*[[${list}]]*/ [];
@@ -199,6 +200,9 @@
                 name: 'empGrade',align: 'center',
                 formatter: function (grade) {
                     return grade.value ? setGrade(grade.value) : '';
+                    // const grade = params.value;
+                    // const korGrade = setGrade(grade); // 영어 부서명을 한글로 변환하는 함수 호출
+                    // return korGrade;
                 },
                 filter: 'select'
             },
@@ -240,7 +244,7 @@
                 },
                 filter: 'select'
             }
-         ],
+        ],
         rowHeaders: ['rowNum'],
         pageOptions: {
             useClient: true,
@@ -265,7 +269,7 @@
             case 'ADMIN':
                 return '관리자';
             default:
-                return '';
+                return grade; // 변환할 한글 부서명이 없는 경우 그대로 반환
         }
     }
 
@@ -300,49 +304,20 @@
         document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
         document.getElementById('empLastDt').value = formatDate(row.empLastDt);
 
-
-        if (row.empStatus === 'ACTIVE') {
-            document.getElementById('empLastDt').disabled = true; // empLastDt 필드 비활성화
-        } else if (row.empStatus === 'RETIREE') {
-            document.getElementById('empLastDt').disabled = false; // empLastDt 필드 활성화
-            // 나머지 필드 비활성화
-            document.getElementById('empSabun').disabled = true;
-            document.getElementById('empId').disabled = true;
-            document.getElementById('empBirth').disabled = true;
-            document.getElementById('empName').disabled = true;
-            document.getElementById('empPhone').disabled = true;
-            document.getElementById('empAddr').disabled = true;
-            document.getElementById('empEmail').disabled = true;
-            document.getElementById('empDept').disabled = true;
-            document.getElementById('empGrade').disabled = true;
-            console.log("비활성화")
-        }
-
-
-
-
-
-            myModal.show(myModal);
+        console.log(empStatus);
+        myModal.show(myModal);
 
         const requestData={
-            empStatus: document.getElementById('empStatus').value,
-            empDept: document.getElementById('empDept').value,
-            empGrade: document.getElementById('empGrade').value,
-            empLastDt: document.getElementById('empLastDt').value,
-            updateEmpId: document.getElementById('empId').value
-
-            // empStatus:row.empStatus,
-            // empDept:row.empDept,
-            // empGrade:row.empGrade,
-            // updateEmpId:row.empId,
-            // empLastDt:row.empLastDt
+            empStatus:row.empStatus,
+            empDept:row.empDept,
+            empGrade:row.empGrade,
+            updateEmpId:row.empId
         }
 
         console.log("empStatus"+requestData.empStatus)
         console.log("empDept"+requestData.empDept)
         console.log("empGrade"+requestData.empGrade)
         console.log("updateEmpId"+requestData.updateEmpId)
-        console.log("empLastDt"+requestData.empLastDt)
 
     });
 
@@ -357,6 +332,19 @@
         return formattedDate;
     };
 
+    // 재직 상태 변경 이벤트 핸들러
+    function statusChange() {
+        var empStatus = document.getElementById('empStatus').value;
+        var empLastDtInput = document.getElementById('empLastDt');
+
+        if (empStatus === 'RETIREE') {
+            empLastDtInput.disabled = false;
+        } else {
+            empLastDtInput.disabled = true;
+            empLastDtInput.value = ''; // 퇴사일자 입력란 초기화
+        }
+    };
+
 
     function updateEmp() {
 
@@ -365,34 +353,39 @@
         $(document).ajaxSend(function(e,xht,op){
             xht.setRequestHeader(header ,token);
         });
-            // requestData 변수 선언 및 초기화
-            const requestDat = {
-                empStatus: document.getElementById('empStatus').value,
-                empDept: document.getElementById('empDept').value,
-                empGrade: document.getElementById('empGrade').value,
-                empLastDt: document.getElementById('empLastDt').value,
-                updateEmpId: document.getElementById('empId').value
-            };
+        // requestData 변수 선언 및 초기화
+        const requestDat = {
+            empStatus: document.getElementById('empStatus').value,
+            empDept: document.getElementById('empDept').value,
+            empGrade: document.getElementById('empGrade').value,
+            updateEmpId: document.getElementById('empId').value,
+            empLastDt: document.getElementById('empLastDt').value
+        };
         console.log("empStatus2"+requestDat.empStatus)
         console.log("empGrade2"+requestDat.empGrade)
         console.log("empDept2"+requestDat.empDept)
         console.log("updateEmpId2"+requestDat.updateEmpId)
+        console.log("empLastDt"+requestDat.empLastDt)
+        console.log(requestDat);
 
-            // 업데이트 아작스
-            $.ajax({
-                type: "POST",
-                url: "/hr/updateEmp",
-                data: JSON.stringify(requestDat),
-                dataType: 'text',
-                contentType: 'application/json;charset=utf-8',
-                success: function(response) {
-                    console.log(response)
-                    window.location.pathname = "/hr/emp-list";
-                },
-                error: function(error) {
-                    alert(JSON.stringify(error));
-                }
-            });
+        // 업데이트 아작스
+        $.ajax({
+            type: "POST",
+            url: "/hr/updateEmp",
+            data: JSON.stringify(requestDat),
+            dataType: 'text',
+            contentType: 'application/json;charset=utf-8',
+            success: function(response) {
+                console.log(response)
+                window.location.pathname = "/hr/emp-list";
+            },
+            error: function(error) {
+                console.log(error)
+                alert(JSON.stringify(error));
+
+            }
+
+        });
 
     }
 

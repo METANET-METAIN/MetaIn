@@ -59,7 +59,7 @@
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
 <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
-                </a><img id="empProfile"  th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img id="empProfile" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
 <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
               </div>
 
@@ -67,7 +67,6 @@
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                       <div class="modal-body pd-5">
-                          <img id="previewImage" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="미리보기" style="max-width: 100%; max-height: 200px;">
                       </div>
                       <div class="modal-footer">
                         <input type="submit" value="수정하기" class="btn btn-primary">
@@ -89,12 +88,55 @@
               </p>
 
               <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label">비밀번호</label>
+                <label class="col-sm-12 col-md-2 col-form-label">이름</label>
                 <div class="col-sm-12 col-md-7" >
-                  <button type="button" class="btn btn-primary" onclick="goToUpdatePwd()">
-                    변경하러가기
-                  </button>
+                  <input class="form-control" readonly type="text" th:name="empName" th:value="${emp.getEmpName}">
                 </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label"> 비밀번호 </label>
+                <div class="col-sm-12 col-md-7">
+                  <input class="form-control" id="realpwd" th:name="empPwd" readonly type="password" >
+                </div>
+                <div style="text-align : right">
+                <!-- Button trigger modal -->
+<!--                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--                  변경하기-->
+<!--                </button>-->
+
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openPasswordModal()">
+                    변경하기
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h3 class="modal-title" id="staticBackdropLabel">비밀번호 변경</h3>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="text-align: left">
+                          <p><strong>비밀번호 변경</strong></p>
+                          <input class="form-control" type="password"  name="empPwd1" id="empPwd1">
+                          <p id="checkPwd1Message"></p>
+                          <p><strong>비밀번호 확인</strong></p>
+                          <input class="form-control" type="password"  name="empPwd2" id="empPwd2">
+                          <p id="checkPwd2Message"></p>
+                          <hr>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" onclick="checkPwd()">수정</button>
+                          <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+          </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
@@ -124,6 +166,34 @@
 
                 </div>
               </div>
+
+
+                <!-- Modal -->
+<!--                <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
+<!--                  <div class = "modal-dialog modal-dialog-scrollable">-->
+<!--                    <div class="modal-content">-->
+<!--                      <div class="modal-header">-->
+<!--                        <h1 class="modal-title fs-5" id="exampleModalLabel2">주소 변경</h1>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                      </div>-->
+<!--                      <div class="modal-body" style="text-align: left;">-->
+<!--                        <p><strong>주소 변경하기</strong></p>-->
+<!--                        <input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호"  readonly>-->
+<!--                        <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly><br>-->
+<!--                        <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소">-->
+<!--                        <div style="text-align : right">-->
+<!--                          <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>-->
+<!--                        </div>-->
+<!--                        <hr>-->
+<!--                      </div>-->
+<!--                      <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-primary">저장</button>-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
 
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label"> 이메일 </label>
@@ -161,8 +231,71 @@
 <script>
 
 
+  function updateMyPage() {
+    var empId = document.getElementById('empId').value;
+    var empPwd = document.getElementById('empPwd').value;
+    var empAddr = document.getElementById('empAddr').value;
+    var empPhone = document.getElementById('empPhone').value;
+    var empZipcode = document.getElementById('empZipcode').value;
+    var empDetailAddr = document.getElementById('empDetailAddr').value;
+    var empProfile = document.getElementById('empProfile').files[0];
 
+    if(!empId || !empPwd || !empAddr || !empPhone || !empZipcode || !empDetailAddr || !empProfile) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
 
+    var allowedExtensions = ['.jpg', '.jpeg', '.png'];
+    var fileExtension = empProfile.name.substring(empProfile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert('올바른 이미지 파일을 선택해주세요.');
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append('empId', empId);
+    formData.append('empPwd', empPwd);
+    formData.append('empAddr', empAddr);
+    formData.append('empPhone', empPhone);
+    formData.append('empZipcode', empZipcode);
+    formData.append('empDetailAddr', empDetailAddr);
+    formData.append('empProfile', empProfile);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/updateMy', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          alert('업데이트가 완료되었습니다.');
+          // 추가적인 동작 수행
+        } else {
+          alert('업데이트 실패: ' + xhr.responseText);
+        }
+      }
+    };
+    xhr.send(formData);
+  }
+  // function updatePro(file) {
+  //   var formData = new FormData();
+  //   formData.append('empProfile', file);
+  //
+  //   $.ajax({
+  //     url: 'mypage/updateMy',
+  //     type: 'POST',
+  //     data: formData,
+  //     processData: false,
+  //     contentType: false,
+  //     success: function (res) {
+  //
+  //       const empProfile = document.getElementById('empProfile');
+  //       empProfile.src = URL.createObjectURL(file);
+  //       console.log('프로필 이미지 업로드 완료');
+  //     },
+  //     error: function () {
+  //       console.error('프로필 이미지 업로드 실패');
+  //     },
+  //   })
+  // }
 
 // 프로필 이미지 출력
   function openImgPicker() {
@@ -171,20 +304,52 @@
   }
 
 
+  // function handleFileSelection(event) {
+  //   const file = event.target.files[0];
+  //   const empProfile = document.getElementById('empProfile');
+  //   const reader = new FileReader();
+  //
+  //   reader.onload = function(e) {
+  //     empProfile.src = e.target.result;
+  //   }
+  //   reader.readAsDataURL(file);
+  // }
+
+
   $(document).on("change", "#sign-up-add-image2", function(){ //주황색
-      var file = this.files[0];
-      var reader = new FileReader();
 
-      reader.onload = function (e) {
-          var imgElement = document.getElementById("empProfile");
-          imgElement.src = e.target.result;
+    var filename = $(this).val().split('/').pop().split('\\').pop();
+    console.log(filename)
 
-          var previewElement = document.getElementById("previewImage");
-          previewElement.src = e.target.result;
-      };
+    $(this).prev().val(filename);
+    //$(this).attr("name","test");
 
-      reader.readAsDataURL(file);
-  });
+    console.log($(this))
+    // $(this).prev().find("input").val(filename);
+
+
+  })
+
+  function readImage(input) {
+
+    // 인풋 태그에 파일이 있는 경우
+    if(input.files && input.files[0]) {
+
+      // 이미지 파일인지 검사 (생략)
+      // FileReader 인스턴스 생성
+      const reader = new FileReader()
+      // 이미지가 로드가 된 경우
+      reader.onload = e => {
+        const previewImage = document.getElementById("empProfile")
+        console.log("previewImage"+previewImage)
+
+        previewImage.src = e.target.result
+
+      }
+      // reader가 이미지 읽도록 하기
+      reader.readAsDataURL(input.files[0])
+    }
+  }
   // input file에 change 이벤트 부여
   const inputImage = document.getElementById("sign-up-add-image2")
 
@@ -206,9 +371,25 @@
     }
 
   }
-function goToUpdatePwd(){
-    window.location.href = "/mypage/update-pwd";
-}
+
+    // swal('수정되었습니다.').then(function () {
+    //   window.location.href = '/index';
+    // });
+
+
+    // 핸드폰 번호 유효성검사
+    //   function checkPhone() {
+    //     const empPhone = document.getElementById("empPhone").value;
+    //
+    //     if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(empPhone)) {
+    //       document.getElementById("checkPhoneMessage").innerText = " ";
+    //       return true;
+    //     } else {
+    //       document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+    //       return false;
+    //     }
+    //   }
+
 
 //  비밀번호 유효성 검사
     function checkPwd() {
@@ -230,7 +411,6 @@ function goToUpdatePwd(){
       // 비밀번호 확인 일치 여부 검사
       if (empPwd2 === null || empPwd2 === '') {
         document.getElementById("checkPwd2Message").innerText = "비밀번호를 입력해주세요";
-        alert("비밀번호를 입력해주세요.")
         return false;
       } else if (empPwd2.length < 8) {
         document.getElementById("checkPwd2Message").innerText = "비밀번호는 최소 8자 이상이어야 합니다";
