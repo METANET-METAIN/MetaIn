@@ -35,30 +35,6 @@
             </div>
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 사원 목록 </h4>
-<!--                <div class="row">-->
-<!--                    <div class="col-sm-12 col-md-6" style="display: flex;justify-content:flex-start;align-items: baseline" >-->
-<!--                        Search:-->
-<!--                        <p style="margin-left: 20px"><input type="search" class="form-control form-control-sm" placeholder="Search" aria-controls="DataTables_Table_0"></p>-->
-<!--                        <i class="dw dw-search2 search-icon" style="margin-right: 10px;margin-left: 10px"></i>-->
-<!--                    </div>-->
-<!--                    <div class="col-sm-12 col-md-6">-->
-<!--                        <div id="DataTables_Table_0_filter" class="dataTables_filter">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                    <div class="dt-buttons btn-group flex-wrap" style="text-align: right">-->
-<!--                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
-<!--                            <span>Copy</span>-->
-<!--                        </button>-->
-<!--                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
-<!--                            <span>CSV</span>-->
-<!--                        </button>-->
-<!--                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
-<!--                            <span>PDF</span></button>-->
-<!--                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="DataTables_Table_2" type="button">-->
-<!--                            <span>Print</span>-->
-<!--                        </button>-->
-<!--                    </div>-->
                     <p>
                         <div id="grid" ></div>
                     </p>
@@ -157,13 +133,11 @@
         </div>
     </div>
 </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 
-<!-- welcome modal end -->
-<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
     <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
@@ -177,6 +151,8 @@
 <script th:inline="javascript">
 
 
+    var myModal;
+    const modalToggle = document.getElementById('exampleModal');
     //모달창 세팅
     const modalToggle = document.getElementById('exampleModal');
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -303,7 +279,7 @@
         document.getElementById('empStatus').value = row.empStatus;
         document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
         document.getElementById('empLastDt').value = formatDate(row.empLastDt);
-
+        statusChange();
         console.log(empStatus);
         myModal.show(myModal);
 
@@ -336,14 +312,32 @@
     function statusChange() {
         var empStatus = document.getElementById('empStatus').value;
         var empLastDtInput = document.getElementById('empLastDt');
+        var empDeptInput = document.getElementById('empDept');
+        var empGradeInput = document.getElementById('empGrade');
+
 
         if (empStatus === 'RETIREE') {
             empLastDtInput.disabled = false;
+            empDeptInput.disabled = true;
+            empGradeInput.disabled = true;
         } else {
             empLastDtInput.disabled = true;
             empLastDtInput.value = ''; // 퇴사일자 입력란 초기화
+            empDeptInput.disabled = false;
+            empGradeInput.disabled = false;
         }
     };
+
+    // myModal._element.addEventListener('show.bs.modal', function () {
+    //     statusChange();
+    // });
+    //
+    // myModal._element.addEventListener('hidden.bs.modal', function () {
+    //     if (!isRetiree) {
+    //         empLastDtInput.disabled = true;
+    //         empLastDtInput.value = '';
+    //     }
+    // });
 
 
     function updateEmp() {

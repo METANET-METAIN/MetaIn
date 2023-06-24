@@ -76,12 +76,14 @@
                    TNE.NEW_ADDR, TNE.NEW_DETAIL_ADDR, TNE.NEW_ZIPCODE,
                    TNE.NEW_DEPT, TNE.NEW_BIRTH, TNE.NEW_GRADE, TNE.NEW_STATUS
             FROM TBL_NEW_EMPLOYEE TNE
+            ORDER BY NEW_ID DESC;
         </select>
 
         <!--  전체 사원 목록  -->
         <select id="selectAll" resultType="Emp">
             SELECT TE.EMP_ID, TE.EMP_PHONE, TE.EMP_ADDR, TE.EMP_EMAIL,TE.EMP_SABUN,TE.EMP_BIRTH, TE.EMP_DEPT, TE.EMP_STATUS, TE.EMP_GRADE, TE.EMP_NAME, TE.EMP_FIRST_DT,TE.EMP_VAC, TE.EMP_PROFILE
             FROM TBL_EMPLOYEE TE
+            ORDER BY EMP_ID DESC;
         </select>
 
         <!--   사원 정보 상세 보기   -->
@@ -99,8 +101,6 @@
 
 
         <!--신규직원 승인(직원테이블에 정보 생성)-->
-
-
     <insert id="confirmEmp" parameterType="com.metain.web.domain.Emp">
         INSERT INTO TBL_EMPLOYEE (
             EMP_ID, EMP_NAME, EMP_PHONE, EMP_ADDR, EMP_ZIPCODE, EMP_DETAIL_ADDR,
@@ -116,19 +116,19 @@
                )
     </insert>
     <update id="updateEmp" parameterType="Emp">
-        update TBL_EMPLOYEE
-        set EMP_STATUS = #{empStatus} , EMP_GRADE= #{empGrade}, EMP_DEPT= #{empDept}, EMP_LAST_DT=#{empLastDt}
-        where EMP_ID = #{empId}
+        UPDATE TBL_EMPLOYEE
+        SET EMP_STATUS = #{empStatus} , EMP_GRADE= #{empGrade}, EMP_DEPT= #{empDept}, EMP_LAST_DT=#{empLastDt}
+        WHERE EMP_ID = #{empId}
     </update>
 
     <update id="annualUpdate" parameterType="Emp">
-        update TBL_EMPLOYEE
-        set EMP_VAC = #{empVac}
-        where EMP_ID = #{empId}
+        UPDATE TBL_EMPLOYEE
+        SET EMP_VAC = #{empVac}
+        WHERE EMP_ID = #{empId}
     </update>
 
     <select id="newEmp" resultType="Emp">
-        select EMP_ID, EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN,EMP_VAC,EMP_PROFILE from TBL_EMPLOYEE WHERE MONTH(EMP_FIRST_DT) = MONTH(CURRENT_DATE()) AND YEAR(EMP_FIRST_DT) = YEAR(CURRENT_DATE()) order by EMP_FIRST_DT desc;
+        SELECT EMP_ID, EMP_NAME, EMP_PHONE,EMP_EMAIL, EMP_DEPT, EMP_FIRST_DT, EMP_SABUN,EMP_VAC,EMP_PROFILE from TBL_EMPLOYEE WHERE MONTH(EMP_FIRST_DT) = MONTH(CURRENT_DATE()) AND YEAR(EMP_FIRST_DT) = YEAR(CURRENT_DATE()) order by EMP_FIRST_DT desc;
     </select>
 
     <update id="updateUserRole" parameterType="UserRole">
@@ -138,10 +138,10 @@
     </update>
 
     <select id="selectUserRole" parameterType="UserRole" resultType="UserRole">
-    SELECT UR_ID, EMP_ID, ROLE_ID
-    FROM TBL_USER_ROLE
-    WHERE EMP_ID = #{empId}
-    ORDER BY ROLE_ID desc
+        SELECT UR_ID, EMP_ID, ROLE_ID
+        FROM TBL_USER_ROLE
+        WHERE EMP_ID = #{empId}
+        ORDER BY ROLE_ID desc
     </select>
 
 </mapper>

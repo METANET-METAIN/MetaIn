@@ -19,6 +19,15 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity// Spring Security 설정할 클래스라고 정의
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//
+
     @Autowired
     public SecuritySuccessHandler authenticationSuccessHandler;
 
@@ -38,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http
 //                .csrf().disable();// //일반 사용자에 대해 Session을 저장하지 않으므로 csrf을 disable 처리함.
-                //인증, 인가가 필요한 URL 지정
+        //인증, 인가가 필요한 URL 지정
 
         http
                 .authorizeRequests()
@@ -53,26 +62,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mypage/my-vac-list", "/mypage/my-vac-list/*").hasAnyAuthority("ACTIVE")
 
                 .antMatchers("/certification/emp-cert-apply", "/certification/emp-cert-show").hasAnyAuthority("ACTIVE")
-                .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE", "RETIREE")
+                .antMatchers("/certification/exper-cert-apply", "/certification/exper-cert-show").hasAnyAuthority("ACTIVE")
                 .antMatchers("/certification/retire-cert-apply", "/certification/retire-cert-show").hasAnyAuthority("RETIREE")
 
-//                .antMatchers("/vacation/vacation-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
-//                .antMatchers("/vacation/vacation-detail").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/vacation-list").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-detail").hasAnyAuthority("ACTIVE")
-                .antMatchers("/vacation/vacation-req-list").hasAnyAuthority("ACTIVE")
-                .antMatchers("/hr/emp-list").hasAnyAuthority("ACTIVE")
-                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").hasAnyAuthority("ACTIVE")
-
+                .antMatchers("/vacation/vacation-detail").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/vacation-applyform").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/vacation-afterapply").hasAnyAuthority("ACTIVE")
-//                .antMatchers("/vacation/vacation-req-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
+                .antMatchers("/vacation/vacation-req-list").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
                 .antMatchers("/vacation/request-vacation").hasAnyAuthority("ACTIVE")
                 .antMatchers("/vacation/request-vacation/**").hasAnyAuthority("ACTIVE")
 
 
-//                .antMatchers("/hr/emp-list").access("hasAnyAuthority('HR', 'ADMIN', 'DEPUTY') and hasAuthority('ACTIVE')")
-//                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").access("hasAuthority('HR') and hasAuthority('ACTIVE')")
+                .antMatchers("/hr/emp-list").access("hasAnyAuthority('HR', 'ADMIN', 'DEPUTY') and hasAuthority('ACTIVE')")
+                .antMatchers("/hr/emp-update", "/hr/insert-new-emp", "/hr/new-emp-list").access("hasAuthority('HR') and hasAuthority('ACTIVE')")
                 .anyRequest().permitAll();
 
         http
@@ -82,11 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginEmp")
                 .usernameParameter("empSabun")
                 .passwordParameter("empPwd")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/index")
 //                .failureUrl("/loginEmp")
                 .permitAll(); // 로그인 페이지에는 모두 접근 가능하도록 설정
 
-                //로그아웃
+        //로그아웃
         http
                 .logout()
                 .logoutUrl("/logout") // 로그아웃 URL 설정 (= form action url)
@@ -94,12 +97,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
-                //접근이 거부된 경우 이동할 페이지  설 정
+
+        //접근이 거부된 경우 이동할 페이지 설정
         http
                 .exceptionHandling()
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                         // 페이지 이동
-                        response.sendRedirect("?????"));
+                        response.sendRedirect("/error/access-denied"));
 
         http
                 .sessionManagement()
@@ -144,5 +148,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 }
-
 

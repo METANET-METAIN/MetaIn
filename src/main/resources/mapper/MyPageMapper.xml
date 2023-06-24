@@ -109,16 +109,16 @@
     </select>
 
     <update id="updateMyPage" parameterType="Emp">
-        update TBL_EMPLOYEE
-        set EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
+        UPDATE TBL_EMPLOYEE
+        SET EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
             EMP_DETAIL_ADDR=#{empDetailAddr}, EMP_PWD=#{empPwd}, EMP_PROFILE=#{empProfile}
-        where EMP_ID = #{empId}
+        WHERE EMP_ID = #{empId}
     </update>
 
 
     <update id="updatePwd" parameterType="Emp">
-        update TBL_EMPLOYEE
-        set  EMP_PWD=#{empPwd}
-        where EMP_ID = #{empId}
+        UPDATE TBL_EMPLOYEE
+        SET  EMP_PWD=#{empPwd}
+        WHERE EMP_ID = #{empId}
     </update>
 </mapper>

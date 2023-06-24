@@ -23,7 +23,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">인사 관리</a>
+                                        <a >인사 관리</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         신규 입사자 등록
@@ -51,7 +51,7 @@
                                 <label class="col-sm-12 col-md-2 col-form-label">생년월일</label>
                                 <div class="col-sm-12 col-md-7">
                                     <input class="form-control" type="text" th:name="newBirth" id="newBirth" >
-<!--                                    <p id="checknewBirthMessage"></p>-->
+                                    <p id="checkBirthMessage"></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -83,14 +83,7 @@
                                </div>
                               </div>
                             </div>
-<!--                            <div class="form-group row">-->
-<!--                                <label class="col-sm-12 col-md-2 col-form-label">이메일</label>-->
-<!--                                <div class="col-sm-12 col-md-7">-->
-<!--                                    <input class="form-control" value="" type="email" th:name="newEmail" id="newEmail">-->
-<!--                                    <p id="checkEmailMessage"></p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <div class="form-group row">
+                           <div class="form-group row">
                                 <label class="col-sm-12 col-md-2 col-form-label">지원 직무</label>
                                 <div class="form-group col-md-4">
                                     <select id="newDept" th:name="newDept" class="form-control">
@@ -127,6 +120,11 @@
         </div>
     </div>
 </div>
+
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 <!-- buttons for Export datatable -->
 <script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>
 <script src="/plugins/datatables/js/buttons.print.min.js"></script>
@@ -149,6 +147,21 @@
         }
     })
 
+    document.getElementById("newBirth").addEventListener('input', function() {
+        let newBirth = document.getElementById("newBirth").value;
+        let birthRegex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD 형식을 검사하는 정규식
+
+        if (newBirth.length <= 0) {
+            document.getElementById("checkBirthMessage").innerText = "생년월일을 입력해주세요";
+            return false;
+        } else if (!birthRegex.test(newBirth)) {
+            document.getElementById("checkBirthMessage").innerText = "올바른 생년월일 형식(YYYY-MM-DD)으로 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkBirthMessage").innerText = " ";
+        }
+    })
+
     document.getElementById("newPhone").addEventListener('input',function(){
         let newPhone = document.getElementById("newPhone").value;
         if (newPhone.length <= 0) {
@@ -162,16 +175,6 @@
 
         }
     })
-
-    // document.getElementById("newEmail").addEventListener('input',function(){
-    //     let newEmail = document.getElementById("newEmail").value.length;
-    //     if (newEmail <= 0) {
-    //         document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
-    //         return false;
-    //     } else {
-    //         document.getElementById("checkEmailMessage").innerText = " ";
-    //     }
-    // })
 
     document.getElementById("newAddr").addEventListener('input',function(){
         let newAddr = document.getElementById("newAddr").value.length;
@@ -200,7 +203,7 @@
 
         let newPhone = document.getElementById("newPhone").value;
         let newName = document.getElementById("newName").value;
-        // let newEmail = document.getElementById("newEmail").value;
+        let newBirth = document.getElementById("newBirth").value;
         let newAddr = document.getElementById("newAddr").value;
         let newZipcode = document.getElementById("newZipcode").value;
         let newDetailAddr = document.getElementById("newDetailAddr").value;
@@ -213,6 +216,14 @@
             return false;
         } else {
             document.getElementById("checkNameMessage").innerText = " ";
+        }
+
+        if (newBirth == null || newBirth.trim() == "") {
+            document.getElementById("newBirth").focus();
+            document.getElementById("checkBirthMessage").innerText = "생년월일을 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkBirthMessage").innerText = " ";
         }
 
 

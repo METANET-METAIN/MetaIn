@@ -231,4 +231,12 @@ public class MyPageController {
 
         return "redirect:/index";
     }
+
+    @PostMapping("/updatePwd")
+    public String updatePassword(Emp emp) {
+
+        myPageService.updatePwd(emp);
+        // 업데이트 성공 시 응답 처리
+        return "redirect:/index";
+    }
 }

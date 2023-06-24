@@ -371,6 +371,15 @@
         </div>
         <div class="menu-block ">
             <div class="sidebar-menu">
+                <div class="profile-photo" style="margin-top: 20px;">
+                    </a><img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo" style= "height: 170px;  width: 160px;">
+                </div>
+                <h5 class="text-center h5 mb-0">[[${emp.empName}]]</h5>
+                <p class="text-center text-muted font-14">
+                    [[${emp.empDept}]]  [[${emp.empGrade}]]
+                <p class="text-center text-muted font-14">
+                </p>
+                </p>
                 <ul id="accordion-menu">
                     <li >
 

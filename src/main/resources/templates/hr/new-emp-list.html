@@ -49,93 +49,17 @@
         </div>
     </div>
 </div>
-<!-- 모달창 -->
-<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h1 class="modal-title fs-5" id="exampleModalLabel">신입 사원 정보</h1>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <form>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newId" class="col-form-label">신입 사원 번호</label>-->
-<!--                        <input type="text" class="form-control" id="newId">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newName" class="col-form-label">이름</label>-->
-<!--                        <input type="text" class="form-control" id="newName">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="empAddr" class="col-form-label">주소</label>-->
-<!--                        <input type="text" class="form-control" id="empAddr">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newPhone" class="col-form-label">이메일</label>-->
-<!--                        <input type="text" class="form-control" id="newPhone">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newIdNum" class="col-form-label">주민번호</label>-->
-<!--                        <input type="text" class="form-control" id="newIdNum">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newEmail" class="col-form-label">이메일</label>-->
-<!--                        <input type="text" class="form-control" id="newEmail">-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="newDept" class="col-form-label">지원 직무</label>-->
-<!--                        <input type="text" class="form-control" id="newDept">-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    -->
-<!--                    -->
-<!--                    -->
-<!--&lt;!&ndash;                    <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <label for=" " class="col-form-label">제출 여부</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <input type="text" class="form-control">&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <label for=" " class="col-form-label">관리</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <input type="text" class="form-control" >&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                </form>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-primary">수정</button>-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 
 
 
-<!-- buttons for Export datatable -->
-<!--<script src="/plugins/datatables/js/dataTables.buttons.min.js"></script>-->
-<!--<script src="/plugins/datatables/js/buttons.print.min.js"></script>-->
-<!--<script src="/plugins/datatables/js/buttons.html5.min.js"></script>-->
-<!--<script src="/plugins/datatables/js/buttons.flash.min.js"></script>-->
-<!--<script src="/plugins/datatables/js/pdfmake.min.js"></script>-->
-<!--<script src="/plugins/datatables/js/vfs_fonts.js"></script>-->
-
-
-
-
-
-<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
 <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-<script>
-
-
-</script>
 
 
 <!--위에 선언하면 html보다 이 script가 더 빨리 로딩 되서 null 값어가 ㅜ항상 아래쪽에 위치해줘야되나봐 ~! -->
