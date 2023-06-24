@@ -27,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -259,13 +262,32 @@ public class MyPageController {
     }
 
     @PostMapping("/updateMy")
+
+//     @PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
+//     public String  updateMy(Emp emp, @RequestParam(value ="file") MultipartFile file , Model model , HttpServletRequest request) throws IOException {
+//         HttpSession session = request.getSession();
+//         Emp sessionEmp = (Emp) session.getAttribute("emp");
+
     public String updateMy(Emp emp, @RequestParam(value = "file") MultipartFile file) throws IOException {
         System.out.println("updateMyController" + emp);
         System.out.println(file);
 
-        myPageService.updateMy(emp, file);
 
-        return "redirect:/index";
+        if (sessionEmp != null) {
+            // 세션에 저장된 사용자 정보와 요청으로 전달된 emp 정보 비교
+            if (sessionEmp.getEmpId().equals(emp.getEmpId())) {
+                System.out.println("updateMyController" + emp);
+                System.out.println(file);
+
+                myPageService.updateMy(emp, file);
+
+                model.addAttribute("emp", emp);
+
+
+                return "redirect:/index";
+            }
+        }
+        return "error/403"; // 권한 없음
     }
 
     @PostMapping("/updatePwd")
