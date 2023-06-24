@@ -142,7 +142,27 @@
         }
     })
 </script>
-
+<script>
+    function setGrade(grade) {
+        // 한글로
+        switch (grade) {
+            case 'EMPLOYEE':
+                return '사원';
+            case 'ASSISTANT':
+                return '대리';
+            case 'MANAGER':
+                return '과장';
+            case 'DEPUTY':
+                return '차장';
+            case 'HR':
+                return '인사관리';
+            case 'ADMIN':
+                return '관리자';
+            default:
+                return grade; //그대로 출력
+            }
+    }
+</script>
 <!-- Google Tag Manager (noscript) -->
 
 <noscript

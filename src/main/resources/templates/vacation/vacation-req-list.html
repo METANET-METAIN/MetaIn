@@ -70,18 +70,18 @@
 			const itemList = /*[[${list}]]*/ [];
 
 			for (let i = 0; i < itemList.length; i++) {
-				if (itemList[i].empGrade === 'ROLE_SW') {
+				if (itemList[i].empGrade === 'EMPLOYEE') {
 					itemList[i].empGrade = '사원';
-				} else if (itemList[i].empGrade === 'ROLE_DR') {
+				} else if (itemList[i].empGrade === 'ASSISTANT') {
 					itemList[i].empGrade = '대리';
 				}
-				else if (itemList[i].empGrade === 'ROLE_GJ') {
+				else if (itemList[i].empGrade === 'MANAGER') {
 					itemList[i].empGrade = '과장';
-				}else if (itemList[i].empGrade === 'ROLE_CJ') {
+				}else if (itemList[i].empGrade === 'DEPUTY') {
 					itemList[i].empGrade = '차장';
-				}else if (itemList[i].empGrade === 'ROLE_ADMIN') {
+				}else if (itemList[i].empGrade === 'ADMIN') {
 					itemList[i].empGrade = '관리자';
-				}else if (itemList[i].empGrade === 'ROLE_HR') {
+				}else if (itemList[i].empGrade === 'HR') {
 					itemList[i].empGrade = '인사';
 				}
 			}
