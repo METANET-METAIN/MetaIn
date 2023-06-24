@@ -23,7 +23,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">증명서 발급</a>
+                                <a>증명서 발급</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 발급완료
@@ -402,7 +402,6 @@
 <!-- js -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        console.log('페이지 dom 로드시 실행완료');
 
         // certSort 값에 따라 선택된 문서를 PDF로 저장
         var certSort = "[[${certSort}]]";
@@ -426,7 +425,6 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/certification/convertToPdf', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        console.log('ajax 위한 함수 호출');
 
 
         // CSRF 토큰을 포함한 헤더 설정
