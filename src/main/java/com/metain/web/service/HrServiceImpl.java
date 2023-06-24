@@ -96,7 +96,7 @@ public class HrServiceImpl implements HrService {
 
                         int cnt = hrMapper.confirmEmp(emp);
                         if (cnt >= 1) {
-                            successCount=0;
+                            successCount = 0;
                             successCount++;
                         }
 
@@ -104,16 +104,16 @@ public class HrServiceImpl implements HrService {
                         //역할 부여
                         Long findRoleNo = hrMapper.findRoleNo(String.valueOf(gradeRole));
                         hrMapper.userRoleSave(emp.getEmpId(), findRoleNo);
-                        if(newEmp.getNewStatus().equals("ACTIVE")){
+                        if (newEmp.getNewStatus().equals("ACTIVE")) {
                             findRoleNo = 7L;
-                        }else{
+                        } else {
                             findRoleNo = 8L;
                         }
 
-                        hrMapper.userRoleSave(emp.getEmpId(),findRoleNo);
+                        hrMapper.userRoleSave(emp.getEmpId(), findRoleNo);
 
 
-                    }   catch (ParseException e) {
+                    } catch (ParseException e) {
                         e.printStackTrace();
 
                         break;
@@ -126,7 +126,7 @@ public class HrServiceImpl implements HrService {
 
             }
 
-            if (successCount>0) {
+            if (successCount > 0) {
                 return hrMapper.deleteNewEmp(newEmpList);
             }
         }
@@ -137,13 +137,11 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<Emp> selectAll() {
         List<Emp> list = hrMapper.selectAll();
-        if(list == null) {
+        if (list == null) {
             return null;
         }
         return list;
     }
-
-
 
 
     //신입 사원 등록
@@ -156,7 +154,7 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<NewEmpDTO> newEmpSelectAll() {
         List<NewEmpDTO> list = hrMapper.newEmpSelectAll();
-        if(list == null){
+        if (list == null) {
             return null;
         }
         return list;
@@ -164,68 +162,87 @@ public class HrServiceImpl implements HrService {
 
     @Override
     public Emp selectEmpInfo(Long empId) {
-        Emp dbEmp=hrMapper.selectEmpInfo(empId);
-        if (dbEmp==null){ //db에서 꺼내온  emp가 null이면 에러페이지 이동
+        Emp dbEmp = hrMapper.selectEmpInfo(empId);
+        if (dbEmp == null) { //db에서 꺼내온  emp가 null이면 에러페이지 이동
             return null;
         }
         return dbEmp;
     }
+
     @Override
     public List<Emp> newEmp() {
-        List<Emp> list=hrMapper.newEmp();
+        List<Emp> list = hrMapper.newEmp();
         System.out.println(list);
         return list;
     }
 
+
     @Override
-    public void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId) {
+    public void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId, Date empLastDt) {
         //업데이트 할 emp 정보 저장
-        Emp emp =hrMapper.selectEmpInfo(updateEmpId);
+        Emp emp = hrMapper.selectEmpInfo(updateEmpId);
         emp.setEmpStatus(empStatus);
         emp.setEmpGrade(empGrade);
         emp.setEmpDept(empDept);
+        emp.setEmpLastDt(empLastDt);
         emp.setEmpId(updateEmpId);
         logger.info("hrService의 updateEmp의 Emp", emp);
 
-        UserRole userRole = new UserRole(0L,emp.getEmpId(),0L);
+        if(empStatus.equals("RETIREE")) {
+            emp.setEmpLastDt(empLastDt);
+        } else {
+            emp.setEmpLastDt(null);
+        }
+
+        UserRole userRole = new UserRole(0L, emp.getEmpId(), 0L);
 
         List<UserRole> userRoles = hrMapper.selectUserRole(userRole);
 
-        Long statusNum = userRoles.get(0).getUrId();
-        Long gradeNum = userRoles.get(1).getUrId();
-        Long roleId;
-        if(empStatus.equals("ACTIVE")){
-            roleId = 7L;
-        }else{
-            roleId = 8L;
+        if (userRoles.size() >= 2) {
+            Long statusNum = userRoles.get(0).getUrId();
+            Long gradeNum = userRoles.get(1).getUrId();
+            Long roleId;
+            if (empStatus.equals("ACTIVE")) {
+                roleId = 7L;
+            } else {
+                roleId = 8L;
+            }
+//            if (empStatus.equals("ACTIVE")) {
+//                roleId = 7L;
+//            } else {
+//                roleId = 8L;
+//            }
+
+
+            UserRole userRole1 = new UserRole(statusNum, updateEmpId, roleId);
+            hrMapper.updateUserRole(userRole1);
+            if (empGrade.equals("EMPLOYEE")) {
+                roleId = 1L;
+            } else if (empGrade.equals("ASSISTANT")) {
+                roleId = 2L;
+            } else if (empGrade.equals("MANAGER")) {
+                roleId = 3L;
+            } else if (empGrade.equals("DEPUTY")) {
+                roleId = 4L;
+            } else if (empGrade.equals("HR")) {
+                roleId = 5L;
+            } else {
+                roleId = 6L;
+            }
+            UserRole userRole2 = new UserRole(gradeNum, updateEmpId, roleId);
+            hrMapper.updateUserRole(userRole2);
         }
-        UserRole userRole1 = new UserRole(statusNum,0L,roleId);
-        hrMapper.updateUserRole(userRole1);
-        if(empGrade.equals("EMPLOYEE")){
-            roleId = 1L;
-        }else if(empGrade.equals("ASSISTANT")){
-            roleId = 2L;
-        }else if(empGrade.equals("MANAGER")){
-            roleId = 3L;
-        }else if(empGrade.equals("DEPUTY")){
-            roleId = 4L;
-        }else if(empGrade.equals("HR")){
-            roleId = 5L;
-        }else{
-            roleId = 6L;
-        }
-        UserRole userRole2 = new UserRole(gradeNum,0L,roleId);
-        hrMapper.updateUserRole(userRole2);
 
         //알람 발생
-        AlarmDTO alarmDTO=new AlarmDTO();
-        alarmDTO.setNotiContent(emp.getEmpName()+ "님의 인사정보가 변경되었습니다.");
+        AlarmDTO alarmDTO = new AlarmDTO();
+        alarmDTO.setNotiContent(emp.getEmpName() + "님의 인사정보가 변경되었습니다.");
         alarmDTO.setNotiUrl("/mypage/update-mypage");
         alarmDTO.setNotiType("인사 정보");
         alarmDTO.setEmpId(updateEmpId);
         alarmMapper.insertAlarm(alarmDTO);
 
-        alarmService.send(updateEmpId, AlarmResponse.comment(emp.getEmpName()+ "님의 인사정보가 변경되었습니다."));
+        alarmService.send(updateEmpId, AlarmResponse.comment(emp.getEmpName() + "님의 인사정보가 변경되었습니다."));
         hrMapper.updateEmp(emp);
     }
+
 }

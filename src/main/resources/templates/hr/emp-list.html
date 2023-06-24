@@ -145,7 +145,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="empLastDt" class="col-form-label">퇴사 일자</label>
-                        <input type="text" readonly class="form-control" id="empLastDt">
+                        <input type="text" class="form-control" id="empLastDt">
                     </div>
                 </form>
             </div>
@@ -300,19 +300,49 @@
         document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
         document.getElementById('empLastDt').value = formatDate(row.empLastDt);
 
+
+        if (row.empStatus === 'ACTIVE') {
+            document.getElementById('empLastDt').disabled = true; // empLastDt 필드 비활성화
+        } else if (row.empStatus === 'RETIREE') {
+            document.getElementById('empLastDt').disabled = false; // empLastDt 필드 활성화
+            // 나머지 필드 비활성화
+            document.getElementById('empSabun').disabled = true;
+            document.getElementById('empId').disabled = true;
+            document.getElementById('empBirth').disabled = true;
+            document.getElementById('empName').disabled = true;
+            document.getElementById('empPhone').disabled = true;
+            document.getElementById('empAddr').disabled = true;
+            document.getElementById('empEmail').disabled = true;
+            document.getElementById('empDept').disabled = true;
+            document.getElementById('empGrade').disabled = true;
+            console.log("비활성화")
+        }
+
+
+
+
+
             myModal.show(myModal);
 
         const requestData={
-            empStatus:row.empStatus,
-            empDept:row.empDept,
-            empGrade:row.empGrade,
-            updateEmpId:row.empId
+            empStatus: document.getElementById('empStatus').value,
+            empDept: document.getElementById('empDept').value,
+            empGrade: document.getElementById('empGrade').value,
+            empLastDt: document.getElementById('empLastDt').value,
+            updateEmpId: document.getElementById('empId').value
+
+            // empStatus:row.empStatus,
+            // empDept:row.empDept,
+            // empGrade:row.empGrade,
+            // updateEmpId:row.empId,
+            // empLastDt:row.empLastDt
         }
 
         console.log("empStatus"+requestData.empStatus)
         console.log("empDept"+requestData.empDept)
         console.log("empGrade"+requestData.empGrade)
         console.log("updateEmpId"+requestData.updateEmpId)
+        console.log("empLastDt"+requestData.empLastDt)
 
     });
 
@@ -340,6 +370,7 @@
                 empStatus: document.getElementById('empStatus').value,
                 empDept: document.getElementById('empDept').value,
                 empGrade: document.getElementById('empGrade').value,
+                empLastDt: document.getElementById('empLastDt').value,
                 updateEmpId: document.getElementById('empId').value
             };
         console.log("empStatus2"+requestDat.empStatus)

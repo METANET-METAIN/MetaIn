@@ -4,6 +4,7 @@ import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.dto.NewEmpDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface HrService {
@@ -24,6 +25,6 @@ public interface HrService {
 
     List<Emp> newEmp();
 
-    void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId);
+    void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId, Date empLastDt);
 
 }

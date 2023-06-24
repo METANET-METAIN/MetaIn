@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -83,16 +86,23 @@ public class HrController {
 
     @PostMapping("/updateEmp")
     @ResponseBody
-    public ResponseEntity<String> updateEmp(@RequestBody Map<String,Object> requestData) {
-
-        String empStatus = (requestData.get("empStatus").toString());
-        String empGrade=requestData.get("empGrade").toString();
-
-        String empDept=requestData.get("empDept").toString();
+    public ResponseEntity<String> updateEmp(@RequestBody Map<String, Object> requestData) throws ParseException {
+        String empStatus = requestData.get("empStatus").toString();
+        String empGrade = requestData.get("empGrade").toString();
+        String empDept = requestData.get("empDept").toString();
         Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
 
+        Date empLastDt = null;
+        if (requestData.containsKey("empLastDt")) {
+            String empLastDtStr = requestData.get("empLastDt").toString();
+            if (empLastDtStr != null && !empLastDtStr.isEmpty()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                empLastDt = dateFormat.parse(empLastDtStr);
+            }
+        }
 
-        hrService.updateEmp(empStatus,empGrade,empDept,empId);
+        hrService.updateEmp(empStatus, empGrade, empDept, empId, empLastDt);
         return ResponseEntity.ok("성공");
     }
+
 }
