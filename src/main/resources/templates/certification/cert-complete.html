@@ -80,13 +80,12 @@
         </div>
 
 
-        <div class="footer-wrap pd-20 mb-20 card-box">
-            메타인(주)
-            <a href="https://github.com/dropways" target="_blank"
-            >METAIN</a
-            >
-        </div>
+        <th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+            <section id="footer">
+            </section>
+        </th:block>
     </div>
+
     <div class="row pb-30" style="height: 500px;"></div>
 </div>
 
@@ -173,7 +172,7 @@
                     <div class="col-3 text-left"> 홍길동</div>
                     <div style="position: relative;">
                         <div class="col-3 text-left">(인)</div>
-<!--                        <img src="../src/images/metain-sign.png" alt="메타인 지장" width="120" height="120">-->
+                        <!--                        <img src="../src/images/metain-sign.png" alt="메타인 지장" width="120" height="120">-->
                     </div>
 
                 </div>
@@ -277,7 +276,7 @@
                     <div class="col-3 text-left"> 홍길동</div>
                     <div style="position: relative;">
                         <div class="col-3 text-left">(인)</div>
-                        <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120">
+                        <!--                        <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120">-->
                     </div>
 
                 </div>
@@ -379,7 +378,7 @@
                     <div class="col-3 text-left"> 홍길동</div>
                     <div style="position: relative;">
                         <div class="col-3 text-left">(인)</div>
-                        <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120">
+                        <!--                        <img src="../vendors/images/metain-sign.png" alt="메타인 지장" width="120" height="120">-->
                     </div>
 
                 </div>
@@ -418,8 +417,6 @@
             certId = "[[${certList.retireCertId}]]";
         }
 
-        console.log('certSort인식 확인 ! : certSort = ' + certSort);
-        console.log('certId인식 확인 ! : certID = ' + certId);
         captureAndSendImage(certSort, certId);
     });
 
@@ -430,9 +427,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/certification/convertToPdf', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        console.log('ajax 위한 함수 호출 성공!');
-        console.log('certsort확인3' + certSort);
-        console.log('certId확인3' + certId);
+        console.log('ajax 위한 함수 호출');
 
 
         // CSRF 토큰을 포함한 헤더 설정
@@ -459,13 +454,11 @@
         };
         // 요청 데이터 전송
         xhr.send(JSON.stringify(imageRequestData));
-        console.log('ajax전송성공!' + imageRequestData);
     }
 
 
     // 특정 div를 이미지로 변환하고 서버로 전송합니다.
     function captureAndSendImage(certSort, certId) {
-        console.log('캡쳐함수불림');
 
         var targetDiv;
 
@@ -477,8 +470,6 @@
             targetDiv = document.getElementById('A02Div');
         }
 
-        console.log('캡쳐함수내부에서 certSort 인식확인 ' + targetDiv);
-        console.log('certID확인 2' + certId)
         targetDiv.style.visibility = 'visible';
 
         html2canvas(targetDiv).then(function (canvas) {
@@ -489,10 +480,8 @@
             image.onload = function () {
                 var imageWidth = image.width;
                 var imageHeight = image.height;
-                console.log('이미지 크기: x-', imageWidth, ' y - ', imageHeight);
                 // 이미지 데이터를 서버로 전송합니다.
                 sendImageToServer(imageData, imageWidth, imageHeight, certSort, certId);
-                console.log('이미지생성!' + imageData);
             };
             targetDiv.style.visibility = 'hidden';
 
@@ -510,7 +499,6 @@
     var day = currentDate.getDate();
 
     // 날짜 형식 설정 (예: 2023년 6월 13일)
-    //var formattedDate = year + month + day ;
     var formattedDate = year.toString() + month.toString().padStart(2, '0') + day.toString().padStart(2, '0');
 
     /* 타임리프로 가져온 값을 JavaScript 변수에 할당 */

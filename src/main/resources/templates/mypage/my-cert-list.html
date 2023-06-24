@@ -70,6 +70,10 @@
             </div>
         </div>
     </div>
+    <th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+        <section id="footer">
+        </section>
+    </th:block>
 </div>
 
 <!-- buttons for Export datatable -->
@@ -132,8 +136,13 @@
                 header: '발급상태',
                 name: 'issueStatus',
                 filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                align: 'center'
-
+                align: 'center',
+                // renderer: function (value, row) {
+                //     return value === 0 ? '발급 가능' :'발급 불가';
+                // }
+                valueFormatter: function(params) {
+                    return params.value = 0 ? '발급 불가' : '발급 가능';
+                }
             },
             {
                 header: '다운로드',
@@ -240,6 +249,8 @@
 
 
 
+
+
     //데이터 가져오기
     fetch('/mypage/my-empCert')
         .then(function (res) {
@@ -249,13 +260,11 @@
 
             // empData의 날짜 형식을 변경하여 그리드에 바인딩
             empData.forEach(function (emp) {
-                if(emp.issueStatus===0){
-                    emp.issueStatus="다운로드 가능";
-                }else{
-                    emp.issueStatus="다운로드 불가";
-                }
                 emp.certRegDate = formatDate(new Date(emp.certRegDate));
+
+
             });
+
 
             gridEmp.resetData(empData); //그리드 데이터
         })
