@@ -118,6 +118,7 @@ public class MyPageController {
     }//downloadCert
 
 
+
     @GetMapping("/my-vac")
     @ResponseBody
     public List<MyVacDTO> selectMyVacList(Authentication auth, @ModelAttribute MyVacDTO myVacDTO) {
