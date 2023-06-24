@@ -116,37 +116,73 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
-        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
-        System.out.println(encryptedPwd);
-        System.out.println("updateMy : " + dbemp);
-
-        dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
         String sabun = dbemp.getEmpSabun();
-        UUID uuid = UUID.randomUUID();
+
+        if (file != null && !file.isEmpty()) {
+
+            UUID uuid = UUID.randomUUID();
 
         File files = new File(file.getOriginalFilename());
         FileCopyUtils.copy(file.getBytes(), files);
+            String originalImgName = file.getOriginalFilename();
+            String extension = "";
 
-        String originalImgName = file.getOriginalFilename();
-        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
+            int dotIndex = originalImgName.lastIndexOf(".");
+            if (dotIndex >= 0) {
+                extension = originalImgName.substring(dotIndex);
+            }
 
-        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-        String path = "user";
-
-
-        awsS3Service.uploadS3File(file, savedImgName, path);
-
-
+            String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+            String path = "user";
+            dbemp.setEmpProfile(savedImgName);
 
 
-        dbemp.setEmpProfile(savedImgName);
+            awsS3Service.updateProfileInS3(file.getBytes(), savedImgName, path);
+        } else {
+            // 사진이 첨부되지 않은 경우에는 기존 사진 정보를 그대로 유지합니다.
+            dbemp.setEmpProfile(dbemp.getEmpProfile());
+        }
+
+
+
 
         myPageMapper.updateMyPage(dbemp);
     }
+//    @Override
+//    public void updateMy(Emp emp, MultipartFile file) throws IOException {
+//        Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
+//
+//
+//        dbemp.setEmpAddr(emp.getEmpAddr());
+//        dbemp.setEmpPhone(emp.getEmpPhone());
+//        dbemp.setEmpZipcode(emp.getEmpZipcode());
+//        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
+//        String sabun = dbemp.getEmpSabun();
+//        UUID uuid = UUID.randomUUID();
+//
+//        File files = new File(file.getOriginalFilename());
+//        FileCopyUtils.copy(file.getBytes(), files);
+//
+//        String originalImgName = file.getOriginalFilename();
+//        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
+//
+//        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+//        String path = "user";
+//
+//
+//        awsS3Service.uploadS3File(file, savedImgName, path);
+//
+//
+//
+//
+//        dbemp.setEmpProfile(savedImgName);
+//
+//        myPageMapper.updateMyPage(dbemp);
+//    }
 
     @Override
     public void updatePwd(Emp emp) {

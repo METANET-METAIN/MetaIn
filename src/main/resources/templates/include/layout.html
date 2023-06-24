@@ -353,7 +353,7 @@
             <div class="sidebar-menu">
                 <div class="profile-photo" style="margin-top: 20px;">
                     <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
-                    </a><img id="empProfile" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                    </a><img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
                     <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
                 </div>
 
@@ -370,14 +370,14 @@
 
                         <a href="/index" class="dropdown-toggle no-arrow active">
 
-									<span class="micon bi bi-chat-right-dots"></span
-                                    ><span class="mtext">Home</span>
+                            <span class="micon bi bi-chat-right-dots"></span>
+                            <span class="mtext">Home</span>
                         </a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" th:if="${emp.empStatus} == 'ACTIVE'">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">휴가관리</span>
+                            <span class="micon bi bi-textarea-resize"></span>
+                            <span class="mtext">휴가관리</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/vacation/vacation-list"> 전체 목록</a></li>
@@ -387,44 +387,50 @@
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">증명서 발급</span>
+                           <span class="micon bi bi-textarea-resize"></span
+                           ><span class="mtext">증명서 발급</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="/certification/emp-cert-show"> 재직증명서</a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/certification/emp-cert-show"> 재직증명서</a></li>
                             <li><a href="/certification/exper-cert-show"> 경력증명서</a></li>
-                            <li><a href="/certification/retire-cert-show"> 퇴직증명서</a></li>
+                            <li th:if="${emp.empStatus} == 'RETIREE'">
+                                <a href="/certification/retire-cert-show"> 퇴직증명서</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">마이 페이지</span>
+                           <span class="micon bi bi-textarea-resize"></span
+                           ><span class="mtext">마이 페이지</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/mypage/my-cert-list"> 증명서 발급내역</a></li>
-                            <li><a href="/mypage/my-vac-list"> 휴가 신청 조회 </a></li>
-                            <li><a href="/mypage/update-mypage"> 내 정보 수정 </a></li>
-                            <li><a href="/mypage/update-pwd"> 비밀번호 변경 </a></li>
-                            <li><a href="/mypage/alarm"> 알림함 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/my-vac-list"> 휴가 신청 조회 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/update-mypage"> 내 정보 수정 </a></li>
+                            <li th:if="${emp.empStatus} == 'ACTIVE'">
+                                <a href="/mypage/alarm"> 알림함 </a></li>
                         </ul>
                     </li>
-                    <li th:if="${emp.empGrade} == 'ADMIN'">
+                    <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
                         <a href="/vacation/vacation-req-list" class="dropdown-toggle no-arrow">
-									<span class="micon bi bi-calendar4-week"></span
-                                    ><span class="mtext">요청된 휴가 목록</span>
+                            <span class="micon bi bi-calendar4-week"></span>
+                            <span class="mtext">요청된 휴가 목록</span>
                         </a>
                     </li>
-                    <li class="dropdown" th:if="${emp.empGrade} == 'HR'">
+                    <li class="dropdown" th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
                         <a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-textarea-resize"></span
-                                    ><span class="mtext">인사관리</span>
+                            <span class="micon bi bi-textarea-resize"></span>
+                            <span class="mtext">사원 관리</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="/hr/emp-list"> 사원 전체 조회</a></li>
-                            <!--                            <li><a href=""> 인사 정보 수정 </a></li>-->
-                            <li><a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
-                            <li><a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
+                            <li th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
+                                <a href="/hr/emp-list"> 사원 전체 조회</a></li>
+                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                                <a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
+                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                                <a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
                         </ul>
                 </ul>
             </div>

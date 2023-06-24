@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index").hasAnyAuthority("ACTIVE", "RETIREE")
 //                .antMatchers("/mypage/**").access("hasAuthority('ADMIN') and hasAuthority('ACTIVE')")
 
-                .antMatchers("/mypage/update-mypage", "/mypage/alarm").hasAnyAuthority("ACTIVE")
+                .antMatchers("/mypage/update-mypage","/mypage/update-pwd", "/mypage/alarm").hasAnyAuthority("ACTIVE")
                 .antMatchers("/mypage/my-cert-list", "/mypage/my-cert-list/*").hasAnyAuthority("ACTIVE", "RETIREE")
                 .antMatchers("/mypage/my-vac-list", "/mypage/my-vac-list/*").hasAnyAuthority("ACTIVE")
 

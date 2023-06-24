@@ -199,9 +199,6 @@
                 name: 'empGrade',align: 'center',
                 formatter: function (grade) {
                     return grade.value ? setGrade(grade.value) : '';
-                    // const grade = params.value;
-                    // const korGrade = setGrade(grade); // 영어 부서명을 한글로 변환하는 함수 호출
-                    // return korGrade;
                 },
                 filter: 'select'
             },
@@ -268,7 +265,7 @@
             case 'ADMIN':
                 return '관리자';
             default:
-                return grade; // 변환할 한글 부서명이 없는 경우 그대로 반환
+                return '';
         }
     }
 

@@ -102,6 +102,26 @@ public class AwsS3Service {
         System.out.println("File uploaded. ETag: " + putObjectResponse.eTag());
     }
 
+    public void updateProfileInS3(byte[] fileBytes, String objectKey, String path) {
+
+        // 기존 객체 삭제
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey + "/" + path)
+                .build();
+        s3Client.deleteObject(deleteRequest);
+
+        // 새로운 객체 업로드
+        PutObjectRequest putRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(path + "/" +objectKey)
+                .build();
+        PutObjectResponse response = s3Client.putObject(putRequest, RequestBody.fromBytes(fileBytes));
+
+        // 업로드 결과 확인
+        System.out.println("Object updated. ETag: " + response.eTag());
+    }
+
 
 //    public String getCertFileUrl(String fileName) {
 //        try {
