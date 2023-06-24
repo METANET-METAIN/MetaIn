@@ -221,64 +221,50 @@ public class CertificationServiceImpl implements CertificationService {
             String objectKey = "certification/converted.pdf";
             awsS3Service.updateFileInS3(pdfBytes, objectKey);
 
-            //local용 경로
-            //String filePath = "src/main/resources/static/certPdfFile/";
-
         }//try
     }//makeCertPdf
 
+
+
     @Override
-    public void signPdf(String filename) throws Exception {
-        logger.info("CertSer/signPdf  디지털서명함수 check 1.filename 확인=",filename+" /");
-
-        //System.out.print(" 디지털서명함수 check 1 filename도 같이 잘넘어왔나?" + filename + " /");
-
-        //s3가져오는 방식
+        public void signPdf(String filename) throws Exception {
+        //s3에에서 가져오는 방식
         String pfxObjectKey = "ProfMoriarty.pfx";
         String pdfObjectKey = "certification/converted.pdf";
-        //String signObjectKey = "certification/metain-sign-Image.png";
 
-        //String mountPath = "/metainfiles/metain-sign-Image.png";
+        //String signImagePath = "/metainfiles/metain-sign-Image.png"; //배포용경로
+        String signImagePath = "src/main/resources/static/certPdfFile/metain-sign-Image.png";// 로컬용경로
+
 
         try {
             InputStream pfxInputStream = awsS3Service.getFileInputStreamFromS3(pfxObjectKey);
-
             InputStream pdfInputStream = awsS3Service.getFileInputStreamFromS3(pdfObjectKey);
 
-            //InputStream signInputStream = awsS3Service.getFileInputStreamFromS3(signObjectKey);
 
-
-            // 서명된 파일을 저장할 OutputStream 생성
+            //서명된 파일을 저장할 OutputStream 생성
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
             // 입력 스트림을 사용하여 작업 수행
             Signature signature = new Signature(pdfInputStream);
-            logger.info("CertSer/signPdf  디지털서명함수 check 2.signature 확인=",signature);
+            logger.info("CertSer/signPdf  디지털서명함수 check 2.signature 확인=", signature);
 
             // InputStream을 사용하여 작업 수행
             DigitalSignOptions options = new DigitalSignOptions(pfxInputStream);
-            logger.info("CertSer/signPdf  디지털서명함수 check 3.options 확인=",options);
+            logger.info("CertSer/signPdf  디지털서명함수 check 3.options 확인=", options);
 
+
+            // optional: setup image file path
             options.setPassword("1234567890");
             options.setVisible(true);
-            options.setImageFilePath("/usr/local/tomcat/webapps/web-0.0.1-SNAPSHOT/WEB-INF/classes/static/certPdfFile/metain-sign-Image.png");
-            //options.setImageFilePath(mountPath);
-            //options.setImageStream(signInputStream);
+            options.setImageFilePath(signImagePath);
             options.setWidth(80);
             options.setHeight(80);
             options.setLeft(370);
-            options.setTop(650);
+            options.setTop(640);
             options.setPageNumber(1);
-            logger.info("options 지장 크기 확인 높이=",options.getHeight());
-            logger.info("options 지장 크기 확인 넓이=",options.getWidth());
-            logger.info("options 지장 크기 확인 페이지=",options.getPageNumber());
-            logger.info("options 지장 크기 확인 사인 확장자확인=",options.getExtensions());
-            logger.info("options 지장 크기 확인 시그니처타입=",options.getSignatureType());
-            logger.info("CertSer/signPdf  디지털서명함수 check 4.options 확인2=",options);
-            logger.info("CertSer/signPdf  디지털서명함수 check 5.");
+            logger.info("CertSer/signPdf  디지털서명함수 check 5.option설정완료");
 
-            // 파일에 문서 서명
-            //signature.sign(filePath + filename, options);
+
 
             // 파일에 문서 서명 및 결과를 outputStream에 저장
             signature.sign(outputStream, options); //저장할파일객체, 사인옵션 파라미터
@@ -288,9 +274,13 @@ public class CertificationServiceImpl implements CertificationService {
             awsS3Service.uploadCertToS3(signedBytes, filename);
 
             logger.info("CertSer/signPdf  디지털서명함수 check 6.FINAL");
-        } catch (Exception e) {
-            logger.info("에러기록");
+
+        }catch (Exception e) {
+            logger.info("디지털서명 실패 에러기록");
             throw new GroupDocsSignatureException(e.toString());
         }//try
-    }//signPdf
-}
+
+
+    }//signPDF
+
+    }//

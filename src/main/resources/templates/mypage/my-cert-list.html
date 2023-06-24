@@ -136,13 +136,7 @@
                 header: '발급상태',
                 name: 'issueStatus',
                 filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
-                align: 'center',
-                // renderer: function (value, row) {
-                //     return value === 0 ? '발급 가능' :'발급 불가';
-                // }
-                valueFormatter: function(params) {
-                    return params.value = 0 ? '발급 불가' : '발급 가능';
-                }
+                align: 'center'
             },
             {
                 header: '다운로드',
@@ -161,8 +155,8 @@
             perPage: 10
         }
 
-
     });
+
 
 
     // 그리드 클릭 시 이벤트
@@ -177,42 +171,50 @@
             const issueStatus = rowData.issueStatus;
 
             //한번발급 받은 증명서는 다운로드되지 않도록하는 조건
-            if (parseInt(issueStatus) == 0) {
-
+            if (issueStatus === '다운로드 가능') {
                 // CSRF 토큰을 포함한 헤더 설정
                 var header = $("meta[name='_csrf_header']").attr('content');
                 var token = $("meta[name='_csrf']").attr('content');
 
-                //서버로 empCertId 전송
-                fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        [header]: token
-                    }
-                })
-                    .then(function (res) {
-                        //서버 응답 처리
-                        return res.text(); // JSON 형태로 변환하여 응답 데이터 추출
-                    })
-                    .then(function (data) {
-                        //서버 응답 처리
-                        if (data) {
-                            //서버에서 받은 S3URL 다운로드 함수 호출
-                            downloadS3URL(data);
-                        } else {
-                            console.log('다운로드 실패');
+                    //서버로 empCertId 전송
+                    fetch(`/mypage/downloadCert/${certId}/${certSort}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            [header]: token
                         }
                     })
-                    .catch(function (error) {
-                        console.log('Error');
-                    });//fetch끝
+                        .then(function (res) {
+                            //서버 응답 처리
+                            return res.text(); // JSON 형태로 변환하여 응답 데이터 추출
+                        })
+                        .then(function (data) {
+                            //서버 응답 처리
+                            if (data) {
+                                //서버에서 받은 S3URL 다운로드 함수 호출
+                                downloadS3URL(data);
 
+                                // 변경된 issueStatus 그리드에 반영
+                                const updatedData = gridEmp.getData().map(row => {
+                                    if (row.empCertId === certId) {
+                                        // 해당 발급상태에 대한 데이터 업데이트
+                                        return {...row, issueStatus: "다운로드 불가"};
+                                    }
+                                    return row;
+                                });
 
+                                gridEmp.resetData(updatedData);
+
+                            } else {
+                                console.log('Error');
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log('Error');
+                        }); //fetch끝
             } else {
                 //한번 발급받은 증명서 버튼 비활성화
                 swal("경고", "이미 발급 완료된 증명서입니다.", "warning")
-
             }//swal끝
         }
     });
@@ -248,9 +250,6 @@
     }
 
 
-
-
-
     //데이터 가져오기
     fetch('/mypage/my-empCert')
         .then(function (res) {
@@ -261,7 +260,11 @@
             // empData의 날짜 형식을 변경하여 그리드에 바인딩
             empData.forEach(function (emp) {
                 emp.certRegDate = formatDate(new Date(emp.certRegDate));
-
+                if(emp.issueStatus===0){
+                    emp.issueStatus="다운로드 가능";
+                }else{
+                    emp.issueStatus="다운로드 불가";
+                }
 
             });
 
@@ -330,7 +333,7 @@
 
             const issueStatus = rowData.issueStatus;
 
-            if (parseInt(issueStatus) == 0) {
+            if (issueStatus === '다운로드 가능') {
 
                 // CSRF 토큰을 포함한 헤더 설정
                 var header = $("meta[name='_csrf_header']").attr('content');
@@ -355,8 +358,20 @@
                         if (data) {
                             // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
+
+                            // 변경된 issueStatus 그리드에 반영
+                            const updatedData = gridExp.getData().map(row => {
+                                if (row.retireCertId === certId) {
+                                    // 해당 발급상태에 대한 데이터 업데이트
+                                    return {...row, issueStatus: "다운로드 불가"};
+                                }
+                                return row;
+                            });
+
+                            gridExp.resetData(updatedData);
+
                         } else {
-                            console.log('다운로드 실패');
+                            console.log('Error');
                         }
                     })
                     .catch(function (error) {
@@ -462,7 +477,7 @@
 
             const issueStatus = rowData.issueStatus;
 
-            if (parseInt(issueStatus) == 0) {
+            if (issueStatus === '다운로드 가능') {
 
                 // CSRF 토큰을 포함한 헤더 설정
                 var header = $("meta[name='_csrf_header']").attr('content');
@@ -488,6 +503,18 @@
                         if (data) {
                             // 서버에서 보낸 S3ulr로 다운로드 함수 호출
                             downloadS3URL(data);
+
+                            // 다운로드 후 변경된 issueStatus 그리드에 반영
+                            const updatedData = gridRet.getData().map(row => {
+                                if (row.experCertId === certId) {
+                                    // 해당 발급상태에 대한 데이터 업데이트
+                                    return {...row, issueStatus: "다운로드 불가"};
+                                }
+                                return row;
+                            });
+
+                            gridRet.resetData(updatedData);
+
                         } else {
                             console.log('다운로드 실패');
                         }
