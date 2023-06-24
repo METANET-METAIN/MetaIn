@@ -79,7 +79,7 @@
         FROM TBL_EMPLOYEE TE
                  JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
         WHERE TE.EMP_ID = #{empId}
-
+        ORDER BY TV.VAC_ID DESC;
     </select>
 
     <select id="myVacList" resultType="MyVacDTO" parameterType="Long">

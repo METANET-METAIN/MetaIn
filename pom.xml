@@ -8,7 +8,7 @@
         <version>2.7.11</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.metanin</groupId>
+    <groupId>com.metanin</groupId>D
     <artifactId>web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>

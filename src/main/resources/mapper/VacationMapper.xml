@@ -56,7 +56,7 @@
         SELECT v.VAC_ID,e.EMP_NAME,e.EMP_DEPT,e.EMP_GRADE,v.VAC_TYPE,v.VAC_START_DATE,v.VAC_END_DATE,v.VAC_REG_DATE,v.VAC_STATUS
         FROM TBL_EMPLOYEE e JOIN TBL_VACATION v
         ON e.EMP_ID=v.EMP_ID
-        WHERE vac_status='승인대기'
+        WHERE vac_status='승인대기' and e.emp_dept=#{empDept}
         ORDER BY v.VAC_ID DESC;
 
     </select>

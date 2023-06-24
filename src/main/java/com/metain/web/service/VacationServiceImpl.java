@@ -59,8 +59,8 @@ public class VacationServiceImpl implements VacationService{
         return dbVacation;}
 
     @Override
-    public List<VacationListDTO> requestList() {
-        List<VacationListDTO> list = vacMapper.requestList();
+    public List<VacationListDTO> requestList(String empDept) {
+        List<VacationListDTO> list = vacMapper.requestList(empDept);
         if (list==null) {
             return null;
         }
@@ -222,8 +222,9 @@ public class VacationServiceImpl implements VacationService{
     }
 
 
-    @Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
+    //@Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
     //@Scheduled(cron = "*/20 * * * * ?") //20 초
+    @Scheduled(cron = "0 * * * * ?") //테스트용 일분마다 ~
     public void autoReject() {
         List<VacationListDTO> list = vacMapper.selectAllList();
         LocalDate localDate = LocalDate.now();
@@ -235,8 +236,8 @@ public class VacationServiceImpl implements VacationService{
             if (vacStatus.equals("승인대기") && (localDate.isEqual(vacStartDate) || localDate.isAfter(vacStartDate))) {
                 // 반려하기
                 int re = vacMapper.rejectVacationRequest(vacation.getVacId(), vacStatus);
-                logger.info("스케쥴러에의해 자동반려된 vacId ",vacation.getVacId());
-
+                //logger.info("스케쥴러에의해 자동반려된 vacId ",vacation.getVacId());
+                System.out.println("스케쥴러에 의해 자동 반려된 vacId= "+vacation.getVacId());
             }
         }
     }
