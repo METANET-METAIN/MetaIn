@@ -1,11 +1,12 @@
 package com.metain.web.controller;
 
-import ch.qos.logback.classic.Logger;
 import com.metain.web.domain.Emp;
 import com.metain.web.domain.NewEmp;
 import com.metain.web.domain.PrincipalDetails;
 import com.metain.web.dto.NewEmpDTO;
 import com.metain.web.service.HrService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class HrController {
     @Autowired
     private HrService hrService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @GetMapping("/emp-list")
@@ -46,8 +48,7 @@ public class HrController {
     //신입사원 등록
     @PostMapping("/insert-new-emp")
     public String insertNewEmp(NewEmp newEmp) {
-        System.out.println("신입사원 등록 :");
-        System.out.println(newEmp);
+        logger.info("HRCon/insertNewEmp 성공 확인 로그",newEmp);
         hrService.insertNewEmp(newEmp);
         return "redirect:/hr/new-emp-list";
     }
@@ -66,7 +67,7 @@ public class HrController {
     @GetMapping("/new-list")
     @ResponseBody
     public List<NewEmpDTO> newEmpSelectAll() {
-        System.out.println("newEmpSelectAll 안뜨니ㅣ");
+        logger.info("HRCon/newEmpSelectAll 접근 확인 로그");
         return hrService.newEmpSelectAll();
     }
 

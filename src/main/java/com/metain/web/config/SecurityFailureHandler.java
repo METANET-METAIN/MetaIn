@@ -34,7 +34,6 @@ public class SecurityFailureHandler extends SimpleUrlAuthenticationFailureHandle
         } else {
             errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다. 관리자에게 문의하세요.";
         }
-//        response.sendRedirect("/loginEmp?error=" + errorMessage);
         // JavaScript로 알림창을 생성하는 스크립트를 출력
 //        String script = "<script>alert('" + errorMessage + "'); window.location.href='/loginEmp';</script>";
 //        response.getWriter().write(script);
@@ -47,10 +46,6 @@ public class SecurityFailureHandler extends SimpleUrlAuthenticationFailureHandle
 
         response.sendRedirect(request.getContextPath() + loginUrl);
 
-//        String loginUrl = "/loginEmp";
-//        response.sendRedirect(request.getContextPath() + loginUrl);
-
-//        super.onAuthenticationFailure(request, response, exception);
     }
 
 

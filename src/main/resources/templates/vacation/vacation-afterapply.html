@@ -126,6 +126,10 @@
     </div>
   </div>
 </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+  <section id="footer">
+  </section>
+</th:block>
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
 <script>
@@ -134,7 +138,6 @@
     var vacType = $('#vacType').val(); //유형
     var vacResn = $('#vacResn').val(); //사유
     var fileUpload = $('#fileUpload').val(); //파일
-    console.log(vacType)
     if (vacType === "유형 선택") {
       event.preventDefault();
       alert('휴가 유형을 선택해주세요.');
@@ -165,17 +168,14 @@
 <script th:inline="javascript">
 
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
-  console.log(count)
   $('input[type="date"]').on('change', function (event) {
     let startDate = new Date($('#vacStartDate').val());
     let endDate = new Date($('#vacEndDate').val());
-    console.log(count);
     let daysDiff = 0;
 
     if (startDate && endDate && startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
       daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-      console.log(count);
     }
 
 
@@ -183,7 +183,6 @@
       document.getElementById("diffDays").innerText = daysDiff;
     } else {
       event.preventDefault();
-      console.log(count);
       alert("잔여 연차보다 선택한 연차가 더 많습니다.");
       event.preventDefault();
     }

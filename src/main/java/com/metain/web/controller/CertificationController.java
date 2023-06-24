@@ -9,6 +9,8 @@ import com.metain.web.service.CertificationService;
 import com.metain.web.service.HrService;
 import com.metain.web.service.MyPageService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,8 @@ public class CertificationController {
     private CertificationService certificationService;
     @Autowired
     private MyPageService myPageService;
-    @Autowired
-    private HrService hrService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     //각 증명서 별로 apply 페이지 연결요청 및 데이터 보내기 테스트
@@ -50,10 +52,10 @@ public class CertificationController {
 
         if (empInfo == null) {
             // 처리할 로직이 없는 경우
-            System.out.println("empInfo 못가져왔어 !");
+            logger.info("CertCon/empCertApply empInfo 존재하지 않음");
         } else {
             model.addAttribute("emp", empInfo);
-            System.out.println("empInfoList 객체 생성 후 " + empInfo);
+            logger.info("CertCon/empCertApply empInfoList 객체 생성 후",empInfo);
         }//if
 
         // 요청 URL에 따른 처리
@@ -79,38 +81,39 @@ public class CertificationController {
         Emp empInfo = certificationService.getEmpInfoList(empId);
 
         if (empInfo == null) {
-            System.out.println("empInfo 못가져왔어 !");
+            logger.info(" CertCon/handleEmpCertInfo empInfo 존재하지 않음");
         } else {
             model.addAttribute("emp", empInfo);
         }//if
+        logger.info("CertCon/handleEmpCertInfo certInfo",certInfoDTO);
 
-        System.out.println("certInfo 내용물  " + certInfoDTO);
         certInfoDTO.setUseOfCert(selectedUseOfCert);
-        System.out.println("---------------------> tbl_empcert에 insert할때 필요한 증명서 정보 들어왔나 테스트 !!");
-        System.out.println("---------------------> " + certInfoDTO.getCertSort());
-        System.out.println("---------------------> " + certInfoDTO.getEmpId());
-        System.out.println("---------------------> " + certInfoDTO.getUseOfCert());
+        logger.info("CertCon/handleEmpCertInfo tbl_empcert에 필요한 증명서 정보 insert 테스트 ");
+        logger.info("CertCon/handleEmpCertInfo certInfoDTO.getCertSort()",certInfoDTO.getCertSort());
+        logger.info("CertCon/handleEmpCertInfo certInfoDTO.getEmpId()",certInfoDTO.getEmpId());
+        logger.info("CertCon/handleEmpCertInfo certInfoDTO.getUseOfCert()",certInfoDTO.getUseOfCert());
+
 
         //각 증명서별로 분기
         if (certSort.equals("A01")) { //증명서종류가 재직증명서일 경우
             //EmpCert 테이블에 insert되도록
-            System.out.println("!!!!!재직증명서 테이블에 insert된다!!!!!!!!!");
+            logger.info("재직증명서 테이블에 insert 성공 로그");
             EmpCert list = certificationService.applyAndSelectEmpCert(certInfoDTO);
             model.addAttribute("certList", list);
 
         } else if (certSort.equals("A02")) { //증명서종류가 경력증명서일 경우
             //ExperCert 테이블에 insert되도록
-            System.out.println("!!!!!경력증명서 테이블에 insert된다!!!!!!!!!");
+            logger.info("경력증명서 테이블에 insert 성공 로그");
             ExperienceCert list = certificationService.applyAndSelectExperCert(certInfoDTO);
             model.addAttribute("certList", list);
         } else if (certSort.equals("A03")) { //증명서종류가 퇴직증명서일 경우
             //RetireCert 테이블에 insert되도록
-            System.out.println("!!!!!퇴직증명서 테이블에 insert된다!!!!!!!!!");
+            logger.info("퇴직증명서 테이블에 insert 성공 로그");
             RetireCert list = certificationService.applyAndSelectRetireCert(certInfoDTO);
             model.addAttribute("certList", list);
 
         } else {
-            System.out.println("!!!!!분기 안됐어 실패!!!!!!!!!");
+            logger.info(" CertCon/handleEmpCertInfo [[[분기 실패]]] 실패 로그");
             return "/index"; //에러창 만들어서 넣기
         }//if
 
@@ -134,31 +137,32 @@ public class CertificationController {
 
         if (empInfo == null) {
             // 처리할 로직이 없는 경우
-            System.out.println("empInfo 못가져왔어 !");
+            logger.info(" CertCon/convertToPdf empInfo 존재하지 않음");
         } else {
             model.addAttribute("emp", empInfo);
         }
 
-        System.out.println(" convertToPdf 메소드 불렸나 확인  ");
+        logger.info(" CertCon/convertToPdf 호출 성공 확인 로그 ");
         certificationService.makeCertPdf(request);
-        //System.out.println("ImageRequestData확인 : ~~~ "+request);
 
         String certSort = request.getCertSort();
         Long certId = request.getCertId();
         //pdf파일에 전자서명 추가한거 저장하기전에 저장해야할 파일명 가져오기
         String filename = myPageService.getCertFilename(certId, certSort) + ".pdf"; //다운로드할 PDF 파일명 - 디지털서명된 파일이름 empcert같은 객체에서 가져오기
-        System.out.println("디지털서명파일저장할 파일이름 확인 " + filename);
+
+        logger.info(" CertCon/convertToPdf 디지털서명파일저장할 파일이름 성공 확인 로그",filename);
 
 
         //저장된 pdf파일에 전자서명 추가하기
         try {
-            System.out.println("catch문 탔나?????");
-            System.out.println("filename도 넘어왔나??" + filename);
+            logger.info(" CertCon/convertToPdf_전자서명추가 catch문 진입 성공 확인 로그 ");
+            logger.info(" CertCon/convertToPdf_ 전자서명 catch문 진입 후 filename= ", filename);
+
             certificationService.signPdf(filename);
-            System.out.println("4!! 디지털서명 완료");
+            logger.info(" CertCon/convertToPdf_ 디지털 서명 성공 확인 로그");
         } catch (Exception e) {
-            System.out.println("디지털서명 실패 ");
-            System.out.print("에러기록 : " + e.toString());
+            logger.info(" CertCon/convertToPdf_ 디지털 서명 [[실패]] 로그");
+            logger.info("CertCon/convertToPdf_ 디지털 서명 [[실패]]  에러기록");
             e.printStackTrace();
         }//catch
 

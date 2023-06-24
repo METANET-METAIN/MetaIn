@@ -30,28 +30,25 @@ public class HomeController {
 
     @Autowired
     private HrService hrService;
-//    @GetMapping("/")
-//    public String index(Model model, Authentication auth){
-//        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
-//        Long EmpId = principalDetails.getEmpId();
-//        Emp empList =  hrService.selectEmpInfo(EmpId);
-//
-//        if (empList != null) {
-//            model.addAttribute("emp", empList);
-//            //System.out.println("home : " + empList);
-//            return "index";
-//        }
-//        return null;
-//    }
+    @GetMapping("/")
+    public String index(Model model, Authentication auth){
+        PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
+        Long EmpId = principalDetails.getEmpId();
+        Emp empList =  hrService.selectEmpInfo(EmpId);
+
+        if (empList != null) {
+            model.addAttribute("emp", empList);
+            return "index";
+        }
+        return null;
+    }
     @GetMapping("/index")
     public String home( Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails)auth.getPrincipal();
         Long EmpId = principalDetails.getEmpId();
         Emp empList =  hrService.selectEmpInfo(EmpId);
-        //System.out.println(empList);
         if (empList != null) {
             model.addAttribute("emp", empList);
-            //System.out.println("home : " + empList);
             return "index";
         }
         return "error/404";
@@ -105,8 +102,6 @@ public class HomeController {
         Long empId= principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
         model.addAttribute("emp", empInfo);
-        //System.out.println(empInfo);
-
         model.addAttribute("emp", empInfo);
 
         return "/hr/" + newEmp;
@@ -117,7 +112,7 @@ public class HomeController {
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
-        //System.out.println(mypage);
+
         model.addAttribute("emp", empInfo);
         return "/mypage/" + mypage;
     }
@@ -150,8 +145,4 @@ public class HomeController {
         model.addAttribute("emp", empInfo);
         return "/include/" + include;
     }
-
-
-
-
 }

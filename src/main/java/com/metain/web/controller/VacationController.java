@@ -13,6 +13,8 @@ import com.metain.web.service.HrService;
 import com.metain.web.service.MemberService;
 import com.metain.web.service.VacationService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,7 @@ public class VacationController {
     private MemberService memberService;
     @Autowired
     private FileMapper fileMapper;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @RequestMapping("/vacation-list")
@@ -52,6 +55,7 @@ public class VacationController {
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
         Emp empInfo=hrService.selectEmpInfo(empId);
+
         model.addAttribute("vacList",list);
         model.addAttribute("emp",empInfo);
         return "/vacation/vacation-list";
@@ -66,8 +70,8 @@ public class VacationController {
         String empDept=emp.getEmpDept();
         Emp admin=memberService.selectAdminInfo(empDept,"ADMIN");
 
-            model.addAttribute("emp",emp);
-            model.addAttribute("admin",admin);
+        model.addAttribute("emp",emp);
+        model.addAttribute("admin",admin);
         return "/vacation/vacation-applyform";
     }
     @PostMapping("/insert-vaction")
@@ -108,12 +112,12 @@ public class VacationController {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
         Long empId = principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
-        System.out.println("휴가번호=====================" + vacationId);
+        logger.info("VacatioCon/vacationDetail-vacationId= ",vacationId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
-        System.out.println("휴가정보=====================" + vac);
+        logger.info("VacatioCon/vacationDetail-vac= ",vac);
         if (vac == null) {
             VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
             //신청한 사람
@@ -160,12 +164,12 @@ public class VacationController {
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
         Emp empInfo=hrService.selectEmpInfo(empId);
-        System.out.println("휴가번호====================="+vacationId);
+        logger.info("VacatioCon/requestedVacation-vacationId= ",vacationId);
         if (vacationId == null) {
             new ModelAndView("redirect:/vacation/vacation-list");// vacationId가 없을 경우 기본 페이지로 리다이렉션
         }
         VacationFileDTO vac = vacationService.vacationDetail(vacationId);
-        System.out.println("휴가정보=====================" + vac);
+        logger.info("VacatioCon/requestedVacation-vac= ",vac);
         if(vac==null){
             VacationWithoutFileDTO vacWithoutFile = vacationService.vacationDetailWithoutFile(vacationId);
             //신청한 사람
@@ -273,17 +277,13 @@ public class VacationController {
         if (emp != null) {
             String empDept= emp.getEmpDept();
             List<VacationListDTO> alarmList = vacationService.todayVacation(empDept);
-
+            logger.info("VacatioCon/todayVacation-alarmList= ",alarmList);
             return ResponseEntity.ok(alarmList);
         } else {
             // 로그인되지 않은 경우 처리
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-    public void setVacationService(VacationService vacationService) {
-    }
-
     public void setHrService(HrService hrService) {
     }
 

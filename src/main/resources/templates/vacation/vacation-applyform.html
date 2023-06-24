@@ -80,9 +80,10 @@
                 </p>
               </div>
               <div class="col-sm-5 col-md-7" style="display: flex;justify-content: center;">
-
+              <div>
                 <img src="/vendors/images/wait.png" style="width: 100%; height: 160px;"
                 />
+              </div>
               </div>
 
               <div class="col-sm-10 col-md-2">
@@ -112,6 +113,10 @@
     </div>
   </div>
 </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+  <section id="footer">
+  </section>
+</th:block>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
@@ -163,16 +168,16 @@
     }//elseif 끝
   });
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
-  console.log(count)
+
   $('input[type="date"]').on('change', function (event) {
     let startDate = new Date($('#vacStartDate').val());
     let endDate = new Date($('#vacEndDate').val());
-    console.log(count);
+
     let daysDiff = 0;
     if (startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
       daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-      console.log("daysDiff" + daysDiff);
+
     }
     if (startDate > endDate) {
       swal.fire({

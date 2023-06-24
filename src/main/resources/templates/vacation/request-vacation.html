@@ -125,16 +125,10 @@
         </div>
     </div>
 </div>
-<!-- welcome modal start -->
-
-<!-- welcome modal end -->
-<!-- js --><!--
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>-->
-
-
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
@@ -166,7 +160,6 @@
                 dataType: 'text',
                 contentType: 'application/json;charset=utf-8',
                 success: function (response) {
-                    console.log(response)
                     alert("승인되었습니다.!")
                     window.location.pathname = "/vacation/vacation-req-list";
                     document.querySelector(".btn-primary").disabled = true;

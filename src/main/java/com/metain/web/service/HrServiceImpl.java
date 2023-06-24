@@ -42,7 +42,8 @@ public class HrServiceImpl implements HrService {
         // 생년월일을 사용하여 비밀번호 생성 로직 구현
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String birthPassword = dateFormat.format(birth);
-        System.out.println("생년월일 -> 비밀번호 (암호화 전) : " + birthPassword);
+        logger.info("HrSer/generatePasswordFromBirth 생년월일 -> 비밀번호 (암호화 전) :",birthPassword);
+
         return birthPassword;
     }
 

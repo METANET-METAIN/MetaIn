@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.UUID;
 
+
 @RequiredArgsConstructor
 @Service
 public class AwsS3Service {
@@ -44,7 +45,9 @@ public class AwsS3Service {
                     .key(objectKey)
                     .build();
 
-            ResponseInputStream<?> responseInputStream = s3Client.getObject(getObjectRequest);
+            ResponseInputStream<GetObjectResponse> responseInputStream = s3Client.getObject(getObjectRequest);
+
+
             return responseInputStream;
 
 

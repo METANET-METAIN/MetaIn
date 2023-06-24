@@ -1,6 +1,8 @@
 package com.metain.web.service;
 
 import com.metain.web.dto.AlarmResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -11,6 +13,7 @@ import java.io.IOException;
 public class AlarmServiceImpl implements AlarmService {
     private final static Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
     private final static String ALARM_NAME = "alarm";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private EmitterRepository  EmitterRepository ;
@@ -25,7 +28,7 @@ public class AlarmServiceImpl implements AlarmService {
                 throw new IllegalStateException("");
             }
         } else {
-            System.out.println("No emitter found");
+            logger.info("NO EMITTER FOUND!");
         }
     }
 

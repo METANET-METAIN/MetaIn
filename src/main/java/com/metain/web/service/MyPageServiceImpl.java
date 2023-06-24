@@ -8,6 +8,8 @@ import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ public class MyPageServiceImpl implements MyPageService{
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
@@ -99,7 +102,7 @@ public class MyPageServiceImpl implements MyPageService{
         }else if (certSort.equals("A03")){
             myPageMapper.updateRetireIssueStatus(certId);
         }else {
-            System.out.println("Issue Status 업데이트할 정보 안들어옴 !");
+            logger.info("Issue Status 업데이트할 정보 [[없음]]");
         }
     }
 
@@ -116,79 +119,38 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
+        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
+
+        logger.info("MypageSer/updateMy encryptedPwd=",encryptedPwd);
+        logger.info("MypageSer/updateMy dbemp=",dbemp);
+
+
+
+        dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
         String sabun = dbemp.getEmpSabun();
-
-        if (file != null && !file.isEmpty()) {
-
-            UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
 
         File files = new File(file.getOriginalFilename());
         FileCopyUtils.copy(file.getBytes(), files);
-            String originalImgName = file.getOriginalFilename();
-            String extension = "";
 
-            int dotIndex = originalImgName.lastIndexOf(".");
-            if (dotIndex >= 0) {
-                extension = originalImgName.substring(dotIndex);
-            }
+        String originalImgName = file.getOriginalFilename();
+        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
-            String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-            String path = "user";
-            dbemp.setEmpProfile(savedImgName);
+        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+        String path = "user";
 
 
-            awsS3Service.updateProfileInS3(file.getBytes(), savedImgName, path);
-        } else {
-            // 사진이 첨부되지 않은 경우에는 기존 사진 정보를 그대로 유지합니다.
-            dbemp.setEmpProfile(dbemp.getEmpProfile());
-        }
+        awsS3Service.uploadS3File(file, savedImgName, path);
 
 
 
 
-        myPageMapper.updateMyPage(dbemp);
-    }
-//    @Override
-//    public void updateMy(Emp emp, MultipartFile file) throws IOException {
-//        Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
-//
-//
-//        dbemp.setEmpAddr(emp.getEmpAddr());
-//        dbemp.setEmpPhone(emp.getEmpPhone());
-//        dbemp.setEmpZipcode(emp.getEmpZipcode());
-//        dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
-//        String sabun = dbemp.getEmpSabun();
-//        UUID uuid = UUID.randomUUID();
-//
-//        File files = new File(file.getOriginalFilename());
-//        FileCopyUtils.copy(file.getBytes(), files);
-//
-//        String originalImgName = file.getOriginalFilename();
-//        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
-//
-//        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-//        String path = "user";
-//
-//
-//        awsS3Service.uploadS3File(file, savedImgName, path);
-//
-//
-//
-//
-//        dbemp.setEmpProfile(savedImgName);
-//
-//        myPageMapper.updateMyPage(dbemp);
-//    }
+        dbemp.setEmpProfile(savedImgName);
 
-    @Override
-    public void updatePwd(Emp emp) {
-        Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId()) ;
-        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
-        dbemp.setEmpPwd(encryptedPwd);
         myPageMapper.updateMyPage(dbemp);
     }
 

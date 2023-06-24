@@ -243,11 +243,6 @@
                     </div>
                 </div>
             </form>
-            <!--            &lt;!&ndash; emp객체 데이터 잘 넘어오나 확인 코드 &ndash;&gt;-->
-            <!--            <div th:unless="${emp != null}">-->
-            <!--                <span> 데이터가 없습니다.</span>-->
-            <!--            </div>-->
-
         </div>
     </div>
 </div>
@@ -255,12 +250,10 @@
 
 
 </div>
-<div class="footer-wrap pd-20 mb-20 card-box">
-    메타인(주)
-    <a href="https://github.com/dropways" target="_blank"
-    >METAIN</a
-    >
-</div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 </div>
 </div>
 
@@ -290,10 +283,10 @@
         // 체크박스가 하나 이상인지 확인
         if (checkedCount < 1) {
             // 체크박스가 하나 이상이어야 한다는 경고창 표시
-            // swal("경고", "사용용도를 선택해주세요", "warning")
+             //swal("경고", "사용용도를 선택해주세요", "warning")
             alert("사용 용도를 선택해주세요");
-            return;
-        } else {
+            return false;
+        }else {
             swal(
                 {
                     title: '발급 완료!',

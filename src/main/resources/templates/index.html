@@ -317,7 +317,6 @@
 					url: '/newEmp',
 					method: 'GET',
 					success: function(response) {
-						console.log(response)
 
 						response.forEach(function(item) {
 							var empName = item.empName;
@@ -327,7 +326,6 @@
 
 							empFirstDt.setDate(empFirstDt.getDate()+1)
 							empFirstDt=empFirstDt.toISOString().substring(0,10)
-							console.log(empProfile)
 							var imgSrc = 'https://metain2.s3.ap-northeast-2.amazonaws.com/user/' + empProfile;
 
 							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30" style="width: 100%;">' +
