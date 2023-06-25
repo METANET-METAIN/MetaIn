@@ -57,7 +57,7 @@
         set issue_status = 1 where emp_cert_id = #{certId};
     </update>
     <update id="updateExperIssueStatus" parameterType="long">
-        update TBL_EXPER_CERT
+        update TBL_EXPERIENCE_CERT
         set issue_status = 1 where exper_cert_id = #{certId};
     </update>
     <update id="updateRetireIssueStatus" parameterType="long">
