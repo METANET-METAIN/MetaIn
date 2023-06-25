@@ -421,17 +421,14 @@
 
     // AJAX를 사용하여 이미지 데이터를 서버로 전송합니다.
     function sendImageToServer(imageData, imageWidth, imageHeight, certSort, certId) {
-
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/certification/convertToPdf', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-
 
         // CSRF 토큰을 포함한 헤더 설정
         var header = $("meta[name='_csrf_header']").attr('content');
         var token = $("meta[name='_csrf']").attr('content');
         xhr.setRequestHeader(header, token);
-
 
         // 요청 데이터 설정
         var imageRequestData = {
@@ -441,12 +438,9 @@
             certSort: certSort, // certSort 값을 함께 전송
             certId: certId
         };
-
-
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log('Image saved on the server!');
-
             }
         };
         // 요청 데이터 전송
