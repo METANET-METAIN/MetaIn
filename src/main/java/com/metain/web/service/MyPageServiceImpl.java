@@ -27,7 +27,7 @@ public class MyPageServiceImpl implements MyPageService{
 
 
     @Autowired
-   private AwsS3Service awsS3Service;
+    private AwsS3Service awsS3Service;
     @Autowired
     private MyPageMapper myPageMapper;
     @Autowired

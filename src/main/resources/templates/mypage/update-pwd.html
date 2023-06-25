@@ -57,7 +57,7 @@
               <input type="hidden" th:name="empId" th:value="${emp.empId}" />   <!-- onsubmit="return checkList()" -->
               <div class="profile-photo">
 <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
-                </a><img id="empProfile" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img id="empProfile" style= "height: 170px;  width: 160px;" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
 <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
               </div>
 
@@ -96,6 +96,10 @@
               </div>
         </div>
         </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 
 <!-- add sweet alert js & css in footer -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -23,8 +23,8 @@ public interface HrMapper {
     public Long findRoleNo(String roleName);
     /**신규 입사자 등록*/
     public int insertNewEmp(NewEmp newEmp);
-    /**신규 입사자 승인(삭제)
-     * 이거 맞는지..*/
+
+    /**신규 입사자 승인(삭제)*/
     public int deleteNewEmp(List<NewEmp> newEmp);
 
     /**신규입사자 전체보기*/

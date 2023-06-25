@@ -40,6 +40,10 @@ public class ExceptionController implements ErrorController {
         return "error/500";
     }
 
+    @RequestMapping("/access-denied")
+    public String handleAccessDeniedError() {
+        return "error/403"; // 접근 거부 페이지로 이동
+    }
 
 
 }

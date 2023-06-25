@@ -180,7 +180,7 @@ public class HrServiceImpl implements HrService {
 
     @Override
     public void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId, Date empLastDt) {
-        //업데이트 할 emp 정보 저장
+        // 업데이트 할 emp 정보 저장
         Emp emp = hrMapper.selectEmpInfo(updateEmpId);
         emp.setEmpStatus(empStatus);
         emp.setEmpGrade(empGrade);
@@ -189,7 +189,7 @@ public class HrServiceImpl implements HrService {
         emp.setEmpId(updateEmpId);
         logger.info("hrService의 updateEmp의 Emp", emp);
 
-        if(empStatus.equals("RETIREE")) {
+        if (empStatus.equals("RETIREE")) {
             emp.setEmpLastDt(empLastDt);
         } else {
             emp.setEmpLastDt(null);
@@ -208,15 +208,10 @@ public class HrServiceImpl implements HrService {
             } else {
                 roleId = 8L;
             }
-//            if (empStatus.equals("ACTIVE")) {
-//                roleId = 7L;
-//            } else {
-//                roleId = 8L;
-//            }
-
 
             UserRole userRole1 = new UserRole(statusNum, updateEmpId, roleId);
             hrMapper.updateUserRole(userRole1);
+
             if (empGrade.equals("EMPLOYEE")) {
                 roleId = 1L;
             } else if (empGrade.equals("ASSISTANT")) {
@@ -230,11 +225,14 @@ public class HrServiceImpl implements HrService {
             } else {
                 roleId = 6L;
             }
+
             UserRole userRole2 = new UserRole(gradeNum, updateEmpId, roleId);
             hrMapper.updateUserRole(userRole2);
         }
 
-        //알람 발생
+
+
+    //알람 발생
         AlarmDTO alarmDTO = new AlarmDTO();
         alarmDTO.setNotiContent(emp.getEmpName() + "님의 인사정보가 변경되었습니다.");
         alarmDTO.setNotiUrl("/mypage/update-mypage");
@@ -244,6 +242,11 @@ public class HrServiceImpl implements HrService {
 
         alarmService.send(updateEmpId, AlarmResponse.comment(emp.getEmpName() + "님의 인사정보가 변경되었습니다."));
         hrMapper.updateEmp(emp);
+    }
+
+    @Override
+    public int deleteNewEmp(List<NewEmp> newEmpList) {
+        return hrMapper.deleteNewEmp(newEmpList);
     }
 
 }

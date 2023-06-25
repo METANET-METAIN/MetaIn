@@ -10,16 +10,6 @@
   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 </th:block>
-<style>
-  /*.card-align {*/
-  /*  position: absolute;*/
-  /*  top: 75%;*/
-  /*  left: 50%;*/
-  /*  width: 700px;*/
-  /*  transform: translate(-30%, -50%);*/
-  /*}*/
-
-</style>
 <div class="mobile-menu-overlay"></div>
   <div class="main-container" >
     <div class="pd-ltr-20 xs-pd-20-10">
@@ -33,7 +23,7 @@
               <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a href="/index.html">마이페이지</a>
+                    <a>마이페이지</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     내 정보 수정
@@ -59,7 +49,7 @@
                 <a  href="#" onclick="openImgPicker()" class="edit-avatar">
                   <i id="updateProfile" class="fa fa-pencil"></i>
 <!--                </a><img id="empProfile" th:src="@{'/vendors/user/' + ${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">-->
-                </a><img id="empProfile" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
+                </a><img id="empProfile" style= "height: 170px;  width: 160px;" th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" alt="" th:name="empProfile" class="avatar-photo">
 <!--                <img src="https://{bucket-name}.s3.{region-name}.amazonaws.com/{파일명}">-->
               </div>
 
@@ -88,56 +78,15 @@
               </p>
 
               <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label">이름</label>
+                <label class="col-sm-12 col-md-2 col-form-label">비밀번호</label>
                 <div class="col-sm-12 col-md-7" >
-                  <input class="form-control" readonly type="text" th:name="empName" th:value="${emp.getEmpName}">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label"> 비밀번호 </label>
-                <div class="col-sm-12 col-md-7">
-                  <input class="form-control" id="realpwd" th:name="empPwd" readonly type="password" >
-                </div>
-                <div style="text-align : right">
-                <!-- Button trigger modal -->
-<!--                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
-<!--                  변경하기-->
-<!--                </button>-->
-
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openPasswordModal()">
-                    변경하기
+                  <button type="button" class="btn btn-primary" onclick="goToUpdatePwd()">
+                    변경하러가기
                   </button>
-
-                  <!-- Modal -->
-                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h3 class="modal-title" id="staticBackdropLabel">비밀번호 변경</h3>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="text-align: left">
-                          <p><strong>비밀번호 변경</strong></p>
-                          <input class="form-control" type="password"  name="empPwd1" id="empPwd1">
-                          <p id="checkPwd1Message"></p>
-                          <p><strong>비밀번호 확인</strong></p>
-                          <input class="form-control" type="password"  name="empPwd2" id="empPwd2">
-                          <p id="checkPwd2Message"></p>
-                          <hr>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" onclick="checkPwd()">수정</button>
-                          <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">닫기</button>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-          </div>
+                </div>
               </div>
+
+
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">전화번호</label>
                 <div class="col-sm-12 col-md-7">
@@ -166,34 +115,6 @@
 
                 </div>
               </div>
-
-
-                <!-- Modal -->
-<!--                <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
-<!--                  <div class = "modal-dialog modal-dialog-scrollable">-->
-<!--                    <div class="modal-content">-->
-<!--                      <div class="modal-header">-->
-<!--                        <h1 class="modal-title fs-5" id="exampleModalLabel2">주소 변경</h1>-->
-<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                      </div>-->
-<!--                      <div class="modal-body" style="text-align: left;">-->
-<!--                        <p><strong>주소 변경하기</strong></p>-->
-<!--                        <input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호"  readonly>-->
-<!--                        <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly><br>-->
-<!--                        <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소">-->
-<!--                        <div style="text-align : right">-->
-<!--                          <button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>-->
-<!--                        </div>-->
-<!--                        <hr>-->
-<!--                      </div>-->
-<!--                      <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-primary">저장</button>-->
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
 
               <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label"> 이메일 </label>
@@ -226,6 +147,10 @@
   </div>
 
 </div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+    <section id="footer">
+    </section>
+</th:block>
 <!-- add sweet alert js & css in footer -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -275,27 +200,6 @@
     };
     xhr.send(formData);
   }
-  // function updatePro(file) {
-  //   var formData = new FormData();
-  //   formData.append('empProfile', file);
-  //
-  //   $.ajax({
-  //     url: 'mypage/updateMy',
-  //     type: 'POST',
-  //     data: formData,
-  //     processData: false,
-  //     contentType: false,
-  //     success: function (res) {
-  //
-  //       const empProfile = document.getElementById('empProfile');
-  //       empProfile.src = URL.createObjectURL(file);
-  //       console.log('프로필 이미지 업로드 완료');
-  //     },
-  //     error: function () {
-  //       console.error('프로필 이미지 업로드 실패');
-  //     },
-  //   })
-  // }
 
 // 프로필 이미지 출력
   function openImgPicker() {
@@ -304,27 +208,15 @@
   }
 
 
-  // function handleFileSelection(event) {
-  //   const file = event.target.files[0];
-  //   const empProfile = document.getElementById('empProfile');
-  //   const reader = new FileReader();
-  //
-  //   reader.onload = function(e) {
-  //     empProfile.src = e.target.result;
-  //   }
-  //   reader.readAsDataURL(file);
-  // }
-
-
   $(document).on("change", "#sign-up-add-image2", function(){ //주황색
 
     var filename = $(this).val().split('/').pop().split('\\').pop();
-    console.log(filename)
+    // console.log(filename)
 
     $(this).prev().val(filename);
     //$(this).attr("name","test");
 
-    console.log($(this))
+    // console.log($(this))
     // $(this).prev().find("input").val(filename);
 
 
@@ -341,7 +233,7 @@
       // 이미지가 로드가 된 경우
       reader.onload = e => {
         const previewImage = document.getElementById("empProfile")
-        console.log("previewImage"+previewImage)
+        // console.log("previewImage"+previewImage)
 
         previewImage.src = e.target.result
 
@@ -372,65 +264,14 @@
 
   }
 
-    // swal('수정되었습니다.').then(function () {
-    //   window.location.href = '/index';
-    // });
-
-
-    // 핸드폰 번호 유효성검사
-    //   function checkPhone() {
-    //     const empPhone = document.getElementById("empPhone").value;
-    //
-    //     if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(empPhone)) {
-    //       document.getElementById("checkPhoneMessage").innerText = " ";
-    //       return true;
-    //     } else {
-    //       document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
-    //       return false;
-    //     }
-    //   }
-
-
-//  비밀번호 유효성 검사
-    function checkPwd() {
-
-      const empPwd1 = document.getElementById("empPwd1").value;
-      const empPwd2 = document.getElementById("empPwd2").value;
-
-      // 비밀번호는 최소 8자 이상이어야 합니다.
-      if (empPwd1 === null || empPwd1 === '') {
-        document.getElementById("checkPwd1Message").innerText = "비밀번호를 입력해주세요";
-        return false;
-      } else if (empPwd1.length < 8) {
-        document.getElementById("checkPwd1Message").innerText = "비밀번호는 최소 8자 이상이어야 합니다";
-        return false;
-      } else if (empPwd1.length >= 8) {
-        document.getElementById("checkPwd1Message").innerText = " ";
-      }
-
-      // 비밀번호 확인 일치 여부 검사
-      if (empPwd2 === null || empPwd2 === '') {
-        document.getElementById("checkPwd2Message").innerText = "비밀번호를 입력해주세요";
-        return false;
-      } else if (empPwd2.length < 8) {
-        document.getElementById("checkPwd2Message").innerText = "비밀번호는 최소 8자 이상이어야 합니다";
-        return false;
-      } else if (empPwd1 === empPwd2) {
-        document.getElementById("checkPwd2Message").innerText = " ";
-        document.getElementById("realpwd").value = empPwd1;
-        document.getElementById("close").click();
-        return true;
-      } else {
-        document.getElementById("checkPwd2Message").innerText = "비밀번호가 일치하지 않습니다";
-        return false;
-      }
-
-    }
+  function goToUpdatePwd(){
+    window.location.href = "/mypage/update-pwd";
+  }
 
 
     //모달창 출력 시 값 초기화
     function openPasswordModal() {
-      console.log('empPwd1')
+      // console.log('empPwd1')
       document.getElementById('empPwd1').value = "";
       document.getElementById('empPwd2').value = "";
       document.getElementById("checkPwd1Message").innerText = " "
@@ -441,7 +282,7 @@
     function findPostcode() {
       new daum.Postcode({
         oncomplete: function (data) {
-          console.log(data);
+          // console.log(data);
           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 
@@ -455,42 +296,10 @@
 
   }
 
-<!--  modal  -->
-  // const modalToggle = document.getElementById('staticBackdrop');
-  //
-  // const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-  // const exampleModal2 = document.getElementById('exampleModal2');
-  // exampleModal2.addEventListener('shown.bs.modal', function(event) { //shown, hidden 두개 구현 or shown만 구현할건지
-  //   document.getElementById('sample6_postcode').value = "";
-  //   document.getElementById('sample6_address').value = document.getElementById('empAddr').value;
-  //   document.getElementById('sample6_detailAddress').value = "";
-  // })
-
-  // <!-- modal js code -->
-  // function openModalToPwd() {
-  //   const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-  //   if (!modal._isShown) {
-  //     modal.show();
-  //   }
-  // }
-  //
-  // function closeModal() {
-  //   const modals = bootstrap.Modal.getInstance(document.getElementById('modal'));
-  //   for (let i = 0; i < modals.length; i++) {
-  //     const modal = bootstrap.Modal.getInstance(modals[i]);
-  //     modal.hide();
-  //   }
-  // }
   function goBack() {
     window.history.back();
   };
 
-  // $('input[type="submit"]').on('click', function (event) {
-  //   event.preventDefault(); // 기본 제출 동작 방지
-  //   swal('수정되었습니다.').then(function () {
-  //     window.location.href = '/index';
-  //   });
-  // });
 </script>
 
 <script src="../src/plugins/sweetalert2/sweetalert2.all.js"></script>
