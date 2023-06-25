@@ -1,164 +1,175 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  class="no-js" lang="zxx">
-	<!-- include/layout.html-->
-	<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
-		<section id="wrap">
-		</section>
-	</th:block>
-	<style>
-		#newcard::-webkit-scrollbar {
-			width: 8px;
-			background-color: transparent;
-		}
+<!-- include/layout.html-->
+<th:block th:replace="~{/include/layout :: setContent( ~{:: #wrap}  ) }">
+	<section id="wrap">
+	</section>
+</th:block>
+
+<div class="pre-loader">
+	<div class="pre-loader-box">
+		<div class="loader-logo">
+			<img src="/vendors/images/logo.png" alt="" />
+		</div>
+		<div class="loader-progress" id="progress_div">
+			<div class="bar" id="bar1"></div>
+		</div>
+		<div class="percent" id="percent1">0%</div>
+		<div class="loading-text">Loading...</div>
+	</div>
+</div>
+<style>
+
+	.card-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.card-box img {
+		margin-bottom: 10px;
+	}
+	#newcard::-webkit-scrollbar {
+		width: 8px;
+		background-color: transparent;
+	}
 
 
-		#newcard::-webkit-scrollbar-thumb {
-			background-color: transparent;
-		}
-	</style>
-	<div class="pre-loader">
-		<div class="pre-loader-box">
-			<div class="loader-logo">
-				<img src="/vendors/images/logo.png" alt="" />
-			</div>
-			<div class="loader-progress" id="progress_div">
-				<div class="bar" id="bar1"></div>
-			</div>
-			<div class="percent" id="percent1">0%</div>
-			<div class="loading-text">Loading...</div>
+	#newcard::-webkit-scrollbar-thumb {
+		background-color: transparent;
+	}
+</style>
+
+<div class="mobile-menu-overlay" ></div>
+<div class="main-container" th:if="${emp.empStatus} == 'ACTIVE'">
+	<div class="xs-pd-20-10 pd-ltr-20">
+		<div class="title pb-20">
+			<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
+			<!-- CSRF 토큰 삽입 -->
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+		</div>
+		<!-- 캘린더 자리 static/vendors/scripts/calendar-setting.js-->
+		<label class="col-sm-12 col-md-2 col-form-label">이름</label>
+
+		<!--				<span th:utext="${empId}"></span>-->
+		<div class="col-sm-12 col-md-7">
+
+			<!--					<span th:utext="${name}"></span>-->
+			<!--					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
+
+
+			<!--					<span th:object="${emp}" th:field="${emp.empId}"></span>-->
+			<!--					<span th:utext="${auth}"></span>-->
+			<!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
 		</div>
 	</div>
-	<div class="mobile-menu-overlay"></div>
-		<div class="main-container" th:if="${emp.empStatus} == 'ACTIVE'">
-
-			<div class="xs-pd-20-10 pd-ltr-20">
-				<div class="title pb-20">
-					<h2 class="h3 mb-0"> 휴가 캘린더 </h2>
-					<!-- CSRF 토큰 삽입 -->
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-				</div>
-
-<!--				<span th:utext="${empId}"></span>-->
-				<div class="col-sm-12 col-md-7">
-
-<!--					<span th:utext="${name}"></span>-->
-<!--					<span th:object="${loginRequest}" method="post" role="form" id="loginForm">-->
-
-
-<!--					<span th:object="${emp}" th:field="${emp.empId}"></span>-->
-<!--					<span th:utext="${auth}"></span>-->
-<!--					<input class="form-control" value="name" readonly type="text" th:text="${getUsername}">-->
-				</div>
+	<div class="pd-ltr-12 xs-pd-20-10">
+		<div class="pd-20 card-box mb-30">
+			<div class="calendar-wrap">
+				<div id="calendar"></div>
 			</div>
-			<div>
-				<div class="pd-ltr-12 xs-pd-20-10">
-					<div class="pd-20 card-box mb-30">
-						<div class="calendar-wrap">
-							<div id="calendar"></div>
-						</div>
-						<!-- calendar modal -->
-						<div
-								id="modal-view-event"
-								class="modal modal-top fade calendar-modal"
-						>
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<h4 class="h4">
+			<!-- calendar modal -->
+			<div
+					id="modal-view-event"
+					class="modal modal-top fade calendar-modal"
+			>
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4 class="h4">
 											<span class="event-icon weight-400 mr-3"></span
 											><span class="event-title"></span>
-										</h4>
-										<div class="event-body"></div>
-									</div>
-								<div class="modal-footer">
-									<button
-											type="button"
-											class="btn btn-primary"
-											data-dismiss="modal"
-									>
-										Close
-									</button>
-								</div>
-							</div>
-							</div>
+							</h4>
+							<div class="event-body"></div>
 						</div>
-					</div>
-					<div
-							id="modal-view-event-add"
-							class="modal modal-top fade calendar-modal"
-					>
-						<div class="modal-dialog modal-dialog-centered">
-							<div class="modal-content">
-								<form id="add-event">
-									<div class="modal-body">
-										<h4 class="text-blue h4 mb-10">Add Event Detail</h4>
-										<div class="form-group">
-											<label>Event name</label>
-											<input type="text" class="form-control" name="ename" />
-										</div>
-										<div class="form-group">
-											<label>Event Date</label>
-											<input
-													type="text"
-													class="date-picker form-control"
-													name="edate"
-													style="width: 225px;"
-											/> <span>~</span>
-											<input
-													type="text"
-													class="date-picker form-control"
-													name="edate"
-													style="width: 225px;"
-											/>
-										</div>
-										<div class="form-group">
-											<label>Event Description</label>
-											<textarea class="form-control" name="edesc"></textarea>
-										</div>
-										<div class="form-group">
-											<label>Event Color</label>
-											<select class="form-control" name="ecolor">
-												<option value="fc-bg-default">fc-bg-default</option>
-												<option value="fc-bg-blue">fc-bg-blue</option>
-												<option value="fc-bg-lightgreen">
-													fc-bg-lightgreen
-												</option>
-												<option value="fc-bg-pinkred">fc-bg-pinkred</option>
-												<option value="fc-bg-deepskyblue">
-													fc-bg-deepskyblue
-												</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<label>Event Icon</label>
-											<select class="form-control" name="eicon">
-												<option value="circle">circle</option>
-												<option value="cog">cog</option>
-												<option value="group">group</option>
-												<option value="suitcase">suitcase</option>
-												<option value="calendar">calendar</option>
-											</select>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-primary">
-											Save
-										</button>
-										<button
-												type="button"
-												class="btn btn-primary"
-												data-dismiss="modal"
-										>
-											Close
-										</button>
-									</div>
-								</form>
-							</div>
+						<div class="modal-footer">
+							<button
+									type="button"
+									class="btn btn-primary"
+									data-dismiss="modal"
+							>
+								Close
+							</button>
 						</div>
 					</div>
 				</div>
+			</div>
 		</div>
+		<div
+				id="modal-view-event-add"
+				class="modal modal-top fade calendar-modal"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form id="add-event">
+						<div class="modal-body">
+							<h4 class="text-blue h4 mb-10">Add Event Detail</h4>
+							<div class="form-group">
+								<label>Event name</label>
+								<input type="text" class="form-control" name="ename" />
+							</div>
+							<div class="form-group">
+								<label>Event Date</label>
+								<input
+										type="text"
+										class="date-picker form-control"
+										name="edate"
+										style="width: 225px;"
+								/> <span>~</span>
+								<input
+										type="text"
+										class="date-picker form-control"
+										name="edate"
+										style="width: 225px;"
+								/>
+							</div>
+							<div class="form-group">
+								<label>Event Description</label>
+								<textarea class="form-control" name="edesc"></textarea>
+							</div>
+							<div class="form-group">
+								<label>Event Color</label>
+								<select class="form-control" name="ecolor">
+									<option value="fc-bg-default">fc-bg-default</option>
+									<option value="fc-bg-blue">fc-bg-blue</option>
+									<option value="fc-bg-lightgreen">
+										fc-bg-lightgreen
+									</option>
+									<option value="fc-bg-pinkred">fc-bg-pinkred</option>
+									<option value="fc-bg-deepskyblue">
+										fc-bg-deepskyblue
+									</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Event Icon</label>
+								<select class="form-control" name="eicon">
+									<option value="circle">circle</option>
+									<option value="cog">cog</option>
+									<option value="group">group</option>
+									<option value="suitcase">suitcase</option>
+									<option value="calendar">calendar</option>
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">
+								Save
+							</button>
+							<button
+									type="button"
+									class="btn btn-primary"
+									data-dismiss="modal"
+							>
+								Close
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row" th:if="${emp.empStatus} == 'ACTIVE'">
 		<div class="col-lg-4 col-md-6 mb-20" th:if="${emp.empStatus} == 'ACTIVE'">
 			<div class="card-box height-100-p pd-20 min-height-200px">
@@ -206,10 +217,11 @@
 				  </span>
 				</div>
 				<div id="newcard" style="overflow-y: scroll; height: 400px; overflow-x: hidden;width: 500px;">
-				<!--카드 -->
+
 					<div class="col clearfix"style="width: 430px;">
 						<div class="newEmp">
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -232,6 +244,9 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="main-container" style="padding-left: 20px; margin-left: 10%;">
+
 	<div class="row" th:if="${emp.empStatus} == 'RETIREE'">
 		<div class="col-lg-5 col-md-10 mb-20" style="padding-top: 120px;">
 			<div class="card-box height-100-p pd-20 min-height-200px">
@@ -248,7 +263,7 @@
 				</div>
 			</div>
 		</div>
-	<div class="col-lg-5 col-md-10 mb-20" style="padding-top: 120px;">
+		<div class="col-lg-5 col-md-10 mb-20" style="padding-top: 120px;">
 			<div class="card-box height-100-p pd-20 min-height-200px">
 				<div class="max-width-300 mx-auto" style="text-align: center; margin: 10px;">
 					<img src="vendors/images/download.png" style="height: 250px;" />
@@ -264,117 +279,123 @@
 		</div>
 	</div>
 </div>
-	<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
-		<section id="footer">
-		</section>
-	</th:block>
-		<script src="vendors/scripts/dashboard3.js"></script>
-		<script src="src/plugins/fullcalendar/fullcalendar.min.js"></script>
-		<script src="vendors/scripts/calendar-setting.js"></script>
-		<script>
+</div>
+<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+	<section id="footer">
+	</section>
+</th:block>
+<script src="vendors/scripts/dashboard3.js"></script>
+<script src="src/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script src="vendors/scripts/calendar-setting.js"></script>
+<script>
 
-			// CSRF 토큰 값 가져오기
-			const csrfToken = document.querySelector('input[name="_csrf"]').value;
-		</script>
+	// CSRF 토큰 값 가져오기
+	const csrfToken = document.querySelector('input[name="_csrf"]').value;
+</script>
 
-		<script th:inline="javascript">
-			document.addEventListener('DOMContentLoaded', function() {
-				//우리팀 휴가 목록 아작스
-				$.ajax({
-					url: '/fetchEvents?empId='+empId,
-					method: 'GET',
-					success: function(response) {
 
-						if (response !== null) {
-							response.slice(0, 5).forEach(function(item) {
-								var empName = item.empName;
-								var empDept = item.empDept;
-								var vacStartDate = item.vacStartDate;
-								var vacType = item.vacType;
-								var empGrade = item.empGrade;
+<script th:inline="javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+		//우리팀 휴가 목록 아작스
+		$.ajax({
+			url: '/fetchEvents?empId='+empId,
+			method: 'GET',
+			success: function(response) {
 
-								var teamList = $('<li class="d-flex align-items-center justify-content-between">' +
-										'<div class="name-avatar d-flex align-items-center pr-2">' +
-										'<div class="txt">' +
-										'<span class="badge badge-pill badge-sm" style="background-color: #e7ebf5;">' + vacType + '</span>' +
-										'<div class="font-14 weight-600">' + empName + '</div>' +
-										'<div class="font-12 weight-500" data-color="#b2b1b6">' + empDept + '    ' + empGrade + '</div>' +
-										'</div>' +
-										'</div>' +
-										'<div class="cta flex-shrink-0">' +
-										'<a class="btn btn-sm btn-outline-primary" style="font-size: 13px;">' + vacStartDate + '</a>' +
-										'</div>' +
-										'</li>');
+				if (response !== null) {
+					response.slice(0, 5).forEach(function(item) {
+						var empName = item.empName;
+						var empDept = item.empDept;
+						var vacStartDate = item.vacStartDate;
+						var vacType = item.vacType;
+						var empGrade = item.empGrade;
 
-								$('.team-vac').append(teamList);
-							});
-						}else{
-							var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
-									"우리 팀에 예정된 휴가가 없어요 " +'</span>');
-							$('.user-list').append(teamList);
-						}
+						var teamList = $('<li class="d-flex align-items-center justify-content-between">' +
+								'<div class="name-avatar d-flex align-items-center pr-2">' +
+								'<div class="txt">' +
+								'<span class="badge badge-pill badge-sm" style="background-color: #e7ebf5;">' + vacType + '</span>' +
+								'<div class="font-14 weight-600">' + empName + '</div>' +
+								'<div class="font-12 weight-500" data-color="#b2b1b6">' + empDept + '    ' + empGrade + '</div>' +
+								'</div>' +
+								'</div>' +
+								'<div class="cta flex-shrink-0">' +
+								'<a class="btn btn-sm btn-outline-primary" style="font-size: 13px;">' + vacStartDate + '</a>' +
+								'</div>' +
+								'</li>');
 
-					},
-					error: function(xhr, status, error) {
+						$('.team-vac').append(teamList);
+					});
+				}else{
+					var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
+							"우리 팀에 예정된 휴가가 없어요 " +'</span>');
+					$('.user-list').append(teamList);
+				}
 
-					}
-				});//아작스 끝
-				//신규입사자 카드
-				$.ajax({
-					url: '/newEmp',
-					method: 'GET',
-					success: function(response) {
+			},
+			error: function(xhr, status, error) {
 
-						response.forEach(function(item) {
-							var empName = item.empName;
-							var empDept = item.empDept;
-							var empFirstDt = new Date(item.empFirstDt);
-							var empProfile=item.empProfile;
+			}
+		});//아작스 끝
+		//신규입사자 카드
+		$.ajax({
+			url: '/newEmp',
+			method: 'GET',
+			success: function(response) {
 
-							empFirstDt.setDate(empFirstDt.getDate()+1)
-							empFirstDt=empFirstDt.toISOString().substring(0,10)
-							var imgSrc = 'https://metain2.s3.ap-northeast-2.amazonaws.com/user/' + empProfile;
 
-							var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30" style="width: 100%;">' +
-									'<div class="da-card" style="display: flex; height: 100px">' +
-									'<div class="da-card-photo">' +
-									'<img src="' + imgSrc + '" style="width: 100px; height: 80px" />' +
-									'<div class="da-overlay">' +
-									'<div class="da-social">' +
-									'<ul class="clearfix"></ul>' +
-									'</div>' +
-									'</div>' +
-									'</div>' +
-									'<div class="da-card-content" style="padding-top: 10px; padding-bottom: 10px;">' +
-									'<h5 class="h5 mb-10">'+empName+' 님'+'</h5>' +
-									'<p class="mb-0"> 부서: '+empDept+'</p>' +
-									'<p class="mb-0">입사일 :'+empFirstDt + '</p>' +
-									'</div>' +
-									'</div>' +
-									'</div>');
+				response.forEach(function(item) {
+					var empName = item.empName;
+					var empDept = item.empDept;
+					var empFirstDt = new Date(item.empFirstDt);
+					var empProfile=item.empProfile;
 
-							$(".newEmp").append(newCard);
-						});
-					},
-					error: function(xhr, status, error) {
-						// var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
-						// 		"우리 팀에 예정된 휴가가 없어요 " +'</span>');
-						// $('.team-vac').append(teamList);
-					}
-				});//아작스 끝
+					empFirstDt.setDate(empFirstDt.getDate()+1)
+					empFirstDt=empFirstDt.toISOString().substring(0,10)
+					// console.log(empProfile)
+					var imgSrc = 'https://metain2.s3.ap-northeast-2.amazonaws.com/user/' + empProfile;
 
-			});
-		</script>
-	<!-- Google Tag Manager (noscript) -->
-		<noscript
-		><iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"
-		></iframe
-		></noscript>
-		<!-- End Google Tag Manager (noscript) -->
+					var newCard = $('<div class="col-lg-30 col-md-30 col-sm-12 mb-30" style="width: 100%;">' +
+							'<div class="da-card" style="display: flex; height: 100px">' +
+							'<div class="da-card-photo">' +
+							'<img src="' + imgSrc + '" style="width: 100px; height: 80px" />' +
+							'<div class="da-overlay">' +
+							'<div class="da-social">' +
+							'<ul class="clearfix"></ul>' +
+							'</div>' +
+							'</div>' +
+							'</div>' +
+							'<div class="da-card-content" style="padding-top: 10px; padding-bottom: 10px;">' +
+							'<h5 class="h5 mb-10">'+empName+' 님'+'</h5>' +
+							'<p class="mb-0"> 부서: '+empDept+'</p>' +
+							'<p class="mb-0">입사일 :'+empFirstDt + '</p>' +
+							'</div>' +
+							'</div>' +
+							'</div>');
+
+
+					$(".newEmp").append(newCard);
+				});
+			},
+			error: function(xhr, status, error) {
+				// var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
+				// 		"우리 팀에 예정된 휴가가 없어요 " +'</span>');
+				// $('.team-vac').append(teamList);
+			}
+		});//아작스 끝
+
+
+	});
+</script>
+<!— Google Tag Manager (noscript) —>
+<noscript
+><iframe
+		src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+		height="0"
+		width="0"
+		style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!— End Google Tag Manager (noscript) —>
 
 
 </html>

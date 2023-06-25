@@ -47,24 +47,21 @@ jQuery(document).ready(function() {
 					},
 					events: events,
 
-				dayClick: function () {
-					//jQuery("#modal-view-event-add").modal();
-					console.log(JSON.stringify(events));
-					console.log(JSON.stringify(event.end));
-				},
-				eventClick: function (event, jsEvent, view) {
-					console.log(event);
+					dayClick: function () {
+						//jQuery("#modal-view-event-add").modal();
+					},
+					eventClick: function (event, jsEvent, view) {
+						console.log(event);
 
-					//jQuery(".event-icon").html("<i class='fa fa-" + event.icon + "'></i>");
-					jQuery(".event-title").html(event.title);
-					jQuery(".event-body").html("휴가 유형: " + event.description + "<br>" +
-						"휴가 일정: " + moment(event.start).format("YYYY-MM-DD") + " ~ " + event.end)
-					//jQuery(".event-body").html(event.start);
-					jQuery("#modal-view-event").modal();
-				},
-			});
+						//jQuery(".event-icon").html("<i class='fa fa-" + event.icon + "'></i>");
+						jQuery(".event-title").html(event.title);
+						jQuery(".event-body").html("휴가 유형: " + event.description + "<br>");
+						//jQuery(".event-body").html(event.start);
+						jQuery("#modal-view-event").modal();
+					},
+				});
 			}
-		})//아작스 끝
+		}); //아작스 끝
 
-	});//캘린더 끝
+	}); //캘린더 끝
 })(jQuery);

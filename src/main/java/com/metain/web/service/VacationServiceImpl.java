@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -116,7 +117,6 @@ public class VacationServiceImpl implements VacationService{
     @Override
     public void insertVacation(Vacation vacation,int diffDays,Long empId) {
         vacMapper.requestVacation(vacation);
-        vacMapper.decreaseVacation(diffDays,empId);
         logger.info("VacService/insertVacation-vacation",vacation);
 
         AlarmDTO alarmDTO=new AlarmDTO();
@@ -224,20 +224,24 @@ public class VacationServiceImpl implements VacationService{
 
     //@Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
     //@Scheduled(cron = "*/20 * * * * ?") //20 초
-    @Scheduled(cron = "0 * * * * ?") //테스트용 일분마다 ~
+    //@Scheduled(cron = "0 * * * * ?") //테스트용 일분마다 ~
     public void autoReject() {
         List<VacationListDTO> list = vacMapper.selectAllList();
         LocalDate localDate = LocalDate.now();
 
         for (VacationListDTO vacation : list) {
             LocalDate vacStartDate = vacation.getVacStartDate().toLocalDate();
+            LocalDate vacEndDate =vacation.getVacEndDate().toLocalDate();
             String vacStatus = vacation.getVacStatus();
-
+            // startDate와 endDate 사이의 일수 차이 계산
+            long daysBetween = ChronoUnit.DAYS.between(vacStartDate, vacEndDate);
             if (vacStatus.equals("승인대기") && (localDate.isEqual(vacStartDate) || localDate.isAfter(vacStartDate))) {
                 // 반려하기
                 int re = vacMapper.rejectVacationRequest(vacation.getVacId(), vacStatus);
+                vacMapper.increaseVacation((int) daysBetween,vacation.getVacId());
                 //logger.info("스케쥴러에의해 자동반려된 vacId ",vacation.getVacId());
                 System.out.println("스케쥴러에 의해 자동 반려된 vacId= "+vacation.getVacId());
+                System.out.println("스케쥴러에 의해 자동 반려된 vacId= "+(int) daysBetween);
             }
         }
     }

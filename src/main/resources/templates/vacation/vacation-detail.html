@@ -45,7 +45,7 @@
 							<div class="form-group row">
 								<label class="col-sm-12 col-md-2 col-form-label">사원 정보 </label>
 								<div class="col-sm-12 col-md-7">
-									<input class="form-control" th:value="${emp.empName}" readonly type="text">
+									<input class="form-control" th:value="${req.empName}" readonly type="text">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -74,14 +74,14 @@
 									<input class="form-control" th:value="${vac.getVacResn()}" readonly type="text">
 								</div>
 							</div>
-							<div class="form-group row" th:if="${vac.fileName != null and vac.fileName != '0'}">
+<!--							<div class="form-group row" th:if="${vac.fileName != null and vac.fileName != '0' and ${emp.empGrade} == 'ADMIN'}">-->
 
-								<label class="col-sm-12 col-md-2 col-form-label"> 첨부파일 </label>
-								<div class="col-sm-12 col-md-7">
-									<a th:href="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/file/' + ${vac.fileName}}">클릭시 다운로드</a>
-								</div>
+<!--								<label class="col-sm-12 col-md-2 col-form-label" > 첨부파일 </label>-->
+<!--								<div class="col-sm-12 col-md-7">-->
+<!--									<a th:href="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/file/' + ${vac.fileName}}">클릭시 다운로드</a>-->
+<!--								</div>-->
 
-							</div>
+<!--							</div>-->
 
 							<div class="form-group row" style="height: 150px;">
 								<label class="col-sm-12 col-md-2 col-form-label"> 결재라인 </label>
