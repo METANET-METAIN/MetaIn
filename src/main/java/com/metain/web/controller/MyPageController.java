@@ -117,17 +117,6 @@ public class MyPageController {
         return ResponseEntity.ok(signedCertURL);
     }//downloadCert
 
-
-
-    @GetMapping("/my-vac")
-    @ResponseBody
-    public List<MyVacDTO> selectMyVacList(Authentication auth, @ModelAttribute MyVacDTO myVacDTO) {
-        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-        Long empId = principalDetails.getEmpId();
-        myVacDTO.setEmpId(empId);
-        return myPageService.selectMyVacList(myVacDTO);
-    }
-
     @GetMapping("/my-vac-list")
 
     public String myVacList(Authentication auth, Model model) {

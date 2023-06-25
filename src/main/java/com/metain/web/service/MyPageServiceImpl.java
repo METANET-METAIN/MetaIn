@@ -41,14 +41,6 @@ public class MyPageServiceImpl implements MyPageService{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
-        List<MyVacDTO> list = myPageMapper.selectMyVacList(myVacDTO);
-        if(list == null){
-            return null;
-        }
-        return list;
-    }
 
     @Override
     public List<MyVacDTO> myVacList(Long empId) {
