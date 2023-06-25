@@ -78,11 +78,14 @@ public class VacationController {
     }
     @PostMapping("/insert-vaction")
     public String insertVacation(Vacation vacation,@RequestParam("selectedDays") String diffDays, @RequestParam("empId")Long empId){
-        vacationService.insertVacation(vacation, Integer.parseInt(diffDays),empId);
+        vacationService.insertVacation(vacation, Integer.parseInt(diffDays),empId,vacation.getAdmId());
+        System.out.println(vacation);
         //사용한 만큼 연차 차감
         empId=vacation.getEmpId();
         int selectedDays=Integer.parseInt(diffDays);
         vacationService.decreaseVacation(selectedDays,empId);
+
+
         return "redirect:/mypage/my-vac-list";
     }
     @RequestMapping("/vacation-afterapply")
@@ -103,7 +106,7 @@ public class VacationController {
         empId=vacation.getEmpId();
         int selectedDays=Integer.parseInt(diffDays);
 
-        vacationService.insertAfterVacation(vacation,file);
+        vacationService.insertAfterVacation(vacation,file,vacation.getAdmId());
         vacationService.decreaseVacation(selectedDays,empId);
 
         return "redirect:/mypage/my-vac-list";

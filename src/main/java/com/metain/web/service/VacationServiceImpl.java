@@ -115,23 +115,33 @@ public class VacationServiceImpl implements VacationService{
     }
 
     @Override
-    public void insertVacation(Vacation vacation,int diffDays,Long empId) {
+    public void insertVacation(Vacation vacation,int diffDays,Long empId,Long admId) {
         vacMapper.requestVacation(vacation);
         logger.info("VacService/insertVacation-vacation",vacation);
+        Emp requestEmp=hrMapper.selectEmpInfo(empId);
 
         AlarmDTO alarmDTO=new AlarmDTO();
-        alarmDTO.setNotiContent("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!");
+        alarmDTO.setNotiContent("휴가가 신청되었습니다");
         alarmDTO.setNotiUrl("/mypage/my-vac-list");
         alarmDTO.setNotiType("휴가정보");
         alarmDTO.setEmpId(empId);
         alarmMapper.insertAlarm(alarmDTO);
 
-        alarmService.send(empId, AlarmResponse.comment("신청하신  "+ vacation.getVacId() + "번 휴가가 신청되었습니다!"));
+        AlarmDTO adminAlarm=new AlarmDTO();
+        alarmDTO.setNotiContent(requestEmp.getEmpName() +"님이 휴가를 신청하셨습니다");
+        alarmDTO.setNotiUrl("/vacation/vacation-req-list");
+        alarmDTO.setNotiType("신청 정보");
+        alarmDTO.setEmpId(admId);
+        System.out.println(adminAlarm);
+        alarmMapper.insertAlarm(alarmDTO);
+
+        alarmService.send(empId, AlarmResponse.comment("휴가가 정상적으로 신청되었습니다"));
+        alarmService.send(admId, AlarmResponse.comment(requestEmp.getEmpName()+"님이 휴가를 신청하셨습니다."));
 
     }
 
     @Override
-    public void insertAfterVacation(Vacation vacation, MultipartFile file) throws IOException {
+    public void insertAfterVacation(Vacation vacation, MultipartFile file,Long admId) throws IOException {
         Long empId = vacation.getEmpId();
         Emp emp=hrMapper.selectEmpInfo(empId);
         String sabun = emp.getEmpSabun();
@@ -162,6 +172,23 @@ public class VacationServiceImpl implements VacationService{
         vacation.setFileId((long) fileId);
         //그로 VAC INSERT 시킨당
         vacMapper.insertAfterVacation(vacation);
+        AlarmDTO alarmDTO=new AlarmDTO();
+        alarmDTO.setNotiContent("휴가가 신청되었습니다");
+        alarmDTO.setNotiUrl("/mypage/my-vac-list");
+        alarmDTO.setNotiType("휴가정보");
+        alarmDTO.setEmpId(empId);
+        alarmMapper.insertAlarm(alarmDTO);
+
+        AlarmDTO adminAlarm=new AlarmDTO();
+        alarmDTO.setNotiContent(emp.getEmpName() +"님이 휴가를 신청하셨습니다");
+        alarmDTO.setNotiUrl("/vacation/vacation-req-list");
+        alarmDTO.setNotiType("신청 정보");
+        alarmDTO.setEmpId(admId);
+        System.out.println(adminAlarm);
+        alarmMapper.insertAlarm(alarmDTO);
+
+        alarmService.send(empId, AlarmResponse.comment("휴가가 신청되었습니다"));
+        alarmService.send(admId, AlarmResponse.comment(emp.getEmpName()+"님이 휴가를 신청하셨습니다."));
     }
 
     @Override

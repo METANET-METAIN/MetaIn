@@ -133,12 +133,19 @@
 </div>
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
+<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
+<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+<script src="/src/plugins/jquery-steps/jquery.steps.js"></script>
+<script src="/vendors/scripts/steps-setting.js"></script>
 <script>
+
+
   //유효성 검사
   $('input[type="submit"]').on('click', function (event) {
     var vacType = $('#vacType').val(); //유형
     var vacResn = $('#vacResn').val(); //사유
     var fileUpload = $('#fileUpload').val(); //파일
+
     if (vacType === "유형 선택") {
       event.preventDefault();
       alert('휴가 유형을 선택해주세요.');
@@ -152,21 +159,12 @@
       alert('증빙 서류를 첨부해주세요');
     }
 
-
-
-    if(vacType !== "유형 선택" && vacResn !== "" && fileUpload!= "") {
+    if(vacType !== "유형 선택" && vacResn !== "" && fileUpload!= "" ) {
       swal('휴가가 신청되었습니다.').then(function () {
-        window.location.href = 'vacation-list';
+        window.location.href = 'mypage/my-vac-list';
       });
     }
   });
-</script>
-
-<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
-<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
-<script src="/src/plugins/jquery-steps/jquery.steps.js"></script>
-<script src="/vendors/scripts/steps-setting.js"></script>
-<script th:inline="javascript">
 
   let count = /*[[${emp.getEmpVac()}]]*/ 0;
   $('input[type="date"]').on('change', function (event) {
@@ -203,10 +201,14 @@
 
     if (startDate > endDate) {
       alert('올바른 날짜를 입력해주세요.');
+      document.getElementById("vacEndDate").value = "";
+      document.getElementById('diffDays').innerText = "0";
     } else if (daysDiff > maxDays) {
       alert('선택한 휴가 유형에 해당하는 최대 휴가 일수는 ' + maxDays + '일 입니다.');
       document.getElementById("vacEndDate").value = "";
       document.getElementById('diffDays').innerText = "0";
+      event.preventDefault();
+
 
     }else{
     event.preventDefault();

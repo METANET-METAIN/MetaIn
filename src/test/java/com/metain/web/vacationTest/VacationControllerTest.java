@@ -119,7 +119,7 @@ public class VacationControllerTest {
         List<String> auth = Arrays.asList("EMPLOYEE", "ACTIVE");
 //        when(hrMapper.selectRoleName(fakeEmp.getEmpSabun())).thenReturn(auth);
 
-        doNothing().when(vacationService).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+        doNothing().when(vacationService).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId(),fakeVacation.getAdmId());
 
         List<GrantedAuthority> authorities = auth.stream()
                 .map(SimpleGrantedAuthority::new)
@@ -135,10 +135,10 @@ public class VacationControllerTest {
         Model model = mock(Model.class); // Mock으로 Model 객체 생성
         model.addAttribute("emp", fakeEmp);
         // When
-        vacationService.insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+        vacationService.insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId(),fakeVacation.getAdmId());
         // Then
         assertEquals(expectedViewName, "redirect:/mypage/my-vac-list");
-        verify(vacationService, times(1)).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId());
+        verify(vacationService, times(1)).insertVacation(fakeVacation,diffDays, fakeEmp.getEmpId(),fakeVacation.getAdmId());
     }
 
 //    @Test
