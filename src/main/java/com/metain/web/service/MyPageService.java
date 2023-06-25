@@ -14,7 +14,6 @@ import java.util.List;
 
 public interface MyPageService {
 
-    List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO);
     List<MyVacDTO> myVacList(Long empId);
 
     //재직증명서 발급 현황

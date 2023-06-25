@@ -65,23 +65,6 @@
         set issue_status = 1 where retire_cert_id = #{certId};
     </update>
 
-
-
-    <select id="selectMyVacList" resultType="MyVacDTO">
-        SELECT
-            TE.EMP_ID,
-            TV.VAC_ID,
-            TV.VAC_TYPE,
-            TV.VAC_REG_DATE,
-            TV.VAC_START_DATE,
-            TV.VAC_END_DATE,
-            TV.VAC_STATUS
-        FROM TBL_EMPLOYEE TE
-                 JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
-        WHERE TE.EMP_ID = #{empId}
-
-    </select>
-
     <select id="myVacList" resultType="MyVacDTO" parameterType="Long">
         SELECT
             TE.EMP_ID,
@@ -94,7 +77,7 @@
         FROM TBL_EMPLOYEE TE
                  JOIN TBL_VACATION TV ON TE.EMP_ID = TV.EMP_ID
         WHERE TE.EMP_ID = #{empId}
-
+        ORDER BY TV.VAC_ID DESC;
     </select>
     <select id="alarmList" resultType="AlarmDTO" parameterType="Long">
         SELECT
@@ -109,16 +92,16 @@
     </select>
 
     <update id="updateMyPage" parameterType="Emp">
-        UPDATE TBL_EMPLOYEE
-        SET EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
+        update TBL_EMPLOYEE
+        set EMP_PHONE = #{empPhone}, EMP_ADDR= #{empAddr}, EMP_ZIPCODE=#{empZipcode},
             EMP_DETAIL_ADDR=#{empDetailAddr}, EMP_PWD=#{empPwd}, EMP_PROFILE=#{empProfile}
-        WHERE EMP_ID = #{empId}
+        where EMP_ID = #{empId}
     </update>
 
 
     <update id="updatePwd" parameterType="Emp">
-        UPDATE TBL_EMPLOYEE
-        SET  EMP_PWD=#{empPwd}
-        WHERE EMP_ID = #{empId}
+        update TBL_EMPLOYEE
+        set  EMP_PWD=#{empPwd}
+        where EMP_ID = #{empId}
     </update>
 </mapper>

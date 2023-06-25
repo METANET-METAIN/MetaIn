@@ -211,12 +211,12 @@
   $(document).on("change", "#sign-up-add-image2", function(){ //주황색
 
     var filename = $(this).val().split('/').pop().split('\\').pop();
-    console.log(filename)
+    // console.log(filename)
 
     $(this).prev().val(filename);
     //$(this).attr("name","test");
 
-    console.log($(this))
+    // console.log($(this))
     // $(this).prev().find("input").val(filename);
 
 
@@ -233,7 +233,7 @@
       // 이미지가 로드가 된 경우
       reader.onload = e => {
         const previewImage = document.getElementById("empProfile")
-        console.log("previewImage"+previewImage)
+        // console.log("previewImage"+previewImage)
 
         previewImage.src = e.target.result
 
@@ -271,7 +271,7 @@
 
     //모달창 출력 시 값 초기화
     function openPasswordModal() {
-      console.log('empPwd1')
+      // console.log('empPwd1')
       document.getElementById('empPwd1').value = "";
       document.getElementById('empPwd2').value = "";
       document.getElementById("checkPwd1Message").innerText = " "
@@ -282,7 +282,7 @@
     function findPostcode() {
       new daum.Postcode({
         oncomplete: function (data) {
-          console.log(data);
+          // console.log(data);
           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 

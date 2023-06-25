@@ -107,28 +107,30 @@
                             </div>
                         </div>
                     </div>
+                        <div class="mb-3">
+                            <label for="empStatus" class="col-form-label">재직 상태</label>
+                            <select type="text" class="form-control" id="empStatus" onchange="statusChange()">
+    <!--                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">-->
+                                <option value="ACTIVE">재직</option>
+                                <option value="RETIREE">퇴직</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="empFirstDt" class="col-form-label">입사 일자</label>
+                            <input type="text"  readonly class="form-control" id="empFirstDt">
+                        </div>
+                        <div class="mb-3">
+                            <label for="empLastDt" class="col-form-label">퇴사 일자</label>
+                            <input type="text" class="form-control" id="empLastDt" disabled>
+                            <p id="validationMessage"></p>
 
-                    <div class="mb-3">
-                        <label for="empStatus" class="col-form-label">재직 상태</label>
-                        <select type="text" class="form-control" id="empStatus" onchange="statusChange()">
-<!--                        <select type="text" class="form-control" id="empStatus" onchange="handleEmpStatusChange()">-->
-                            <option value="ACTIVE">재직</option>
-                            <option value="RETIREE">퇴직</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="empFirstDt" class="col-form-label">입사 일자</label>
-                        <input type="text"  readonly class="form-control" id="empFirstDt">
-                    </div>
-                    <div class="mb-3">
-                        <label for="empLastDt" class="col-form-label">퇴사 일자</label>
-                        <input type="text" class="form-control" id="empLastDt" disabled>
-                    </div>
+                        </div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="updateEmp()">수정</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
@@ -152,10 +154,9 @@
 
 
     var myModal;
-    const modalToggle = document.getElementById('exampleModal');
     //모달창 세팅
     const modalToggle = document.getElementById('exampleModal');
-    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
     const itemList = /*[[${list}]]*/ [];
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
@@ -263,37 +264,40 @@
 
 
     //그리드 클릭 시 이벤트
-    grid.on('click',function(ev){
-        console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
+    grid.on('click', function (ev) {
+        // console.log(ev); // 그리드에서 제공하는 클릭 이벤트의 매개변수 값을 보기 위함
         const row = grid.getRow(ev.rowKey); //gird에서 제공하는 함수 로우키를 넣으면 해당하는 행의 값들을 보여줌
-        console.log(row);
-        document.getElementById('empSabun').value = row.empSabun;
-        document.getElementById('empId').value = row.empId;
-        document.getElementById('empBirth').value = formatDate(row.empBirth);
-        document.getElementById('empName').value = row.empName;
-        document.getElementById('empPhone').value = row.empPhone;
-        document.getElementById('empAddr').value = row.empAddr;
-        document.getElementById('empEmail').value = row.empEmail;
-        document.getElementById('empDept').value = row.empDept;
-        document.getElementById('empGrade').value = row.empGrade;
-        document.getElementById('empStatus').value = row.empStatus;
-        document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
-        document.getElementById('empLastDt').value = formatDate(row.empLastDt);
+
+            document.getElementById('empSabun').value = row.empSabun;
+            document.getElementById('empId').value = row.empId;
+            document.getElementById('empBirth').value = formatDate(row.empBirth);
+            document.getElementById('empName').value = row.empName;
+            document.getElementById('empPhone').value = row.empPhone;
+            document.getElementById('empAddr').value = row.empAddr;
+            document.getElementById('empEmail').value = row.empEmail;
+            document.getElementById('empDept').value = row.empDept;
+            document.getElementById('empGrade').value = row.empGrade;
+            document.getElementById('empStatus').value = row.empStatus;
+            document.getElementById('empFirstDt').value = formatDate(row.empFirstDt);
+            document.getElementById('empLastDt').value = formatDate(row.empLastDt);
+            document.getElementById('validationMessage').textContent = '';
+
+
         statusChange();
-        console.log(empStatus);
-        myModal.show(myModal);
+            myModal.show(myModal);
 
-        const requestData={
-            empStatus:row.empStatus,
-            empDept:row.empDept,
-            empGrade:row.empGrade,
-            updateEmpId:row.empId
-        }
+            const requestData = {
+                empStatus: row.empStatus,
+                empDept: row.empDept,
+                empGrade: row.empGrade,
+                updateEmpId: row.empId
+            }
 
-        console.log("empStatus"+requestData.empStatus)
-        console.log("empDept"+requestData.empDept)
-        console.log("empGrade"+requestData.empGrade)
-        console.log("updateEmpId"+requestData.updateEmpId)
+            // console.log("empStatus" + requestData.empStatus)
+            // console.log("empDept" + requestData.empDept)
+            // console.log("empGrade" + requestData.empGrade)
+            // console.log("updateEmpId" + requestData.updateEmpId)
+
 
     });
 
@@ -308,6 +312,7 @@
         return formattedDate;
     };
 
+
     // 재직 상태 변경 이벤트 핸들러
     function statusChange() {
         var empStatus = document.getElementById('empStatus').value;
@@ -320,25 +325,13 @@
             empLastDtInput.disabled = false;
             empDeptInput.disabled = true;
             empGradeInput.disabled = true;
-        } else {
+        } else if(empStatus === 'ACTIVE'){
             empLastDtInput.disabled = true;
             empLastDtInput.value = ''; // 퇴사일자 입력란 초기화
             empDeptInput.disabled = false;
             empGradeInput.disabled = false;
         }
     };
-
-    // myModal._element.addEventListener('show.bs.modal', function () {
-    //     statusChange();
-    // });
-    //
-    // myModal._element.addEventListener('hidden.bs.modal', function () {
-    //     if (!isRetiree) {
-    //         empLastDtInput.disabled = true;
-    //         empLastDtInput.value = '';
-    //     }
-    // });
-
 
     function updateEmp() {
 
@@ -347,6 +340,41 @@
         $(document).ajaxSend(function(e,xht,op){
             xht.setRequestHeader(header ,token);
         });
+
+        var empFirstDt = new Date(document.getElementById('empFirstDt').value);
+        var empLastDt = new Date(document.getElementById('empLastDt').value);
+        var validationMessage = document.getElementById('validationMessage');
+
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        var dateRegex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD 형식을 검사하는 정규식
+
+    // 입력된 값이 유효한 날짜 형식인지 확인
+        if (!dateRegex.test(document.getElementById('empLastDt').value)) {
+            validationMessage.textContent = "올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).";
+            alert("올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).");
+            return false;
+        }
+
+    // 입력된 값이 유효한 날짜인지 확인
+        if (isNaN(empLastDt)) {
+            validationMessage.textContent = "올바른 날짜를 입력해주세요.";
+            alert("올바른 날짜를 입력해주세요.");
+            return false;
+        } else if (empLastDt < empFirstDt) {
+            validationMessage.textContent = "퇴사일은 입사일 이후여야 합니다.";
+            alert("퇴사일은 입사일 이후여야 합니다.");
+            return false;
+        } else if (empLastDt > today) {
+            validationMessage.textContent = "퇴사일은 오늘 이전이어야 합니다.";
+            alert("퇴사일은 오늘 이전이어야 합니다.");
+            return false;
+        }else {
+            validationMessage.textContent = "";
+        }
+
+
         // requestData 변수 선언 및 초기화
         const requestDat = {
             empStatus: document.getElementById('empStatus').value,
@@ -355,12 +383,12 @@
             updateEmpId: document.getElementById('empId').value,
             empLastDt: document.getElementById('empLastDt').value
         };
-        console.log("empStatus2"+requestDat.empStatus)
-        console.log("empGrade2"+requestDat.empGrade)
-        console.log("empDept2"+requestDat.empDept)
-        console.log("updateEmpId2"+requestDat.updateEmpId)
-        console.log("empLastDt"+requestDat.empLastDt)
-        console.log(requestDat);
+        // console.log("empStatus2"+requestDat.empStatus)
+        // console.log("empGrade2"+requestDat.empGrade)
+        // console.log("empDept2"+requestDat.empDept)
+        // console.log("updateEmpId2"+requestDat.updateEmpId)
+        // console.log("empLastDt"+requestDat.empLastDt)
+        // console.log(requestDat);
 
         // 업데이트 아작스
         $.ajax({
@@ -370,11 +398,11 @@
             dataType: 'text',
             contentType: 'application/json;charset=utf-8',
             success: function(response) {
-                console.log(response)
+                // console.log(response)
                 window.location.pathname = "/hr/emp-list";
             },
             error: function(error) {
-                console.log(error)
+                // console.log(error)
                 alert(JSON.stringify(error));
 
             }

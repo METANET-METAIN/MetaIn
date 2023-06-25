@@ -439,7 +439,7 @@
                         </a>
                     </li>
 
-                    <li class="dropdown" th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
+                    <li class="dropdown" >
 
                         <a href="javascript:;" class="dropdown-toggle">
                            <span class="micon bi bi-textarea-resize"></span>
@@ -447,11 +447,11 @@
                         </a>
                         <ul class="submenu">
 
-                            <li th:if="${emp.empStatus == 'ACTIVE' && (emp.empGrade == 'HR' || emp.empGrade == 'ADMIN')}">
+                            <li th:if="${emp.empGrade == 'HR' && emp.empStatus == 'ACTIVE'}">
                                 <a href="/hr/emp-list"> 사원 전체 조회</a></li>
-                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                            <li th:if="${emp.empGrade == 'HR' && emp.empStatus == 'ACTIVE'}">
                                 <a href="/hr/new-emp-list"> 신규입사자 조회 </a></li>
-                            <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
+                            <li th:if="${emp.empGrade == 'HR' && emp.empStatus == 'ACTIVE'}">
                                 <a href="/hr/insert-new-emp"> 신규입사자 등록 </a></li>
 
                         </ul>

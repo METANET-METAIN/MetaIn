@@ -6,6 +6,7 @@ import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
+import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
 import org.slf4j.Logger;
@@ -26,10 +27,11 @@ public class MyPageServiceImpl implements MyPageService{
 
 
     @Autowired
-   private AwsS3Service awsS3Service;
+    private AwsS3Service awsS3Service;
     @Autowired
     private MyPageMapper myPageMapper;
-
+    @Autowired
+    private AlarmMapper alarmMapper;
 
     @Autowired
     private HrMapper hrMapper;
@@ -39,14 +41,6 @@ public class MyPageServiceImpl implements MyPageService{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public List<MyVacDTO> selectMyVacList(MyVacDTO myVacDTO) {
-        List<MyVacDTO> list = myPageMapper.selectMyVacList(myVacDTO);
-        if(list == null){
-            return null;
-        }
-        return list;
-    }
 
     @Override
     public List<MyVacDTO> myVacList(Long empId) {
@@ -110,7 +104,7 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
-        List<AlarmDTO> list= myPageMapper.alarmList(empId);
+        List<AlarmDTO> list= alarmMapper.alarmListAll(empId);
         if(list==null){
             return null;
         }else return list;
@@ -119,44 +113,41 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
+        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
+
+        logger.info("MypageSer/updateMy encryptedPwd=",encryptedPwd);
+        logger.info("MypageSer/updateMy dbemp=",dbemp);
+
+
+
+        dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
         String sabun = dbemp.getEmpSabun();
+        UUID uuid = UUID.randomUUID();
 
-        if (file != null && !file.isEmpty()) {
+        File files = new File(file.getOriginalFilename());
+        FileCopyUtils.copy(file.getBytes(), files);
 
-            UUID uuid = UUID.randomUUID();
+        String originalImgName = file.getOriginalFilename();
+        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
 
-            File files = new File(file.getOriginalFilename());
-            FileCopyUtils.copy(file.getBytes(), files);
-            String originalImgName = file.getOriginalFilename();
-            String extension = "";
-
-            int dotIndex = originalImgName.lastIndexOf(".");
-            if (dotIndex >= 0) {
-                extension = originalImgName.substring(dotIndex);
-            }
-
-            String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-            String path = "user";
-            dbemp.setEmpProfile(savedImgName);
+        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+        String path = "user";
 
 
-            awsS3Service.updateProfileInS3(file.getBytes(), savedImgName, path);
-        } else {
-            // 사진이 첨부되지 않은 경우에는 기존 사진 정보를 그대로 유지합니다.
-            dbemp.setEmpProfile(dbemp.getEmpProfile());
-        }
+        awsS3Service.uploadS3File(file, savedImgName, path);
 
 
 
+
+        dbemp.setEmpProfile(savedImgName);
 
         myPageMapper.updateMyPage(dbemp);
     }
 
-    @Override
     public void updatePwd(Emp emp) {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId()) ;
         String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());

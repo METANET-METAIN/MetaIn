@@ -113,20 +113,9 @@ public class MyPageController {
         //해당객체 S3 url 생성 -> 뷰단에 넘길 url
         String signedCertURL = "https://metain2.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
         logger.info("MyPgaeCon/ downloadCert의 signedCertURL= ",signedCertURL);
-        
+
         return ResponseEntity.ok(signedCertURL);
     }//downloadCert
-
-
-
-    @GetMapping("/my-vac")
-    @ResponseBody
-    public List<MyVacDTO> selectMyVacList(Authentication auth, @ModelAttribute MyVacDTO myVacDTO) {
-        PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
-        Long empId = principalDetails.getEmpId();
-        myVacDTO.setEmpId(empId);
-        return myPageService.selectMyVacList(myVacDTO);
-    }
 
     @GetMapping("/my-vac-list")
 
@@ -229,14 +218,6 @@ public class MyPageController {
 
         myPageService.updateMy(emp, file);
 
-        return "redirect:/index";
-    }
-
-    @PostMapping("/updatePwd")
-    public String updatePassword(Emp emp) {
-
-        myPageService.updatePwd(emp);
-        // 업데이트 성공 시 응답 처리
         return "redirect:/index";
     }
 }
