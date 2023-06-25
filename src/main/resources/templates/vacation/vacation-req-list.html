@@ -46,13 +46,12 @@
 						</p>
 					</div>
 				</div>
-
 			</div>
+		<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
+			<section id="footer">
+			</section>
+		</th:block>
 		</div>
-<th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
-	<section id="footer">
-	</section>
-</th:block>
 <!-- buttons for Export datatable -->
 <script src="/src/plugins/datatables/js/dataTables.buttons.min.js"></script>
 <script src="/src/plugins/datatables/js/buttons.print.min.js"></script>

@@ -6,6 +6,7 @@ import com.metain.web.domain.ExperienceCert;
 import com.metain.web.domain.RetireCert;
 import com.metain.web.dto.AlarmDTO;
 import com.metain.web.dto.MyVacDTO;
+import com.metain.web.mapper.AlarmMapper;
 import com.metain.web.mapper.HrMapper;
 import com.metain.web.mapper.MyPageMapper;
 import org.slf4j.Logger;
@@ -29,7 +30,8 @@ public class MyPageServiceImpl implements MyPageService{
    private AwsS3Service awsS3Service;
     @Autowired
     private MyPageMapper myPageMapper;
-
+    @Autowired
+    private AlarmMapper alarmMapper;
 
     @Autowired
     private HrMapper hrMapper;
@@ -110,7 +112,7 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Override
     public List<AlarmDTO> alarmList(Long empId) {
-        List<AlarmDTO> list= myPageMapper.alarmList(empId);
+        List<AlarmDTO> list= alarmMapper.alarmListAll(empId);
         if(list==null){
             return null;
         }else return list;
@@ -154,7 +156,6 @@ public class MyPageServiceImpl implements MyPageService{
         myPageMapper.updateMyPage(dbemp);
     }
 
-    @Override
     public void updatePwd(Emp emp) {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId()) ;
         String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
