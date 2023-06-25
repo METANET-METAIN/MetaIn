@@ -61,7 +61,7 @@ public interface VacationMapper {
     /**
     * 요청된 휴가 목록--0
     * */
-    public List<VacationListDTO> requestList();
+    public List<VacationListDTO> requestList(String empDept);
     /**
      * 연차차감
      * */

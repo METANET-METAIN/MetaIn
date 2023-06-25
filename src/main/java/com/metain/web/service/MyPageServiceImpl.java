@@ -113,14 +113,11 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
-        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
 
-        logger.info("MypageSer/updateMy encryptedPwd=",encryptedPwd);
         logger.info("MypageSer/updateMy dbemp=",dbemp);
 
 
 
-        dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());

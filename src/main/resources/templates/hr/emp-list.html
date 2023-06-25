@@ -340,39 +340,44 @@
         $(document).ajaxSend(function(e,xht,op){
             xht.setRequestHeader(header ,token);
         });
-
+        var empStatus = document.getElementById('empStatus');
         var empFirstDt = new Date(document.getElementById('empFirstDt').value);
-        var empLastDt = new Date(document.getElementById('empLastDt').value);
-        var validationMessage = document.getElementById('validationMessage');
+        // var empLastDt = new Date(document.getElementById('empLastDt').value);
+        // var validationMessage = document.getElementById('validationMessage');
 
         var today = new Date();
         today.setHours(0, 0, 0, 0);
-
         var dateRegex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD 형식을 검사하는 정규식
 
-    // 입력된 값이 유효한 날짜 형식인지 확인
-        if (!dateRegex.test(document.getElementById('empLastDt').value)) {
-            validationMessage.textContent = "올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).";
-            alert("올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).");
-            return false;
+        if (empStatus === 'RETRIEE') {
+            var empLastDt = new Date(document.getElementById('empLastDt').value);
+            var validationMessage = document.getElementById('validationMessage');
+
+            // 입력된 값이 유효한 날짜 형식인지 확인
+            if (!dateRegex.test(document.getElementById('empLastDt').value)) {
+                validationMessage.textContent = "올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).";
+                alert("올바른 날짜 형식을 입력해주세요 (YYYY-MM-DD).");
+                return false;
+            }
+
+            // 입력된 값이 유효한 날짜인지 확인
+            if (isNaN(empLastDt)) {
+                validationMessage.textContent = "올바른 날짜를 입력해주세요.";
+                alert("올바른 날짜를 입력해주세요.");
+                return false;
+            } else if (empLastDt < empFirstDt) {
+                validationMessage.textContent = "퇴사일은 입사일 이후여야 합니다.";
+                alert("퇴사일은 입사일 이후여야 합니다.");
+                return false;
+            } else if (empLastDt > today) {
+                validationMessage.textContent = "퇴사일은 오늘 이전이어야 합니다.";
+                alert("퇴사일은 오늘 이전이어야 합니다.");
+                return false;
+            } else {
+                validationMessage.textContent = "";
+            }
         }
 
-    // 입력된 값이 유효한 날짜인지 확인
-        if (isNaN(empLastDt)) {
-            validationMessage.textContent = "올바른 날짜를 입력해주세요.";
-            alert("올바른 날짜를 입력해주세요.");
-            return false;
-        } else if (empLastDt < empFirstDt) {
-            validationMessage.textContent = "퇴사일은 입사일 이후여야 합니다.";
-            alert("퇴사일은 입사일 이후여야 합니다.");
-            return false;
-        } else if (empLastDt > today) {
-            validationMessage.textContent = "퇴사일은 오늘 이전이어야 합니다.";
-            alert("퇴사일은 오늘 이전이어야 합니다.");
-            return false;
-        }else {
-            validationMessage.textContent = "";
-        }
 
 
         // requestData 변수 선언 및 초기화

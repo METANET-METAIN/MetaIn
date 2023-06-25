@@ -439,7 +439,7 @@
                         </a>
                     </li>
 
-                    <li class="dropdown" >
+                    <li class="dropdown" th:if="${emp.empGrade == 'HR' && emp.empStatus == 'ACTIVE'}">
 
                         <a href="javascript:;" class="dropdown-toggle">
                            <span class="micon bi bi-textarea-resize"></span>

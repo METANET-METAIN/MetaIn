@@ -71,7 +71,7 @@
             <div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
               <div class="col-sm-10 col-md-2">
                 <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                  <img th:src="@{'/vendors/user/' + ${emp.empProfile}}" style="width: 100px; height: 100px;"
+                  <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" style="width: 100px; height: 100px;"
                   />
                 </div>
                 <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -88,7 +88,7 @@
 
               <div class="col-sm-10 col-md-2">
                 <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                  <img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
+                  <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${admin.empProfile}}" style="width: 100px; height: 100px;"
                   />
                 </div>
                 <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -112,11 +112,13 @@
       </div>
     </div>
   </div>
-</div>
+
+
 <th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
   <section id="footer">
   </section>
 </th:block>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
@@ -172,7 +174,21 @@
   $('input[type="date"]').on('change', function (event) {
     let startDate = new Date($('#vacStartDate').val());
     let endDate = new Date($('#vacEndDate').val());
+    let today = new Date(); // 현재 날짜
 
+    // if (startDate < today) {
+    //   swal.fire({
+    //     text: '오늘 이전의 날짜는 선택할 수 없습니다.',
+    //     icon: 'question',
+    //     confirmButtonColor: 'grey',
+    //     confirmButtonText: '확인'
+    //   }).then(() => {
+    //     document.getElementById("vacStartDate").value = "";
+    //     document.getElementById("diffDays").innerText = "0";
+    //     event.preventDefault();
+    //   });
+    //   return;
+    // }
     let daysDiff = 0;
     if (startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
@@ -185,6 +201,10 @@
         icon: 'question',
         confirmButtonColor: 'grey',
         confirmButtonText: '확인'
+      }).then(() => {
+        document.getElementById("vacEndDate").value = "";
+        document.getElementById('diffDays').innerText = "0";
+        event.preventDefault();
       });
     }
     if (daysDiff <= count) {
@@ -197,6 +217,8 @@
         confirmButtonColor: 'grey',
         confirmButtonText: '확인'
       }).then(() => {
+        document.getElementById("vacEndDate").value = "";
+        document.getElementById('diffDays').innerText = "0";
         event.preventDefault();
       });
     }

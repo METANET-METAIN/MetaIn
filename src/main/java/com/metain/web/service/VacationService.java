@@ -21,7 +21,7 @@ public interface VacationService {
 
     VacationFileDTO vacationDetail(Long vacationId);
 
-    List<VacationListDTO> requestList();
+    List<VacationListDTO> requestList(String empDept);
 
     public void approveVacationRequest(Long vacId,String vacStatus,Long receiver);
     public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver);

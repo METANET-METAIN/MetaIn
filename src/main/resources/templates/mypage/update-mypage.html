@@ -77,14 +77,7 @@
               </p>
               </p>
 
-              <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label">비밀번호</label>
-                <div class="col-sm-12 col-md-7" >
-                  <button type="button" class="btn btn-primary" onclick="goToUpdatePwd()">
-                    변경하러가기
-                  </button>
-                </div>
-              </div>
+
 
 
               <div class="form-group row">
@@ -158,14 +151,13 @@
 
   function updateMyPage() {
     var empId = document.getElementById('empId').value;
-    var empPwd = document.getElementById('empPwd').value;
     var empAddr = document.getElementById('empAddr').value;
     var empPhone = document.getElementById('empPhone').value;
     var empZipcode = document.getElementById('empZipcode').value;
     var empDetailAddr = document.getElementById('empDetailAddr').value;
     var empProfile = document.getElementById('empProfile').files[0];
 
-    if(!empId || !empPwd || !empAddr || !empPhone || !empZipcode || !empDetailAddr || !empProfile) {
+    if(!empId || !empAddr || !empPhone || !empZipcode || !empDetailAddr || !empProfile) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
@@ -179,7 +171,6 @@
 
     var formData = new FormData();
     formData.append('empId', empId);
-    formData.append('empPwd', empPwd);
     formData.append('empAddr', empAddr);
     formData.append('empPhone', empPhone);
     formData.append('empZipcode', empZipcode);
@@ -264,19 +255,10 @@
 
   }
 
-  function goToUpdatePwd(){
-    window.location.href = "/mypage/update-pwd";
-  }
 
 
-    //모달창 출력 시 값 초기화
-    function openPasswordModal() {
-      // console.log('empPwd1')
-      document.getElementById('empPwd1').value = "";
-      document.getElementById('empPwd2').value = "";
-      document.getElementById("checkPwd1Message").innerText = " "
-      document.getElementById("checkPwd2Message").innerText = " "
-    }
+
+
 
     //sample6_execDaumPostcode
     function findPostcode() {

@@ -70,10 +70,6 @@
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
 <script>
-    // window.onload = function () {
-    //     // loadNewEmpList();
-    //     console.log('gogo');
-    // };
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
@@ -161,6 +157,7 @@
                             position = '미정';
                     }
                     // console.log({ ...item });
+
                     return { ...item, newGrade: position }; // 변환된 데이터를 새로운 배열에 저장
                 });
 
