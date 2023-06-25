@@ -340,17 +340,17 @@
         $(document).ajaxSend(function(e,xht,op){
             xht.setRequestHeader(header ,token);
         });
-        var empStatus = document.getElementById('empStatus');
+        var empStatus = document.getElementById('empStatus').value;
         var empFirstDt = new Date(document.getElementById('empFirstDt').value);
-        // var empLastDt = new Date(document.getElementById('empLastDt').value);
+        var empLastDt = new Date(document.getElementById('empLastDt').value);
         // var validationMessage = document.getElementById('validationMessage');
 
         var today = new Date();
         today.setHours(0, 0, 0, 0);
         var dateRegex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD 형식을 검사하는 정규식
 
-        if (empStatus === 'RETRIEE') {
-            var empLastDt = new Date(document.getElementById('empLastDt').value);
+        if (empStatus === 'RETIREE') {
+            // var empLastDt = new Date(document.getElementById('empLastDt').value);
             var validationMessage = document.getElementById('validationMessage');
 
             // 입력된 값이 유효한 날짜 형식인지 확인

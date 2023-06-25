@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary" onclick=" return confirmCheck()">
                                     <div class="insert">추가</div>
                                 </button>
                                 <button type="button" class="btn btn-secondary" onclick="goBack()">뒤로가기</button>
@@ -196,6 +196,13 @@
         }
     })
 
+    function confirmCheck() {
+        if (!confirmCheck()) {
+            return false;
+        }
+
+        return confirm("수정하시겠습니까?");
+    }
 
 
     // 유효성 검사
@@ -257,58 +264,23 @@
         }
 
 
-        // if (newEmail === null || newEmail.trim() === "") {
-        //     document.getElementById("newEmail").focus();
-        //     document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
-        //     return false;
-        // } else {
-        //     document.getElementById("checkEmailMessage").innerText = " ";
-        // }
+        if (newEmail === null || newEmail.trim() === "") {
+            document.getElementById("newEmail").focus();
+            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";
+            return false;
+        } else {
+            document.getElementById("checkEmailMessage").innerText = " ";
+        }
 
         // document.getElementById('insert-new-emp-form').submit();
     };
 
 
-</script>
-
-
-<script th:inline="javascript">
-
-//    /*<![CDATA[*/
-//
-//    <!-- 유효성검사 -->
-//    document.querySelector(".insert").addEventListener("click", function(event){
-//        event.preventDefault();
-//
-//
-//        const newPhone = document.getElementById( "newPhone" ).value;
-//        const newName = document.getElementById( "newName" ).value;
-//        const newEmail = document.getElementById( "newEmail" ).value;
-//
-//        if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( newPhone ) ) {
-//            document.getElementById( "checkPhoneMessage" ).innerText = " ";
-//            return true;
-//        } else {
-//            document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
-//        }
-//
-//        if(newName === null || newName === ""){
-//            document.getElementById( "checkNameMessage" ).innerText = "이름을 입력해주세요";
-//        } else
-//        document.getElementById( "checkNameMessage" ).innerText = " ";
-//
-//
-//        if(newEmail === null || newEmail === ""){
-//            document.getElementById( "checkEmailMessage" ).innerText = "이메일을 입력해주세요";
-//        }
-//        document.getElementById( "checkEmailMessage" ).innerText = " ";
-//        return true;
-//    })
 
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
-                // console.log(data);
+                console.log(data);
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 
@@ -326,6 +298,160 @@
     function goBack() {
         history.back(); // 이전 상태로 이동
     }
+
+
+</script>
+
+
+<script th:inline="javascript">
+
+<!--    document.getElementById("newName").addEventListener('input',function(){-->
+<!--        let newName = document.getElementById("newName").value.length;-->
+<!--        if (newName <= 0) {-->
+<!--            document.getElementById("checkNameMessage").innerText = "이름을 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkNameMessage").innerText = " ";-->
+<!--        }-->
+<!--    })-->
+
+<!--    document.getElementById("newPhone").addEventListener('input',function(){-->
+<!--        let newPhone = document.getElementById("newPhone").value;-->
+<!--        if (newPhone.length <= 0) {-->
+<!--            document.getElementById("checkPhoneMessage").innerText = "연락처를 입력해주세요";-->
+<!--            return false;-->
+<!--        } else if(/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(newPhone)) {-->
+<!--            document.getElementById("checkPhoneMessage").innerText = " ";-->
+<!--        } else {-->
+<!--            document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";-->
+
+
+<!--        }-->
+<!--    })-->
+
+<!--    document.getElementById("newEmail").addEventListener('input',function(){-->
+<!--        let newEmail = document.getElementById("newEmail").value.length;-->
+<!--        if (newEmail <= 0) {-->
+<!--            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkEmailMessage").innerText = " ";-->
+<!--        }-->
+<!--    })-->
+
+<!--    document.getElementById("newAddr").addEventListener('input',function(){-->
+<!--        let newAddr = document.getElementById("newAddr").value.length;-->
+<!--        if (newAddr <= 0) {-->
+<!--            document.getElementById("checkAddrMessage").innerText = "주소를 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkAddrMessage").innerText = " ";-->
+<!--        }-->
+<!--    })-->
+
+<!--    document.getElementById("newZipcode").addEventListener('input',function(){-->
+<!--        let newZipcode = document.getElementById("newZipcode").value.length;-->
+<!--        if (newZipcode <= 0) {-->
+<!--            document.getElementById("checkZipMessage").innerText = "우편번호를 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkZipMessage").innerText = " ";-->
+<!--        }-->
+<!--    })-->
+
+
+
+<!--    // 유효성 검사-->
+<!--    function insertNewEmp() {-->
+
+<!--        let newPhone = document.getElementById("newPhone").value;-->
+<!--        let newName = document.getElementById("newName").value;-->
+<!--        let newEmail = document.getElementById("newEmail").value;-->
+<!--        let newAddr = document.getElementById("newAddr").value;-->
+<!--        let newZipcode = document.getElementById("newZipcode").value;-->
+
+
+<!--        if (newName == null || newName.trim() == "") {-->
+<!--            document.getElementById("newName").focus();-->
+<!--            document.getElementById("checkNameMessage").innerText = "이름을 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkNameMessage").innerText = " ";-->
+<!--        }-->
+
+
+<!--        if (newPhone === null || newPhone.trim() === "") {-->
+<!--            document.getElementById("newPhone").focus();-->
+<!--            document.getElementById("checkPhoneMessage").innerText = "연락처를 입력해주세요"-->
+<!--            return false;-->
+<!--        } else if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(newPhone)) {-->
+<!--            document.getElementById("checkPhoneMessage").innerText = " ";-->
+<!--        } else {-->
+<!--            document.getElementById("newPhone").focus();-->
+<!--            document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";-->
+<!--            return false;-->
+<!--        }-->
+
+<!--        if (newAddr === null || newAddr.trim() === "") {-->
+<!--            document.getElementById("newAddr").focus();-->
+<!--            document.getElementById("checkAddrMessage").innerText = "주소를 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkAddrMessage").innerText = " ";-->
+<!--        }-->
+
+
+<!--        if (newZipcode === null || newZipcode.trim() === "") {-->
+<!--            document.getElementById("newZipcode").focus();-->
+<!--            document.getElementById("checkZipMessage").innerText = "우편번호를 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkZipMessage").innerText = " ";-->
+<!--        }-->
+
+
+<!--        if (newEmail === null || newEmail.trim() === "") {-->
+<!--            document.getElementById("newEmail").focus();-->
+<!--            document.getElementById("checkEmailMessage").innerText = "이메일을 입력해주세요";-->
+<!--            return false;-->
+<!--        } else {-->
+<!--            document.getElementById("checkEmailMessage").innerText = " ";-->
+<!--        }-->
+
+<!--        // document.getElementById('insert-new-emp-form').submit();-->
+<!--    };-->
+
+   // /*<![CDATA[*/
+   //
+   // <!-- 유효성검사 -->
+   // document.querySelector(".insert").addEventListener("click", function(event){
+   //     event.preventDefault();
+   //
+   //
+   //     const newPhone = document.getElementById( "newPhone" ).value;
+   //     const newName = document.getElementById( "newName" ).value;
+   //     const newEmail = document.getElementById( "newEmail" ).value;
+   //
+   //     if ( /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test( newPhone ) ) {
+   //         document.getElementById( "checkPhoneMessage" ).innerText = " ";
+   //         return true;
+   //     } else {
+   //         document.getElementById( "checkPhoneMessage" ).innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+   //     }
+   //
+   //     if(newName === null || newName === ""){
+   //         document.getElementById( "checkNameMessage" ).innerText = "이름을 입력해주세요";
+   //     } else
+   //     document.getElementById( "checkNameMessage" ).innerText = " ";
+   //
+   //
+   //     if(newEmail === null || newEmail === ""){
+   //         document.getElementById( "checkEmailMessage" ).innerText = "이메일을 입력해주세요";
+   //     }
+   //     document.getElementById( "checkEmailMessage" ).innerText = " ";
+   //     return true;
+   // })
+
 
     //
     // <!--  modal  -->

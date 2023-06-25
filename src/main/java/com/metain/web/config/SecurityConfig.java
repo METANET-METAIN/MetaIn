@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/loginEmp").permitAll()
 
                 //해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
-//                .antMatchers("/", "/index").hasAnyAuthority("ACTIVE", "RETIREE")
+                .antMatchers("/", "/index").hasAnyAuthority("ACTIVE", "RETIREE")
 
                 .antMatchers("/mypage/update-mypage", "/mypage/alarm").hasAnyAuthority("ACTIVE")
                 .antMatchers("/mypage/my-cert-list", "/mypage/my-cert-list/*").hasAnyAuthority("ACTIVE", "RETIREE")

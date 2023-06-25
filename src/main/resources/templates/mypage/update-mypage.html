@@ -39,7 +39,7 @@
         <div class="card-align">
           <div class="pd-20 card-box mb-30">
             <h4 class="h4 text-blue mb-10" > 내 정보 </h4>
-            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post"  enctype="multipart/form-data">
+            <form th:object="${emp}" th:action="@{/mypage/updateMy}" method="post"  enctype="multipart/form-data" onsubmit="return checkList()" >
 <!--
               <input type="hidden" th:name="empProfile" th:value="0" />   &lt;!&ndash; onsubmit="return checkList()" &ndash;&gt;
 -->
@@ -128,7 +128,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" onclick="checkList()">수정</button>
+<!--                <button type="submit" class="btn btn-primary" onclick="checkList()">수정</button>-->
+                <button type="submit" class="btn btn-primary" onclick="return confirmList()">수정</button>
                 <button type="button" class="btn btn-secondary" onclick="goBack()">뒤로가기</button>
               </div>
             </form>
@@ -148,49 +149,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
-
-  function updateMyPage() {
-    var empId = document.getElementById('empId').value;
-    var empAddr = document.getElementById('empAddr').value;
-    var empPhone = document.getElementById('empPhone').value;
-    var empZipcode = document.getElementById('empZipcode').value;
-    var empDetailAddr = document.getElementById('empDetailAddr').value;
-    var empProfile = document.getElementById('empProfile').files[0];
-
-    if(!empId || !empAddr || !empPhone || !empZipcode || !empDetailAddr || !empProfile) {
-      alert('모든 필드를 입력해주세요.');
-      return;
-    }
-
-    var allowedExtensions = ['.jpg', '.jpeg', '.png'];
-    var fileExtension = empProfile.name.substring(empProfile.name.lastIndexOf('.')).toLowerCase();
-    if (!allowedExtensions.includes(fileExtension)) {
-      alert('올바른 이미지 파일을 선택해주세요.');
-      return;
-    }
-
-    var formData = new FormData();
-    formData.append('empId', empId);
-    formData.append('empAddr', empAddr);
-    formData.append('empPhone', empPhone);
-    formData.append('empZipcode', empZipcode);
-    formData.append('empDetailAddr', empDetailAddr);
-    formData.append('empProfile', empProfile);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/updateMy', true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          alert('업데이트가 완료되었습니다.');
-          // 추가적인 동작 수행
-        } else {
-          alert('업데이트 실패: ' + xhr.responseText);
-        }
-      }
-    };
-    xhr.send(formData);
-  }
 
 // 프로필 이미지 출력
   function openImgPicker() {
@@ -232,13 +190,23 @@
       // reader가 이미지 읽도록 하기
       reader.readAsDataURL(input.files[0])
     }
+
   }
   // input file에 change 이벤트 부여
   const inputImage = document.getElementById("sign-up-add-image2")
 
   inputImage.addEventListener("change", e => {
     readImage(e.target)
+
   })
+
+  function confirmList() {
+      if (!checkList()) {
+          return false;
+      }
+
+      return confirm("수정하시겠습니까?");
+  }
 
   function checkList() {
 
@@ -247,11 +215,14 @@
 
     if (/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(empPhone)) {
       document.getElementById("checkPhoneMessage").innerText = " ";
+
       return true;
     } else {
-      document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+        document.getElementById("checkPhoneMessage").innerText = "올바른 연락처 번호를 입력해주세요 ex) 010-1234-5678";
+        alert("올바른 연락처를 입력해주세요")
       return false;
     }
+    alert("수정되었습니다.");
 
   }
 
