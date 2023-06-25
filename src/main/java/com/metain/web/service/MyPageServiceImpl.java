@@ -27,7 +27,7 @@ public class MyPageServiceImpl implements MyPageService{
 
 
     @Autowired
-   private AwsS3Service awsS3Service;
+    private AwsS3Service awsS3Service;
     @Autowired
     private MyPageMapper myPageMapper;
     @Autowired
@@ -113,37 +113,39 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public void updateMy(Emp emp, MultipartFile file) throws IOException {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId());
-        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
-
-        logger.info("MypageSer/updateMy encryptedPwd=",encryptedPwd);
-        logger.info("MypageSer/updateMy dbemp=",dbemp);
-
-
-
-        dbemp.setEmpPwd(encryptedPwd);
         dbemp.setEmpAddr(emp.getEmpAddr());
         dbemp.setEmpPhone(emp.getEmpPhone());
         dbemp.setEmpZipcode(emp.getEmpZipcode());
         dbemp.setEmpDetailAddr(emp.getEmpDetailAddr());
         String sabun = dbemp.getEmpSabun();
-        UUID uuid = UUID.randomUUID();
 
-        File files = new File(file.getOriginalFilename());
-        FileCopyUtils.copy(file.getBytes(), files);
+        if (file != null && !file.isEmpty()) {
 
-        String originalImgName = file.getOriginalFilename();
-        String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
+            UUID uuid = UUID.randomUUID();
 
-        String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
-        String path = "user";
+            File files = new File(file.getOriginalFilename());
+            FileCopyUtils.copy(file.getBytes(), files);
+            String originalImgName = file.getOriginalFilename();
+            String extension = "";
+
+            int dotIndex = originalImgName.lastIndexOf(".");
+            if (dotIndex >= 0) {
+                extension = originalImgName.substring(dotIndex);
+            }
+
+            String savedImgName = sabun + uuid.toString().substring(0, 5) + extension;
+            String path = "user";
+            dbemp.setEmpProfile(savedImgName);
 
 
-        awsS3Service.uploadS3File(file, savedImgName, path);
+            awsS3Service.updateProfileInS3(file.getBytes(), savedImgName, path);
+        } else {
+            // 사진이 첨부되지 않은 경우에는 기존 사진 정보를 그대로 유지합니다.
+            dbemp.setEmpProfile(dbemp.getEmpProfile());
+        }
 
 
 
-
-        dbemp.setEmpProfile(savedImgName);
 
         myPageMapper.updateMyPage(dbemp);
     }

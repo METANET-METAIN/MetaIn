@@ -48,7 +48,7 @@ public class VacationServiceImpl implements VacationService{
         if (list==null) {
             return null;
         }
-            return list;
+        return list;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class VacationServiceImpl implements VacationService{
         fileMapper.insertFile(fileDTO);
         logger.info("VacService/insertAfterVacation의 fileDTO",fileDTO);
 
-        //인서트 되면 AUTOINCREAMENT 값 가져 와서 VAC에 넣기 
+        //인서트 되면 AUTOINCREAMENT 값 가져 와서 VAC에 넣기
         int fileId = fileMapper.getFileId();
         vacation.setFileId((long) fileId);
         //그로 VAC INSERT 시킨당
@@ -222,7 +222,7 @@ public class VacationServiceImpl implements VacationService{
     }
 
 
-    //@Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
+    @Scheduled(cron = "0 0 0 * * ?") //6080이 반려로 바껴야댐
     //@Scheduled(cron = "*/20 * * * * ?") //20 초
     //@Scheduled(cron = "0 * * * * ?") //테스트용 일분마다 ~
     public void autoReject() {
@@ -245,6 +245,4 @@ public class VacationServiceImpl implements VacationService{
             }
         }
     }
-
-
 }
