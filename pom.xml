@@ -8,7 +8,7 @@
         <version>2.7.11</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.metanin</groupId>D
+    <groupId>com.metanin</groupId>
     <artifactId>web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -21,10 +21,10 @@
     <repositories>
 
         <repository>
-                <id>GroupDocs Artifact Repository</id>
-                <name>GroupDocs Artifact Repository</name>
-                <url>https://releases.groupdocs.com/java/repo/</url>
-            </repository>
+            <id>GroupDocs Artifact Repository</id>
+            <name>GroupDocs Artifact Repository</name>
+            <url>https://releases.groupdocs.com/java/repo/</url>
+        </repository>
 
     </repositories>
 
@@ -157,11 +157,11 @@
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>commons-fileupload</groupId>-->
-<!--            <artifactId>commons-fileupload</artifactId>-->
-<!--            <version>1.3.1</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>commons-fileupload</groupId>-->
+        <!--            <artifactId>commons-fileupload</artifactId>-->
+        <!--            <version>1.3.1</version>-->
+        <!--        </dependency>-->
 
 
         <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
