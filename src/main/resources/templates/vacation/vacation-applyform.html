@@ -176,19 +176,19 @@
     let endDate = new Date($('#vacEndDate').val());
     let today = new Date(); // 현재 날짜
 
-    // if (startDate < today) {
-    //   swal.fire({
-    //     text: '오늘 이전의 날짜는 선택할 수 없습니다.',
-    //     icon: 'question',
-    //     confirmButtonColor: 'grey',
-    //     confirmButtonText: '확인'
-    //   }).then(() => {
-    //     document.getElementById("vacStartDate").value = "";
-    //     document.getElementById("diffDays").innerText = "0";
-    //     event.preventDefault();
-    //   });
-    //   return;
-    // }
+    if (startDate < today) {
+      swal.fire({
+        text: '오늘 이전의 날짜는 선택할 수 없습니다.',
+        icon: 'question',
+        confirmButtonColor: 'grey',
+        confirmButtonText: '확인'
+      }).then(() => {
+        document.getElementById("vacStartDate").value = "";
+        document.getElementById("diffDays").innerText = "0";
+        event.preventDefault();
+      });
+      return;
+    }
     let daysDiff = 0;
     if (startDate <= endDate) {
       var timeDiff = endDate.getTime() - startDate.getTime();
