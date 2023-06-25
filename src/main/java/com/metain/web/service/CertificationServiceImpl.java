@@ -56,16 +56,16 @@ public class CertificationServiceImpl implements CertificationService {
             return null;
         } else {
             String empGrade = empInfolist.getEmpGrade();
-            if ("employee".equals(empGrade)) {
+            if ("EMPLOYEE".equals(empGrade)) {
                 empGrade = "사원";
-            } else if ("assistant".equals(empGrade)) {
+            } else if ("ASSISTANT".equals(empGrade)) {
                 empGrade = "대리";
-            } else if ("manager".equals(empGrade)) {
+            } else if ("MANAGER".equals(empGrade)) {
                 empGrade = "과장";
-            } else if ("deputy".equals(empGrade)) {
+            } else if ("DEPUTY".equals(empGrade)) {
                 empGrade = "차장";
             } else {
-                empGrade = "인사팀/관리자";
+                empGrade = "인사팀";
             }
             empInfolist.setEmpGrade(empGrade);
         }//if

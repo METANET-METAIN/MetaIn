@@ -22,9 +22,9 @@ public interface CertificationMapper {
 
 
     // 마지막으로 자동으로 생성된 ID 값을 가져오는 메소드
-    int getLastEmpCertId();
-    int getLastExperCertId();
-    int getLastRetireCertId();
+    public int getLastEmpCertId();
+    public int getLastExperCertId();
+    public int getLastRetireCertId();
 
     /** 증명서 발급*/
 

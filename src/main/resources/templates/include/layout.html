@@ -298,7 +298,7 @@
 								안녕하세요 <b><span th:text="${emp.empName}"/></b> 님
 						</span>
 
-						<span class="user-icon" style="margin-right: 20px;">
+                        <span class="user-icon" style="margin-right: 20px;">
 
                             <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" style="width: 50px; height: 50px;"/>
 						</span>
@@ -325,7 +325,21 @@
     </div>
 
 
-<!--     <div class="right-sidebar">
+    <!--     <div class="right-sidebar">
+            <div class="sidebar-title">
+
+            </div>
+            <div class="right-sidebar-body customscroll">
+                <div class="right-sidebar-body-content"> <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
+                    <div class="sidebar-btn-group pb-30 mb-10">
+                        <a
+                                href="javascript:void(0);"
+                                class="btn btn-outline-primary sidebar-light active"
+                        >White</a
+                        >
+                    </div> -->
+
+    <div class="right-sidebar">
         <div class="sidebar-title">
 
         </div>
@@ -337,21 +351,7 @@
                             class="btn btn-outline-primary sidebar-light active"
                     >White</a
                     >
-                </div> -->
-
-<div class="right-sidebar">
-    <div class="sidebar-title">
-
-    </div>
-    <div class="right-sidebar-body customscroll">
-        <div class="right-sidebar-body-content"> <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
-            <div class="sidebar-btn-group pb-30 mb-10">
-                <a
-                        href="javascript:void(0);"
-                        class="btn btn-outline-primary sidebar-light active"
-                >White</a
-                >
-            </div>
+                </div>
 
 
             </div>
@@ -385,7 +385,7 @@
 
                         <a href="/index" class="dropdown-toggle no-arrow active">
 
-                           <span class="micon bi bi-chat-right-dots"></span>
+                            <span class="micon bi bi-chat-right-dots"></span>
                             <span class="mtext">Home</span>
                         </a>
                     </li>
@@ -393,7 +393,7 @@
                     <li class="dropdown" th:if="${emp.empStatus} == 'ACTIVE'">
 
                         <a href="javascript:;" class="dropdown-toggle">
-                           <span class="micon bi bi-textarea-resize"></span>
+                            <span class="micon bi bi-textarea-resize"></span>
                             <span class="mtext">휴가관리</span>
                         </a>
                         <ul class="submenu">
@@ -434,7 +434,7 @@
                     <li th:if="${emp.empGrade == 'ADMIN' && emp.empStatus == 'ACTIVE'}">
 
                         <a href="/vacation/vacation-req-list" class="dropdown-toggle no-arrow">
-                           <span class="micon bi bi-calendar4-week"></span>
+                            <span class="micon bi bi-calendar4-week"></span>
                             <span class="mtext">요청된 휴가 목록</span>
                         </a>
                     </li>
@@ -442,7 +442,7 @@
                     <li class="dropdown" th:if="${emp.empGrade == 'HR' && emp.empStatus == 'ACTIVE'}">
 
                         <a href="javascript:;" class="dropdown-toggle">
-                           <span class="micon bi bi-textarea-resize"></span>
+                            <span class="micon bi bi-textarea-resize"></span>
                             <span class="mtext">사원 관리</span>
                         </a>
                         <ul class="submenu">
@@ -485,7 +485,7 @@
     </script>
 
 
-    <!-- Google Tag Manager (noscript) -->
+    <!— Google Tag Manager (noscript) —>
     <noscript
     ><iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
@@ -494,7 +494,7 @@
             style="display: none; visibility: hidden"
     ></iframe
     ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!— End Google Tag Manager (noscript) —>
 
     </body>
 
