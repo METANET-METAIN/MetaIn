@@ -85,7 +85,7 @@
               <div class="col-sm-12 col-md-7" style="display: flex; justify-content: space-around" >
                 <div class="col-sm-10 col-md-2">
                   <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                    <img th:src="@{'/vendors/user/' + ${emp.empProfile}}" style="width: 100px; height: 100px;"
+                    <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${emp.empProfile}}" style="width: 100px; height: 100px;"
                     />
                   </div>
                   <div th:text="${emp.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -101,7 +101,7 @@
 
                 <div class="col-sm-12 col-md-2">
                   <div class="profile-photo-apply" style="display: flex; justify-content: center; align-items: center;">
-                    <img th:src="@{'/vendors/user/' + ${admin.empProfile}}" style="width: 100px; height: 100px;"
+                    <img th:src="@{'https://metain2.s3.ap-northeast-2.amazonaws.com/user/'+${admin.empProfile}}" style="width: 100px; height: 100px;"
                     />
                   </div>
                   <div th:text="${admin.getEmpName()}" style="font-weight: bold; text-align: center;"></div>
@@ -125,11 +125,12 @@
       </div>
     </div>
   </div>
-</div>
+
 <th:block th:replace="~{/include/footer :: setContent( ~{:: #footer}  ) }">
   <section id="footer">
   </section>
 </th:block>
+</div>
 <!-- Google Tag Manager (noscript) -->
 <!-- add sweet alert js & css in footer -->
 <script>
@@ -205,7 +206,6 @@
     } else if (daysDiff > maxDays) {
       alert('선택한 휴가 유형에 해당하는 최대 휴가 일수는 ' + maxDays + '일 입니다.');
       document.getElementById("vacEndDate").value = "";
-
       document.getElementById('diffDays').innerText = "0";
 
     }else{

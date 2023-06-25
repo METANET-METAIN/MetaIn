@@ -20,7 +20,6 @@ jQuery(document).ready(function() {
 			url: "vacation/calendar", // AJAX 요청을 보낼 서버의 API 엔드포인트
 			method: "GET", // 요청 메소드 (GET, POST 등)
 			success: function (re) {
-				console.log(re);
 				var events = []; // 이벤트 배열 초기화
 
 				// 서버에서 받은 데이터를 이벤트 객체로 가공하여 배열에 추가
@@ -47,14 +46,19 @@ jQuery(document).ready(function() {
 						right: "today prev,next",
 					},
 					events: events,
+
 				dayClick: function () {
 					//jQuery("#modal-view-event-add").modal();
+					console.log(JSON.stringify(events));
+					console.log(JSON.stringify(event.end));
 				},
 				eventClick: function (event, jsEvent, view) {
+					console.log(event);
 
 					//jQuery(".event-icon").html("<i class='fa fa-" + event.icon + "'></i>");
 					jQuery(".event-title").html(event.title);
-					jQuery(".event-body").html("휴가 유형 : "+event.description+"<br>"+"  휴가 일정   :  "+ moment(event.start).format("YYYY-MM-DD") +"  ~  "+ moment(event.end).format("YYYY-MM-DD"));
+					jQuery(".event-body").html("휴가 유형: " + event.description + "<br>" +
+						"휴가 일정: " + moment(event.start).format("YYYY-MM-DD") + " ~ " + event.end)
 					//jQuery(".event-body").html(event.start);
 					jQuery("#modal-view-event").modal();
 				},

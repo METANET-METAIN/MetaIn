@@ -72,6 +72,8 @@ public class VacationController {
 
         model.addAttribute("emp",emp);
         model.addAttribute("admin",admin);
+
+
         return "/vacation/vacation-applyform";
     }
     @PostMapping("/insert-vaction")
@@ -211,10 +213,12 @@ public class VacationController {
     //요청 휴가 목록
     @RequestMapping("/vacation-req-list")
     public String requestedVacationList(Authentication auth,Model model){
-        List<VacationListDTO> list = vacationService.requestList();
         PrincipalDetails principalDetails= (PrincipalDetails) auth.getPrincipal();
         Long empId= principalDetails.getEmpId();
-        Emp empInfo=hrService.selectEmpInfo(empId);
+        Emp empInfo=hrService.selectEmpInfo(empId); //관리자의 emp
+
+        List<VacationListDTO> list = vacationService.requestList(empInfo.getEmpDept());
+        logger.info("requestedVacationList의 list",list);
         model.addAttribute("list",list);
         model.addAttribute("emp",empInfo);
         return "/vacation/vacation-req-list";
@@ -227,7 +231,7 @@ public class VacationController {
         Long receiver = Long.parseLong(requestData.get("receiver").toString());
 
 
-       vacationService.approveVacationRequest(vacId,vacStatus,receiver);
+        vacationService.approveVacationRequest(vacId,vacStatus,receiver);
         return ResponseEntity.ok("성공");
     }
     @PostMapping(value ="/rejectVacationRequest")
@@ -249,7 +253,7 @@ public class VacationController {
             String empDept = emp.getEmpDept();
             LocalDate today = LocalDate.now();
             List<VacationListDTO> events = vacationService.calendar(empDept,today);
-
+            logger.info("events==================================================",events);
             return ResponseEntity.ok(events);
         } else {
             // 로그인되지 않은 경우 처리

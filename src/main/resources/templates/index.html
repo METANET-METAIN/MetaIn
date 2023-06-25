@@ -166,7 +166,6 @@
 						<a
 								class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
 								data-color="#1b3133"
-								href="#"
 								role="button"
 								data-toggle="dropdown"
 						>
@@ -205,8 +204,11 @@
 				  </span>
 				</div>
 				<div id="newcard" style="overflow-y: scroll; height: 400px; overflow-x: hidden;width: 500px;">
-					<!--카드 -->
-					<div class="col clearfix">
+
+					<div class="col clearfix"style="width: 430px;">
+						<div class="newEmp">
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -224,7 +226,7 @@
 					>
 						각종 증명서를 간편하게 다운로드 하세요 !
 					</div>
-					<a href="#" class="btn btn-primary btn-lg">발급하기 </a>
+					<a href="/certification/emp-cert-apply" class="btn btn-primary btn-lg">발급하기 </a>
 				</div>
 			</div>
 		</div>
@@ -278,48 +280,55 @@
 	const csrfToken = document.querySelector('input[name="_csrf"]').value;
 </script>
 
-<script th:inline="javascript">
-	document.addEventListener('DOMContentLoaded', function() {
-		//우리팀 휴가 목록 아작스
-		$.ajax({
-			url: '/fetchEvents?empId='+empId,
-			method: 'GET',
-			success: function(response) {
-				response.slice(0,5).forEach(function(item) {
-					var empName = item.empName;
-					var empDept = item.empDept;
-					var vacStartDate = item.vacStartDate;
-					var vacType = item.vacType;
-					var empGrade = item.empGrade;
 
-					var teamList = $('<li class="d-flex align-items-center justify-content-between">' +
-							'<div class="name-avatar d-flex align-items-center pr-2">' +
-							'<div class="txt">' +
-							'<span class="badge badge-pill badge-sm" style="background-color: #e7ebf5;">' + vacType + '</span>' +
-							'<div class="font-14 weight-600">' + empName + '</div>' +
-							'<div class="font-12 weight-500" data-color="#b2b1b6">' + empDept+'    '+empGrade + '</div>' +
-							'</div>' +
-							'</div>' +
-							'<div class="cta flex-shrink-0">' +
-							'<a href="#" class="btn btn-sm btn-outline-primary" style="font-size: 13px;">' + vacStartDate + '</a>' +
-							'</div>' +
-							'</li>');
+		<script th:inline="javascript">
+			document.addEventListener('DOMContentLoaded', function() {
+				//우리팀 휴가 목록 아작스
+				$.ajax({
+					url: '/fetchEvents?empId='+empId,
+					method: 'GET',
+					success: function(response) {
 
-					$('.team-vac').append(teamList);
-				});
-			},
-			error: function(xhr, status, error) {
-				var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
-						"우리 팀에 예정된 휴가가 없어요 " +'</span>');
-				$('.user-list').append(teamList);
-			}
-		});//아작스 끝
-		//신규입사자 카드
-		$.ajax({
-			url: '/newEmp',
-			method: 'GET',
-			success: function(response) {
-				// console.log(response)
+						if (response !== null) {
+							response.slice(0, 5).forEach(function(item) {
+								var empName = item.empName;
+								var empDept = item.empDept;
+								var vacStartDate = item.vacStartDate;
+								var vacType = item.vacType;
+								var empGrade = item.empGrade;
+
+								var teamList = $('<li class="d-flex align-items-center justify-content-between">' +
+										'<div class="name-avatar d-flex align-items-center pr-2">' +
+										'<div class="txt">' +
+										'<span class="badge badge-pill badge-sm" style="background-color: #e7ebf5;">' + vacType + '</span>' +
+										'<div class="font-14 weight-600">' + empName + '</div>' +
+										'<div class="font-12 weight-500" data-color="#b2b1b6">' + empDept + '    ' + empGrade + '</div>' +
+										'</div>' +
+										'</div>' +
+										'<div class="cta flex-shrink-0">' +
+										'<a class="btn btn-sm btn-outline-primary" style="font-size: 13px;">' + vacStartDate + '</a>' +
+										'</div>' +
+										'</li>');
+
+								$('.team-vac').append(teamList);
+							});
+						}else{
+							var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
+									"우리 팀에 예정된 휴가가 없어요 " +'</span>');
+							$('.user-list').append(teamList);
+						}
+
+					},
+					error: function(xhr, status, error) {
+
+					}
+				});//아작스 끝
+				//신규입사자 카드
+				$.ajax({
+					url: '/newEmp',
+					method: 'GET',
+					success: function(response) {
+
 
 				response.forEach(function(item) {
 					var empName = item.empName;
@@ -350,15 +359,17 @@
 							'</div>' +
 							'</div>');
 
-					$(".col.clearfix").append(newCard);
-				});
-			},
-			error: function(xhr, status, error) {
-				var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
-						"우리 팀에 예정된 휴가가 없어요 " +'</span>');
-				$('.user-list').append(teamList);
-			}
-		});//아작스 끝
+
+							$(".newEmp").append(newCard);
+						});
+					},
+					error: function(xhr, status, error) {
+						// var teamList = $('<span class="badge badge-pill badge-sm" style="padding-left: 20px;background-color: #e7ebf5; font-size: 22px; margin-top: 170px;">'+
+						// 		"우리 팀에 예정된 휴가가 없어요 " +'</span>');
+						// $('.team-vac').append(teamList);
+					}
+				});//아작스 끝
+
 
 	});
 </script>

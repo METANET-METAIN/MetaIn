@@ -20,12 +20,12 @@ public class AlarmServiceImpl implements AlarmService {
 
     public void send(Long userId, AlarmResponse response) {
         SseEmitter sseEmitter = EmitterRepository.get(userId).orElse(null);
+        System.out.println(sseEmitter);
         if (sseEmitter != null) {
             try {
                 sseEmitter.send(SseEmitter.event().name(ALARM_NAME).data(response));
             } catch (IOException e) {
                 EmitterRepository.delete(userId);
-                throw new IllegalStateException("");
             }
         } else {
             logger.info("NO EMITTER FOUND!");
