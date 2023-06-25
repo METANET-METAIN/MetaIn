@@ -27,7 +27,7 @@ public interface HrService {
 
     void updateEmp(String empStatus, String empGrade, String empDept, Long updateEmpId, Date empLastDt);
 
-    int deleteNewEmp(List<NewEmp> newEmp);
+    int deleteNewEmp(List<NewEmp> newEmp, Emp emp);
 
 
 }

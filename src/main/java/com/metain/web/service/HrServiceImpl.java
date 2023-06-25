@@ -245,7 +245,7 @@ public class HrServiceImpl implements HrService {
     }
 
     @Override
-    public int deleteNewEmp(List<NewEmp> newEmpList) {
+    public int deleteNewEmp(List<NewEmp> newEmpList, Emp emp) {
         return hrMapper.deleteNewEmp(newEmpList);
     }
 

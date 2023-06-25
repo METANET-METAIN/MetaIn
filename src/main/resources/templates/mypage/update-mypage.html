@@ -70,13 +70,22 @@
 
               <h5 class="text-center h5 mb-0">[[${emp.empName}]]</h5>
               <p class="text-center text-muted font-14">
-                [[${emp.empDept}]]  [[${emp.empGrade}]]
-              <p class="text-center text-muted font-14">
+                [[${emp.empDept}]]
+                  <span th:text="${T(com.metain.web.domain.Role).toKorean(emp.empGrade)}"></span>
+
+                <p class="text-center text-muted font-14">
                 <input id="sign-up-add-image2" class="sign-up-add-image"
                        type="file" name="file" accept="image/*" style="display: none;"/>
               </p>
               </p>
-
+                <div class="form-group row">
+                    <label class="col-sm-12 col-md-2 col-form-label">비밀번호</label>
+                    <div class="col-sm-12 col-md-7" >
+                        <button type="button" class="btn btn-primary" onclick="goToUpdatePwd()">
+                            변경하러가기
+                        </button>
+                    </div>
+                </div>
 
 
 
@@ -225,7 +234,9 @@
     alert("수정되었습니다.");
 
   }
-
+function goToUpdatePwd(){
+    window.location.href = "/mypage/update-pwd";
+}
 
 
 

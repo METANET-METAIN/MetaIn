@@ -87,34 +87,33 @@ public class HrController {
     }
 
     @PostMapping("/updateEmp")
-    @ResponseBody
-    public ResponseEntity<String> updateEmp(@RequestBody Map<String, Object> requestData) throws ParseException {
-        String empStatus = requestData.get("empStatus").toString();
-        String empGrade = requestData.get("empGrade").toString();
-        String empDept = requestData.get("empDept").toString();
-        Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
+        @ResponseBody
+        public ResponseEntity<String> updateEmp(@RequestBody Map<String, Object> requestData) throws ParseException {
+            String empStatus = requestData.get("empStatus").toString();
+            String empGrade = requestData.get("empGrade").toString();
+            String empDept = requestData.get("empDept").toString();
+            Long empId = Long.parseLong(requestData.get("updateEmpId").toString());
 
-        Date empLastDt = null;
-        if (requestData.containsKey("empLastDt")) {
-            String empLastDtStr = requestData.get("empLastDt").toString();
-            if (empLastDtStr != null && !empLastDtStr.isEmpty()) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                empLastDt = dateFormat.parse(empLastDtStr);
+            Date empLastDt = null;
+            if (requestData.containsKey("empLastDt")) {
+                String empLastDtStr = requestData.get("empLastDt").toString();
+                if (empLastDtStr != null && !empLastDtStr.isEmpty()) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    empLastDt = dateFormat.parse(empLastDtStr);
+                }
             }
-        }
 
-        hrService.updateEmp(empStatus, empGrade, empDept, empId, empLastDt);
-        return ResponseEntity.ok("성공");
+            hrService.updateEmp(empStatus, empGrade, empDept, empId, empLastDt);
+            return ResponseEntity.ok("성공");
     }
 
     @PostMapping("/delete-new-emp")
+    @ResponseBody
     public int deleteNewEmp(@RequestBody List<NewEmp> newEmpList, Emp emp, Model model, Authentication auth) {
         PrincipalDetails principalDetails = (PrincipalDetails) auth.getPrincipal();
         Long empId = principalDetails.getEmpId();
         Emp empInfo = hrService.selectEmpInfo(empId);
-//        model.addAttribute("emp", empInfo);
-//        model.addAttribute("emp", emp);
-        return hrService.deleteNewEmp(newEmpList);
+        return hrService.deleteNewEmp(newEmpList, empInfo);
     }
 
 }
