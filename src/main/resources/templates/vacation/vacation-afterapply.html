@@ -59,7 +59,7 @@
               <input class="form-control" th:id="vacEndDate" th:name="vacEndDate" placeholder="Select" type="date">
             </div>
             <div class="col-sm-12 col-md-3">
-              총 <b><span id="diffDays"></span></b>일 선택<p></p><i class="icon-copy fi-flag"></i> 남은 연차 : <b><span id="" th:text="${emp.getEmpVac()}"></span></b> 일
+              총 <b><span id="diffDays"></span></b>일 선택<p></p>
             </div>
           </div>
           <div class="form-group row">
@@ -161,7 +161,7 @@
 
     if(vacType !== "유형 선택" && vacResn !== "" && fileUpload!= "" ) {
       swal('휴가가 신청되었습니다.').then(function () {
-        window.location.href = 'mypage/my-vac-list';
+        window.location.href = '/mypage/my-vac-list';
       });
     }
   });
@@ -178,13 +178,6 @@
     }
 
 
-    if (daysDiff <= count) {
-      document.getElementById("diffDays").innerText = daysDiff;
-    } else {
-      event.preventDefault();
-      alert("잔여 연차보다 선택한 연차가 더 많습니다.");
-      event.preventDefault();
-    }
 
     var selectedOption = $('select#vacType').val();
     var maxDays = 0;
