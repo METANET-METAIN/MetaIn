@@ -92,13 +92,21 @@
             FROM TBL_EMPLOYEE
             WHERE EMP_ID=#{empId}
         </select>
-        <!-- 신규직원 승인(신규직원 테이블에서 정보 삭제)-->
-    <delete id="deleteNewEmp" parameterType="java.util.List">
-        DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN
-        <foreach item="newId" collection="list" open="(" separator="," close=")">
-            #{newId}
-        </foreach>
-    </delete>
+
+        <delete id="deleteNewEmp" parameterType="com.metain.web.domain.NewEmp">
+            DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN
+            <foreach item="newId" collection="newEmp" open="(" separator="," close=")">
+                #{newId}
+            </foreach>
+        </delete>
+
+<!--        &lt;!&ndash; 신규직원 승인(신규직원 테이블에서 정보 삭제)&ndash;&gt;-->
+<!--    <delete id="deleteNewEmp" parameterType="java.util.List">-->
+<!--        DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN-->
+<!--        <foreach item="newId" collection="newEmp" open="(" separator="," close=")">-->
+<!--            #{newId}-->
+<!--        </foreach>-->
+<!--    </delete>-->
 <!--    &lt;!&ndash; 신규직원 승인(신규직원 테이블에서 정보 삭제)&ndash;&gt;-->
 <!--        <delete id="deleteNewEmp" parameterType="NewEmp">-->
 <!--            <foreach collection="newEmp" item="newEmpList" separator=";">-->
