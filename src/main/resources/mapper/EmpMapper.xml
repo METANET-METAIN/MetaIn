@@ -95,8 +95,8 @@
 
         <delete id="deleteNewEmp" parameterType="com.metain.web.domain.NewEmp">
             DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN
-            <foreach item="newId" collection="newEmp" open="(" separator="," close=")">
-                #{newId}
+            <foreach item="newEmpList" collection="newEmp" open="(" separator="," close=")">
+                #{newEmpList.newId}
             </foreach>
         </delete>
 
