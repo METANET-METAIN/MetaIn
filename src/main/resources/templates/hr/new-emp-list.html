@@ -42,7 +42,8 @@
             <div class="pd-20 card-box mb-30" >
                 <h4 class="h4 text-blue mb-10" > 신입 사원 목록 </h4>
                 <p>
-                    <button id="confirmNewEmp">승인</button>
+                    <button id="confirmNewEmp" class="btn btn-primary">승인</button>
+                    <button id="deleteNewEmp" class="btn btn-danger">삭제</button>
                 <div id="grid" ></div>
                 </p>
             </div>
@@ -69,10 +70,6 @@
 <script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
 
 <script>
-    // window.onload = function () {
-    //     // loadNewEmpList();
-    //     console.log('gogo');
-    // };
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
@@ -159,7 +156,8 @@
                         default:
                             position = '미정';
                     }
-                    console.log({ ...item });
+                    // console.log({ ...item });
+
                     return { ...item, newGrade: position }; // 변환된 데이터를 새로운 배열에 저장
                 });
 
@@ -169,7 +167,7 @@
     }
     window.addEventListener('load',function(){
         loadNewEmpList();
-        console.log('hello')
+        // console.log('hello')
     })
 
 
@@ -177,7 +175,6 @@
 
     // 신규직원 승인하는 이벤트
     document.getElementById("confirmNewEmp").addEventListener('click', function () {
-        console.log("confirmNewEmp clicked");
         var header = $("meta[name='_csrf_header']").attr('content');
         var token = $("meta[name='_csrf']").attr('content');
         $(document).ajaxSend(function (e, xht, options) {
@@ -186,7 +183,6 @@
 
         let newEmpChecked = grid.getCheckedRows(); // grid에서 체크시 체크한 항목 보여줌
 
-        console.log(newEmpChecked);
 
         if (newEmpChecked.length == 0) {
             alert('승인대상을 선택해주세요.');
@@ -216,6 +212,49 @@
             }
         }
     });
+
+    // 삭제
+    document.getElementById("deleteNewEmp").addEventListener("click", function() {
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        let newEmpChecked = grid.getCheckedRows();
+
+        if (newEmpChecked.length == 0){
+            alert('삭제대상을 선택해주세요.');
+            return false;
+        } else {
+            let result = confirm('삭제하시겠습니까?');
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: "/hr/delete-new-emp",
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(newEmpChecked),
+                    success: function(confirmResult) {
+                        if (confirmResult >= 1) {
+                            alert('삭제가 완료되었습니다.');
+                            loadNewEmpList();
+                        } else {
+                            alert('삭제를 실패하였습니다.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Status: " + status);
+                        console.log("Error: " + error);
+                        alert("삭제 요청을 처리하는 동안 오류가 발생했습니다. 자세한 내용은 콘솔을 확인해주세요.");
+                    }
+                });
+                return false;
+            }
+        }
+    });
+
+
 
 
 
