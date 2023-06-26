@@ -10,13 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
@@ -24,14 +18,6 @@ import java.util.Arrays;
 @EnableWebSecurity// Spring Security 설정할 클래스라고 정의
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
-//
 
 
     @Autowired
@@ -48,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http
 //                .csrf().disable();
         // CORS 설정 활성화
-//        http
-//                .cors();
+        http
+                .cors();
 
 
         //인증, 인가가 필요한 URL 지정
