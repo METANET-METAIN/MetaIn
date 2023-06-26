@@ -58,7 +58,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
         String empSabun = authentication.getName();
-        System.out.println("authenticate ::::: empSabun : " + empSabun);
+//        System.out.println("authenticate ::::: empSabun : " + empSabun);
         String empPwd = (String) authentication.getCredentials();
 
         if(StringUtils.isEmpty(empSabun) || StringUtils.isEmpty(empPwd)){
@@ -102,7 +102,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         //db에서 가지고 온 권한을 GrantedAuthority 로 변환해야함.
         List<SimpleGrantedAuthority> authList = new ArrayList<>();
         for (GrantedAuthority authority : principalDetails.getAuthorities()) {
-            System.out.println(authority);
+//            System.out.println(authority);
             authList.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
         logger.info("----principalDetails.getAuthorities ::::: {}", principalDetails.getAuthorities());

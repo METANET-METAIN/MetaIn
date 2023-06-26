@@ -62,8 +62,6 @@ public class HrServiceImpl implements HrService {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date empBirthInsert = dateFormat.parse(newEmp.getNewBirth());
 
-                        System.out.println("생년월일 저장!! " + newEmpList);
-                        System.out.println("emp!!! " + emp);
 
                         // 생년월일을 empBirth에 할당
                         emp.setEmpBirth(empBirthInsert);
@@ -71,7 +69,6 @@ public class HrServiceImpl implements HrService {
                         // 생년월일 암호화
                         String encodedBirth = generatePasswordFromBirth(empBirthInsert);
 
-                        System.out.println("암호화된 생년월일 저장 전 " + emp);
 
                         // 비밀번호 암호화하여 empPwd에 할당
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -89,9 +86,6 @@ public class HrServiceImpl implements HrService {
                         emp.setEmpGrade(String.valueOf(gradeRole));
 //                        emp.setEmpGrade(newEmp.getNewGrade());
 //                        emp.setEmpStatus(newEmp.getNewStatus());
-                        System.out.println("역할 제대로 들어갔니" + emp);
-                        System.out.println("역할 제대로 들어갔니" + newEmp);
-                        System.out.println("암호화 완료 " + encryptedPwd);
 
 //                        roleBasedOnGradeAndStatus(emp); //역할 할당
 
@@ -122,8 +116,6 @@ public class HrServiceImpl implements HrService {
                     }
                 }
 
-                System.out.println(newEmpList);
-                System.out.println(emp);
 
             }
 
@@ -173,7 +165,6 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<Emp> newEmp() {
         List<Emp> list = hrMapper.newEmp();
-        System.out.println(list);
         return list;
     }
 
