@@ -27,8 +27,8 @@ public interface VacationService {
     public void rejectVacationRequest(Long vacId,String vacStatus,Long receiver);
     public void cancelVacationRequest(Long vacId, Long empId,String vacStatus);
 
-    public void insertVacation(Vacation vacation,int diffDays,Long empId);
-    public void insertAfterVacation(Vacation vacation, MultipartFile file) throws IOException;
+    public void insertVacation(Vacation vacation,int diffDays,Long empId, Long admId);
+    public void insertAfterVacation(Vacation vacation, MultipartFile file, Long admId) throws IOException;
     public List<VacationListDTO> selectListByDept(String empDept, LocalDate today);
     public List<VacationListDTO> calendar(String empDept,LocalDate today);
 
