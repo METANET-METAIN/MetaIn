@@ -95,7 +95,7 @@
         <!-- 신규직원 승인(신규직원 테이블에서 정보 삭제)-->
     <delete id="deleteNewEmp" parameterType="java.util.List">
         DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN
-        <foreach item="newId" collection="newEmpList" open="(" separator="," close=")">
+        <foreach item="newId" collection="list" open="(" separator="," close=")">
             #{newId}
         </foreach>
     </delete>
