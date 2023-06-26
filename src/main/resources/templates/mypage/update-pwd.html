@@ -65,8 +65,10 @@
 
               <h5 class="text-center h5 mb-0">[[${emp.empName}]]</h5>
               <p class="text-center text-muted font-14">
-                [[${emp.empDept}]]  [[${emp.empGrade}]]
-              <p class="text-center text-muted font-14">
+                [[${emp.empDept}]]
+                  <span th:text="${T(com.metain.web.domain.Role).toKorean(emp.empGrade)}"></span>
+
+                <p class="text-center text-muted font-14">
               </p>
               </p>
 
