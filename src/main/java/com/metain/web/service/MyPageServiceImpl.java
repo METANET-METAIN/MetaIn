@@ -152,9 +152,10 @@ public class MyPageServiceImpl implements MyPageService{
 
     public void updatePwd(Emp emp) {
         Emp dbemp = hrMapper.selectEmpInfo(emp.getEmpId()) ;
-        String encryptedPwd = bCryptPasswordEncoder.encode(dbemp.getEmpPwd());
-        emp.setEmpPwd(encryptedPwd);
-        myPageMapper.updateMyPage(emp);
+        String encryptedPwd = bCryptPasswordEncoder.encode(emp.getEmpPwd());
+        dbemp.setEmpPwd(encryptedPwd);
+        logger.info("encryptedPwd: {}", encryptedPwd);
+        myPageMapper.updatePwd(dbemp);
     }
 
 
