@@ -154,7 +154,7 @@
 
         const empId = [[${emp.empId}]] ;
         document.addEventListener("DOMContentLoaded", function() {
-            var sse = new EventSource("http://localhost:9000/alarm/subscribe?userId=" + empId);
+            var sse = new EventSource("http://www.wearemetain.site/alarm/subscribe?userId=" + empId);
             sse.addEventListener("subscribe", function(e) {
                 var receivedConnectData = e.data;
                 //console.log("connect event data: ", e); // "connected!"이면 연결완료
