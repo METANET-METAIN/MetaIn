@@ -232,8 +232,8 @@ public class CertificationServiceImpl implements CertificationService {
         String pfxObjectKey = "ProfMoriarty.pfx";
         String pdfObjectKey = "certification/converted.pdf";
 
-        //String signImagePath = "/metainfiles/metain-sign-Image.png"; //배포용경로
-        String signImagePath = "/src/main/resources/static/certPdfFile/metain-sign-Image.png";// 로컬용경로
+        String signImagePath = "/metainfiles/metain-sign-Image.png"; //배포용경로
+        //String signImagePath = "/src/main/resources/static/certPdfFile/metain-sign-Image.png";// 로컬용경로
 
 
         try {
