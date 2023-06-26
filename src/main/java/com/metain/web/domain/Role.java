@@ -2,6 +2,8 @@ package com.metain.web.domain;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 
 
 public enum Role implements GrantedAuthority {
@@ -86,6 +88,27 @@ public enum Role implements GrantedAuthority {
                 throw new IllegalArgumentException("Invalid grade: " + grade);
         }
     }
+
+    public static String toKorean(Role role) {
+        if (role == Role.ADMIN) {
+            return "관리자";
+        } else if (role == Role.EMPLOYEE) {
+            return "사원";
+        } else if (role == Role.ASSISTANT) {
+            return "대리";
+        } else if (role == Role.MANAGER) {
+            return "과장";
+        } else if (role == Role.DEPUTY) {
+            return "차장";
+        } else if (role == Role.HR) {
+            return "인사관리";
+        } else {
+            throw new IllegalArgumentException("Invalid grade: " + role);
+        }
+    }
+
+
+
 
 
     // 상태와 역할 매핑
