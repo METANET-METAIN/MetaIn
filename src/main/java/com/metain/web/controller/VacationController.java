@@ -107,7 +107,6 @@ public class VacationController {
         int selectedDays=Integer.parseInt(diffDays);
 
         vacationService.insertAfterVacation(vacation,file,vacation.getAdmId());
-        vacationService.decreaseVacation(selectedDays,empId);
 
         return "redirect:/mypage/my-vac-list";
     }
