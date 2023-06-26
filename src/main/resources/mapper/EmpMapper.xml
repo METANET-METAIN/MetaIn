@@ -93,11 +93,18 @@
             WHERE EMP_ID=#{empId}
         </select>
         <!-- 신규직원 승인(신규직원 테이블에서 정보 삭제)-->
-        <delete id="deleteNewEmp" parameterType="NewEmp">
-            <foreach collection="newEmp" item="newEmpList" separator=";">
-                DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID =#{newEmpList.newId}
-            </foreach>
-        </delete>
+    <delete id="deleteNewEmpList" parameterType="java.util.List">
+        DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID IN
+        <foreach item="newId" collection="newEmpList" open="(" separator="," close=")">
+            #{newId}
+        </foreach>
+    </delete>
+<!--    &lt;!&ndash; 신규직원 승인(신규직원 테이블에서 정보 삭제)&ndash;&gt;-->
+<!--        <delete id="deleteNewEmp" parameterType="NewEmp">-->
+<!--            <foreach collection="newEmp" item="newEmpList" separator=";">-->
+<!--                DELETE FROM TBL_NEW_EMPLOYEE WHERE NEW_ID =#{newEmpList.newId}-->
+<!--            </foreach>-->
+<!--        </delete>-->
 
 
         <!--신규직원 승인(직원테이블에 정보 생성)-->
