@@ -47,8 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http
 //                .csrf().disable();
+        // CORS 설정 활성화
         http
-                .cors(); // CORS 설정 활성화
+                .cors().configurationSource(corsConfigurationSource());
+
 
         //인증, 인가가 필요한 URL 지정
 
