@@ -259,8 +259,8 @@ public class CertificationServiceImpl implements CertificationService {
             options.setImageFilePath(signImagePath);
             options.setWidth(80);
             options.setHeight(80);
-            options.setLeft(370);
-            options.setTop(640);
+            options.setLeft(375);
+            options.setTop(675);
             options.setPageNumber(1);
             logger.info("CertSer/signPdf  디지털서명함수 check 5.option설정완료");
 
