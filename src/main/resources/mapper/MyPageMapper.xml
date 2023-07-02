@@ -10,8 +10,8 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_EMP_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
         WHERE
-            TE.EMP_ID = #{empId};
-
+            TE.EMP_ID = #{empId}
+        ORDER BY TEC.EMP_CERT_ID DESC;
     </select>
 
     <!--  나의 경력 증명서 발급 내역 조회   -->
@@ -21,9 +21,9 @@
         FROM
             TBL_EMPLOYEE TE
                 JOIN TBL_EXPERIENCE_CERT TEC ON TE.EMP_ID = TEC.EMP_ID
-        WHERE
-            TE.EMP_ID = #{empId};
-
+       WHERE
+            TE.EMP_ID = #{empId}
+        ORDER BY TEC.EXPER_CERT_ID DESC;
     </select>
 
     <!--  나의 퇴직 증명서 발급 내역 조회   -->
@@ -34,8 +34,8 @@
             TBL_EMPLOYEE TE
                 JOIN TBL_RETIRE_CERT TRC ON TE.EMP_ID = TRC.EMP_ID
         WHERE
-            TE.EMP_ID = #{empId};
-
+            TE.EMP_ID = #{empId}
+        ORDER BY TRC.RETIRE_CERT_ID DESC;
     </select>
 
     <!-- 다운로드 증명서파일이름 가져오기-->
