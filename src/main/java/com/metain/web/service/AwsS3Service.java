@@ -29,10 +29,10 @@ public class AwsS3Service {
     private final S3Client s3Client;
     //    @Value("${cloud.aws.s3.bucket}")
 //    private String bucket;
-    // private final String bucket = "metain2";
-    // private final String bucketName = "metain2";
-    private final String bucket = "metains3-sy";
-    private final String bucketName = "metains3-sy";
+    private final String bucket = "metain2";
+    private final String bucketName = "metain2";
+    // private final String bucket = "metains3-sy";
+    // private final String bucketName = "metains3-sy";
 
 
     /**
@@ -82,7 +82,7 @@ public class AwsS3Service {
 
     public void uploadPDFToS3(byte[] fileContent, String objectKey) {
 
-        deleteFile("https://metains3-sy.s3.ap-northeast-2.amazonaws.com/certification/converted.pdf");
+        deleteFile("https://metain2.s3.ap-northeast-2.amazonaws.com/certification/converted.pdf");
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
