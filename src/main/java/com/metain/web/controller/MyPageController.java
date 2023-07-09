@@ -111,7 +111,7 @@ public class MyPageController {
         myPageService.updateIssueStatus(certId, certSort);
 
         //해당객체 S3 url 생성 -> 뷰단에 넘길 url
-        String signedCertURL = "https://metain2.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
+        String signedCertURL = "https://metains3-sy.s3.ap-northeast-2.amazonaws.com/certification/" + filename;
         logger.info("MyPgaeCon/ downloadCert의 signedCertURL= ",signedCertURL);
 
         return ResponseEntity.ok(signedCertURL);
