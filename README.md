@@ -21,7 +21,7 @@
 |개발도구|Spring boot /  Intellij Ultimate / etc...|
 |빌드도구|Maven|
 |CI/CD 도구|Jenkins|
-|서버환경|서버 환경: [가상 서버: EC2, 운영 체제: Ubuntu] <br> 프로젝트 구동 서버: [웹 애플리케이션 서버 - Tomcat 9.0]
+|서버환경|서버 환경: [가상 서버: EC2, 운영 체제: Ubuntu] <br>웹 애플리케이션 서버 - Tomcat 9.0
 |데이터베이스| MariaDB / etc..|
 |사용한 라이브러리| Bootstrap /  jQuery / MyBatis / Lombok / Tymeleaf etc...|
 
